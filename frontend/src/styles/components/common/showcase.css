@@ -1,0 +1,32 @@
+.showcase {
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center center;
+  background-blend-mode: color;
+}
+
+.showcase-container {
+  display: flex;
+  flex-direction: column;
+  margin: 6% 13%;
+  max-width: 600px;
+}
+
+.showcase-container h2 {
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+.showcase-container p {
+  font-size: clamp(0.8rem, 1.3rem, 1rem);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+}
+
+.showcase-cta {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}

@@ -1,0 +1,216 @@
+/* Player Container */
+.player-container {
+  height: 120px;
+  position: fixed;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-top: 1px solid var(--border-color, #333);
+  padding: 15px 20px;
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Player Content */
+.player-content {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: var(--player-bg, rgba(30, 30, 30, 0.8));
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.player-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-secondary, #aaa);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.player-close:hover {
+  color: var(--accent-color, #FF7A00); /* Changed to orange */
+}
+
+/* Controls Container */
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Main Controls (Play/Pause/Skip) */
+.player__main-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.player__nav-button {
+  color: var(--text-secondary, #aaa);
+  font-size: 1.25rem;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.player__nav-button:hover {
+  color: var(--accent-color, #FF7A00); /* Changed to orange */
+  transform: scale(1.1);
+}
+
+.player__play-button {
+  background: var(--accent-color, #FF7A00); /* Changed to orange */
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1.5rem;
+}
+
+.player__play-button:hover {
+  transform: scale(1.05);
+  background: var(--accent-color-hover, #E06C00); /* Darker orange */
+}
+
+/* Progress Bar */
+.player__progress-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.player__time {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #ccc);
+  min-width: 3.5rem;
+  text-align: center;
+}
+
+.player__progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--progress-bg, #444);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.player__progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress, 0%);
+  background: var(--accent-color, #FF7A00); /* Changed to orange */
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+/* Volume Controls */
+.player__volume-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.player__volume-button {
+  color: var(--text-secondary, #aaa);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.player__volume-button:hover {
+  color: var(--accent-color, #FF7A00); /* Changed to orange */
+}
+
+.player__volume-bar {
+  flex: 1;
+  max-width: 100px;
+  height: 4px;
+  background: var(--progress-bg, #444);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.player__volume-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--volume-level, 70%);
+  background: var(--accent-color, #FF7A00); /* Changed to orange */
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+/* Audio Visualizer (optional) */
+.audio-visualizer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  height: 40px;
+  margin: 10px 0;
+}
+
+.audio-bar {
+  width: 4px;
+  min-height: 2px;
+  background: var(--accent-color, #FF7A00); /* Changed to orange */
+  border-radius: 2px;
+  transition: height 0.1s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .player-content {
+    padding: 0.75rem;
+    border-radius: 0;
+  }
+  
+  .player__main-controls {
+    gap: 1.5rem;
+  }
+  
+  .player__play-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .player__time {
+    min-width: 3rem;
+    font-size: 0.75rem;
+  }
+  
+  .player__volume-bar {
+    max-width: 80px;
+  }
+}

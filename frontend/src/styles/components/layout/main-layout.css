@@ -1,0 +1,70 @@
+.main-layout-content {
+  padding: 3% 5%;
+}
+
+.content-grid {
+  margin-top: 3%;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .content-grid {
+    grid-template-columns: 1.5fr 1fr;
+} }
+
+.featured-section {
+  margin-bottom: 3rem;
+}
+
+.coming-soon-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.coming-soon-card h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.placeholder-albums {
+  margin-top: 1.5rem;
+}
+
+.album-placeholder {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.album-cover {
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.album-info {
+  flex: 1;
+}
+
+.album-title,
+.album-artist {
+  height: 12px;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.album-title {
+  width: 80%;
+}
+
+.album-artist {
+  width: 60%;
+}
