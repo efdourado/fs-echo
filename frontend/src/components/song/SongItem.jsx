@@ -6,8 +6,8 @@ import {
   faPlay,
   faPause,
   faEllipsisH,
+  faExclamation
 } from "@fortawesome/free-solid-svg-icons";
-import fallbackImage from "../../assets/images/fb/fb.png";
 import { formatDuration } from "../../helpers/time";
 
 const SongItem = React.memo(({ song, onMenuClick }) => {
@@ -20,7 +20,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
     isCurrent && player?.duration
       ? (player.currentTime / player.duration) * 100
       : 0;
-  const hasAudio = !!song.audio;
+  const hasAudio = !!song.audioUrl;
 
   const handlePlayClick = (e) => {
     e.preventDefault();
@@ -32,8 +32,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
       player.togglePlayPause();
     } else {
       player.playTrack(song);
-    }
-  };
+  } };
 
   const handleMenuClick = (e) => {
     e.preventDefault();
@@ -48,40 +47,70 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
       }`}
       aria-current={isCurrent ? "true" : undefined}
     >
-      <button
-        className="song-item__play-button"
-        onClick={handlePlayClick}
-        aria-label={isCurrent && player?.isPlaying ? "Pause" : "Play"}
-        disabled={!hasAudio}
-      >
+      <div className="song-item__number">
         {isCurrent && player?.isPlaying ? (
-          <FontAwesomeIcon icon={faPause} />
+          <button 
+            className="song-item__play-button"
+            onClick={handlePlayClick}
+            aria-label="Pause"
+          >
+            <FontAwesomeIcon icon={faPause} />
+          </button>
         ) : (
-          <FontAwesomeIcon icon={faPlay} />
+          <button
+            className="song-item__play-button"
+            onClick={handlePlayClick}
+            aria-label="Play"
+            disabled={!hasAudio}
+          >
+            {hasAudio ? (
+              <FontAwesomeIcon icon={faPlay} />
+            ) : (
+              <FontAwesomeIcon icon={faExclamation} />
+            )}
+          </button>
         )}
-      </button>
+      </div>
 
       <div className="song-item__content">
-        <div className="song-item__album">
-          <img
-            className="song-item__image"
-            src={song.coverImage || fallbackImage}
-            alt={`${song.title} cover`}
-            loading="lazy"
-            onError={(e) => {
-              e.target.src = fallbackImage;
-              e.target.onerror = null;
-            }}
-          />
-          <div className="song-item__info">
-            <p className="song-item__name">{song.title}</p>
-            <p className="song-item__artist">{song.artist?.name || "unknown artist"}</p>
+        <div className="song-item__info">
+          <div className="song-item__title-container">
+            <p className="song-item__title">
+              {song.title}
+              {song.isExplicit && (
+                <span className="song-item__explicit" aria-label="Explicit">
+                  E
+                </span>
+              )}
+            </p>
+            <div className="song-item__meta">
+              <span className="song-item__artist">
+                {song.artist?.name || "Unknown Artist"}
+              </span>
+              {song.plays > 0 && (
+                <>
+                  •
+                  <span className="song-item__plays">
+                    {song.plays.toLocaleString()} plays
+                  </span>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="song-item__duration">
           {formatDuration(song.duration || 0)}
         </div>
+
+        <button
+          className="song-item__menu"
+          onClick={handleMenuClick}
+          aria-haspopup="true"
+          aria-label="More options"
+        >
+          <FontAwesomeIcon icon={faEllipsisH} />
+        </button>
 
         {isCurrent && (
           <div
@@ -97,18 +126,9 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
             ></div>
           </div>
         )}
-
-        <button
-          className="song-item__menu"
-          onClick={handleMenuClick}
-          aria-haspopup="true"
-        >
-          <FontAwesomeIcon icon={faEllipsisH} />
-        </button>
       </div>
     </div>
-  );
-});
+); });
 
 SongItem.propTypes = {
   song: PropTypes.shape({
@@ -118,9 +138,17 @@ SongItem.propTypes = {
       _id: PropTypes.string,
       name: PropTypes.string,
     }).isRequired,
+    album: PropTypes.shape({
+      _id: PropTypes.string,
+      title: PropTypes.string,
+    }),
     duration: PropTypes.number,
     coverImage: PropTypes.string,
-    audio: PropTypes.string,
+    audioUrl: PropTypes.string,
+    isExplicit: PropTypes.bool,
+    genre: PropTypes.arrayOf(PropTypes.string),
+    plays: PropTypes.number,
+    releaseDate: PropTypes.instanceOf(Date),
   }),
   onMenuClick: PropTypes.func,
 };

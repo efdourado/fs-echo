@@ -12,7 +12,7 @@ const SingleItem = ({
   idPath,
   artistName,
   type,
-  releaseYear,
+  releaseDate,
   plays,
   showYear,
   showPlays
@@ -52,8 +52,8 @@ const SingleItem = ({
         
         {!isArtist && (
           <div className="single-item__metadata">
-            {showYear && releaseYear && (
-              <span className="single-item__year">{releaseYear}</span>
+            {showYear && releaseDate && (
+              <span className="single-item__year">{releaseDate}</span>
             )}
             {showPlays && plays !== undefined && (
               <span className="single-item__plays">
@@ -74,7 +74,7 @@ SingleItem.propTypes = {
   idPath: PropTypes.string.isRequired,
   artistName: PropTypes.string,
   type: PropTypes.oneOf(['songs', 'artists', 'albums', 'playlists']),
-  releaseYear: PropTypes.number,
+  releaseDate: PropTypes.number,
   plays: PropTypes.number,
   showYear: PropTypes.bool,
   showPlays: PropTypes.bool
@@ -84,7 +84,7 @@ SingleItem.defaultProps = {
   image: '',
   artistName: '',
   type: 'songs',
-  releaseYear: null,
+  releaseDate: null,
   plays: null,
   showYear: false,
   showPlays: false

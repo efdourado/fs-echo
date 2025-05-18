@@ -1,84 +1,170 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import PropTypes from "prop-types";
-import logo from "../../assets/images/logos/logo.png";
+import { 
+  faBell,
+  faSun,
+  faMoon,
+  faBars,
+  faPlus,
+  faSearch,
+  faTimes,
+  faUser,
+  faChevronDown
+} from "@fortawesome/free-solid-svg-icons";
 
-const Header = ({ onSearch }) => {
+const Header = ({ toggleSidebar }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const location = useLocation();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    document.body.classList.toggle("light-mode", !newDarkMode);
+    localStorage.setItem("darkMode", newDarkMode);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      onSearch?.(searchQuery);
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-  } };
-
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const searchInputRef = useRef(null);
-
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
+      setSearchQuery("");
+      setSearchOpen(false);
+    }
   };
 
-  useEffect(() => {
-    if (isSearchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 10);
-    }
-  }, [isSearchOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        isSearchOpen &&
-        !e.target.closest(".search-container") &&
-        !e.target.closest(".search-trigger")
-      ) {
-        setIsSearchOpen(false);
-    } };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isSearchOpen]);
-
   return (
-    <header className="header">
-      <div className="header__container">
-        <Link to="/" className="header__logo">
-          <img src={logo} alt="Brand" />
-        </Link>
-
-        <div className="header__actions">
-          <div className={`search-container ${isSearchOpen ? "is-open" : ""}`}>
-            <input
-              ref={searchInputRef}
-              type="search"
-              placeholder="Search..."
-              className="search-input"
-            />
-          </div>
-
-          <button
-            className="search-trigger"
-            onClick={toggleSearch}
-            aria-label={isSearchOpen ? "Close search" : "Open search"}
+    <header className={`header ${isScrolled ? "scrolled" : ""}`}>
+      <div className="header-container">
+        {/* Left section - Logo and menu button */}
+        <div className="header-left">
+          <button 
+            className="btn btn-icon mobile-menu-btn" 
+            onClick={toggleSidebar}
+            aria-label="Toggle menu"
           >
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+          <Link to="/" className="header-logo">
+            <img src="/images/logo.png" alt="Brand" className="logo-img" />
+            <span className="logo-text">StreamHub</span>
+          </Link>
+        </div>
+
+        {/* Center section - Search bar */}
+        <div className={`search-container ${searchOpen ? "is-open" : ""}`}>
+          <form onSubmit={handleSearch} className="search-form">
+            <button type="submit" className="btn btn-icon search-btn">
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search movies, shows..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+            {searchQuery && (
+              <button 
+                type="button" 
+                className="btn btn-icon clear-search"
+                onClick={() => setSearchQuery("")}
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            )}
+          </form>
+        </div>
+
+        {/* Right section - Actions */}
+        <div className="header-right">
+          <button 
+            className="btn btn-icon search-trigger"
+            onClick={() => setSearchOpen(!searchOpen)}
+            aria-label="Search"
+          >
+            <FontAwesomeIcon icon={searchOpen ? faTimes : faSearch} />
           </button>
 
-          <Link to="/login" className="btn-secondary">
-            Log In
-          </Link>
+          <button 
+            className="btn btn-primary create-btn"
+            onClick={() => navigate('/create')}
+            aria-label="Create"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            <span className="btn-label">Create</span>
+          </button>
+
+          <div className="notification-container">
+            <button 
+              className="btn btn-icon notification" 
+              aria-label="Notifications"
+            >
+              <FontAwesomeIcon icon={faBell} />
+              <span className="notification-badge">3</span>
+            </button>
+          </div>
+
+          <button 
+            className="btn btn-icon theme-toggle"
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+          </button>
+
+          <div className="user-menu-container">
+            <button 
+              className="user-avatar"
+              onClick={() => setShowUserMenu(!showUserMenu)}
+              aria-label="User menu"
+            >
+              <div className="avatar-initials">JD</div>
+              <FontAwesomeIcon icon={faChevronDown} className={`chevron ${showUserMenu ? 'open' : ''}`} />
+            </button>
+            
+            {showUserMenu && (
+              <div className="user-menu-dropdown">
+                <div className="user-info">
+                  <div className="avatar-initials large">JD</div>
+                  <div className="user-details">
+                    <span className="user-name">John Doe</span>
+                    <span className="user-email">john@example.com</span>
+                  </div>
+                </div>
+                <div className="menu-divider"></div>
+                <button className="menu-item">
+                  <FontAwesomeIcon icon={faUser} />
+                  Profile
+                </button>
+                <button className="menu-item">
+                  <FontAwesomeIcon icon={faSun} />
+                  Appearance
+                </button>
+                <div className="menu-divider"></div>
+                <button className="menu-item logout">
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
-); };
-
-Header.propTypes = {
-  onSearch: PropTypes.func,
+  );
 };
 
 export default Header;

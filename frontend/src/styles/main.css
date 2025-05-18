@@ -1,24 +1,13 @@
-@import url("./base.css");
-
-@import url("./components/common/item-list/item-list.css");
-@import url("./components/common/item-list/single-item.css");
-@import url("./components/common/showcase.css");
-
-@import url("./components/hero/events-hero.css");
-
-
-@import url("./components/layout/footer.css");
-@import url("./components/layout/header.css");
-@import url("./components/layout/layout.css");
-@import url("./components/layout/main-layout.css");
-
-
-@import url("./components/player/player.css");
-
-@import url("./components/song/song-item.css");
-@import url("./components/song/song-list.css");
-
-@import url('./components/buttons.css');
+@import url("./components/footer.css");
+@import url("./components/header.css");
+@import url("./components/player.css");
 
 @import url("./pages/artist.css");
+@import url("./pages/home.css");
 @import url("./pages/song.css");
+
+@import url("./patterns/cards.css");
+@import url("./patterns/heroes.css");
+@import url("./patterns/lists.css");
+
+@import url("./base.css");

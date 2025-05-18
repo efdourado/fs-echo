@@ -29,7 +29,7 @@ export const PlayerProvider = ({ children }) => {
   }, []);
 
   const audio = useAudio({
-    src: state.currentTrack?.audio || '',
+    src: state.currentTrack?.audioUrl || '',
     volume: state.isMuted ? 0 : state.volume,
     isPlaying: state.isPlaying,
     onPlay: () => setState(prev => ({ ...prev, isPlaying: true })),
@@ -39,7 +39,7 @@ export const PlayerProvider = ({ children }) => {
 
   const getRandomTracks = useCallback((artist, excludeId) => {
     return songs
-      .filter(song => song.artist === artist && song._id !== excludeId)
+      .filter(song => song.artist?.name === artist && song._id !== excludeId)
       .sort(() => 0.5 - Math.random())
       .slice(0, 2);
   }, [songs]);

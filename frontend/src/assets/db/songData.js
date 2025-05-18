@@ -1,7 +1,7 @@
-export const songsArray = [
+export const songData = [
   {
     "title": "Unhas de Fibra",
-    "artist": "68289ff0d0e3543589e8bc51",
+    "artist": "682913f7cbdf6ffe8b773b03",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTVf/unhas-de-fibra.m4a",
@@ -32,7 +32,7 @@ export const songsArray = [
   },
   {
     "title": "Free Fire",
-    "artist": "68289ff0d0e3543589e8bc51",
+    "artist": "682913f7cbdf6ffe8b773b03",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTNf/free-fire.m4a",
@@ -60,7 +60,7 @@ export const songsArray = [
   },
   {
     "title": "Nada de Graça",
-    "artist": "68289ff0d0e3543589e8bc51",
+    "artist": "682913f7cbdf6ffe8b773b03",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTRf/nada-de-graca.m4a",
@@ -87,7 +87,7 @@ export const songsArray = [
   },
   {
     "title": "Bad Bitch +Sped",
-    "artist": "68289ff0d0e3543589e8bc51",
+    "artist": "682913f7cbdf6ffe8b773b03",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTJf/bad-bitch.m4a",
@@ -123,7 +123,7 @@ export const songsArray = [
   },
   {
     "title": "Born to Die",
-    "artist": "68289ff0d0e3543589e8bc52",
+    "artist": "682913f7cbdf6ffe8b773b04",
     "album": null,
     "duration": 290,
     "audioUrl": "",
@@ -137,7 +137,7 @@ export const songsArray = [
   },
   {
     "title": "Summertime Sadness",
-    "artist": "68289ff0d0e3543589e8bc52",
+    "artist": "682913f7cbdf6ffe8b773b04",
     "album": null,
     "duration": 240,
     "audioUrl": "",
@@ -151,7 +151,7 @@ export const songsArray = [
   },
   {
     "title": "Blinding Lights",
-    "artist": "68289ff0d0e3543589e8bc53",
+    "artist": "682913f7cbdf6ffe8b773b05",
     "album": null,
     "duration": 200,
     "audioUrl": "",
@@ -165,7 +165,7 @@ export const songsArray = [
   },
   {
     "title": "Save Your Tears",
-    "artist": "68289ff0d0e3543589e8bc53",
+    "artist": "682913f7cbdf6ffe8b773b05",
     "album": null,
     "duration": 215,
     "audioUrl": "",
@@ -180,7 +180,7 @@ export const songsArray = [
 
   {
     "title": "bad guy",
-    "artist": "68289ff0d0e3543589e8bc54",
+    "artist": "682913f7cbdf6ffe8b773b06",
     "album": null,
     "duration": 194,
     "audioUrl": "",
@@ -194,7 +194,7 @@ export const songsArray = [
   },
   {
     "title": "Everything I Wanted",
-    "artist": "68289ff0d0e3543589e8bc54",
+    "artist": "682913f7cbdf6ffe8b773b06",
     "album": null,
     "duration": 245,
     "audioUrl": "",
@@ -209,7 +209,7 @@ export const songsArray = [
 
   {
     "title": "HUMBLE.",
-    "artist": "68289ff0d0e3543589e8bc55",
+    "artist": "682913f7cbdf6ffe8b773b07",
     "album": null,
     "duration": 177,
     "audioUrl": "",
@@ -223,7 +223,7 @@ export const songsArray = [
   },
   {
     "title": "Alright",
-    "artist": "68289ff0d0e3543589e8bc55",
+    "artist": "682913f7cbdf6ffe8b773b07",
     "album": null,
     "duration": 240,
     "audioUrl": "",
@@ -238,7 +238,7 @@ export const songsArray = [
 
   {
     "title": "Love Story",
-    "artist": "68289ff0d0e3543589e8bc56",
+    "artist": "682913f7cbdf6ffe8b773b08",
     "album": null,
     "duration": 235,
     "audioUrl": "",
@@ -252,7 +252,7 @@ export const songsArray = [
   },
   {
     "title": "Shake It Off",
-    "artist": "68289ff0d0e3543589e8bc56",
+    "artist": "682913f7cbdf6ffe8b773b08",
     "album": null,
     "duration": 242,
     "audioUrl": "",
@@ -267,7 +267,7 @@ export const songsArray = [
 
   {
     "title": "God's Plan",
-    "artist": "68289ff0d0e3543589e8bc57",
+    "artist": "682913f7cbdf6ffe8b773b09",
     "album": null,
     "duration": 198,
     "audioUrl": "https://audio.example.com/drake_godsplan.mp3",
@@ -281,7 +281,7 @@ export const songsArray = [
   },
   {
     "title": "In My Feelings",
-    "artist": "68289ff0d0e3543589e8bc57",
+    "artist": "682913f7cbdf6ffe8b773b09",
     "album": null,
     "duration": 217,
     "audioUrl": "https://audio.example.com/drake_inmyfeelings.mp3",
@@ -296,7 +296,7 @@ export const songsArray = [
 
   {
     "title": "Despechá",
-    "artist": "68289ff0d0e3543589e8bc58",
+    "artist": "682913f7cbdf6ffe8b773b0a",
     "album": null,
     "duration": 155,
     "audioUrl": "",
@@ -310,7 +310,7 @@ export const songsArray = [
   },
   {
     "title": "Con Altura",
-    "artist": "68289ff0d0e3543589e8bc58",
+    "artist": "682913f7cbdf6ffe8b773b0a",
     "album": null,
     "duration": 178,
     "audioUrl": "",
@@ -325,7 +325,7 @@ export const songsArray = [
 
   {
     "title": "Gimme Love",
-    "artist": "68289ff0d0e3543589e8bc59",
+    "artist": "682913f7cbdf6ffe8b773b0b",
     "album": null,
     "duration": 204,
     "audioUrl": "",
@@ -339,7 +339,7 @@ export const songsArray = [
   },
   {
     "title": "Run",
-    "artist": "68289ff0d0e3543589e8bc59",
+    "artist": "682913f7cbdf6ffe8b773b0b",
     "album": null,
     "duration": 260,
     "audioUrl": "",
@@ -354,7 +354,7 @@ export const songsArray = [
 
   {
     "title": "Say So",
-    "artist": "68289ff0d0e3543589e8bc5a",
+    "artist": "682913f7cbdf6ffe8b773b0c",
     "album": null,
     "duration": 203,
     "audioUrl": "",
@@ -368,7 +368,7 @@ export const songsArray = [
   },
   {
     "title": "Kiss Me More",
-    "artist": "68289ff0d0e3543589e8bc5a",
+    "artist": "682913f7cbdf6ffe8b773b0c",
     "album": null,
     "duration": 208,
     "audioUrl": "",
@@ -383,7 +383,7 @@ export const songsArray = [
 
   {
     "title": "Good Days",
-    "artist": "68289ff0d0e3543589e8bc5b",
+    "artist": "682913f7cbdf6ffe8b773b0d",
     "album": null,
     "duration": 255,
     "audioUrl": "",
@@ -397,7 +397,7 @@ export const songsArray = [
   },
   {
     "title": "The Weekend",
-    "artist": "68289ff0d0e3543589e8bc5b",
+    "artist": "682913f7cbdf6ffe8b773b0d",
     "album": null,
     "duration": 240,
     "audioUrl": "",
@@ -408,5 +408,4 @@ export const songsArray = [
     "plays": 1600000,
     "likes": 150000,
     "lyrics": "My man is my man..."
-  }
-]
+} ]

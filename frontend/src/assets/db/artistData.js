@@ -1,4 +1,4 @@
-export const artistArray = [
+export const artistData = [
   {
     name: "Lil Léo",
     image:

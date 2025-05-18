@@ -3,17 +3,18 @@ import { Link, useLocation } from 'react-router-dom';
 import SingleItem from './SingleItem';
 import PropTypes from 'prop-types';
 
-const ItemList = ({ 
-  title, 
-  items, 
-  itemsArray, 
-  path, 
-  idPath, 
+const ItemList = ({
+  title,
+  items,
+  itemsArray,
+  path,
+  idPath,
   type,
   seeMorePlacement,
   rounded = false,
   showYear = false,
-  showPlays = false
+  showPlays = false,
+  layout = 'grid', // Default to grid layout
 }) => {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
@@ -21,7 +22,7 @@ const ItemList = ({
   const showSeeMore = itemsArray.length > items && seeMorePlacement !== false;
 
   return (
-    <section className={`item-list ${rounded ? 'item-list--rounded' : ''}`}>
+    <section className={`item-list ${rounded ? 'item-list--rounded' : ''} item-list--${layout}`}>
       <div className="item-list__header">
         <h2 className="item-list__title">{title}</h2>
         {seeMorePlacement === 'top' && showSeeMore && (
@@ -29,7 +30,7 @@ const ItemList = ({
         )}
       </div>
 
-      <div className="item-list__grid">
+      <div className={`item-list__container item-list__container--${layout}`}>
         {displayedItems.map((item) => (
           <SingleItem
             key={`${type}-${item._id}`}
@@ -41,7 +42,7 @@ const ItemList = ({
           />
         ))}
       </div>
-      
+
       {seeMorePlacement === 'bottom' && showSeeMore && (
         <div className="item-list__footer">
           <Link to={path} className="item-list__see-more">See more {type}</Link>
@@ -61,7 +62,8 @@ ItemList.propTypes = {
   seeMorePlacement: PropTypes.oneOf(['top', 'bottom', false]),
   rounded: PropTypes.bool,
   showYear: PropTypes.bool,
-  showPlays: PropTypes.bool
+  showPlays: PropTypes.bool,
+  layout: PropTypes.oneOf(['grid', 'horizontal']), // New layout prop
 };
 
 ItemList.defaultProps = {
@@ -69,7 +71,8 @@ ItemList.defaultProps = {
   seeMorePlacement: 'false',
   rounded: false,
   showYear: false,
-  showPlays: false
+  showPlays: false,
+  layout: 'grid', // Default layout
 };
 
 export default ItemList;

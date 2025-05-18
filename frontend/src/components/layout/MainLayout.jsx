@@ -6,27 +6,41 @@ import Showcase from "../common/Showcase";
 import EventsHero from "../sections/hero/EventsHero";
 import ItemList from "../common/ItemList";
 import SongList from "../song/SongList";
-import { fetchArtists, fetchSongs } from "../../../api/api.js";
+import { fetchArtists, fetchSongs, fetchAlbums } from "../../../api/api.js"; // Assuming you have fetchAlbums
 
 const MainLayout = ({ type }) => {
-  const [songs, setSongs] = useState([]);
-  const [artists, setArtists] = useState([]);
+  const [popularSongs, setPopularSongs] = useState([]);
+  const [recentAlbum, setRecentAlbum] = useState(null);
+  const [albumSongs, setAlbumSongs] = useState([]);
+  const [popularArtists, setPopularArtists] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [albumLoading, setAlbumLoading] = useState(true); // Separate loading for album details
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [songsData, artistsData] = await Promise.all([
+        const [songsData, artistsData, albumsData] = await Promise.all([
           fetchSongs(),
           fetchArtists(),
+          fetchAlbums(), // Fetch albums
         ]);
-        setSongs(songsData);
-        setArtists(artistsData);
+        setPopularSongs(songsData.slice(0, 15)); // Get the first 15 popular songs
+        setPopularArtists(artistsData.slice(0, 15)); // Get the first 15 popular artists
+
+        // Assuming you want to feature the first album fetched
+        if (albumsData && albumsData.length > 0) {
+          setRecentAlbum(albumsData[0]);
+          // Fetch songs for this album (you might need a specific API endpoint for this)
+          const albumSongsData = await fetchSongs({ albumId: albumsData[0]._id }); // Example filter
+          setAlbumSongs(albumSongsData);
+        }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
         setLoading(false);
-    } };
+        setAlbumLoading(false);
+      }
+    };
 
     loadData();
   }, []);
@@ -38,7 +52,7 @@ const MainLayout = ({ type }) => {
         title="Music Closer"
         description="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
         ctaText="Join Us | Sign Up"
-        bgImage="/sc.jpeg"
+        bgImage="bg.jpeg"
       />
 
       <div className="main-layout-content">
@@ -46,57 +60,55 @@ const MainLayout = ({ type }) => {
           <p>Loading...</p>
         ) : (
           <>
-            {(type === "songs" || type === undefined) && (
+            {popularSongs.length > 0 && (
               <ItemList
-                title="Popular"
-                items={7}
-                itemsArray={songs}
+                title="Popular Songs"
+                itemsArray={popularSongs}
                 path="/songs"
                 idPath="/song"
                 type="songs"
-                showYear={true}
-                showPlays={true}
-                seeMorePlacement="top"
+                layout="horizontal"
               />
             )}
 
             <div className="content-grid">
-              <section className="recent-songs-section">
+              <section className="album-section">
+                <h2>Featured Album</h2>
+                {albumLoading ? (
+                  <p>Loading album...</p>
+                ) : recentAlbum ? (
+                  <div className="album-details">
+                    <h3>{recentAlbum.title}</h3>
+                    <p>Artist: {recentAlbum.artist}</p>
+                    <button>See More Albums</button>
+                  </div>
+                ) : (
+                  <p>No albums available.</p>
+                )}
+              </section>
+
+              <section className="album-songs-section">
                 <SongList
-                  title="Recently Played"
-                  songs={songs.slice(0, 5)}
+                  title={recentAlbum ? `Songs from ${recentAlbum.title}` : "Album Songs"}
+                  songs={albumSongs}
                   showCount={false}
                   onMenuClick={(songId, target) => {
                     console.log(`menu clicked for song ${songId}`, target);
                   }}
+                  loading={albumLoading}
                 />
               </section>
-
-              {(type === "songs" || type === undefined) && (
-                <ItemList
-                  title="Albums"
-                  items={2}
-                  itemsArray={songs}
-                  path="/songs"
-                  idPath="/song"
-                  type="songs"
-                  showYear={true}
-                  showPlays={true}
-                  seeMorePlacement="bottom"
-                />
-              )}
             </div>
 
-            {(type === "artists" || type === undefined) && (
+            {popularArtists.length > 0 && (
               <ItemList
-                title="Artists"
-                items={7}
-                itemsArray={artists}
+                title="Popular Artists"
+                itemsArray={popularArtists}
                 path="/artists"
                 idPath="/artist"
                 type="artists"
                 rounded={true}
-                seeMorePlacement="top"
+                layout="horizontal"
               />
             )}
           </>
@@ -107,7 +119,7 @@ const MainLayout = ({ type }) => {
         title="Próximos Eventos"
         subtitle="Experiências musicais inesquecíveis que vão transformar sua conexão com a arte"
         ctaText="Comprar Ingressos"
-        bgImage="/sc_pg.jpeg"
+        bgImage="/bg-pg.jpeg"
         featuredEvent={{
           day: "24",
           month: "MAI",
@@ -120,7 +132,8 @@ const MainLayout = ({ type }) => {
 
       <Footer companyName="Echo" />
     </>
-); };
+  );
+};
 
 MainLayout.propTypes = {
   type: PropTypes.oneOf(["songs", "artists"]),

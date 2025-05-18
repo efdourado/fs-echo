@@ -8,7 +8,7 @@ import {
   faReddit,
 } from '@fortawesome/free-brands-svg-icons';
 import PropTypes from 'prop-types';
-import logo from '../../assets/images/logos/logo.png';
+import logo from '/images/logo.png';
 
 const socialIcons = [
   { icon: faInstagram, name: 'Instagram', url: '#' },

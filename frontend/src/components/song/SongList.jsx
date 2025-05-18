@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import SongItem from "./SongItem";
 
@@ -8,7 +8,10 @@ const SongList = ({
   showCount = true,
   onMenuClick,
   loading = false,
+  initialItems = 6,
 }) => {
+  const [showAll, setShowAll] = useState(false);
+  
   if (loading) {
     return <div className="song-list-section">Loading songs...</div>;
   }
@@ -16,6 +19,8 @@ const SongList = ({
   if (!songs || songs.length === 0) {
     return <div className="song-list-section">No songs available</div>;
   }
+
+  const displayedSongs = showAll ? songs : songs.slice(0, initialItems);
 
   return (
     <section className="song-list-section">
@@ -29,12 +34,24 @@ const SongList = ({
       </div>
 
       <div className="song-list-container">
-        {songs.map((song) => (
+        {displayedSongs.map((song) => (
           <SongItem key={song._id} song={song} onMenuClick={onMenuClick} />
         ))}
+        
+        {songs.length > initialItems && (
+          <div className="song-list-see-more">
+            <button 
+              className="see-more-button"
+              onClick={() => setShowAll(!showAll)}
+            >
+              {showAll ? 'Show Less' : `See More (${songs.length - initialItems})`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
-); };
+  );
+};
 
 SongList.propTypes = {
   title: PropTypes.string,
@@ -42,6 +59,7 @@ SongList.propTypes = {
   showCount: PropTypes.bool,
   onMenuClick: PropTypes.func,
   loading: PropTypes.bool,
+  initialItems: PropTypes.number,
 };
 
 export default SongList;

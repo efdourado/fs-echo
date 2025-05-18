@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Showcase = ({ title, description, ctaText, bgImage = "/images/bg/bg.jpeg" }) => {
+const Showcase = ({ title, description, ctaText, bgImage }) => {
   return (
     <div
       className="showcase"
