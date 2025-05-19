@@ -1,18 +1,18 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../../components/layout/Header";
-import { usePlayer } from "../../hooks/usePlayer";
-import SongHero from "./SongHero";
-import { fetchSongById } from "../../../api/api"; // ajuste o caminho se necessário
+import Header from "../components/shared/Header";
+import { usePlayer } from "../hooks/usePlayer";
+import SongHero from "./songs/SongHero";
+import { fetchSongById } from "../../api/api";
 
 const SongPage = () => {
   const { id } = useParams();
-  const { playTrack, currentTrack } = usePlayer();
+  const { playTrack, currentTrack, isPlaying } = usePlayer();
 
   const [currentSong, setCurrentSong] = useState(null);
-  const [artistObj, setArtistObj] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [artistObj, setArtistObj] = useState(null);
 
   const handlePlay = useCallback(() => {
     if (currentSong && (!currentTrack || currentTrack._id !== currentSong._id)) {
@@ -21,27 +21,27 @@ const SongPage = () => {
   }, [currentSong, currentTrack, playTrack]);
 
   useEffect(() => {
-    const getSong = async () => {
+    const loadSong = async () => {
       try {
         const song = await fetchSongById(id);
         setCurrentSong(song);
         setArtistObj(song.artist || null);
       } catch (err) {
-        console.error("Erro ao buscar música:", err);
+        console.error(err);
         setError("Música não encontrada.");
       } finally {
         setLoading(false);
       }
     };
 
-    getSong();
+    loadSong();
   }, [id]);
 
   useEffect(() => {
-    if (currentSong) {
+    if (currentSong && !isPlaying) {
       handlePlay();
     }
-  }, [currentSong, handlePlay]);
+  }, [currentSong, isPlaying, handlePlay]);
 
   if (loading) {
     return (
@@ -56,7 +56,7 @@ const SongPage = () => {
     return (
       <div className="song-page">
         <Header />
-        <div className="not-found">{error || "Song not found"}</div>
+        <div className="error-message">{error || "Erro ao carregar música."}</div>
       </div>
     );
   }
@@ -64,7 +64,7 @@ const SongPage = () => {
   return (
     <div className="song-page">
       <Header />
-      <SongHero song={currentSong} artist={artistObj} />
+      <SongHero song={currentSong} artist={artistObj} onPlayClick={handlePlay} />
     </div>
   );
 };

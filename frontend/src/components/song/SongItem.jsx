@@ -8,7 +8,7 @@ import {
   faEllipsisH,
   faExclamation
 } from "@fortawesome/free-solid-svg-icons";
-import { formatDuration } from "../../helpers/time";
+import { formatDuration } from "../../helpers/duration";
 
 const SongItem = React.memo(({ song, onMenuClick }) => {
   const player = usePlayer();
@@ -100,7 +100,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
         </div>
 
         <div className="song-item__duration">
-          {formatDuration(song.duration || 0)}
+          {formatDuration((hasAudio && isCurrent && player.duration) ? player.duration : song.duration || 0)}
         </div>
 
         <button
@@ -142,7 +142,6 @@ SongItem.propTypes = {
       _id: PropTypes.string,
       title: PropTypes.string,
     }),
-    duration: PropTypes.number,
     coverImage: PropTypes.string,
     audioUrl: PropTypes.string,
     isExplicit: PropTypes.bool,

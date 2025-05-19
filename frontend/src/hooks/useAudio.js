@@ -8,103 +8,88 @@ export const useAudio = ({
   onPause,
   onEnded,
 }) => {
-  const audioRef = useRef(null);
+  const audioRef = useRef(new Audio());
   const [isReady, setIsReady] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio();
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.removeAttribute("src");
-        audioRef.current.load();
-  } }; }, []);
-
+  // Handle source changes
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !src) return;
+    if (!src) return;
 
     setIsReady(false);
-    setError(null);
     audio.src = src;
     audio.load();
 
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-      setIsReady(true);
-      if (isPlaying) {
-        audio.play().catch((err) => {
-          setError("Failed to play audio");
-          console.error("Audio play error:", err);
-    }); } };
+    const handleCanPlay = () => setIsReady(true);
+    const handleError = () => setIsReady(false);
 
-    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const handleError = () => setError("Error loading audio");
-
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-    audio.addEventListener("error", handleError);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('error', handleError);
 
     return () => {
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-      audio.removeEventListener("error", handleError);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('error', handleError);
     };
-  }, [src, isPlaying]);
+  }, [src]);
 
+  // Handle play/pause changes
   useEffect(() => {
+    if (!isReady) return;
+    
     const audio = audioRef.current;
-    if (!audio || !isReady) return;
-
+    
     if (isPlaying) {
-      audio.play().catch((err) => {
-        setError("Failed to play audio");
-        console.error("Audio play error:", err);
+      audio.play().catch(error => {
+        console.error('Playback failed:', error);
       });
     } else {
       audio.pause();
     }
   }, [isPlaying, isReady]);
 
+  // Handle volume changes
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
+    audioRef.current.volume = volume;
   }, [volume]);
 
+  // Setup event listeners
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
 
+    const handleLoadedMetadata = () => setDuration(audio.duration);
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
     const handlePlay = () => onPlay?.();
     const handlePause = () => onPause?.();
     const handleEnded = () => onEnded?.();
 
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
 
     return () => {
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
     };
   }, [onPlay, onPause, onEnded]);
 
   const seek = (time) => {
     if (isReady && audioRef.current) {
       audioRef.current.currentTime = time;
-      setCurrentTime(time);
-  } };
+    }
+  };
 
   return {
     audioRef,
     isReady,
     duration,
     currentTime,
-    seek,
-    error,
-}; };
+    seek
+  };
+};
