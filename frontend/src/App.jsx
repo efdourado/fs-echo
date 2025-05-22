@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { PlayerProvider } from './context/PlayerContext';
-import Player from './components/features/player/Player';
 
-import Header from './components/shared/Header';
-import Footer from './components/shared/Footer';
+import Player from './components/Player';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+import { PlayerProvider } from './context/PlayerContext';
 
 import Home from './pages/Home';
 import Artist from './pages/Artist';

@@ -1,8 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../components/shared/Header";
-import { usePlayer } from "../hooks/usePlayer";
-import SongHero from "./songs/SongHero";
+import { usePlayer } from "../../hooks/usePlayer";
+import SongHero from "./SongHero";
 import { fetchSongById } from "../../api/api";
 
 const SongPage = () => {
@@ -46,7 +45,6 @@ const SongPage = () => {
   if (loading) {
     return (
       <div className="song-page">
-        <Header />
         <div className="loading-message">Carregando música...</div>
       </div>
     );
@@ -55,7 +53,6 @@ const SongPage = () => {
   if (error || !currentSong) {
     return (
       <div className="song-page">
-        <Header />
         <div className="error-message">{error || "Erro ao carregar música."}</div>
       </div>
     );
@@ -63,7 +60,6 @@ const SongPage = () => {
 
   return (
     <div className="song-page">
-      <Header />
       <SongHero song={currentSong} artist={artistObj} onPlayClick={handlePlay} />
     </div>
   );

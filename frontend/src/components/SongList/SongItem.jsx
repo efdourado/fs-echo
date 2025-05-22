@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { usePlayer } from "../../hooks/usePlayer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -8,6 +7,8 @@ import {
   faEllipsisH,
   faExclamation
 } from "@fortawesome/free-solid-svg-icons";
+
+import { usePlayer } from "../../hooks/usePlayer";
 import { formatDuration } from "../../helpers/duration";
 
 const SongItem = React.memo(({ song, onMenuClick }) => {
@@ -17,9 +18,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
 
   const isCurrent = player?.currentTrack?._id === song._id;
   const progress =
-    isCurrent && player?.duration
-      ? (player.currentTime / player.duration) * 100
-      : 0;
+    isCurrent && player?.duration ? (player.currentTime / player.duration) * 100 : 0;
   const hasAudio = !!song.audioUrl;
 
   const handlePlayClick = (e) => {
@@ -85,7 +84,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
             </p>
             <div className="song-item__meta">
               <span className="song-item__artist">
-                {song.artist?.name || "Unknown Artist"}
+                {song.artist?.name || "unknown artist"}
               </span>
               {song.plays > 0 && (
                 <>

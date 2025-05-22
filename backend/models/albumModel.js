@@ -2,11 +2,11 @@ import Album from '../schemas/albumSchema.js';
 
 export class AlbumModel {
   async findAll() {
-    return await Album.find().populate('artist');
+    return await Album.find().populate('artist').populate('songs');
   }
 
   async findById(id) {
-    return await Album.findById(id).populate('artist');
+    return await Album.findById(id).populate('artist').populate('songs');
   }
 
   async create(albumData) {

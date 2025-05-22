@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from "react";
-import Hero from "../components/Hero";
-import Carousel from "../components/Carousel";
-import { fetchArtists, fetchSongs } from "../../api/api";
+import { fetchArtists, fetchSongs, fetchAlbums } from "../../api/api.js";
+
+import Carousel from "./components/Carousel";
+import Collection from "./components/Collection";
+import Hero from "./components/Hero";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [songsData, artistsData] = await Promise.all([
+        const [songsData, artistsData, albumsData] = await Promise.all([
           fetchSongs(),
           fetchArtists(),
+          fetchAlbums(),
         ]);
 
         setSongs(songsData.slice(0, 15));
         setArtists(artistsData.slice(0, 15));
+        setAlbums(albumsData);
+        
+        if (albumsData.length > 0) {
+          setFeaturedAlbumId(albumsData[1]._id);
+        }
       } catch (error) {
         console.error("Error loading data:", error);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
     loadData();
   }, []);
 
@@ -31,7 +40,7 @@ const Home = () => {
   const featuredHighlight = {
     type: 'song',
     title: 'Midnight City',
-    coverImage: '/midnight-city-cover.jpg',
+    coverImage: '/fb.png',
     artist: 'M83',
     plays: 125000000,
     isTrending: true,
@@ -62,8 +71,12 @@ const Home = () => {
             type="song"
           />
 
-
-          
+          {featuredAlbumId && (
+            <Collection 
+              collectionId={featuredAlbumId}
+              type="album"
+            />
+          )}
 
           <Carousel
             title="Featured Artists"
@@ -73,7 +86,6 @@ const Home = () => {
         </>
       )}
     </div>
-  );
-};
+); };
 
 export default Home;

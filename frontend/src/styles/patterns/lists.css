@@ -1,9 +1,8 @@
-/* carousel.css */
 .card {
   flex: 0 0 120px;
   margin-right: 15px;
   position: relative;
-  min-width: 0; /* Allows text truncation */
+  min-width: 0;
 }
 
 .card__link {
@@ -112,14 +111,13 @@
 
 .carousel {
   margin: 2rem 0;
-  padding: 0 16px;
 }
 
 .carousel__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .carousel__title {
@@ -151,6 +149,10 @@
 .carousel__items::-webkit-scrollbar {
   display: none;
 }
+
+
+
+
 
 
 

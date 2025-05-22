@@ -8,6 +8,7 @@ import {
   faReddit,
 } from '@fortawesome/free-brands-svg-icons';
 import PropTypes from 'prop-types';
+
 import logo from '/images/logo.png';
 
 const socialIcons = [

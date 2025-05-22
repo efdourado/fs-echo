@@ -1,7 +1,7 @@
-// components/SongList.jsx (formerly SongList.jsx)
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import SongItem from "./SongItem"; // renamed from SongItem
+
+import SongItem from "./SongItem";
 
 const SongList = ({
   title = "Tracks",
@@ -31,7 +31,7 @@ const SongList = ({
 
       <div className="track-list-container">
         {displayedTracks.map((track) => (
-          <SongItem key={track._id} track={track} onMenuClick={onMenuClick} />
+          <SongItem key={track._id} song={track} onMenuClick={onMenuClick} />
         ))}
         
         {tracks.length > initialItems && (

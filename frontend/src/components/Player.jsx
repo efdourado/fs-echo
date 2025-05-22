@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import { PlayerContext } from '../../../context/PlayerContext';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faTimes,
@@ -10,7 +10,9 @@ import {
   faPause,
   faPlay
 } from '@fortawesome/free-solid-svg-icons';
-import { formatDuration } from '../../../helpers/duration';
+
+import { PlayerContext } from '../context/PlayerContext';
+import { formatDuration } from '../helpers/duration';
 
 const Player = () => {
   const { 

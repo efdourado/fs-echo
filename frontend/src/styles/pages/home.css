@@ -148,7 +148,6 @@
   color: var(--text-secondary);
 }
 
-/* Track list adjustments */
 .album-showcase__tracks {
   padding-top: 0.5rem;
 }
@@ -171,4 +170,95 @@
     max-width: 300px;
     margin: 0 auto 1.5rem;
   }
+}
+
+
+
+
+
+
+
+
+
+/* FeaturedCollection.css */
+.featured-collection {
+  margin: 2rem 0;
+}
+
+.featured-collection__header {
+  margin-bottom: 1.5rem;
+}
+
+.featured-collection__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.featured-collection__content {
+  display: flex;
+  gap: 2rem;
+}
+
+.featured-collection__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.featured-collection__tracks {
+  flex: 2;
+}
+
+.collection-cover__image {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.collection-details__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.collection-details__artist {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.collection-stats {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.collection-details__description {
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.collection-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.collection-actions__play,
+.collection-actions__follow {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.collection-actions__play {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.collection-actions__follow {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
 }

@@ -42,13 +42,11 @@ const Header = ({ toggleSidebar }) => {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
       setSearchOpen(false);
-    }
-  };
+  } };
 
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
       <div className="header-container">
-        {/* Left section - Logo and menu button */}
         <div className="header-left">
           <button 
             className="btn btn-icon mobile-menu-btn" 
@@ -63,7 +61,6 @@ const Header = ({ toggleSidebar }) => {
           </Link>
         </div>
 
-        {/* Center section - Search bar */}
         <div className={`search-container ${searchOpen ? "is-open" : ""}`}>
           <form onSubmit={handleSearch} className="search-form">
             <button type="submit" className="btn btn-icon search-btn">
@@ -89,7 +86,6 @@ const Header = ({ toggleSidebar }) => {
           </form>
         </div>
 
-        {/* Right section - Actions */}
         <div className="header-right">
           <button 
             className="btn btn-icon search-trigger"
@@ -123,7 +119,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+            <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
           </button>
 
           <div className="user-menu-container">
@@ -164,7 +160,6 @@ const Header = ({ toggleSidebar }) => {
         </div>
       </div>
     </header>
-  );
-};
+); };
 
 export default Header;
