@@ -3,7 +3,7 @@
 :root {
   --color-background: #121212;
   --color-surface: #1E1E1E;
-  --color-surface-hover: #282828;
+  --color-surface-hover: hsl(0, 0%, 16%);
   --color-primary: #1DB954;
   --color-primary-hover: #1ED760;
   --color-secondary-accent: #FCA140;
