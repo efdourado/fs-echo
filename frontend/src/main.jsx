@@ -1,16 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-// import { ThemeProvider } from './context/ThemeContext';
-import './styles/main.css';
-import App from './App';
+import App from './App'; //
+import { AuthProvider } from './context/AuthContext';
+import './styles/main.css'; //
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <StrictMode>
-    {/* <ThemeProvider> */}
+    <AuthProvider>
       <App />
-    {/* </ThemeProvider> */}
+    </AuthProvider>
   </StrictMode>
 );

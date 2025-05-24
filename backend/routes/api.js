@@ -11,6 +11,8 @@ import { AlbumModel } from '../models/albumModel.js';
 import { PlaylistModel } from '../models/playlistModel.js';
 import { connectToDatabase } from '../config/db.js';
 
+import { createAuthRouter } from './authRoutes.js';
+
 const router = express.Router();
 
 await connectToDatabase();
@@ -21,9 +23,16 @@ const userController = new UserController(new UserModel());
 const albumController = new AlbumController(new AlbumModel());
 const playlistController = new PlaylistController(new PlaylistModel());
 
+const authRouter = createAuthRouter(userController);
+
+router.use('/auth', authRouter);
+
 router.get('/', (req, res) => {
   res.json({
     endpoints: [
+      '/auth/register',
+      '/auth/login',
+      '/auth/me',
       '/artists',
       '/artist/:id',
       '/songs',
@@ -44,7 +53,6 @@ router.get('/song/:id', songController.getSongById.bind(songController));
 
 router.get('/users', userController.getAllUsers.bind(userController));
 router.get('/user/:id', userController.getUserById.bind(userController));
-router.post('/users', userController.createUser.bind(userController));
 router.put('/user/:id', userController.updateUser.bind(userController));
 router.delete('/user/:id', userController.deleteUser.bind(userController));
 
