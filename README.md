@@ -1,30 +1,34 @@
-###### echo —
+###### echo
 
-#### structure
+minimal music web app
 
-- back-end:
-  - javascript
-  - express
-  - mongodb
-  - dotenv, cors
+---
 
-- front-end:  
-  - javascript (react, react-dom)
-  - vite, react-router-dom
-  - @fortawesome (icons)
-  - axios
+**stack**
 
--
+- backend: node.js, express, mongodb, dotenv, cors
+- frontend: react, vite, react-router-dom, axios, @fortawesome
 
-#### flow
+---
 
-1. home page
+**usage**
 
+- install: `npm install`
+- dev (frontend): `npm run dev`
+- build: `npm run build`
+- start (after build): `npm run start`
 
-#### how to run
+---
 
-- `npm run build` && `npm run start`
+**structure**
 
-- running front-end only: `npm run dev`
+- `/backend` — api, db, server
+- `/frontend` — react app, styles, assets
 
-#### outro
+---
+
+**flow**
+
+- home page → explore music, artists, albums
+- artist page → artist info, songs, albums
+- song page → song details, player
