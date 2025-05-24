@@ -6,7 +6,7 @@ import { userData } from './data/userData.js';
 import { albumData } from './data/albumData.js';
 import { playlistData } from './data/playlistData.js';
 
-import Artist from '../models/albumModel.js';
+import Artist from '../models/artistModel.js';
 import Song from '../models/songModel.js';
 import User from '../models/userModel.js';
 import Album from '../models/albumModel.js';

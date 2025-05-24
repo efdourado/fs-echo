@@ -10,8 +10,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 
-import { PlayerContext } from "../context/PlayerContext";
 import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
+import { PlayerContext } from "../context/PlayerContext";
+import { formatDuration } from '../utils/duration';
 
 const Artist = () => {
   const { id } = useParams();
@@ -306,13 +307,6 @@ const Artist = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-const formatDuration = (seconds) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-};
+); };
 
 export default Artist;
