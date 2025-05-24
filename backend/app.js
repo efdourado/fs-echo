@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
 import apiRouter from './routes/api.js';
 import staticRouter from './routes/static.js';
 
