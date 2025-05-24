@@ -1,19 +1,20 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Player from './components/Player';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Player from './components/layout/Player';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 import { PlayerProvider } from './context/PlayerContext';
+import { useAuth } from './context/AuthContext';
 
-import Home from './pages/Home';
-import Artist from './pages/Artist';
-import Song from './pages/Song';
-
+import Home from './pages/HomePage/HomePage';
+import Artist from './pages/ArtistPage';
+import Song from './pages/SongPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
-import ProtectedRoute from './components/Auth/ProtectedRoute';
+
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
@@ -34,12 +35,11 @@ const UserProfilePage = () => {
 
 const App = () => {
   return (
-    <PlayerProvider> {/* PlayerProvider remains here or can be moved if AuthProvider is outermost in main.jsx */}
+    <PlayerProvider>
       <BrowserRouter>
         <Header />
         <main style={{ flex: 1, paddingTop: '72px' }}>
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -61,10 +61,5 @@ const App = () => {
       </BrowserRouter>
     </PlayerProvider>
 ); };
-
-// Make sure useAuth can be used in UserProfilePage by ensuring AuthProvider wraps it.
-// Since AuthProvider is in main.jsx wrapping App, this should be fine.
-// If UserProfilePage were defined outside App's context, you might need to pass auth data or ensure context availability.
-import { useAuth } from './context/AuthContext'; // Added for UserProfilePage example
 
 export default App;

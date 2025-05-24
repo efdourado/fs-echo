@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -13,9 +13,11 @@ const LoginPage = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  if (isAuthenticated) {
-    navigate(from, { replace: true });
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, from, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
