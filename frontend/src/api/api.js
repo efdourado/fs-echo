@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = import.meta.env.API_URL;
+const URL = import.meta.env.API_URL || "http://localhost:3000/api";
 
 export async function fetchArtists() {
   const response = await axios.get(`${URL}/artists`);
