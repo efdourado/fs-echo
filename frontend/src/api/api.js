@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = import.meta.env.VITE_API_URL || "https://echo-trvw.onrender.com/api";
+const URL = import.meta.env.API_URL;
 
 export async function fetchArtists() {
   const response = await axios.get(`${URL}/artists`);
