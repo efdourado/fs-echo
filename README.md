@@ -1,6 +1,6 @@
 # Echo - Minimal Music Web App
 
-**Project Overview**
+**Overview**
 
 Echo is a full-stack web application designed to provide a seamless music listening experience. Users can explore music, artists, and albums, listen to songs, and (future functionality) create playlists. The project aims to deliver a clean, modern interface with a robust backend.
 
@@ -12,7 +12,7 @@ Echo is a full-stack web application designed to provide a seamless music listen
 * Browse artists and their albums/songs
 * Explore albums and their tracks
 * Listen to songs with a persistent player
-* View song details (lyrics, release date, etc. - *if implemented*)
+* View song details
 * User profiles
 
 ---
@@ -55,7 +55,7 @@ Before you begin, ensure you have the following installed:
 3.  **Set up Environment Variables (Backend):**
     Navigate to the `/backend` directory and create a `.env` file. Add the following variables:
     ```env
-    MONGODB_URI=your_mongodb_connection_string # e.g., mongodb://localhost:27017
+    MONGODB_URI=your_mongodb_connection_string # e.g., mongodb:mongodb+srv://...
     DB_NAME=echo_db # Or your preferred database name
     JWT_SECRET=your_secret_jwt_key
     JWT_EXPIRES_IN=2h # Or your preferred expiration time
@@ -114,7 +114,7 @@ Before you begin, ensure you have the following installed:
 **Project Structure**
 
 * `/backend` — Contains the Node.js API, database models, controllers, routes, and server logic.
-    * `/src/config` - Database connection.
+    * `/src/config` - DB connection.
     * `/src/controllers` - Request handling logic for different resources.
     * `/src/middlewares` - Authentication and authorization middleware.
     * `/src/models` - Mongoose schemas and models.

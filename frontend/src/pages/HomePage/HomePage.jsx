@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState }
+from "react";
+
 import { fetchArtists, fetchSongs, fetchAlbums } from "../../api/api.js";
 
 import Carousel from "./components/Carousel.jsx";
@@ -11,6 +13,7 @@ const Home = () => {
   const [albums, setAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
+  const [heroHighlight, setHeroHighlight] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -21,46 +24,70 @@ const Home = () => {
           fetchAlbums(),
         ]);
 
-        setSongs(songsData.slice(0, 15));
+        const SlicedSongs = songsData.slice(0, 15);
+        setSongs(SlicedSongs);
         setArtists(artistsData.slice(0, 15));
         setAlbums(albumsData);
-        
+
         if (albumsData.length > 0) {
-          setFeaturedAlbumId(albumsData[1]._id);
+          setFeaturedAlbumId(albumsData.length > 1 ? albumsData[1]._id : albumsData[0]._id);
         }
+
+        if (songsData.length > 0) {
+          const mainHighlightSong = songsData[0];
+          const trendingNowSongs = songsData.slice(1, 4).map(song => ({
+            name: song.title,
+            artist: song.artist?.name || "Unknown Artist",
+            plays: song.plays || 0,
+          }));
+
+          setHeroHighlight({
+            type: 'song',
+            title: mainHighlightSong.title,
+            coverImage: mainHighlightSong.coverImage || '/fb.png',
+            artist: mainHighlightSong.artist?.name || "Unknown Artist",
+            plays: mainHighlightSong.plays || 0,
+            isTrending: true,
+            trendingNow: trendingNowSongs,
+          });
+        } else {
+           setHeroHighlight({
+            type: 'song',
+            title: 'Discover New Music',
+            coverImage: '/fb.png',
+            artist: 'Various Artists',
+            plays: 0,
+            isTrending: false,
+            trendingNow: [],
+        }); }
       } catch (error) {
         console.error("Error loading data:", error);
+         // Fallback on error
+         setHeroHighlight({
+          type: 'song',
+          title: 'Error Loading Music',
+          coverImage: '/fb.png',
+          artist: 'N/A',
+          plays: 0,
+          isTrending: false,
+          trendingNow: [],
+        });
       } finally {
         setLoading(false);
     } };
     loadData();
   }, []);
 
-  // wil be replaced w API data
-  const featuredHighlight = {
-    type: 'song',
-    title: 'Midnight City',
-    coverImage: '/fb.png',
-    artist: 'M83',
-    plays: 125000000,
-    isTrending: true,
-    trendingNow: [
-      { name: 'Blinding Lights', artist: 'The Weeknd', plays: 350000000 },
-      { name: 'Save Your Tears', artist: 'The Weeknd', plays: 280000000 },
-      { name: 'Stay', artist: 'The Kid LAROI, Justin Bieber', plays: 220000000 }
-    ]
-  };
-
   return (
     <div className="home-content">
-      {loading ? (
+      {loading || !heroHighlight ? (
         <p className="loading">Loading music...</p>
       ) : (
         <>
           <Hero
             title="Discover Your Sound"
             subtitle="The hottest tracks and artists curated just for you"
-            highlight={featuredHighlight}
+            highlight={heroHighlight}
             ctaText="Explore More"
             bgImage="/bg-pg.jpeg"
           />
@@ -72,7 +99,7 @@ const Home = () => {
           />
 
           {featuredAlbumId && (
-            <Collection 
+            <Collection
               collectionId={featuredAlbumId}
               type="album"
             />
