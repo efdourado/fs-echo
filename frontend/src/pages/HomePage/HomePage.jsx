@@ -5,7 +5,7 @@ import { fetchArtists, fetchSongs, fetchAlbums } from "../../api/api.js";
 
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
-import Hero from "./components/Hero.jsx";
+import Hero from "../../components/heroes/Hero.jsx";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);

@@ -11,7 +11,6 @@ const SongPage = () => {
   const [currentSong, setCurrentSong] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [artistObj, setArtistObj] = useState(null);
 
   const handlePlay = useCallback(() => {
     if (currentSong && (!currentTrack || currentTrack._id !== currentSong._id)) {
@@ -21,67 +20,76 @@ const SongPage = () => {
 
   useEffect(() => {
     const loadSong = async () => {
+      setLoading(true);
+      setError("");
       try {
         const song = await fetchSongById(id);
         setCurrentSong(song);
-        setArtistObj(song.artist || null);
       } catch (err) {
-        console.error(err);
-        setError("Música não encontrada.");
+        console.error("Error fetching song:", err);
+        setError("Song not found or an error occurred.");
+        setCurrentSong(null);
       } finally {
         setLoading(false);
-      }
-    };
-
-    loadSong();
-  }, [id]);
+} }; loadSong(); }, [id]);
 
   useEffect(() => {
-    if (currentSong && !isPlaying) {
+    if (currentSong && currentSong.audioUrl && !isPlaying && (!currentTrack || currentTrack._id !== currentSong._id)) {
       handlePlay();
-    }
-  }, [currentSong, isPlaying, handlePlay]);
+  } }, [currentSong, isPlaying, handlePlay, currentTrack]);
+
 
   if (loading) {
-    return <div className="song-page"><div className="loading-message">Carregando música...</div></div>;
+    return <div className="song-page"><div className="loading-message">Loading song...</div></div>;
   }
 
   if (error || !currentSong) {
-    return <div className="song-page"><div className="error-message">{error || "Erro ao carregar música."}</div></div>;
+    return <div className="song-page"><div className="error-message">{error || "Failed to load song details."}</div></div>;
   }
+
+  const artistObj = currentSong.artist;
 
   return (
     <div className="song-page">
       <div className="song-hero">
-        <div className="song-hero__gradient">
-          <div className="song-hero__image-container">
-            <img
-              src={currentSong.coverImage || fallbackImage}
-              alt={`${currentSong.title} cover`}
-              onError={(e) => { e.target.src = fallbackImage; }}
-            />
-          </div>
+        <div className="song-hero__image-container">
+          <img
+            src={currentSong.coverImage || fallbackImage}
+            alt={`Cover art for ${currentSong.title}`}
+            onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
+          />
         </div>
 
-        <div className="song-info-bar">
-          <Link to={`/artist/${artistObj._id}`} className="song-info-bar__artist">
-            <img
-              src={artistObj.image || fallbackImage}
-              alt={`${artistObj.name}`}
-              onError={(e) => { e.target.src = fallbackImage; }}
-            />
-          </Link>
-
-          <div className="song-info-bar__details">
-            <h1 className="song-title">{currentSong.title}</h1>
-            <Link to={`/artist/${artistObj._id}`} className="artist-name">
-              {artistObj.name}
-            </Link>
-          </div>
+        <div className="song-hero__info">
+          <h1 className="song-title">{currentSong.title}</h1>
+          {artistObj && ( // Check if artistObj exists
+            <div className="song-artist-info">
+              <Link to={`/artist/${artistObj._id}`} className="song-artist-info__image-link">
+                <img
+                  className="song-artist-info__image"
+                  src={artistObj.image || fallbackImage}
+                  alt={`View artist page for ${artistObj.name}`}
+                  onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
+                />
+              </Link>
+              <Link to={`/artist/${artistObj._id}`} className="artist-name">
+                {artistObj.name}
+              </Link>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* placeholder for other content like lyrics, related songs, etc. */}
+      {/* <div className="song-content container">
+        {currentSong.lyrics && (
+          <section className="song-lyrics">
+            <h2>Lyrics</h2>
+            <pre>{currentSong.lyrics}</pre>
+          </section>
+        )}
+      </div> */}
     </div>
-  );
-};
+); };
 
 export default SongPage;

@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import SongItem from "./SongItem";
 
 const SongList = ({
-  title = "Tracks",
-  tracks = [],
+  title = "Songs",
+  songs = [],
   showCount = true,
   onMenuClick,
   loading = false,
@@ -13,33 +13,33 @@ const SongList = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
   
-  if (loading) return <div className="track-list">Loading tracks...</div>;
-  if (!tracks || tracks.length === 0) return <div className="track-list">No tracks available</div>;
+  if (loading) return <div className="song-list">Loading songs...</div>;
+  if (!songs || songs.length === 0) return <div className="song-list">No songs available</div>;
 
-  const displayedTracks = showAll ? tracks : tracks.slice(0, initialItems);
+  const displayedSongs = showAll ? songs : songs.slice(0, initialItems);
 
   return (
-    <section className="track-list">
-      <div className="track-list-header">
-        <h2 className="track-list-title">{title}</h2>
+    <section className="song-list">
+      <div className="song-list-header">
+        <h2 className="song-list-title">{title}</h2>
         {showCount && (
-          <span className="track-list-count">
-            {tracks.length} {tracks.length === 1 ? "track" : "tracks"}
+          <span className="song-list-count">
+            {songs.length} {songs.length === 1 ? "song" : "songs"}
           </span>
         )}
       </div>
 
-      <div className="track-list-container">
-        {displayedTracks.map((track) => (
-          <SongItem key={track._id} song={track} onMenuClick={onMenuClick} />
+      <div className="song-list-container">
+        {displayedSongs.map((song) => (
+          <SongItem key={song._id} song={song} onMenuClick={onMenuClick} />
         ))}
         
-        {tracks.length > initialItems && (
+        {songs.length > initialItems && (
           <button 
-            className="track-list-toggle"
+            className="song-list-toggle"
             onClick={() => setShowAll(!showAll)}
           >
-            {showAll ? 'Show Less' : `See More (${tracks.length - initialItems})`}
+            {showAll ? 'Show Less' : `See More (${songs.length - initialItems})`}
           </button>
         )}
       </div>
@@ -49,7 +49,7 @@ const SongList = ({
 
 SongList.propTypes = {
   title: PropTypes.string,
-  tracks: PropTypes.array,
+  songs: PropTypes.array,
   showCount: PropTypes.bool,
   onMenuClick: PropTypes.func,
   loading: PropTypes.bool,

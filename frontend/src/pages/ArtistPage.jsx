@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faCheckCircle, 
+import {
+  faCheckCircle,
   faPlay,
   faEllipsis,
-  faClock,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 
 import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
 import { PlayerContext } from "../context/PlayerContext";
-import { formatDuration } from '../utils/duration';
 
-const Artist = () => {
+import SongList from "../components/songs/SongList";
+import fallbackImage from '/fb.png';
+
+const ArtistPage = () => {
   const { id } = useParams();
   const { playTrack, currentTrack, isPlaying } = useContext(PlayerContext);
 
@@ -27,6 +28,7 @@ const Artist = () => {
 
   useEffect(() => {
     const loadArtistData = async () => {
+      setLoading(true);
       try {
         const [fetchedArtist, allSongs, allAlbums] = await Promise.all([
           fetchArtistById(id),
@@ -38,13 +40,19 @@ const Artist = () => {
           throw new Error("Artist not found");
         }
 
-        const artistSongs = allSongs.filter(song => 
-          song?.artist && song.artist._id === fetchedArtist._id
+        const artistSongs = allSongs.filter(song =>
+          song?.artist?._id === fetchedArtist._id
         );
 
-        const artistAlbums = allAlbums.filter(album => 
-          album?.artist && album.artist._id === fetchedArtist._id
+        artistSongs.sort((a, b) => (b.plays || 0) - (a.plays || 0));
+
+
+        const artistAlbums = allAlbums.filter(album =>
+          album?.artist?._id === fetchedArtist._id
         );
+
+        artistAlbums.sort((a,b) => new Date(b.releaseDate) - new Date(a.releaseDate));
+
 
         setArtist(fetchedArtist);
         setSongs(artistSongs);
@@ -54,13 +62,12 @@ const Artist = () => {
         setArtist(null);
       } finally {
         setLoading(false);
-    } };
-    loadArtistData();
-  }, [id]);
+  } }; loadArtistData(); }, [id]);
 
-  const handlePlayAll = () => {
-    if (songs.length > 0) {
-      playTrack(songs[0]);
+  const handlePlayAllArtistTopSongs = () => {
+    const songsToPlay = showAllSongs ? songs : songs.slice(0, 5);
+    if (songsToPlay.length > 0 && songsToPlay[0].audioUrl) {
+      playTrack(songsToPlay[0]);
   } };
 
   const toggleFollow = () => {
@@ -68,17 +75,24 @@ const Artist = () => {
   };
 
   if (loading) return (
-    <div className="loading-screen">
-      <div className="loading-spinner"></div>
+    <div className="artist-page">
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+      </div>
     </div>
   );
 
-  if (!artist) return <div className="error-message">Artist not found</div>;
+  if (!artist) return (
+    <div className="artist-page">
+      <div className="error-message">Artist not found.</div>
+    </div>
+  );
 
   const {
     name = "Unknown Artist",
-    banner = "",
-    description = "",
+    image: artistImage,
+    banner,
+    description = "No biography available for this artist.",
     monthlyListeners = 0,
     followers = 0,
     genre = [],
@@ -87,62 +101,66 @@ const Artist = () => {
   } = artist;
 
   const formatNumber = (num) => {
-    if (num >= 1000000) {
-      return `${(num / 1000000).toFixed(1)}M`;
-    }
-    if (num >= 1000) {
-      return `${(num / 1000).toFixed(1)}K`;
-    }
-    return num.toString();
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+    return num?.toString() || '0';
   };
 
   const displayedSongs = showAllSongs ? songs : songs.slice(0, 5);
+  const initialItemsForSongList = showAllSongs ? songs.length : 5;
+
 
   return (
     <div className="artist-page">
-      
-      <div className="artist-header" style={{ backgroundImage: `url(${banner || '/fb.png'})` }}>
+      <div className="artist-header" style={{ backgroundImage: `url(${banner || fallbackImage})` }}>
         <div className="artist-header-overlay"></div>
         <div className="artist-header-content">
-          <div className="artist-info">
-            <div className="artist-name-container">
-              {verified && (
-                <span className="verified-badge">
-                  <FontAwesomeIcon icon={faCheckCircle} />
-                </span>
-              )}
-              <h1 className="artist-name">{name}</h1>
+          <div className="artist-header__main-info">
+            <div className="artist-header__image-container">
+                <img
+                    src={artistImage || fallbackImage}
+                    alt={`${name}'s profile`}
+                    className="artist-header__image"
+                    onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
+                />
             </div>
-            <p className="artist-description">{description}</p>
-            
-            <div className="artist-stats">
-              <span>{formatNumber(monthlyListeners)} monthly listeners</span>
-              <span className="stat-divider">•</span>
-              <span>{formatNumber(followers)} followers</span>
-              {genre.length > 0 && (
-                <>
-                  <span className="stat-divider">•</span>
-                  <span>{genre.join(", ")}</span>
-                </>
-              )}
+            <div className="artist-info">
+                {verified && (
+                  <span className="verified-badge">
+                    <FontAwesomeIcon icon={faCheckCircle} /> Verified Artist
+                  </span>
+                )}
+                <h1 className="artist-name">{name}</h1>
+                <p className="artist-description">{description}</p>
+                <div className="artist-stats">
+                <span>{formatNumber(monthlyListeners)} monthly listeners</span>
+                <span className="stat-divider">•</span>
+                <span>{formatNumber(followers)} followers</span>
+                {genre.length > 0 && (
+                    <>
+                    <span className="stat-divider">•</span>
+                    <span>{genre.join(", ")}</span>
+                    </>
+                )}
+                </div>
             </div>
           </div>
-          
           <div className="artist-actions">
-            <button 
+            <button
               className="play-button"
-              onClick={handlePlayAll}
+              onClick={handlePlayAllArtistTopSongs}
+              disabled={songs.length === 0}
             >
               <FontAwesomeIcon icon={faPlay} /> Play
             </button>
-            <button 
+            <button
               className={`follow-button ${isFollowing ? 'following' : ''}`}
               onClick={toggleFollow}
             >
               <FontAwesomeIcon icon={isFollowing ? faHeart : faRegularHeart} />
               {isFollowing ? 'Following' : 'Follow'}
             </button>
-            <button className="more-button">
+            <button className="more-button" aria-label="More options">
               <FontAwesomeIcon icon={faEllipsis} />
             </button>
           </div>
@@ -156,88 +174,63 @@ const Artist = () => {
               <div className="section-header">
                 <h2>Popular</h2>
                 {songs.length > 5 && (
-                  <button 
+                  <button
                     className="see-all"
                     onClick={() => setShowAllSongs(!showAllSongs)}
                   >
-                    {showAllSongs ? 'Show Less' : 'See All'}
+                    {showAllSongs ? 'Show Less' : `See All (${songs.length})`}
                   </button>
                 )}
               </div>
-              
-              <div className="songs-table">
-                <div className="table-header">
-                  <span className="index">#</span>
-                  <span className="title">Title</span>
-                  <span className="duration"><FontAwesomeIcon icon={faClock} /></span>
-                </div>
-                
-                {displayedSongs.map((song, index) => (
-                  <div 
-                    key={song._id} 
-                    className={`song-row ${currentTrack?._id === song._id && isPlaying ? 'playing' : ''}`}
-                    onClick={() => playTrack(song)}
-                  >
-                    <span className="index">
-                      {currentTrack?._id === song._id && isPlaying ? (
-                        <div className="playing-animation">
-                          <span className="bar"></span>
-                          <span className="bar"></span>
-                          <span className="bar"></span>
-                        </div>
-                      ) : (
-                        index + 1
-                      )}
-                    </span>
-                    <span className="title">
-                      <img 
-                        src={song.coverImage || '/default-song.jpg'} 
-                        alt={song.title} 
-                        className="song-cover"
-                        loading="lazy"
-                      />
-                      <div className="song-info">
-                        <span className="song-name">{song.title}</span>
-                        {song.isExplicit && <span className="explicit">E</span>}
-                      </div>
-                    </span>
-                    <span className="duration">{formatDuration(song.duration)}</span>
-                  </div>
-                ))}
-              </div>
+              {displayedSongs.length > 0 ? (
+                <SongList
+                  songs={displayedSongs}
+                  showCount={false}
+                />
+              ) : (
+                <p className="empty-state">No popular songs found for this artist.</p>
+              )}
             </section>
 
             {albums.length > 0 && (
               <section className="albums-section">
                 <div className="section-header">
                   <h2>Albums</h2>
-                  <button className="see-all">See All</button>
+                   <Link to={`/artist/${id}/albums`} className="see-all">See All</Link>
                 </div>
                 <div className="albums-grid">
-                  {albums.map(album => (
-                    <div key={album._id} className="album-card">
-                      <div className="album-cover-container">
-                        <img 
-                          src={album.coverImage || '/fb.png'} 
-                          alt={album.title}
-                          className="album-cover"
-                          loading="lazy"
-                        />
-                        <button 
-                          className="album-play-button"
-                          onClick={() => {
-                            const albumSongs = songs.filter(s => s.album?._id === album._id);
-                            if (albumSongs.length > 0) playTrack(albumSongs[0]);
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faPlay} />
-                        </button>
-                      </div>
-                      <div className="album-info">
-                        <h3 className="album-title">{album.title}</h3>
-                        <p className="album-year">{new Date(album.releaseDate).getFullYear()} • Album</p>
-                      </div>
-                    </div>
+                  {albums.slice(0, 6).map(album => (
+                    <Link to={`/album/${album._id}`} key={album._id} className="album-card-link">
+                        <div className="album-card">
+                        <div className="album-cover-container">
+                            <img
+                            src={album.coverImage || fallbackImage}
+                            alt={album.title || 'Album cover'}
+                            className="album-cover"
+                            loading="lazy"
+                            onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
+                            />
+                            <button
+                                type="button"
+                                className="album-play-button"
+                                aria-label={`Play album ${album.title}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const firstSongOfAlbum = songs.find(s => s.album?._id === album._id && s.audioUrl);
+                                    if (firstSongOfAlbum) playTrack(firstSongOfAlbum);
+                                }}
+                                >
+                            <FontAwesomeIcon icon={faPlay} />
+                            </button>
+                        </div>
+                        <div className="album-info">
+                            <h3 className="album-title" title={album.title}>{album.title}</h3>
+                            <p className="album-year">
+                                {new Date(album.releaseDate).getFullYear()} • {album.type || 'Album'}
+                            </p>
+                        </div>
+                        </div>
+                    </Link>
                   ))}
                 </div>
               </section>
@@ -246,8 +239,10 @@ const Artist = () => {
 
           <aside className="artist-sidebar">
             <div className="sidebar-section">
-              <h3>About</h3>
-              <p className="artist-bio">{description || 'No biography available for this artist.'}</p>
+              <h3>About {name}</h3>
+              <div className="artist-bio">
+                <p>{description}</p>
+              </div>
             </div>
 
             <div className="sidebar-section">
@@ -262,11 +257,11 @@ const Artist = () => {
                   <span className="stat-label">Followers</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-value">{songs.length}</span>
+                  <span className="stat-value">{formatNumber(songs.length)}</span>
                   <span className="stat-label">Songs</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-value">{albums.length}</span>
+                  <span className="stat-value">{formatNumber(albums.length)}</span>
                   <span className="stat-label">Albums</span>
                 </div>
               </div>
@@ -274,29 +269,29 @@ const Artist = () => {
 
             {Object.values(socials).some(val => val) && (
               <div className="sidebar-section">
-                <h3>Social</h3>
-                <div className="ssocial-links">
+                <h3>Social Links</h3>
+                <div className="social-links-artist-page">
                   {socials.instagram && (
-                    <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="ssocial-link">
-                      <span className="ssocial-icon instagram">IG</span>
+                    <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="social-link-item">
+                      <span className="social-icon instagram">IG</span>
                       <span>Instagram</span>
                     </a>
                   )}
                   {socials.x && (
-                    <a href={socials.x} target="_blank" rel="noopener noreferrer" className="ssocial-link">
-                      <span className="ssocial-icon twitter">X</span>
-                      <span>Twitter</span>
+                    <a href={socials.x} target="_blank" rel="noopener noreferrer" className="social-link-item">
+                      <span className="social-icon twitter">X</span>
+                      <span>X (Twitter)</span>
                     </a>
                   )}
                   {socials.youtube && (
-                    <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="ssocial-link">
-                      <span className="ssocial-icon youtube">YT</span>
+                    <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="social-link-item">
+                      <span className="social-icon youtube">YT</span>
                       <span>YouTube</span>
                     </a>
                   )}
                   {socials.tiktok && (
-                    <a href={socials.tiktok} target="_blank" rel="noopener noreferrer" className="ssocial-link">
-                      <span className="ssocial-icon tiktok">TT</span>
+                    <a href={socials.tiktok} target="_blank" rel="noopener noreferrer" className="social-link-item">
+                      <span className="social-icon tiktok">TT</span>
                       <span>TikTok</span>
                     </a>
                   )}
@@ -309,4 +304,4 @@ const Artist = () => {
     </div>
 ); };
 
-export default Artist;
+export default ArtistPage;

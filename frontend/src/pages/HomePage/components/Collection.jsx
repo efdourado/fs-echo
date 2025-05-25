@@ -121,7 +121,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         {/* Right column - Song list */}
         <div className="featured-collection__tracks">
           <SongList 
-            tracks={songs} 
+            songs={songs} 
             loading={loading && songs.length === 0}
             showCount={false}
             initialItems={8}
