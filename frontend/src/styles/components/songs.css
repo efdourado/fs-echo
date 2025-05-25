@@ -59,8 +59,9 @@
 
 
 .song-item {
+  width: 100%;
   display: grid;
-  grid-template-columns: var(--song-item-number-width, 40px) 1fr auto auto;
+  grid-template-columns: 38px 1fr auto auto;
   align-items: center;
   padding: var(--spacing-sm);
   gap: var(--spacing-md);
