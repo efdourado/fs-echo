@@ -13,22 +13,15 @@ const Collection = ({ collectionId, type = "album" }) => {
       try {
         setLoading(true);
         
-        // Busca os dados da coleção (álbum ou playlist)
         const collectionData = type === 'album' 
           ? await fetchAlbumById(collectionId)
           : await fetchPlaylistById(collectionId);
         
         setCollection(collectionData);
-
-        // Busca as músicas da coleção
-        // Aqui assumimos que a API retorna as músicas completas no campo 'songs'
-        // Se não retornar, precisaríamos de um endpoint adicional ou mapear os IDs
         
         if (collectionData.songs && collectionData.songs.length > 0) {
           setSongs(collectionData.songs);
         } else {
-          // Caso a API não retorne as músicas completas, podemos buscar uma a uma
-          // Isso é menos eficiente, então o ideal seria ter um endpoint que retorne tudo de uma vez
           console.warn('A coleção não veio com as músicas completas - considere ajustar o endpoint da API');
           setSongs([]);
         }
@@ -37,8 +30,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         console.error(`Error loading ${type} data:`, error);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
 
     if (collectionId) {
       loadCollectionData();
@@ -118,7 +110,6 @@ const Collection = ({ collectionId, type = "album" }) => {
           </div>
         </div>
         
-        {/* Right column - Song list */}
         <div className="featured-collection__tracks">
           <SongList 
             songs={songs} 
@@ -129,8 +120,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         </div>
       </div>
     </div>
-  );
-};
+); };
 
 Collection.propTypes = {
   collectionId: PropTypes.string.isRequired,

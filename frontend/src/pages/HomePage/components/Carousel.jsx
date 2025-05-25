@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Card from './Card';
+import Card from '../../../components/ui/Card';
 
 const Carousel = ({ title, items, type }) => {
   return (
