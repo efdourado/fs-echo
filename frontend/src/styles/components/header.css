@@ -3,33 +3,24 @@
   top: 0;
   left: 0;
   right: 0;
-  height: var(--header-height);
-  background-color: hsla(220, 13%, 10%, 0.85); /* Dark mode initial */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border-subtle);
-  /* Using defined transition variables for consistency and smoother feel */
-  transition: background-color var(--transition-duration-medium) var(--transition-timing-function-ease-in-out),
-              height var(--transition-duration-medium) var(--transition-timing-function-ease-in-out),
-              box-shadow var(--transition-duration-medium) var(--transition-timing-function-ease-in-out);
+  height: 72px;
+  background-color: hsla(var(--color-primary-accent-h), 13%, 10%, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
   z-index: var(--z-index-header);
   display: flex;
   align-items: center;
 }
 
 body.light-mode .header {
-  background-color: hsla(0, 0%, 100%, 0.85); /* Light mode initial */
-  border-bottom-color: var(--color-border-subtle);
+  background-color: hsla(var(--color-primary-accent-h), 13%, 10%, 0.85);
 }
 
 .header.scrolled {
-  background-color: hsla(220, 13%, 10%, 0.95); /* Dark mode scrolled */
-  box-shadow: var(--shadow-md); /* Using updated shadow variable */
-  height: 60px; 
-}
-
-body.light-mode .header.scrolled {
-  background-color: hsla(0, 0%, 100%, 0.95); /* Light mode scrolled */
+  height: 64px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
@@ -37,244 +28,174 @@ body.light-mode .header.scrolled {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: var(--container-max-width);
-  padding: 0 var(--spacing-2xl);
+  max-width: 1440px;
+  padding: 0 24px;
   margin: 0 auto;
-  gap: var(--spacing-sm);
+  gap: 16px;
 }
 
-.header-left,
-.header-right {
+.header-left, .header-right {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  flex: 0 0 auto;
+  gap: 16px;
 }
 
 .header-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  /* Added filter to transition for hover effect */
-  transition: transform var(--transition-duration-short) var(--transition-timing-function-ease-in-out),
-              filter var(--transition-duration-short) var(--transition-timing-function-ease-in-out);
-  padding: var(--spacing-xxs) 0;
+  gap: 8px;
+  transition: transform 0.2s ease;
 }
 
 .header-logo:hover {
-  /* Slight lift and brightness for a more engaging hover */
-  transform: scale(1.05) translateY(-1px); 
-  filter: brightness(1.1);
+  transform: scale(1.03);
 }
 
 .logo-img {
-  height: 28px;
+  height: 32px;
   width: auto;
-  transition: transform 0.3s ease; /* Keeping existing specific transition if intended */
 }
 
 .logo-text {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  display: none; 
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
 }
 
-.search-container {
-  flex: 1;
-  max-width: 500px;
-  opacity: 0;
-  transform: translateX(15px); /* Default closed state for desktop */
-  /* This 'all' transition with cubic-bezier provides the bouncy effect */
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.search-container.is-open {
-  opacity: 1;
-  transform: translateX(0); /* Default open state for desktop */
+body.light-mode .logo-text {
+  color: #000;
 }
 
 .search-form {
   display: flex;
   align-items: center;
-  width: 100%;
   position: relative;
-  background: var(--color-surface);
-  border-radius: var(--border-radius-full);
-  overflow: hidden;
-  transition: all 0.3s ease; /* Or use specific var(--transition-default) */
-  border: 1px solid var(--color-border);
+  height: 40px;
 }
 
-body.light-mode .search-form {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-}
-
-.search-form:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-focus); /* Using focus shadow from base.css */
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.6rem 0.9rem;
-  border: none;
+.search-trigger-btn {
   background: transparent;
-  color: var(--color-text-primary);
-  outline: none;
-  font-size: 0.9rem;
-}
-
-.search-input::placeholder {
-  color: var(--color-text-tertiary);
-}
-
-/* General button styling in header */
-.header .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--border-radius-md);
-  font-weight: var(--font-weight-semibold);
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  border: 1px solid transparent;
-  height: 38px;
-  color: var(--color-text-secondary);
-  background-color: transparent;
-  text-decoration: none;
-  line-height: 1;
-  position: relative; /* For positioning context if needed (e.g. pseudo-elements) */
-  /* Refined transition for multiple properties */
-  transition: transform var(--transition-duration-short) var(--transition-timing-function-ease-in-out),
-              background-color var(--transition-duration-short) var(--transition-timing-function-ease-in-out),
-              color var(--transition-duration-short) var(--transition-timing-function-ease-in-out),
-              border-color var(--transition-duration-short) var(--transition-timing-function-ease-in-out),
-              box-shadow var(--transition-duration-short) var(--transition-timing-function-ease-in-out);
-}
-.header .btn:hover {
-  /* Softer scale, more noticeable lift for general buttons */
-  transform: translateY(-2px) scale(1.03); 
-}
-
-.header .btn.btn-icon-only {
-  width: 38px;
-  padding: var(--spacing-xs);
-}
-.header .btn.btn-icon-only:hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
-  /* transform is inherited from .header .btn:hover or can be made specific */
-  /* transform: translateY(-2px) scale(1.03); /* Ensure consistency */
-  /* box-shadow: var(--shadow-xs); /* Optional: very subtle shadow */
-}
-body.light-mode .header .btn.btn-icon-only:hover {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-primary);
-  /* transform: translateY(-2px) scale(1.03); /* Ensure consistency */
-  /* box-shadow: var(--shadow-xs); /* Optional */
-}
-
-.search-btn { /* Part of the search form, not a general .header .btn */
-  color: var(--color-text-tertiary);
-  padding-left: 0.9rem;
-  background: transparent;
-  border: none;
-  height: auto;
-  transition: color var(--transition-duration-short) ease;
-}
-.search-btn:hover {
-  color: var(--color-primary);
-  transform: none; /* Override general .btn hover if it was applied by mistake */
-}
-
-.clear-search { /* Part of the search form */
-  color: var(--color-text-tertiary);
-  padding-right: 0.9rem;
-  background: transparent;
-  border: none;
-  height: auto;
-  transition: color var(--transition-duration-short) ease;
-}
-.clear-search:hover {
-  color: var(--color-error) !important;
-  transform: none; /* Override general .btn hover */
-}
-
-.header .btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
-  box-shadow: none; /* Base state */
-}
-.header .btn-primary:hover {
-  background-color: var(--color-primary-hover);
-  color: var(--color-text-on-primary);
-  /* transform: translateY(-2px) scale(1.03); /* Inherited from .header .btn:hover */
-  /* Softer, colored shadow using HSL variables from base.css */
-  box-shadow: 0 3px 8px hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), var(--color-primary-accent-l), 0.25);
-}
-
-.header .btn-secondary {
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-}
-.header .btn-secondary:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-greyple);
-  color: var(--color-text-primary);
-  /* transform: translateY(-2px) scale(1.03); /* Inherited */
-  box-shadow: var(--shadow-xs); /* Subtle shadow */
-}
-
-body.light-mode .header .btn-secondary {
-  color: var(--color-text-primary);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-}
-body.light-mode .header .btn-secondary:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-greyple);
-  /* Ensure transform and shadow match the dark mode behavior */
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: var(--shadow-xs);
-}
-
-.theme-toggle.btn-icon-only {
-  /* Specific transition for its unique hover animation if desired, or defaults from .btn */
-   transition: transform var(--transition-duration-medium) var(--transition-timing-function-ease-in-out), /* For rotation */
-               background-color var(--transition-duration-short) var(--transition-timing-function-ease-in-out), /* from .btn */
-               color var(--transition-duration-short) var(--transition-timing-function-ease-in-out); /* from .btn */
-}
-.theme-toggle.btn-icon-only:hover {
-  /* This delightful animation is kept */
-  transform: scale(1.1) rotate(30deg); 
-  /* Background and color changes from .btn.btn-icon-only:hover */
-}
-
-.notification-container {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background-color: var(--color-error);
-  color: white;
-  font-size: 0.55rem;
-  font-weight: bold;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
+  padding: 8px;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid var(--color-background);
+  height: 100%;
+  transition: color 0.2s ease;
 }
-body.light-mode .notification-badge {
-  border-color: var(--color-background);
+
+body.light-mode .search-trigger-btn {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.search-trigger-btn:hover {
+  color: #3b82f6;
+}
+
+.search-input {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  padding: 0;
+  border: none;
+  background: #1e293b;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+  border-radius: 20px;
+}
+
+body.light-mode .search-input {
+  background: #f8fafc;
+  color: #000;
+}
+
+.search-form.active .search-input {
+  width: 240px;
+  padding: 0 36px 0 16px;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+
+body.light-mode .clear-search-btn {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.clear-search-btn:hover {
+  color: #ef4444;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-md {
+  padding: 8px 20px;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  transform: scale(1.03);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode .btn-ghost {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.light-mode .btn-ghost:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-icon-only {
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+}
+
+.create-btn {
+  gap: 8px;
 }
 
 .user-menu-container {
@@ -284,37 +205,40 @@ body.light-mode .notification-badge {
 .user-avatar-button {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  background: none;
+  gap: 8px;
+  background: transparent;
   border: none;
   cursor: pointer;
-  padding: 2px; /* Small padding for hover effect area */
-  border-radius: var(--border-radius-full);
-  transition: all var(--transition-duration-short) ease; /* Keep or use specific properties */
+  padding: 4px;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
 }
 
 .user-avatar-button:hover {
-  background: var(--color-surface-hover);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .avatar-image {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease;
 }
 
-.avatar-image.large {
-  width: 40px;
-  height: 40px;
+.user-avatar-button:hover .avatar-image {
+  transform: scale(1.05);
 }
 
 .chevron {
-  font-size: 0.6rem;
-  transition: transform var(--transition-duration-short) ease;
-  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light-mode .chevron {
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .chevron.open {
@@ -324,165 +248,159 @@ body.light-mode .notification-badge {
 .user-menu-dropdown {
   position: absolute;
   right: 0;
-  top: calc(100% + 8px); /* Spacing from button */
-  width: 260px;
-  background-color: var(--color-surface);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg); /* Using updated shadow */
-  padding: var(--spacing-xs) 0;
-  z-index: var(--z-index-dropdown);
-  opacity: 0; /* Initial state for animation */
-  /* transform: translateY(8px); /* Original initial transform */
-  /* Refined animation */
-  animation: fadeInDropdown var(--transition-duration-medium) cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  border: 1px solid var(--color-border);
+  top: calc(100% + 8px);
+  width: 280px;
+  background-color: #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  z-index: 1100;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  visibility: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: dropdownFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* New keyframes for user menu dropdown */
-@keyframes fadeInDropdown {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.97); /* Start slightly lower, smaller */
-  }
+body.light-mode .user-menu-dropdown {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@keyframes dropdownFadeIn {
   to {
     opacity: 1;
-    transform: translateY(0) scale(1); /* End at final position */
+    transform: translateY(0) scale(1);
+    visibility: visible;
   }
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
+  gap: 12px;
+  padding: 12px 12px 16px;
+}
+
+.avatar-image.large {
+  width: 48px;
+  height: 48px;
 }
 
 .user-details {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  gap: 4px;
 }
 
 .user-name {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+body.light-mode .user-name {
+  color: #000;
+}
+
 .user-email {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+body.light-mode .user-email {
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .menu-divider {
   height: 1px;
-  background-color: var(--color-border);
-  margin: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 8px 0;
+}
+
+body.light-mode .menu-divider {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .menu-item {
-  width: calc(100% - var(--spacing-md)); /* Adjust for padding */
-  margin: 0 var(--spacing-xs);
-  padding: var(--spacing-sm);
+  width: 100%;
+  padding: 12px;
   background: none;
   border: none;
   text-align: left;
-  color: var(--color-text-secondary);
+  color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 12px;
   cursor: pointer;
-  font-size: var(--font-size-sm);
-  border-radius: var(--border-radius-md);
-  /* Refined transition for hover effects */
-  transition: background-color var(--transition-duration-short) var(--transition-timing-function-ease),
-              color var(--transition-duration-short) var(--transition-timing-function-ease),
-              transform var(--transition-duration-short) var(--transition-timing-function-ease);
-  will-change: transform, background-color, color; /* Hint for performance */
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+body.light-mode .menu-item {
+  color: rgba(0, 0, 0, 0.9);
 }
 
 .menu-item:hover {
-  background-color: var(--color-primary-accent);
-  color: var(--color-text-on-primary);
-  transform: translateX(5px); /* Subtle nudge for elegance */
+  background-color: #3b82f6;
+  color: white;
 }
 
 .menu-item .fa-icon {
-  width: 16px; /* Ensure this is enough space for icons */
+  width: 18px;
   text-align: center;
-  margin-right: var(--spacing-xs); /* Original had this, keeping if intended */
+  font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.light-mode .menu-item .fa-icon {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.menu-item:hover .fa-icon {
+  color: white;
 }
 
 .menu-item.logout {
-  color: var(--color-error);
+  color: #ef4444;
 }
+
+.menu-item.logout .fa-icon {
+  color: #ef4444;
+}
+
 .menu-item.logout:hover {
-  color: var(--color-white);
-  background-color: var(--color-error);
-  transform: translateX(5px); /* Consistent nudge */
+  background-color: #ef4444;
+  color: white;
+}
+
+.menu-item.logout:hover .fa-icon {
+  color: white;
 }
 
 @media (max-width: 768px) {
   .header-container {
-    padding: 0 var(--spacing-md);
+    padding: 0 16px;
+    gap: 12px;
   }
-  .header-right {
-    gap: var(--spacing-xs);
-  }
-
-  /* Mobile search container: uses transform for slide-down, inherits 'all' transition from main rule */
-  .search-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%; /* Below header */
-    padding: 0 var(--spacing-sm); /* Initial padding, animates to full padding */
-    background-color: var(--color-background);
-    z-index: calc(var(--z-index-header) - 1);
-    max-width: none;
-    /* opacity: 0; /* Inherited from main rule */
-    /* transform: translateX(15px); /* Overridden for mobile */
-    transform: translateY(-100%) translateX(0); /* Start fully above, ensure X is reset if needed */
-    overflow: hidden; /* Clip content during transition */
-    box-shadow: var(--shadow-md);
-    border-top: 1px solid var(--color-border-subtle);
-    /* The 'all' transition from the main .search-container rule will apply to transform and padding changes */
-  }
-  .search-container.is-open {
-    /* opacity: 1; /* Inherited from main rule */
-    transform: translateY(0) translateX(0); /* Slide into view, ensure X is reset */
-    padding: var(--spacing-sm); /* Full padding when open */
-  }
-  .search-form { /* Ensure mobile search form is also rounded if desired */
-    border-radius: var(--border-radius-md);
-  }
-
-  .header .btn .btn-label {
+  
+  .logo-text {
     display: none;
   }
-  .header .btn:not(.btn-icon-only) { /* Ensure these become icon-like */
-    width: 38px;
-    padding: var(--spacing-xs);
+
+  .search-form.active .search-input {
+    width: 160px;
+  }
+
+  .btn-md {
+    padding: 8px 16px;
   }
 }
-
-@media (min-width: 769px) {
-  .mobile-menu-btn {
-    display: none;
-  }
-  .logo-text {
-    display: inline; /* Show logo text on larger screens */
-  }
-  .header .btn .btn-label {
-    display: inline; /* Show button labels */
-  }
-  .header .btn:not(.btn-icon-only) {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    width: auto; /* Restore auto width */
-} }

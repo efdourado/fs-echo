@@ -1,17 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBell,
-  faSun,
-  faMoon,
-  faBars,
-  faPlus,
-  faSearch,
-  faTimes,
-  faChevronDown,
-  faRightFromBracket,
-  faUserCircle,
+  faBell, faSun, faMoon, faBars, faPlus, faSearch, faTimes,
+  faChevronDown, faRightFromBracket, faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
 import fallbackImage from '/fb.png';
@@ -23,36 +15,71 @@ const Header = ({ toggleSidebar }) => {
     return savedMode ? JSON.parse(savedMode) : true;
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const navigate = useNavigate();
 
+  const searchInputRef = useRef(null);
+  const userMenuRef = useRef(null);
+  const searchFormRef = useRef(null);
+
+  const navigate = useNavigate();
   const { isAuthenticated, currentUser, logout, loadingAuth } = useAuth();
 
   useEffect(() => {
     document.body.classList.toggle("light-mode", !darkMode);
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
 
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", JSON.stringify(newMode));
-      return newMode;
-    });
-  };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const handleSearch = (e) => {
+  useEffect(() => {
+    const handleClickOutsideUserMenu = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+    } };
+    document.addEventListener("mousedown", handleClickOutsideUserMenu);
+    return () => document.removeEventListener("mousedown", handleClickOutsideUserMenu);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutsideSearch = (event) => {
+      if (
+        searchActive &&
+        searchFormRef.current &&
+        !searchFormRef.current.contains(event.target) &&
+        !event.target.closest('.search-trigger-btn')
+      ) {
+        setSearchActive(false);
+    } };
+    document.addEventListener("mousedown", handleClickOutsideSearch);
+    return () => document.removeEventListener("mousedown", handleClickOutsideSearch);
+  }, [searchActive]);
+
+  const toggleDarkMode = () => setDarkMode(prevMode => !prevMode);
+
+  const handleSearchToggle = () => {
+    setSearchActive(prev => {
+      if (!prev) {
+        setTimeout(() => searchInputRef.current?.focus(), 50);
+      }
+      return !prev;
+  }); };
+
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
-      setSearchOpen(false);
-    }
+      setSearchActive(false);
+  } };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    searchInputRef.current?.focus();
   };
 
   const handleLogout = () => {
@@ -60,25 +87,33 @@ const Header = ({ toggleSidebar }) => {
     setShowUserMenu(false);
     navigate('/login');
   };
-  
+
   const handleImageError = (e) => {
     e.target.src = fallbackImage;
   };
 
-  if (loadingAuth) {
+  if (loadingAuth && !currentUser) {
     return (
-        <header className={`header ${isScrolled ? "scrolled" : ""}`}>
-            <div className="header-container">
-                <div className="header-left">
-                    <Link to="/" className="header-logo">
-                        <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-                        <span className="logo-text">Echo</span>
-                    </Link>
-                </div>
-            </div>
-        </header>
-    );
-  }
+      <header className={`header ${isScrolled ? "scrolled" : ""}`}>
+        <div className="header-container">
+          <div className="header-left">
+            <Link to="/" className="header-logo">
+              <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
+              <span className="logo-text"></span>
+            </Link>
+          </div>
+          <div className="header-right">
+            <button
+              className="btn btn-icon-only btn-ghost theme-toggle"
+              onClick={toggleDarkMode}
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              <FontAwesomeIcon icon={darkMode ? faMoon : faSun} className="btn-icon-graphic" />
+            </button>
+          </div>
+        </div>
+      </header>
+  ); }
 
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
@@ -86,92 +121,91 @@ const Header = ({ toggleSidebar }) => {
         <div className="header-left">
           {typeof toggleSidebar === 'function' && (
             <button
-              className="btn btn-icon-only mobile-menu-btn"
+              className="btn btn-icon-only btn-ghost mobile-menu-btn"
               onClick={toggleSidebar}
               aria-label="Toggle menu"
             >
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon icon={faBars} className="btn-icon-graphic" />
             </button>
           )}
           <Link to="/" className="header-logo">
             <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-            <span className="logo-text">Echo</span>
+            <span className="logo-text"></span>
           </Link>
         </div>
 
-        <div className={`search-container ${searchOpen ? "is-open" : ""}`}>
-          <form onSubmit={handleSearch} className="search-form">
-            <button type="submit" className="search-btn" aria-label="Submit search">
-              <FontAwesomeIcon icon={faSearch} />
+        <div className="header-right">
+          <form
+            ref={searchFormRef}
+            onSubmit={handleSearchSubmit}
+            className={`search-form ${searchActive ? "active" : ""} ${searchQuery ? "has-query" : ""}`}
+          >
+            <button
+              type="button"
+              className="search-trigger-btn"
+              onClick={handleSearchToggle}
+              aria-label={searchActive ? "Close search" : "Open search"}
+            >
+              <FontAwesomeIcon icon={searchActive ? faTimes : faSearch} />
             </button>
             <input
+              ref={searchInputRef}
               type="text"
               className="search-input"
-              placeholder="Search artists, songs..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search input"
             />
             {searchQuery && (
               <button
                 type="button"
-                className="clear-search"
-                onClick={() => setSearchQuery("")}
-                aria-label="Clear search"
+                className="clear-search-btn"
+                onClick={handleClearSearch}
+                aria-label="Clear search query"
               >
                 <FontAwesomeIcon icon={faTimes} />
               </button>
             )}
           </form>
-        </div>
 
-        <div className="header-right">
-          <button
-            className="btn btn-icon-only search-trigger"
-            onClick={() => setSearchOpen(!searchOpen)}
-            aria-label={searchOpen ? "Close search" : "Open search"}
-          >
-            <FontAwesomeIcon icon={searchOpen ? faTimes : faSearch} />
-          </button>
+          {isAuthenticated && currentUser && (
+            <Link to="/create" className="btn btn-md btn-primary create-btn">
+              <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
+              <span className="btn-label">Create</span>
+            </Link>
+          )}
 
-          <button
-            className="btn btn-primary create-btn"
-            onClick={() => navigate('/create')}
-            aria-label="Create"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-            <span className="btn-label">Create</span>
-          </button>
-
-          <div className="notification-container">
+          {isAuthenticated && currentUser && (
             <button
-              className="btn btn-icon-only notification"
+              className="btn btn-icon-only btn-ghost notification-btn"
               aria-label="Notifications"
             >
-              <FontAwesomeIcon icon={faBell} />
+              <FontAwesomeIcon icon={faBell} className="btn-icon-graphic" />
             </button>
-          </div>
+          )}
 
           <button
-            className="btn btn-icon-only theme-toggle"
+            className="btn btn-icon-only btn-ghost theme-toggle"
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <FontAwesomeIcon icon={darkMode ? faMoon : faSun} />
+            <FontAwesomeIcon icon={darkMode ? faMoon : faSun} className="btn-icon-graphic" />
           </button>
 
           {isAuthenticated && currentUser ? (
-            <div className="user-menu-container">
+            <div className="user-menu-container" ref={userMenuRef}>
               <button
                 className="user-avatar-button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 aria-expanded={showUserMenu}
                 aria-label="User menu"
               >
-                <img 
-                  src={currentUser.profilePic || fallbackImage} 
-                  alt="User Avatar" 
+                <img
+                  src={currentUser.profilePic || fallbackImage}
+                  alt="User Avatar"
                   className="avatar-image"
-                  onError={handleImageError} 
+                  onError={handleImageError}
                 />
                 <FontAwesomeIcon icon={faChevronDown} className={`chevron ${showUserMenu ? 'open' : ''}`} />
               </button>
@@ -179,15 +213,15 @@ const Header = ({ toggleSidebar }) => {
               {showUserMenu && (
                 <div className="user-menu-dropdown">
                   <div className="user-info">
-                     <img 
-                        src={currentUser.profilePic || fallbackImage} 
-                        alt="" 
-                        className="avatar-image large" 
-                        onError={handleImageError}
-                     />
+                    <img
+                      src={currentUser.profilePic || fallbackImage}
+                      alt=""
+                      className="avatar-image large"
+                      onError={handleImageError}
+                    />
                     <div className="user-details">
-                      <span className="user-name">{currentUser.username}</span>
-                      <span className="user-email">{currentUser.email}</span>
+                      <span className="user-name">{currentUser.username || "User"}</span>
+                      <span className="user-email">{currentUser.email || "No email"}</span>
                     </div>
                   </div>
                   <div className="menu-divider"></div>
@@ -203,10 +237,10 @@ const Header = ({ toggleSidebar }) => {
             </div>
           ) : (
             <>
-              <Link to="/login" className="btn btn-secondary">
-                 <span className="btn-label">Login</span>
+              <Link to="/login" className="btn btn-md btn-ghost">
+                <span className="btn-label">Login</span>
               </Link>
-              <Link to="/register" className="btn btn-primary">
+              <Link to="/register" className="btn btn-md btn-primary">
                 <span className="btn-label">Sign Up</span>
               </Link>
             </>
