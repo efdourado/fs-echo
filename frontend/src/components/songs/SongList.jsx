@@ -44,8 +44,7 @@ const SongList = ({
         )}
       </div>
     </section>
-  );
-};
+); };
 
 SongList.propTypes = {
   title: PropTypes.string,

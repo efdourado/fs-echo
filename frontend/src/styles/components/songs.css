@@ -19,8 +19,8 @@
 }
 
 .song-list-count {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .song-list-container {
@@ -57,7 +57,6 @@
   background-color: var(--color-surface);
 }
 
-
 .song-item {
   width: 100%;
   display: grid;
@@ -87,7 +86,7 @@
   pointer-events: none;
 }
 .song-item--disabled .song-item__play-button {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .song-item__number {
@@ -125,7 +124,7 @@
   color: var(--color-primary);
 }
 .song-item--active .song-item__play-button {
-    color: var(--color-primary);
+  color: var(--color-primary);
 }
 .song-item__play-button:disabled {
   cursor: not-allowed;
@@ -136,7 +135,7 @@
   background-color: transparent;
 }
 .song-item__play-button .fa-exclamation {
-    color: var(--color-warning);
+  color: var(--color-warning);
 }
 
 .song-item__content {
@@ -206,8 +205,8 @@
   text-decoration: none;
 }
 .song-item__artist:hover {
-    color: var(--color-primary);
-    text-decoration: underline;
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 .song-item__plays {
@@ -242,9 +241,7 @@
   flex-shrink: 0;
 }
 
-.song-item:hover .song-item__menu,
-.song-item__menu:focus,
-.song-item--menu-open .song-item__menu {
+.song-item:hover .song-item__menu, .song-item__menu:focus, .song-item--menu-open .song-item__menu {
   opacity: 1;
 }
 .song-item__menu:hover {

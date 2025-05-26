@@ -147,8 +147,6 @@ SongItem.propTypes = {
     genre: PropTypes.arrayOf(PropTypes.string),
     plays: PropTypes.number,
     releaseDate: PropTypes.instanceOf(Date),
-  }),
-  onMenuClick: PropTypes.func,
-};
+}), onMenuClick: PropTypes.func, };
 
 export default SongItem;
