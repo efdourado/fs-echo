@@ -2,11 +2,11 @@ export const playlistData = [
   {
     name: "My Summer Vibes",
     description: "The perfect mix for sunny days and warm nights",
-    owner: "6829349e6fed7190fe163367",
+    owner: "6837a46a0252482b478a1f88",
     songs: [
-      { song: "68292f7839381795129f2709", addedAt: new Date() },
-      { song: "68292f7839381795129f270b", addedAt: new Date() },
-      { song: "68292f7839381795129f2706", addedAt: new Date() }
+      { song: "6837a387a265acc397f3647d", addedAt: new Date() },
+      { song: "6837a387a265acc397f3647e", addedAt: new Date() },
+      { song: "6837a387a265acc397f3647f", addedAt: new Date() }
     ],
     coverImage: "",
     isPublic: true,

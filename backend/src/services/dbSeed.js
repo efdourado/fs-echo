@@ -20,7 +20,7 @@ async function clearCollections() {
   // await Song.deleteMany({});
   // await User.deleteMany({});
   // await Album.deleteMany({});
-  await Playlist.deleteMany({});
+  // await Playlist.deleteMany({});
 }
 
 async function seedDatabase() {
@@ -39,9 +39,9 @@ async function seedDatabase() {
     // const insertedUsers = await User.insertMany(userData);
     // console.log(`Inserted ${insertedUsers.length} users`);
 
-    // console.log('Inserting albums...');
-    // const insertedAlbums = await Album.insertMany(albumData);
-    // console.log(`Inserted ${insertedAlbums.length} albums`);
+    console.log('Inserting albums...');
+    const insertedAlbums = await Album.insertMany(albumData);
+    console.log(`Inserted ${insertedAlbums.length} albums`);
 
     console.log('Inserting playlists...');
     const insertedPlaylists = await Playlist.insertMany(playlistData);

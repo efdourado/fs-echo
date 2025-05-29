@@ -1,7 +1,7 @@
 export const songData = [
   {
     "title": "Unhas de Fibra",
-    "artist": "682913f7cbdf6ffe8b773b03",
+    "artist": "6837a2406736a5e3a3fdb6de",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTVf/unhas-de-fibra.m4a",
@@ -32,7 +32,7 @@ export const songData = [
   },
   {
     "title": "Free Fire",
-    "artist": "682913f7cbdf6ffe8b773b03",
+    "artist": "6837a2406736a5e3a3fdb6de",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTNf/free-fire.m4a",
@@ -60,7 +60,7 @@ export const songData = [
   },
   {
     "title": "Nada de Graça",
-    "artist": "682913f7cbdf6ffe8b773b03",
+    "artist": "6837a2406736a5e3a3fdb6de",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTRf/nada-de-graca.m4a",
@@ -87,7 +87,7 @@ export const songData = [
   },
   {
     "title": "Bad Bitch +Sped",
-    "artist": "682913f7cbdf6ffe8b773b03",
+    "artist": "6837a2406736a5e3a3fdb6de",
     "album": null,
     "duration": 290,
     "audioUrl": "https://od.lk/s/OThfNDExMDU5OTJf/bad-bitch.m4a",
@@ -123,7 +123,7 @@ export const songData = [
   },
   {
     "title": "Born to Die",
-    "artist": "682913f7cbdf6ffe8b773b04",
+    "artist": "6837a2406736a5e3a3fdb6df",
     "album": null,
     "duration": 290,
     "audioUrl": "",
@@ -133,11 +133,11 @@ export const songData = [
     "genre": ["Pop", "Baroque Pop"],
     "plays": 1500000,
     "likes": 120000,
-    "lyrics": "Feet don’t fail me now..."
+    "lyrics": "Feet don't fail me now..."
   },
   {
     "title": "Summertime Sadness",
-    "artist": "682913f7cbdf6ffe8b773b04",
+    "artist": "6837a2406736a5e3a3fdb6df",
     "album": null,
     "duration": 240,
     "audioUrl": "",
@@ -151,7 +151,7 @@ export const songData = [
   },
   {
     "title": "Blinding Lights",
-    "artist": "682913f7cbdf6ffe8b773b05",
+    "artist": "6837a2406736a5e3a3fdb6e0",
     "album": null,
     "duration": 200,
     "audioUrl": "",
@@ -161,11 +161,11 @@ export const songData = [
     "genre": ["Synthwave", "Pop"],
     "plays": 4500000,
     "likes": 400000,
-    "lyrics": "I’ve been tryna call..."
+    "lyrics": "I've been tryna call..."
   },
   {
     "title": "Save Your Tears",
-    "artist": "682913f7cbdf6ffe8b773b05",
+    "artist": "6837a2406736a5e3a3fdb6e0",
     "album": null,
     "duration": 215,
     "audioUrl": "",
@@ -177,10 +177,9 @@ export const songData = [
     "likes": 300000,
     "lyrics": "I saw you dancing in a crowded room..."
   },
-
   {
     "title": "bad guy",
-    "artist": "682913f7cbdf6ffe8b773b06",
+    "artist": "6837a2406736a5e3a3fdb6e1",
     "album": null,
     "duration": 194,
     "audioUrl": "",
@@ -194,7 +193,7 @@ export const songData = [
   },
   {
     "title": "Everything I Wanted",
-    "artist": "682913f7cbdf6ffe8b773b06",
+    "artist": "6837a2406736a5e3a3fdb6e1",
     "album": null,
     "duration": 245,
     "audioUrl": "",
@@ -206,10 +205,9 @@ export const songData = [
     "likes": 240000,
     "lyrics": "I had a dream..."
   },
-
   {
     "title": "HUMBLE.",
-    "artist": "682913f7cbdf6ffe8b773b07",
+    "artist": "6837a2406736a5e3a3fdb6e2",
     "album": null,
     "duration": 177,
     "audioUrl": "",
@@ -223,7 +221,7 @@ export const songData = [
   },
   {
     "title": "Alright",
-    "artist": "682913f7cbdf6ffe8b773b07",
+    "artist": "6837a2406736a5e3a3fdb6e2",
     "album": null,
     "duration": 240,
     "audioUrl": "",
@@ -235,10 +233,9 @@ export const songData = [
     "likes": 280000,
     "lyrics": "We gon' be alright..."
   },
-
   {
     "title": "Love Story",
-    "artist": "682913f7cbdf6ffe8b773b08",
+    "artist": "6837a2406736a5e3a3fdb6e3",
     "album": null,
     "duration": 235,
     "audioUrl": "",
@@ -252,7 +249,7 @@ export const songData = [
   },
   {
     "title": "Shake It Off",
-    "artist": "682913f7cbdf6ffe8b773b08",
+    "artist": "6837a2406736a5e3a3fdb6e3",
     "album": null,
     "duration": 242,
     "audioUrl": "",
@@ -264,10 +261,9 @@ export const songData = [
     "likes": 400000,
     "lyrics": "Cause the players gonna play..."
   },
-
   {
     "title": "God's Plan",
-    "artist": "682913f7cbdf6ffe8b773b09",
+    "artist": "6837a2406736a5e3a3fdb6e4",
     "album": null,
     "duration": 198,
     "audioUrl": "https://audio.example.com/drake_godsplan.mp3",
@@ -281,7 +277,7 @@ export const songData = [
   },
   {
     "title": "In My Feelings",
-    "artist": "682913f7cbdf6ffe8b773b09",
+    "artist": "6837a2406736a5e3a3fdb6e4",
     "album": null,
     "duration": 217,
     "audioUrl": "https://audio.example.com/drake_inmyfeelings.mp3",
@@ -293,10 +289,9 @@ export const songData = [
     "likes": 320000,
     "lyrics": "Kiki, do you love me? Are you riding..."
   },
-
   {
     "title": "Despechá",
-    "artist": "682913f7cbdf6ffe8b773b0a",
+    "artist": "6837a2406736a5e3a3fdb6e5",
     "album": null,
     "duration": 155,
     "audioUrl": "",
@@ -310,7 +305,7 @@ export const songData = [
   },
   {
     "title": "Con Altura",
-    "artist": "682913f7cbdf6ffe8b773b0a",
+    "artist": "6837a2406736a5e3a3fdb6e5",
     "album": null,
     "duration": 178,
     "audioUrl": "",
@@ -322,39 +317,9 @@ export const songData = [
     "likes": 220000,
     "lyrics": "Dame altura, dame altura..."
   },
-
-  {
-    "title": "Gimme Love",
-    "artist": "682913f7cbdf6ffe8b773b0b",
-    "album": null,
-    "duration": 204,
-    "audioUrl": "",
-    "coverImage": "",
-    "releaseDate": "2020-10-16T00:00:00.000Z",
-    "explicit": false,
-    "genre": ["R&B", "Lo-fi"],
-    "plays": 900000,
-    "likes": 85000,
-    "lyrics": "I don’t want to fall in love again..."
-  },
-  {
-    "title": "Run",
-    "artist": "682913f7cbdf6ffe8b773b0b",
-    "album": null,
-    "duration": 260,
-    "audioUrl": "",
-    "coverImage": "",
-    "releaseDate": "2020-10-16T00:00:00.000Z",
-    "explicit": false,
-    "genre": ["R&B", "Alternative"],
-    "plays": 750000,
-    "likes": 70000,
-    "lyrics": "Can’t keep running from myself..."
-  },
-
   {
     "title": "Say So",
-    "artist": "682913f7cbdf6ffe8b773b0c",
+    "artist": "6837a2406736a5e3a3fdb6e6",
     "album": null,
     "duration": 203,
     "audioUrl": "",
@@ -368,7 +333,7 @@ export const songData = [
   },
   {
     "title": "Kiss Me More",
-    "artist": "682913f7cbdf6ffe8b773b0c",
+    "artist": "6837a2406736a5e3a3fdb6e6",
     "album": null,
     "duration": 208,
     "audioUrl": "",
@@ -380,10 +345,9 @@ export const songData = [
     "likes": 280000,
     "lyrics": "Can you kiss me more?"
   },
-
   {
     "title": "Good Days",
-    "artist": "682913f7cbdf6ffe8b773b0d",
+    "artist": "6837a2406736a5e3a3fdb6e7",
     "album": null,
     "duration": 255,
     "audioUrl": "",
@@ -397,7 +361,7 @@ export const songData = [
   },
   {
     "title": "The Weekend",
-    "artist": "682913f7cbdf6ffe8b773b0d",
+    "artist": "6837a2406736a5e3a3fdb6e7",
     "album": null,
     "duration": 240,
     "audioUrl": "",

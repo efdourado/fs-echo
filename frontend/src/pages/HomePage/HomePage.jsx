@@ -80,9 +80,8 @@ const Home = () => {
 
   return (
     <div className="home-content">
-      {loading || !heroHighlight ? (
-        <p className="loading">Loading music...</p>
-      ) : (
+      
+      {loading || !heroHighlight ? ( <p className="loading">Loading music...</p> ) : (
         <>
           <Hero
             title="Discover Your Sound"
@@ -112,7 +111,9 @@ const Home = () => {
           />
         </>
       )}
+
     </div>
+
 ); };
 
 export default Home;

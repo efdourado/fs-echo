@@ -153,3 +153,29 @@ The main API router is defined in `backend/src/routes/api.js`. Key endpoints inc
 * **Song Page (`/song/:id`):** Shows song details and initiates playback.
 * **Login/Register Pages (`/login`, `/register`):** User authentication.
 * **Profile Page (`/profile`):** (Protected) Displays current user's information.
+
+---
+
+**Future Features**
+
+* **Advanced Playlist Management:**
+    * Full CRUD operations for user-created playlists (create, rename, delete, add/remove songs, reorder songs).
+    * Public/Private playlist visibility.
+    * Collaborative playlists.
+* **Enhanced Search & Discovery:**
+    * Global search across songs, artists, and albums with filtering and sorting.
+    * "Related Artists" and "Similar Songs" recommendations.
+* **User Interactions:**
+    * Liking songs, albums, and artists.
+    * Following other users and artists.
+    * Sharing content to social media.
+* **Player Enhancements:**
+    * Song queue management (view, add, remove, reorder).
+    * Repeat and shuffle controls.
+    * Lyrics display (potentially synchronized).
+* **Admin Panel:**
+    * Dedicated interface for managing users, content, and site settings.
+* **Testing & Robustness:**
+    * Comprehensive unit and integration tests for both frontend and backend.
+    * Enhanced error handling and input validation on the backend.
+    * Frontend error boundaries and improved loading states.

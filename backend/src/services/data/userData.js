@@ -1,25 +1,25 @@
 export const userData = [
   {
-    username: "musiclover123",
-    email: "musiclover@ex.com",
+    username: "dewdewde",
+    email: "dewdewde@dewdewde.com",
     password: "$2b$10$EXHASHEDPW",
     profilePic: "",
-    bio: "Avid music collector and playlist creator",
+    bio: "No bio yet",
     favoriteGenres: ["Hip-Hop", "Pop", "R&B"],
     followers: [],
     following: [],
-    followingArtists: ["682913f7cbdf6ffe8b773b03"],
+    followingArtists: ["6837a2406736a5e3a3fdb6de"],
     likedSongs: [
-      "68292f7839381795129f2714",
-      "68292f7839381795129f2715",
-      "68292f7839381795129f2716"
+      "6837a387a265acc397f36477",
+      "6837a387a265acc397f3647c",
+      "6837a387a265acc397f3647b"
     ],
     recentlyPlayed: [
-      { song: "68292f7839381795129f270f", playedAt: new Date() },
-      { song: "68292f7839381795129f270e", playedAt: new Date(Date.now() - 3600000) }
+      { song: "6837a387a265acc397f3647c", playedAt: new Date() },
+      { song: "6837a387a265acc397f36477", playedAt: new Date(Date.now() - 3600000) }
     ],
     isAdmin: false,
     isArtist: false,
     socials: {
-      instagram: "https://instagram.com/musiclover123",
+      instagram: "https://instagram.com/dewdewde",
 } } ];

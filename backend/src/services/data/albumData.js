@@ -1,19 +1,19 @@
 export const albumData = [
   {
-    title: "Tropical Trap Hits",
-    artist: "68289ff0d0e3543589e8bc51",
+    title: "OEL",
+    artist: "6837a2406736a5e3a3fdb6de",
     songs: [
-      "64d5a9f8a1b2c3d4e5f6a7b1",
-      "64d5a9f8a1b2c3d4e5f6a7b2",
-      "64d5a9f8a1b2c3d4e5f6a7b3",
-      "64d5a9f8a1b2c3d4e5f6a7b4"
+      "6837a387a265acc397f36477",
+      "6837a387a265acc397f3647a",
+      "6837a387a265acc397f36479",
+      "6837a387a265acc397f36478"
     ],
-    coverImage: "",
+    coverImage: "https://od.lk/s/OThfNDEyNzg0ODFf/oel_the_first.png",
     releaseDate: "2024-01-27T00:00:00.000Z",
     genre: ["Hip-Hop", "Trap", "Tropical"],
     type: "album",
     totalPlays: 6000000,
     isExplicit: false,
-    copyright: "© 2024 Tropical Records",
-    label: "Tropical Records"
+    copyright: "© 2024 DDP Records",
+    label: "DDP Records"
 } ];
