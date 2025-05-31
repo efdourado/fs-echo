@@ -9,7 +9,7 @@ import {
 
 import { PlayerContext } from '../../context/PlayerContext';
 import { formatDuration } from '../../utils/duration';
-import fallbackImage from '/fb.png'; // Ensure you have a fallback image
+import fallbackImage from '/images/fb.jpeg'; // Ensure you have a fallback image
 
 const Player = () => {
   const {
