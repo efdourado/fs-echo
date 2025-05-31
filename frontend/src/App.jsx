@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import useState
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Player from './components/layout/Player';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import Sidebar from './components/layout/Sidebar';
 
 import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
@@ -34,10 +35,18 @@ const UserProfilePage = () => {
 
 
 const App = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <PlayerProvider>
       <BrowserRouter>
-        <Header />
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Header toggleSidebar={toggleSidebar} />
+
         <main style={{ flex: 1, paddingTop: '72px' }}>
           <Routes>
             <Route path="/" element={<Home />} />

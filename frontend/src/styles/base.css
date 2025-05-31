@@ -41,32 +41,32 @@
   --font-weight-bold: 700;
   --font-weight-black: 900;
 
-  --font-size-xxs: 0.625rem; /* 10px */
-  --font-size-xs: 0.75rem;   /* 12px */
-  --font-size-sm: 0.875rem;  /* 14px */
-  --font-size-md: 1rem;      /* 16px */
-  --font-size-lg: 1.125rem;  /* 18px */
-  --font-size-xl: 1.25rem;   /* 20px */
-  --font-size-2xl: 1.5rem;   /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem;  /* 36px */
-  --font-size-5xl: 3rem;     /* 48px */
-  --font-size-display: 4rem; /* 64px */
+  --font-size-xxs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-display: 4rem;
 
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
 
   --spacing-unit: 8px;
-  --spacing-xxs: calc(0.5 * var(--spacing-unit));  /* 4px */
-  --spacing-xs: calc(1 * var(--spacing-unit));    /* 8px */
-  --spacing-sm: calc(1.5 * var(--spacing-unit));  /* 12px */
-  --spacing-md: calc(2 * var(--spacing-unit));    /* 16px */
-  --spacing-lg: calc(3 * var(--spacing-unit));    /* 24px */
-  --spacing-xl: calc(4 * var(--spacing-unit));    /* 32px */
-  --spacing-2xl: calc(5 * var(--spacing-unit));   /* 40px */
-  --spacing-3xl: calc(6 * var(--spacing-unit));   /* 48px */
-  --spacing-4xl: calc(8 * var(--spacing-unit));   /* 64px */
+  --spacing-xxs: calc(0.5 * var(--spacing-unit));
+  --spacing-xs: calc(1 * var(--spacing-unit));
+  --spacing-sm: calc(1.5 * var(--spacing-unit));
+  --spacing-md: calc(2 * var(--spacing-unit));
+  --spacing-lg: calc(3 * var(--spacing-unit));
+  --spacing-xl: calc(4 * var(--spacing-unit));
+  --spacing-2xl: calc(5 * var(--spacing-unit));
+  --spacing-3xl: calc(6 * var(--spacing-unit));
+  --spacing-4xl: calc(8 * var(--spacing-unit));
 
   --border-radius-sm: 8px;
   --border-radius-md: 12px;
@@ -83,9 +83,9 @@
   --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.06);
   --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
-  --transition-duration-short: 150ms;
-  --transition-duration-medium: 300ms;
-  --transition-duration-long: 500ms;
+  --transition-duration-short: 200ms;
+  --transition-duration-medium: 600ms;
+  --transition-duration-long: 1s;
   --transition-timing-function-ease: ease;
   --transition-timing-function-ease-in-out: ease-in-out;
   --transition-timing-function-smooth: cubic-bezier(0.3, 0, 0.1, 1);
@@ -96,8 +96,9 @@
   --container-padding-x: var(--spacing-2xl);
   --container-max-width: 1600px;
 
-  --button-height-md: 40px;
-  --button-height-lg: 48px;
+  --button-height-sm: 28px;
+  --button-height-md: 33px;
+  --button-height-lg: 39px;
   --button-padding-md: var(--spacing-sm) var(--spacing-md);
   --button-padding-lg: var(--spacing-md) var(--spacing-lg);
 
@@ -174,10 +175,10 @@ main {
 a {
   color: var(--color-primary);
   text-decoration: none;
-  transition: color var(--transition-duration-short) var(--transition-timing-function-ease);
+  transition: color var(--transition-duration-long) var(--transition-timing-function-ease);
 }
 a:hover {
-  color: var(--color-primary-hover);
+  transform: scale(1.03);
 }
 
 img, video, svg {
@@ -214,7 +215,7 @@ button, input, textarea, select {
   font-size: inherit;
   line-height: inherit;
   color: inherit;
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
 button {
@@ -225,7 +226,7 @@ button {
 }
 
 input:focus, button:focus, select:focus, textarea:focus {
-  outline: 2px solid transparent;
+  outline: 1px solid transparent;
   box-shadow: var(--shadow-focus);
 }
 

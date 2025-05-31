@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { usePlayer } from "../hooks/usePlayer";
 import { fetchSongById } from "../api/api";
-import fallbackImage from "/fb.png";
+import fallbackImage from "/images/fb.jpeg";
 
 const SongPage = () => {
   const { id } = useParams();

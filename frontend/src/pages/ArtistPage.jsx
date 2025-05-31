@@ -13,7 +13,7 @@ import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
 import { PlayerContext } from "../context/PlayerContext";
 
 import SongList from "../components/songs/SongList";
-import fallbackImage from '/fb.png';
+import fallbackImage from '/images/fb.jpeg';
 
 const ArtistPage = () => {
   const { id } = useParams();

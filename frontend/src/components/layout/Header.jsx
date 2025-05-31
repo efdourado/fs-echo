@@ -6,7 +6,7 @@ import {
   faChevronDown, faRightFromBracket, faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
-import fallbackImage from '/fb.png';
+import fallbackImage from '/images/fb.jpeg';
 
 const Header = ({ toggleSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -99,7 +99,9 @@ const Header = ({ toggleSidebar }) => {
           <div className="header-left">
             <Link to="/" className="header-logo">
               <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-              <span className="logo-text"></span>
+              <span className="logo-text">
+                {/* optional company name here, shown next to the logo */}
+              </span>
             </Link>
           </div>
           <div className="header-right">
@@ -130,7 +132,9 @@ const Header = ({ toggleSidebar }) => {
           )}
           <Link to="/" className="header-logo">
             <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-            <span className="logo-text"></span>
+            <span className="logo-text">
+              {/* optional company name here, shown next to the logo */}
+            </span>
           </Link>
         </div>
 

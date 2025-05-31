@@ -1,8 +1,5 @@
-import React, { useEffect, useState }
-from "react";
-
+import React, { useEffect, useState } from "react";
 import { fetchArtists, fetchSongs, fetchAlbums } from "../../api/api.js";
-
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
 import Hero from "../../components/heroes/Hero.jsx";
@@ -24,9 +21,9 @@ const Home = () => {
           fetchAlbums(),
         ]);
 
-        const SlicedSongs = songsData.slice(0, 15);
-        setSongs(SlicedSongs);
-        setArtists(artistsData.slice(0, 15));
+        const slicedSongs = songsData.slice(0, 15);
+        setSongs(slicedSongs);
+        setArtists(artistsData); // Keep all artists for carousels and hero
         setAlbums(albumsData);
 
         if (albumsData.length > 0) {
@@ -34,39 +31,39 @@ const Home = () => {
         }
 
         if (songsData.length > 0) {
+          // Pass the full song object to the highlight
           const mainHighlightSong = songsData[0];
           const trendingNowSongs = songsData.slice(1, 4).map(song => ({
             name: song.title,
             artist: song.artist?.name || "Unknown Artist",
             plays: song.plays || 0,
           }));
-
+          
+          // The highlight is the full song object now
           setHeroHighlight({
+            ...mainHighlightSong, 
             type: 'song',
-            title: mainHighlightSong.title,
-            coverImage: mainHighlightSong.coverImage || '/fb.png',
             artist: mainHighlightSong.artist?.name || "Unknown Artist",
-            plays: mainHighlightSong.plays || 0,
             isTrending: true,
             trendingNow: trendingNowSongs,
           });
         } else {
            setHeroHighlight({
-            type: 'song',
+            type: 'info',
             title: 'Discover New Music',
-            coverImage: '/fb.png',
+            coverImage: '/images/fb.jpeg',
             artist: 'Various Artists',
             plays: 0,
             isTrending: false,
             trendingNow: [],
-        }); }
+          });
+        }
       } catch (error) {
         console.error("Error loading data:", error);
-         // Fallback on error
-         setHeroHighlight({
-          type: 'song',
+        setHeroHighlight({
+          type: 'info',
           title: 'Error Loading Music',
-          coverImage: '/fb.png',
+          coverImage: '/images/fb.jpeg',
           artist: 'N/A',
           plays: 0,
           isTrending: false,
@@ -74,21 +71,21 @@ const Home = () => {
         });
       } finally {
         setLoading(false);
-    } };
+      }
+    };
     loadData();
   }, []);
 
   return (
     <div className="home-content">
-      
       {loading || !heroHighlight ? ( <p className="loading">Loading music...</p> ) : (
         <>
           <Hero
             title="Discover Your Sound"
             subtitle="The hottest tracks and artists curated just for you"
             highlight={heroHighlight}
-            ctaText="Explore More"
-            bgImage="/bg-pg.jpeg"
+            talents={artists.slice(0, 4)} // Pass first 4 artists as talents
+            bgImage="/images/bg.jpeg"
           />
 
           <Carousel
@@ -111,9 +108,8 @@ const Home = () => {
           />
         </>
       )}
-
     </div>
-
-); };
+  );
+};
 
 export default Home;

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import fallbackImage from '/fb.png';
+import fallbackImage from '/images/fb.jpeg';
 
 const Card = ({ item, type }) => {
   const { 

@@ -58,7 +58,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         <div className="featured-collection__info">
           <div className="collection-cover">
             <img 
-              src={collection.coverImage || "/fb.png"} 
+              src={collection.coverImage || "/images/fb.jpeg"} 
               alt={collection.title} 
               className="collection-cover__image"
             />

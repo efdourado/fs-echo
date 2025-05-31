@@ -1,6 +1,6 @@
 .home-content {
   flex: 1;
-  padding: var(--spacing-xl) var(--container-padding-x);
+  padding: var(--spacing-lg) var(--container-padding-x);
   background-color: var(--color-background);
 }
 
@@ -247,6 +247,7 @@
   flex-grow: 1;
   text-align: center;
 }
+
 @media (min-width: 480px) {
   .collection-actions__play, .collection-actions__follow {
     flex-grow: 0;
@@ -299,13 +300,7 @@
   .album-content {
     grid-template-columns: 1.5fr 1fr;
   }
-  .home-content {
-    padding: var(--spacing-3xl) var(--container-padding-x);
-  }
-  .album-showcase { /* adjust for larger screens */
-  
-  }
-  
+
   .featured-collection__info {
      flex: 0 0 320px;
   }
