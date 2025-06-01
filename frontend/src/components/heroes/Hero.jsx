@@ -1,45 +1,42 @@
+// frontend/src/components/heroes/Hero.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import { usePlayer } from '../../hooks/usePlayer';
-import fallbackImage from '/images/fb.jpeg';
+import { faPlay, faFire, faMusic } from '@fortawesome/free-solid-svg-icons'; // Added faFire, faMusic
+import { usePlayer } from '../../hooks/usePlayer'; //
+import fallbackImage from '/images/fb.jpeg'; //
 
-/**
- * A flexible Hero component that can showcase different types of content.
- * To create different hero "models" (e.g., for events), you could add a `variant` prop.
- * Example: <Hero variant="event" eventData={...} />
- * And then conditionally render the structure based on the variant.
- */
 const Hero = ({
   title,
   subtitle,
   highlight,
   talents = [],
-  bgImage
+  bgImage,
+  topHits = [], // New prop for top hits
+  featuredPlaylist = null, // New prop for featured playlist
 }) => {
-  const player = usePlayer();
-  const navigate = useNavigate();
+  const player = usePlayer(); //
+  const navigate = useNavigate(); //
 
-  const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
+  const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#'; //
 
-  const handlePlayHighlight = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (highlight.type === 'song' && highlight.audioUrl) {
-      player.playTrack(highlight);
+  const handlePlayHighlight = (e) => { //
+    e.preventDefault(); //
+    e.stopPropagation(); //
+    if (highlight.type === 'song' && highlight.audioUrl) { //
+      player.playTrack(highlight); //
     } else {
-      navigate(highlightLink);
+      navigate(highlightLink); //
     }
   };
   
-  const handleCtaClick = () => {
-    navigate(highlightLink);
+  const handleCtaClick = () => { //
+    navigate(highlightLink); //
   };
 
-  const heroStyle = {
-    backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.4)), url(${bgImage || fallbackImage})`,
+  const heroStyle = { //
+    backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.4)), url(${bgImage || fallbackImage})`, //
   };
 
   return (
@@ -103,26 +100,58 @@ const Hero = ({
           </div>
         </main>
 
-        <aside className="now-playing">
-          <h4>{highlight?.trendingNow?.length > 0 ? "Trending Now" : "Top Hits"}</h4>
-          <div className="trending-list">
-            {Array.isArray(highlight?.trendingNow) && highlight.trendingNow.length > 0 ? (
-              highlight.trendingNow.map((item, index) => (
-                <div key={index} className="trending-item">
-                  <span className="position">{index + 1}</span>
-                  <div className="track-info">
-                    <span className="track-name" title={item.name}>{item.name || 'Unknown Track'}</span>
-                    <span className="artist-name" title={item.artist}>{item.artist || 'Unknown Artist'}</span>
+        {/* Right side: Featured and Trending Now */}
+        <aside className="hero-feature-section">
+          {/* Top Hits - Main Feature */}
+          <div className="feature-card top-hits-card">
+            <h4 className="feature-title"><FontAwesomeIcon icon={faFire} /> Top Hits</h4>
+            {topHits.length > 0 ? (
+              <div className="top-hit-list">
+                {topHits.map((song, index) => (
+                  <div key={song._id || index} className="top-hit-item" onClick={() => player.playTrack(song)}>
+                    <img 
+                      src={song.coverImage || fallbackImage} 
+                      alt={song.title} 
+                      onError={(e) => { e.target.src = fallbackImage; }}
+                    />
+                    <div className="top-hit-info">
+                      <span className="top-hit-title">{song.title}</span>
+                      <span className="top-hit-artist">{song.artist?.name || "Unknown Artist"}</span>
+                    </div>
+                    <button className="play-small-btn" aria-label={`Play ${song.title}`}>
+                      <FontAwesomeIcon icon={faPlay} />
+                    </button>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             ) : (
-              <p>No trending items to show.</p>
+              <p>No top hits available.</p>
             )}
-            <button type="button" className="cta-button" onClick={handleCtaClick}>
-                Explore More
+            <button type="button" className="cta-button" onClick={() => navigate('/songs')}>
+              View All Songs
             </button>
           </div>
+
+          {/* Featured Playlist/Collection - Secondary Feature */}
+          {featuredPlaylist && (
+            <div className="feature-card featured-playlist-card">
+              <h4 className="feature-title"><FontAwesomeIcon icon={faMusic} /> Featured Playlist</h4>
+              <Link to={featuredPlaylist.link} className="playlist-link">
+                <img 
+                  src={featuredPlaylist.coverImage || fallbackImage} 
+                  alt={featuredPlaylist.title} 
+                  onError={(e) => { e.target.src = fallbackImage; }}
+                />
+                <div className="playlist-info">
+                  <span className="playlist-title">{featuredPlaylist.title}</span>
+                  <p className="playlist-description">{featuredPlaylist.description}</p>
+                </div>
+              </Link>
+              <button type="button" className="cta-button secondary-cta" onClick={() => navigate(featuredPlaylist.link)}>
+                Explore Playlist
+              </button>
+            </div>
+          )}
         </aside>
       </div>
     </div>
@@ -156,6 +185,23 @@ Hero.propTypes = {
       image: PropTypes.string,
     })
   ),
+  topHits: PropTypes.arrayOf( // New propType
+    PropTypes.shape({
+      _id: PropTypes.string,
+      title: PropTypes.string,
+      artist: PropTypes.shape({
+        name: PropTypes.string,
+      }),
+      coverImage: PropTypes.string,
+      audioUrl: PropTypes.string,
+    })
+  ),
+  featuredPlaylist: PropTypes.shape({ // New propType
+    title: PropTypes.string,
+    description: PropTypes.string,
+    coverImage: PropTypes.string,
+    link: PropTypes.string,
+  }),
 };
 
 export default Hero;

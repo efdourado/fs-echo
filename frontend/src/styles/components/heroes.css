@@ -1,3 +1,5 @@
+/* frontend/src/styles/components/heroes.css */
+
 .music-hero {
   padding: var(--spacing-3xl) var(--container-padding-x);
   background-size: cover;
@@ -235,8 +237,17 @@
   letter-spacing: 1px;
 }
 
-/* --- Now Playing Section (Right) --- */
-.now-playing {
+/* --- Right Side: Featured Section (replaces Now Playing) --- */
+.hero-feature-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  position: sticky;
+  top: 120px;
+}
+
+.feature-card {
   background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -246,11 +257,12 @@
   width: 100%;
   border: 1px solid rgba(255,255,255,0.05);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  position: sticky;
-  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-.now-playing h4 {
+.feature-title {
   margin: 0 0 var(--spacing-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-black);
@@ -262,7 +274,12 @@
   gap: var(--spacing-sm);
 }
 
-.now-playing h4::after {
+.feature-title .fa-icon {
+  font-size: var(--font-size-md);
+  color: var(--color-primary);
+}
+
+.feature-title::after {
   content: '';
   flex: 1;
   height: 1px;
@@ -270,70 +287,139 @@
   opacity: 0.2;
 }
 
-.trending-list {
+/* Top Hits specific styles */
+.top-hit-list {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.trending-item {
+.top-hit-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-sm) 0;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding: var(--spacing-sm);
+  background-color: rgba(255,255,255,0.05);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.top-hit-item:hover {
+  background-color: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+  border-color: var(--color-primary-accent);
+}
+
+.top-hit-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.top-hit-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.top-hit-title {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.top-hit-artist {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.play-small-btn {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: scale(0.8);
   transition: all 0.3s ease;
 }
 
-.trending-item:hover {
-  transform: translateX(4px);
-}
-
-.trending-item:last-child {
-  border-bottom: none;
-}
-
-.position {
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  width: 24px;
-  text-align: center;
-  opacity: 0.6;
-}
-
-.trending-item:hover .position {
+.top-hit-item:hover .play-small-btn {
   opacity: 1;
-  color: var(--color-primary);
+  transform: scale(1);
 }
 
-.track-info {
-  flex: 1;
-  overflow: hidden;
+.play-small-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Featured Playlist specific styles */
+.featured-playlist-card {
+  /* Inherits feature-card styles */
+}
+
+.featured-playlist-card .playlist-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.featured-playlist-card .playlist-link:hover {
+  opacity: 0.8;
+}
+
+.featured-playlist-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.featured-playlist-card .playlist-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
-.track-name {
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-md);
+.featured-playlist-card .playlist-title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: var(--spacing-xxs);
 }
 
-.trending-item:hover .track-name {
-  color: var(--color-primary);
-}
-
-.artist-name {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
+.featured-playlist-card .playlist-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: 0.5px;
+  margin: 0;
 }
 
 .cta-button {
@@ -375,14 +461,35 @@
   left: 100%;
 }
 
+.secondary-cta {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+.secondary-cta:hover {
+  background: var(--color-surface-dark);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+
 /* --- Responsive Adjustments --- */
 @media (max-width: 1200px) {
   .hero-content {
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 1fr; /* Stack talents, main, and features vertically */
   }
   
-  .now-playing {
-    display: none;
+  .hero-feature-section {
+    position: static; /* Remove sticky positioning */
+    flex-direction: row; /* Layout feature cards horizontally */
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: var(--spacing-xl);
+  }
+
+  .feature-card {
+    flex-basis: 100%; /* Take full width on smaller screens */
+    max-width: 400px; /* Limit width of individual cards */
   }
 }
 
@@ -435,6 +542,10 @@
     height: auto;
     aspect-ratio: 1/1;
   }
+
+  .hero-feature-section {
+    flex-direction: column; /* Stack feature cards vertically again on smaller mobile */
+  }
 }
 
 /* Animation enhancements */
@@ -451,6 +562,6 @@
   animation: fadeIn 0.6s ease-out 0.2s both;
 }
 
-.now-playing {
+.hero-feature-section {
   animation: fadeIn 0.6s ease-out 0.4s both;
 }
