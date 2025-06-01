@@ -84,8 +84,8 @@
   --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.1);
 
   --transition-duration-short: 200ms;
-  --transition-duration-medium: 600ms;
-  --transition-duration-long: 1s;
+  --transition-duration-medium: 400ms;
+  --transition-duration-long: 600ms;
   --transition-timing-function-ease: ease;
   --transition-timing-function-ease-in-out: ease-in-out;
   --transition-timing-function-smooth: cubic-bezier(0.3, 0, 0.1, 1);

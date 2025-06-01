@@ -1,98 +1,90 @@
-// frontend/src/pages/HomePage/HomePage.jsx
 import React, { useEffect, useState } from "react";
-import { fetchArtists, fetchSongs, fetchAlbums } from "../../api/api.js"; //
-import Carousel from "./components/Carousel.jsx"; //
-import Collection from "./components/Collection.jsx"; //
-import Hero from "../../components/heroes/Hero.jsx"; //
+import { fetchArtists, fetchSongs, fetchAlbums, fetchPlaylists } from "../../api/api.js";
+import Carousel from "./components/Carousel.jsx";
+import Collection from "./components/Collection.jsx";
+import Hero from "../../components/heroes/Hero.jsx";
 
 const Home = () => {
-  const [songs, setSongs] = useState([]); //
-  const [artists, setArtists] = useState([]); //
-  const [albums, setAlbums] = useState([]); //
-  const [loading, setLoading] = useState(true); //
-  const [featuredAlbumId, setFeaturedAlbumId] = useState(null); //
-  const [heroHighlight, setHeroHighlight] = useState(null); //
+  const [songs, setSongs] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
+  const [heroHighlight, setHeroHighlight] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [songsData, artistsData, albumsData] = await Promise.all([ //
-          fetchSongs(), //
-          fetchArtists(), //
-          fetchAlbums(), //
+        const [songsData, artistsData, albumsData, playlistsData] = await Promise.all([
+          fetchSongs(),
+          fetchArtists(),
+          fetchAlbums(),
+          fetchPlaylists(),
         ]);
 
-        const slicedSongs = songsData.slice(0, 15); //
-        setSongs(slicedSongs); //
-        setArtists(artistsData); // Keep all artists for carousels and hero //
-        setAlbums(albumsData); //
+        const slicedSongs = songsData.slice(0, 15);
+        setSongs(slicedSongs);
+        setArtists(artistsData);
+        setAlbums(albumsData);
+        setPlaylists(playlistsData);
 
-        if (albumsData.length > 0) { //
-          setFeaturedAlbumId(albumsData.length > 1 ? albumsData[1]._id : albumsData[0]._id); //
+        if (albumsData.length > 0) {
+          setFeaturedAlbumId(albumsData.length > 1 ? albumsData[1]._id : albumsData[0]._id);
         }
 
-        if (songsData.length > 0) { //
-          const mainHighlightSong = songsData[0]; //
-          const trendingNowSongs = songsData.slice(1, 4).map(song => ({ //
-            name: song.title, //
-            artist: song.artist?.name || "Unknown Artist", //
-            plays: song.plays || 0, //
-          }));
+        if (songsData.length > 0) {
+          const mainHighlightSong = songsData[0];
           
-          setHeroHighlight({ //
-            ...mainHighlightSong, //
-            type: 'song', //
-            artist: mainHighlightSong.artist?.name || "Unknown Artist", //
-            isTrending: true, //
-            trendingNow: trendingNowSongs, //
+          setHeroHighlight({
+            ...mainHighlightSong,
+            type: 'song',
+            artist: mainHighlightSong.artist?.name || "Unknown Artist",
+            isTrending: true,
+            releaseDate: mainHighlightSong.releaseDate,
+            genre: mainHighlightSong.genre,
           });
         } else {
-           setHeroHighlight({ //
-            type: 'info', //
-            title: 'Discover New Music', //
-            coverImage: '/images/fb.jpeg', //
-            artist: 'Various Artists', //
-            plays: 0, //
-            isTrending: false, //
-            trendingNow: [], //
+           setHeroHighlight({
+            type: 'info',
+            title: 'Discover New Music',
+            coverImage: '/images/fb.jpeg',
+            artist: 'Various Artists',
+            plays: 0,
+            isTrending: false,
+            trendingNow: [],
           });
         }
       } catch (error) {
-        console.error("Error loading data:", error); //
-        setHeroHighlight({ //
-          type: 'info', //
-          title: 'Error Loading Music', //
-          coverImage: '/images/fb.jpeg', //
-          artist: 'N/A', //
-          plays: 0, //
-          isTrending: false, //
-          trendingNow: [], //
+        console.error("Error loading data:", error);
+        setHeroHighlight({
+          type: 'info',
+          title: 'Error Loading Music',
+          coverImage: '/images/fb.jpeg',
+          artist: 'N/A',
+          plays: 0,
+          isTrending: false,
+          trendingNow: [],
         });
       } finally {
-        setLoading(false); //
-      }
-    };
-    loadData();
-  }, []); //
+        setLoading(false);
+        
+  } }; loadData(); }, []);
 
   return (
     <div className="home-content">
       {loading || !heroHighlight ? ( <p className="loading">Loading music...</p> ) : (
         <>
           <Hero
-            title="Discover Your Sound"
-            subtitle="The hottest tracks and artists curated just for you"
+            title="Join Us in your Echoes"
+            subtitle="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
             highlight={heroHighlight}
-            talents={artists.slice(0, 4)} // Pass first 4 artists as talents
+            talents={artists.slice(0, 4)}
             bgImage="/images/bg.jpeg"
-            // Pass additional data for the new right column design
-            topHits={songs.slice(0, 3)} // Assuming you want top 3 for the right column
-            featuredPlaylist={{ // Example: You might want a specific featured playlist
-              title: "My Summer Vibes",
-              description: "The perfect mix for sunny days and warm nights",
-              coverImage: "/images/summer-vibes.jpeg", // Replace with an actual image
-              link: "/playlist/somePlaylistId" // Replace with actual playlist ID
-            }}
+            allSongs={songs}
+            allArtists={artists}
+            allAlbums={albums}
+            allPlaylists={playlists}
           />
 
           <Carousel
@@ -116,7 +108,6 @@ const Home = () => {
         </>
       )}
     </div>
-  );
-};
+); };
 
 export default Home;
