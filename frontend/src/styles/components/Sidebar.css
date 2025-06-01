@@ -1,16 +1,17 @@
-/* Sidebar Overlay */
+/* Sidebar Overlay - Enhanced with gradient and better blur */
 .sidebar-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(2px);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .sidebar-overlay.active {
@@ -18,34 +19,35 @@
   visibility: visible;
 }
 
-/* Sidebar Container */
+/* Sidebar Container - Sleek modern design */
 .sidebar {
   position: fixed;
   top: 0;
   left: -320px;
   width: 320px;
   height: 100vh;
-  background-color: var(--color-surface);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-dark) 100%);
+  box-shadow: 16px 0 40px rgba(0, 0, 0, 0.3);
   z-index: 1010;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-right: 1px solid rgba(255,255,255,0.05);
 }
 
 .sidebar.open {
   transform: translateX(320px);
 }
 
-/* Sidebar Header */
+/* Sidebar Header - Premium look */
 .sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-xl) var(--spacing-lg);
-  background-color: var(--color-surface-elevated);
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .sidebar-brand {
@@ -55,60 +57,93 @@
 
 .sidebar-brand h3 {
   margin: 0;
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-black);
   color: var(--color-text-primary);
-  line-height: 1.2;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-text-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .sidebar-subtitle {
-  margin: 0;
+  margin: var(--spacing-xxs) 0 0;
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 
+/* Close Button - Elegant animation */
 .close-btn {
-  background: none;
-  border: none;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   color: var(--color-text-secondary);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   cursor: pointer;
   padding: var(--spacing-xs);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(4px);
 }
 
 .close-btn:hover {
-  background-color: var(--color-surface-hover);
+  background: rgba(255,255,255,0.1);
   color: var(--color-primary);
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.1);
+  border-color: rgba(255,255,255,0.2);
 }
 
-/* Navigation Section */
+/* Navigation Section - Modern minimalist */
 .sidebar-nav {
   flex: 1;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-xl) 0;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 2px;
 }
 
 .nav-section {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .nav-section-title {
-  padding: 0 var(--spacing-lg);
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  padding: 0 var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-black);
   color: var(--color-text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  position: relative;
+}
+
+.nav-section-title::after {
+  content: '';
+  position: absolute;
+  left: var(--spacing-xl);
+  bottom: -6px;
+  width: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, transparent 100%);
 }
 
 .nav-links {
@@ -119,24 +154,41 @@
 .nav-link {
   display: flex;
   align-items: center;
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-xl);
   color: var(--color-text-secondary);
   text-decoration: none;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--color-primary);
+  transform: scaleY(0);
+  transform-origin: center top;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .nav-link:hover {
-  background-color: var(--color-surface-hover);
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, transparent 100%);
   color: var(--color-primary);
-  padding-left: var(--spacing-xl);
+  padding-left: var(--spacing-2xl);
+}
+
+.nav-link:hover::before {
+  transform: scaleY(1);
 }
 
 .nav-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-right: var(--spacing-md);
   color: var(--color-text-tertiary);
   transition: inherit;
@@ -144,6 +196,7 @@
 
 .nav-link:hover .nav-icon {
   color: var(--color-primary);
+  transform: scale(1.1);
 }
 
 .nav-chevron {
@@ -151,41 +204,50 @@
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
   opacity: 0;
-  transform: translateX(-5px);
-  transition: all 0.2s ease;
+  transform: translateX(-8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-link:hover .nav-chevron {
   opacity: 1;
   transform: translateX(0);
+  color: var(--color-primary);
 }
 
-/* Sidebar Footer */
+/* Sidebar Footer - Elevated design */
 .sidebar-footer {
-  padding: var(--spacing-lg);
-  background-color: var(--color-surface-elevated);
-  border-top: 1px solid var(--color-border-subtle);
+  padding: var(--spacing-xl);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
 }
 
-/* User Profile */
+/* User Profile - Premium card style */
 .user-profile {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .user-avatar-container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .user-avatar {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(var(--color-primary-rgb), 0.2);
 }
 
 .user-info {
@@ -195,22 +257,25 @@
 .user-name {
   display: block;
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-xxs);
+  letter-spacing: 0.5px;
 }
 
 .user-email {
   display: block;
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
+  opacity: 0.8;
+  letter-spacing: 0.3px;
 }
 
 .user-actions {
   display: flex;
   justify-content: center;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
 
 .profile-link {
@@ -218,10 +283,23 @@
   color: var(--color-primary);
   text-decoration: none;
   transition: all 0.2s ease;
+  position: relative;
+  padding: var(--spacing-xxs) 0;
 }
 
-.profile-link:hover {
-  text-decoration: underline;
+.profile-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.profile-link:hover::after {
+  width: 100%;
 }
 
 .logout-button {
@@ -230,19 +308,31 @@
   color: var(--color-error);
   font-size: var(--font-size-sm);
   cursor: pointer;
-  padding: 0;
+  padding: var(--spacing-xxs) 0;
   transition: all 0.2s ease;
+  position: relative;
 }
 
-.logout-button:hover {
-  text-decoration: underline;
+.logout-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s ease;
 }
 
-/* Auth Actions */
+.logout-button:hover::after {
+  width: 100%;
+}
+
+/* Auth Actions - Modern button styles */
 .auth-actions {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 .auth-button {
@@ -250,34 +340,56 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-full);
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.auth-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+}
+
+.auth-button:hover::before {
+  left: 100%;
 }
 
 .login-button {
-  background-color: transparent;
+  background: transparent;
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
+  box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.1);
 }
 
 .login-button:hover {
-  background-color: rgba(var(--color-primary-rgb), 0.1);
+  background: rgba(var(--color-primary-rgb), 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), 0.2);
 }
 
 .signup-button {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: var(--color-text-on-primary);
-  border: 1px solid var(--color-primary);
+  border: none;
+  box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.3);
 }
 
 .signup-button:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.2);
+  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-dark-hover) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.4);
 }
 
 /* Responsive Adjustments */
@@ -292,10 +404,34 @@
   }
   
   .sidebar-header {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl);
   }
   
   .nav-link {
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
   }
+  
+  .sidebar-footer {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Animation enhancements */
+@keyframes fadeInFromLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.sidebar-nav .nav-link {
+  animation: fadeInFromLeft 0.4s ease-out both;
+}
+
+.sidebar-nav .nav-link:nth-child(1) { animation-delay: 0.1s; }
+.sidebar-nav .nav-link:nth-child(2) { animation-delay: 0.2s; }
+.sidebar-nav .nav-link:nth-child(3) { animation-delay: 0.3s; }
+.sidebar-nav .nav-link:nth-child(4) { animation-delay: 0.4s; }
+.sidebar-nav .nav-link:nth-child(5) { animation-delay: 0.5s; }
+
+.sidebar-footer {
+  animation: fadeInFromLeft 0.4s ease-out 0.3s both;
 }

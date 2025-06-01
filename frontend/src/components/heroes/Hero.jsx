@@ -16,29 +16,25 @@ const Hero = ({
   title,
   subtitle,
   highlight,
-  talents = [], // New prop for artist talents
+  talents = [],
   bgImage
 }) => {
   const player = usePlayer();
   const navigate = useNavigate();
 
-  // Determine the link for the highlighted item
   const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
 
   const handlePlayHighlight = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // We only play if it's a song with a valid audio URL
     if (highlight.type === 'song' && highlight.audioUrl) {
       player.playTrack(highlight);
     } else {
-      // If it's an album or something else, navigate to its page
       navigate(highlightLink);
     }
   };
   
   const handleCtaClick = () => {
-    // The main CTA button will navigate to the highlight's page
     navigate(highlightLink);
   };
 
@@ -68,7 +64,6 @@ const Hero = ({
           </ul>
         </aside>
 
-        {/* Center: Main content and highlight */}
         <main className="hero-main">
           <div className="text-content">
             <h1 className="title">{title}</h1>
@@ -108,7 +103,6 @@ const Hero = ({
           </div>
         </main>
 
-        {/* Right side: Trending list */}
         <aside className="now-playing">
           <h4>{highlight?.trendingNow?.length > 0 ? "Trending Now" : "Top Hits"}</h4>
           <div className="trending-list">
