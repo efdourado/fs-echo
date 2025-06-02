@@ -52,7 +52,7 @@ const Hero = ({
   const renderFeatureContent = () => {
     switch (activeFeatureTab) {
       case 'songs':
-        const curatedSong = allSongs[1]; // Mantendo como está por enquanto, para testes
+        const curatedSong = allSongs[2]; // Mantendo como está por enquanto, para testes
 
         return (
           <div className="feature-card top-songs-card">

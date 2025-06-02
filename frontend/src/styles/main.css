@@ -1,9 +1,13 @@
 @import url("./base.css");
 
-@import url("./components/Header.css");
-@import url("./components/Footer.css");
-@import url("./components/Player.css");
-@import url("./components/Sidebar.css");
+@import url("./components/ui/Card.css");
+@import url("./components/ui/Flash.css");
+
+@import url("./components/layout/Header.css");
+@import url("./components/layout/Footer.css");
+@import url("./components/layout/Player.css");
+@import url("./components/layout/Sidebar.css");
+
 @import url("./components/songs.css");
 @import url("./components/heroes.css");
 
