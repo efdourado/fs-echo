@@ -101,7 +101,7 @@ const Home = () => {
           )}
 
           <Carousel
-            title="Featured Artists"
+            title="Your Favourite Artists"
             items={artists}
             type="artist"
           />

@@ -48,45 +48,61 @@ const Hero = ({
   const renderFeatureContent = () => {
     switch (activeFeatureTab) {
       case 'songs':
-        const topSongs = allSongs.slice(0, 2);
+        const curatedSong = allSongs[1];
+
         return (
           <div className="feature-card top-songs-card">
             <h4 className="feature-title"><FontAwesomeIcon icon={faFire} />
               Songs
             </h4>
             <p className="feature-description">
-                Here, we share more than just songs.
-                From raw demos to final versions, Echo reveals the creative process, inspiration, and memories tied to each release.
-                It's a growing archive. Whether you're here to vibe, learn, or connect — welcome to the echo of our work
+              Here, we share more than just songs.
+              From raw demos to final versions, Echo reveals the creative process, the inspo, and the memories tied to each release.
+              It's a growing archive. Whether you're here to vibe, learn, or connect — welcome to the echo of our work!
             </p>
-            
-            {topSongs.length > 0 ? (
-              <div className="top-hit-list">
-                {topSongs.map((song, index) => (
-                  <div key={song._id || index} className="top-hit-item" onClick={() => player.playTrack(song)}>
-                    <img 
-                      src={song.coverImage || fallbackImage} 
-                      alt={song.title} 
-                      onError={(e) => { e.target.src = fallbackImage; }}
-                    />
-                    <div className="top-hit-info">
-                      <span className="top-hit-title">{song.title}</span>
-                      <span className="top-hit-artist">{song.artist?.name || "Unknown Artist"}</span>
-                    </div>
-                    <button className="play-small-btn" aria-label={`Play ${song.title}`}>
-                      <FontAwesomeIcon icon={faPlay} />
-                    </button>
-                  </div>
-                ))}
+
+
+
+
+
+
+
+            <div>something here</div>
+             {curatedSong && (
+            <div className="curated-song-highlight">
+              <h5>Editor's Pick Today:</h5>
+              <div className="song-item-small" onClick={() => player.playTrack(curatedSong)}>
+                <img 
+                  src={curatedSong.coverImage || fallbackImage} 
+                  alt={curatedSong.title} 
+                  className="song-item-small__cover"
+                  onError={(e) => { e.target.src = fallbackImage; }}
+                />
+                <div className="song-item-small__info">
+                  <span className="song-item-small__title">{curatedSong.title}</span>
+                  <span className="song-item-small__artist">{curatedSong.artist?.name || "Unknown Artist"}</span>
+                </div>
+                <button className="play-small-btn" aria-label={`Play ${curatedSong.title}`}>
+                  <FontAwesomeIcon icon={faPlay} />
+                </button>
               </div>
-            ) : (
-              <p>No top songs available.</p>
-            )}
+            </div>
+          )}
+
+          
+
+
+
+
+
+
+
             <button type="button" className="cta-button" onClick={() => navigate('/songs')}>
-              View All Songs
+              View Popular Songs
             </button>
           </div>
         );
+        
       case 'playlists':
         const popularPlaylists = allPlaylists.slice(0, 3);
         return (
@@ -144,7 +160,7 @@ const Hero = ({
   return (
     <div className="music-hero" style={heroStyle}>
       <div className="hero-content">
-        {/* left side */}
+
         <aside className="hero-talents">
           <h4 className="talents-title">Talents</h4>
           <ul className="talents-list">
@@ -169,50 +185,23 @@ const Hero = ({
             <p className="subtitle">{subtitle}</p>
           </div>
 
-          <div className="music-highlight">
-            <Link to={highlightLink} className="highlight-link">
-              <div className="cover-art" onClick={handlePlayHighlight}>
-                <img
-                  src={highlight.coverImage || fallbackImage}
-                  alt={highlight.title || 'Highlight cover'}
-                  onError={(e) => { e.target.src = fallbackImage; }}
-                />
-                <div className="play-icon-overlay">
-                  <FontAwesomeIcon icon={faPlay} />
-                </div>
-              </div>
-            </Link>
-            <div className="highlight-info">
-              <span className="highlight-label">
-                #1
-                {(highlight?.type).toUpperCase()}
-              </span>
-              <h3>{highlight.title}</h3>
-              {highlight.artist && (
-                <p className="artist">{highlight.artist}</p>
-              )}
-              <div className="highlight-meta">
-                {highlight.plays ? (
-                  <span className="plays">
-                    {highlight.plays.toLocaleString()} plays
-                  </span>
-                ) : null}
-                {highlight.releaseDate && (
-                  <span className="release-year">
-                    {new Date(highlight.releaseDate).getFullYear()}
-                  </span>
-                )}
-                {highlight.genre && highlight.genre.length > 0 && (
-                  <span className="genre-display">
-                    {highlight.genre.join(', ')}
-                  </span>
-                )}
-                {highlight.isTrending && (
-                  <span className="trending-badge">TRENDING</span>
-                )}
-              </div>
-            </div>
+          
+          
+
+          <div className="hero-quick-links">
+            <button to="/upload" className="cta-button">
+              Explore
+            </button>
+            <button to="/discover-artists" className="cta-button secondary-cta">
+              What's New?
+            </button>
+            {/* Add more buttons as needed */}
           </div>
+            
+
+
+
+
 
           <div className="hero-tabs-nav">
             <button 
@@ -231,18 +220,17 @@ const Hero = ({
               className={`hero-tab-button ${activeFeatureTab === 'genres' ? 'active' : ''}`}
               onClick={() => setActiveFeatureTab('genres')}
             >
-              Genres
+              Filters
             </button>
           </div>
-
         </main>
 
-        {/* right side */}
+
+
         <aside className="hero-feature-section">
           {renderFeatureContent()}
         </aside>
-      </div>
-    </div>
+    </div> </div>
 ); };
 
 Hero.propTypes = {

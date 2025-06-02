@@ -54,7 +54,6 @@ const Collection = ({ collectionId, type = "album" }) => {
       </div>
       
       <div className="featured-collection__content">
-        {/* Left column - Collection info */}
         <div className="featured-collection__info">
           <div className="collection-cover">
             <img 
