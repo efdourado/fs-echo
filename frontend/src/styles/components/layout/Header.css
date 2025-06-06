@@ -118,7 +118,7 @@ body.light-mode .search-input {
   border: none;
   color: var(--color-text-tertiary);
   cursor: pointer;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   padding: var(--spacing-xxs);
   transition: color var(--transition-duration-short) var(--transition-timing-function-ease);
   display: none;
@@ -130,60 +130,6 @@ body.light-mode .search-input {
 
 .clear-search-btn:hover {
   color: var(--color-error);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--border-radius-full);
-  font-weight: var(--font-weight-medium);
-  transition: all var(--transition-duration-short) var(--transition-timing-function-ease);
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.btn-md {
-  padding: var(--button-padding-md);
-  font-size: var(--font-size-sm);
-  height: var(--button-height-lg);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
-  border: none;
-}
-
-.btn-ghost {
-  background-color: transparent;
-  border: none;
-  color: var(--color-text-primary);
-}
-
-.btn-ghost:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.btn-icon-only {
-  padding: var(--spacing-xs);
-  width: var(--button-height-sm);
-  height: var(--button-height-sm);
-  border: none;
-}
-
-.btn-icon-only .btn-icon-graphic {
-  font-size: var(--font-size-lg);
-}
-
-.create-btn {
-  gap: var(--spacing-xs);
-}
-.create-btn .btn-icon-graphic {
-  font-size: var(--font-size-md);
-}
-.create-btn .btn-label {
-  font-size: var(--font-size-sm);
 }
 
 .user-menu-container {
@@ -316,7 +262,7 @@ body.light-mode .search-input {
 .menu-item .fa-icon {
   width: 18px;
   text-align: center;
-  font-size: 0.95em;
+  font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
   transition: color var(--transition-duration-short) var(--transition-timing-function-ease);
 }
@@ -339,48 +285,58 @@ body.light-mode .search-input {
   color: var(--color-text-on-primary);
 }
 
-@media (max-width: 768px) {
-  .header-container {
-    padding: 0 var(--spacing-md);
-    gap: var(--spacing-sm);
-  }
 
-  .logo-text {
-    display: none;
-  }
 
-  .search-form.active .search-input {
-    width: 160px;
-  }
+.btn-ghost {
+  background-color: transparent;
+  border: none;
+  color: var(--color-text-primary);
+}
+.btn-ghost:hover {
+  background-color: var(--color-surface-hover);
+}
 
-  .btn-md {
-    padding: var(--spacing-xs) var(--spacing-md);
-  }
+.btn-icon-only {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-full);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-duration-medium) var(--transition-timing-function-ease);
+  white-space: nowrap;
+  text-decoration: none;
 
-  .create-btn .btn-label {
-    display: none;
-  }
-  .create-btn .btn-icon-graphic {
-    margin-right: 0;
-} }
+  padding: var(--spacing-xs);
+  width: var(--button-height-sm);
+  height: var(--button-height-sm);
+  border: none;
+}
 
-@media (max-width: 480px) {
-  .header-left, .header-right {
-    gap: var(--spacing-xs);
-  }
+.btn-icon-only .btn-icon-graphic {
+  font-size: var(--font-size-lg);
+}
 
-  .btn-md, .btn-icon-only {
-    height: calc(var(--button-height-md) - 4px);
-    width: calc(var(--button-height-md) - 4px);
-    font-size: calc(var(--font-size-sm) - 2px)
-  }
-  .btn-icon-only {
-    padding: var(--spacing-xxs);
-  }
-  .btn-icon-only .btn-icon-graphic {
-    font-size: calc(var(--font-size-lg) - 2px);
-  }
+.theme-toggle:hover {
+  rotate: 30deg;
+}
 
-  .user-menu-dropdown {
-    width: 240px;
-} }
+.login-btn {
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-full);
+  padding: var(--spacing-xs) var(--spacing-lg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all var(--transition-duration-medium) var(--transition-timing-function-ease);
+}
+.login-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.create-btn {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+}

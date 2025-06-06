@@ -199,6 +199,52 @@
 
 
 
+.cta-button {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-on-primary);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  border-radius: var(--border-radius-full);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-duration-long);
+  margin-top: var(--spacing-lg);
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+}
+
+.cta-button:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.secondary-cta {
+  background: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.hero-quick-links {
+  display: flex;
+  gap: var(--spacing-md);
+  max-width: 60%;
+}
 
 
 
@@ -211,12 +257,21 @@
 
 
 
-/* Add this to frontend/src/styles/components/heroes.css or a new specific component CSS */
+
+
+
+
+
+
+
+
+
+
 .curated-song-highlight {
   margin-top: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-sm);
-  background: rgba(255, 255, 255, 0.05); /* Slightly lighter background */
+  background: rgba(255, 255, 255, 0.05);
   border-radius: var(--border-radius-md);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -294,81 +349,7 @@
   transform: scale(1.1);
 }
 
-/* Ensure existing .cta-button styles are correctly applied, as given in your main.css */
 
-
-
-
-
-.hero-quick-links {
-  display: flex;
-  max-width: 60%;
-}
-
-
-
-
-
-
-
-.featured-playlist-card .playlist-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.featured-playlist-card .playlist-link-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  text-decoration: none;
-  color: inherit;
-  padding: var(--spacing-sm);
-  background-color: transparent;
-  border-radius: var(--border-radius-md);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid transparent;
-}
-
-.featured-playlist-card .playlist-link-item:hover {
-  background-color: rgba(255,255,255,0.08);
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.1);
-}
-
-.featured-playlist-card img {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--border-radius-sm);
-  object-fit: cover;
-  flex-shrink: 0;
-  box-shadow: var(--shadow-sm);
-}
-
-.featured-playlist-card .playlist-info {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-.featured-playlist-card .playlist-title {
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: var(--spacing-xxs);
-  color: var(--color-text-primary);
-}
-
-.featured-playlist-card .playlist-owner {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .explore-genres-card .genre-list {
   display: flex;
@@ -394,55 +375,4 @@
   border-color: var(--color-primary-accent);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
-}
-
-
-.cta-button {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-text-on-primary);
-  border: none;
-  padding: var(--spacing-sm) var(--spacing-xl);
-  border-radius: var(--border-radius-full);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
-  cursor: pointer;
-  transition: all var(--transition-default);
-  margin-top: var(--spacing-lg);
-  width: 100%;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: all 0.6s ease;
-}
-
-.cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
-}
-
-.cta-button:hover::before {
-  left: 100%;
-}
-
-.secondary-cta {
-  background: var(--color-primary);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-}
-.secondary-cta:hover {
-  background: var(--color-surface-dark);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
 }

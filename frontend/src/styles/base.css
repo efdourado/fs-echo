@@ -104,9 +104,9 @@
 
   --z-index-dropdown: 1000;
   --z-index-sticky: 1020;
-  --z-index-modal-backdrop: 1040;
+  --z-index-modal-backdrop: 1035;
   --z-index-modal: 1050;
-  --z-index-header: 1100;
+  --z-index-header: 1105;
   --z-index-player: 1200;
   --z-index-toast: 1300;
 }

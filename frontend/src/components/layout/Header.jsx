@@ -106,7 +106,7 @@ const Header = ({ toggleSidebar }) => {
           </div>
           <div className="header-right">
             <button
-              className="btn btn-icon-only btn-ghost theme-toggle"
+              className="btn-icon-only btn-ghost theme-toggle"
               onClick={toggleDarkMode}
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
@@ -120,10 +120,11 @@ const Header = ({ toggleSidebar }) => {
   return (
     <header className={`header ${isScrolled ? "scrolled" : ""}`}>
       <div className="header-container">
+        
         <div className="header-left">
           {typeof toggleSidebar === 'function' && (
             <button
-              className="btn btn-icon-only btn-ghost mobile-menu-btn"
+              className="btn-icon-only btn-ghost mobile-menu-btn"
               onClick={toggleSidebar}
               aria-label="Toggle menu"
             >
@@ -174,15 +175,15 @@ const Header = ({ toggleSidebar }) => {
           </form>
 
           {isAuthenticated && currentUser && (
-            <Link to="/create" className="btn btn-md btn-primary create-btn">
+            <Link to="/create" className="login-btn create-btn">
               <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
-              <span className="btn-label">Create</span>
+              <span className="btn-label"> Create</span>
             </Link>
           )}
 
           {isAuthenticated && currentUser && (
             <button
-              className="btn btn-icon-only btn-ghost notification-btn"
+              className="btn-icon-only btn-ghost notifications-btn"
               aria-label="Notifications"
             >
               <FontAwesomeIcon icon={faBell} className="btn-icon-graphic" />
@@ -190,7 +191,7 @@ const Header = ({ toggleSidebar }) => {
           )}
 
           <button
-            className="btn btn-icon-only btn-ghost theme-toggle"
+            className="btn-icon-only btn-ghost theme-toggle"
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
@@ -241,11 +242,8 @@ const Header = ({ toggleSidebar }) => {
             </div>
           ) : (
             <>
-              <Link to="/login" className="btn btn-md btn-ghost">
+              <Link to="/login" className="login-btn">
                 <span className="btn-label">Login</span>
-              </Link>
-              <Link to="/register" className="btn btn-md btn-primary">
-                <span className="btn-label">Sign Up</span>
               </Link>
             </>
           )}

@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faFire, faList, faTags } from '@fortawesome/free-solid-svg-icons';
 import { usePlayer } from '../../hooks/usePlayer';
-import Flash from '../ui/Flash';
+import Bias from '../ui/Bias';
 import fallbackImage from '/images/fb.jpeg';
+import { useAuth } from '../../context/AuthContext';
 
 const Hero = ({
   title,
   subtitle,
-  highlight, // O highlight principal do Hero
+  highlight,
   talents = [],
   bgImage,
   allSongs = [],
@@ -20,9 +21,9 @@ const Hero = ({
 }) => {
   const player = usePlayer();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [activeFeatureTab, setActiveFeatureTab] = useState('songs');
 
-  // Ajustado para o link principal do highlight, que pode ser de qualquer tipo
   const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
 
   const handlePlayHighlight = (e) => {
@@ -32,8 +33,7 @@ const Hero = ({
       player.playTrack(highlight);
     } else {
       navigate(highlightLink);
-    }
-  };
+  } };
   
   const heroStyle = {
     backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.55)), url(${bgImage})`,
@@ -44,15 +44,14 @@ const Hero = ({
     data.forEach(item => {
       if (item.genre) {
         item.genre.forEach(g => genres.add(g));
-      }
-    });
+    } });
     return Array.from(genres);
   };
 
   const renderFeatureContent = () => {
     switch (activeFeatureTab) {
       case 'songs':
-        const curatedSong = allSongs[2]; // Mantendo como está por enquanto, para testes
+        const curatedSong = allSongs[1];
 
         return (
           <div className="feature-card top-songs-card">
@@ -66,7 +65,7 @@ const Hero = ({
             </p>
 
             {curatedSong && (
-              <Flash item={curatedSong} type="song" isEditorPick={true} />
+              <Bias item={curatedSong} type="song" isEditorPick={true} />
             )}
 
             <button type="button" className="cta-button" onClick={() => navigate('/songs')}>
@@ -77,37 +76,15 @@ const Hero = ({
         
       case 'playlists':
         const popularPlaylists = allPlaylists.slice(0, 3);
-        const featuredPlaylist = popularPlaylists[0]; // Pegando a primeira playlist para destaque com Flash
+        const featuredPlaylist = popularPlaylists[0];
 
         return (
           <div className="feature-card featured-playlist-card">
             <h4 className="feature-title"><FontAwesomeIcon icon={faList} /> Playlists</h4>
             {featuredPlaylist ? (
-              <Flash item={featuredPlaylist} type="playlist" isEditorPick={true} />
+              <Bias item={featuredPlaylist} type="playlist" />
             ) : (
               <p>No popular playlists available to highlight.</p>
-            )}
-            
-            {/* Mantive a lista de playlists abaixo do Flash, pode ser ajustado se o Flash for suficiente */}
-            {popularPlaylists.length > 0 && (
-              <div className="playlist-list">
-                {popularPlaylists.map((playlist, index) => (
-                  // Remover a playlist que já está no Flash para evitar repetição, ou mudar a lógica
-                  playlist._id !== featuredPlaylist?._id && (
-                    <Link to={`/playlist/${playlist._id}`} key={playlist._id || index} className="playlist-link-item">
-                      <img 
-                        src={playlist.coverImage || fallbackImage} 
-                        alt={playlist.name} 
-                        onError={(e) => { e.target.src = fallbackImage; }}
-                      />
-                      <div className="playlist-info">
-                        <span className="playlist-title">{playlist.name}</span>
-                        <span className="playlist-owner">by {playlist.owner?.username || 'Unknown'}</span>
-                      </div>
-                    </Link>
-                  )
-                ))}
-              </div>
             )}
 
             <button type="button" className="cta-button secondary-cta" onClick={() => navigate('/playlists')}>
@@ -170,10 +147,13 @@ const Hero = ({
           </div>
 
           <div className="hero-quick-links">
-            <button to="/upload" className="cta-button" onClick={() => navigate('/songs')}>
-              Explore
+            <button 
+              className="cta-button secondary-cta" 
+              onClick={() => navigate(isAuthenticated ? '/songs' : '/register')}
+            >
+              {isAuthenticated ? 'Explore' : 'Join Us'}
             </button>
-            <button to="/discover-artists" className="cta-button secondary-cta" onClick={() => navigate('/artists')}>
+            <button className="cta-button primary-cta" onClick={() => navigate('/artists')}>
               What's New?
             </button>
           </div>
@@ -219,8 +199,8 @@ Hero.propTypes = {
     coverImage: PropTypes.string,
     audioUrl: PropTypes.string,
     artist: PropTypes.oneOfType([
-      PropTypes.string, // For simple string name
-      PropTypes.shape({ name: PropTypes.string }) // For object with name
+      PropTypes.string,
+      PropTypes.shape({ name: PropTypes.string })
     ]),
     plays: PropTypes.number,
     isTrending: PropTypes.bool,
