@@ -93,7 +93,7 @@
 
   --header-height: 68px;
   --player-height: 80px;
-  --container-padding-x: var(--spacing-2xl);
+  --container-padding-x: var(--spacing-xl);
   --container-max-width: 1600px;
 
   --button-height-sm: 28px;
@@ -282,4 +282,25 @@ body.light-mode ::-webkit-scrollbar-thumb {
 }
 body.light-mode ::-webkit-scrollbar-thumb:hover {
   background: var(--color-dark-grey);
+}
+
+.app-container {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.content-pusher {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--player-height));
+  transition: var(--transition-default);
+  background-color: var(--color-background);
+}
+
+.content-pusher.sidebar-open {
+  margin-left: 280px;
+}
+
+.content-pusher > main {
+  flex-grow: 1;
 }

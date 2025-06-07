@@ -173,7 +173,6 @@ const Hero = ({
             <button 
               className="cta-button secondary-cta" 
               onClick={() => navigate(isAuthenticated ? '/songs' : '/register')}
-              style={{ maxWidth: '40%' }}
             >
               {isAuthenticated ? 'Explore' : 'Join Us'}
             </button>

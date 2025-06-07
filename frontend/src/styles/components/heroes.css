@@ -18,7 +18,7 @@
   max-width: var(--container-max-width);
   width: 100%;
   margin: 0 auto;
-  gap: var(--spacing-3xl);
+  gap: var(--spacing-2xl);
   position: relative;
   z-index: 2;
   align-items: start;
@@ -241,10 +241,130 @@
 }
 
 .hero-quick-links {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
   gap: var(--spacing-md);
-  max-width: 60%;
 }
+
+
+
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 80px 1fr 300px;
+    gap: var(--spacing-xl);
+  }
+  
+  .hero-feature-section {
+    padding-top: var(--spacing-2xl);
+  }
+  
+  .music-hero .title {
+    font-size: var(--font-size-4xl);
+  }
+  
+  .music-hero .subtitle {
+    font-size: var(--font-size-lg);
+} }
+
+@media (max-width: 992px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+  
+  .hero-talents {
+    display: none; /* hide talents on smaller screens or adjust as needed */
+  }
+  
+  .hero-main {
+    padding-top: 0;
+  }
+  
+  .hero-feature-section {
+    padding-top: var(--spacing-xl);
+  }
+  
+  .text-content {
+    max-width: 100%;
+  }
+  
+  .music-hero .subtitle {
+    max-width: 100%;
+  }
+  
+  .hero-tabs-nav {
+    margin-top: var(--spacing-2xl);
+} }
+
+@media (max-width: 768px) {
+  .music-hero {
+    min-height: 500px;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .music-hero .title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .music-hero .subtitle {
+    font-size: var(--font-size-md);
+  }
+  
+  .hero-tabs-nav {
+    flex-wrap: wrap;
+  }
+  
+  .hero-quick-links {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+  
+  .feature-card {
+    padding: var(--spacing-md);
+} }
+
+@media (max-width: 576px) {
+  .music-hero {
+    min-height: 450px;
+  }
+  
+  .music-hero .title {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .hero-tab-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xxs);
+  }
+  
+  .cta-button {
+    padding: var(--spacing-xs) var(--spacing-lg);
+    font-size: var(--font-size-xs);
+} }
+
+@media (max-width: 400px) {
+  .music-hero {
+    min-height: 400px;
+  }
+  
+  .hero-content {
+    padding: var(--spacing-md);
+  }
+  
+  .music-hero .title {
+    font-size: var(--font-size-xl);
+} }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+} }
 
 
 

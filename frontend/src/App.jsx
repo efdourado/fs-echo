@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import useState
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Player from './components/layout/Player';
@@ -20,7 +20,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
   return (
-    <div style={{ padding: '20px', color: 'var(--text-color)'}}>
+    <div style={{ padding: '20px', color: 'var(--text-color)' }}>
       <h1>User Profile</h1>
       {currentUser ? (
         <>
@@ -33,7 +33,6 @@ const UserProfilePage = () => {
     </div>
 ); };
 
-
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -44,28 +43,32 @@ const App = () => {
   return (
     <PlayerProvider>
       <BrowserRouter>
-        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-        <Header toggleSidebar={toggleSidebar} />
+        <div className="app-container">
+          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main style={{ flex: 1, paddingTop: '72px' }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/artist/:id" element={<Artist />} />
-            <Route path="/song/:id" element={<Song />} />
+          <div className={`content-pusher ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+            <Header toggleSidebar={toggleSidebar} />
+            <main style={{ flex: 1, paddingTop: '72px' }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/artist/:id" element={<Artist />} />
+                <Route path="/song/:id" element={<Song />} />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <UserProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </div>
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <UserProfilePage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
         <Player />
       </BrowserRouter>
     </PlayerProvider>
