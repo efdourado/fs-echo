@@ -1,57 +1,60 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faFire, faList, faTags } from '@fortawesome/free-solid-svg-icons';
+import { faFire, faMagnet, faFlask, faFireFlameCurved } from '@fortawesome/free-solid-svg-icons';
+
 import { usePlayer } from '../../hooks/usePlayer';
 import Bias from '../ui/Bias';
-import fallbackImage from '/images/fb.jpeg';
 import { useAuth } from '../../context/AuthContext';
+import fallbackImage from '/images/fb.jpeg';
 
 const Hero = ({
   title,
   subtitle,
   highlight,
   talents = [],
+
   bgImage,
   allSongs = [],
   allArtists = [],
   allAlbums = [],
   allPlaylists = [],
 }) => {
-  const player = usePlayer();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [activeFeatureTab, setActiveFeatureTab] = useState('songs');
-
-  const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
-
-  const handlePlayHighlight = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (highlight.type === 'song' && highlight.audioUrl) {
-      player.playTrack(highlight);
-    } else {
-      navigate(highlightLink);
-  } };
   
+                // const player = usePlayer();
+                // const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
+
   const heroStyle = {
     backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.55)), url(${bgImage})`,
   };
 
-  const getUniqueGenres = (data) => {
-    const genres = new Set();
-    data.forEach(item => {
-      if (item.genre) {
-        item.genre.forEach(g => genres.add(g));
-    } });
-    return Array.from(genres);
-  };
+                // const handlePlayHighlight = (e) => {
+                //   e.preventDefault();
+                //   e.stopPropagation();
+                //   if (highlight.type === 'song' && highlight.audioUrl) {
+                //     player.playTrack(highlight);
+                //   } else {
+                //     navigate(highlightLink);
+                // } };
+
+                // const getUniqueGenres = (data) => {
+                //   const genres = new Set();
+                //   data.forEach(item => {
+                //     if (item.genre) {
+                //       item.genre.forEach(g => genres.add(g));
+                //   } });
+                //   return Array.from(genres);
+                // };
 
   const renderFeatureContent = () => {
     switch (activeFeatureTab) {
       case 'songs':
-        const curatedSong = allSongs[1];
+                // const curatedSong = allSongs[1];
 
         return (
           <div className="feature-card top-songs-card">
@@ -64,9 +67,11 @@ const Hero = ({
               It's a growing archive. Whether you're here to vibe, learn, or connect — welcome to the echo of our work!
             </p>
 
-            {curatedSong && (
-              <Bias item={curatedSong} type="song" isEditorPick={true} />
-            )}
+
+                {/* {curatedSong && (
+                  <Bias item={curatedSong} type="song" isEditorPick={true} />
+                )} */}
+
 
             <button type="button" className="cta-button" onClick={() => navigate('/songs')}>
               View Popular Songs
@@ -75,48 +80,66 @@ const Hero = ({
         );
         
       case 'playlists':
-        const popularPlaylists = allPlaylists.slice(0, 3);
-        const featuredPlaylist = popularPlaylists[0];
+                // const popularPlaylists = allPlaylists.slice(0, 3);
+                // const featuredPlaylist = popularPlaylists[0];
 
         return (
           <div className="feature-card featured-playlist-card">
-            <h4 className="feature-title"><FontAwesomeIcon icon={faList} /> Playlists</h4>
-            {featuredPlaylist ? (
-              <Bias item={featuredPlaylist} type="playlist" />
-            ) : (
-              <p>No popular playlists available to highlight.</p>
-            )}
+            <h4 className="feature-title"><FontAwesomeIcon icon={faMagnet} />
+              Playlists
+            </h4>
+            <p className="feature-description">
+              Or paths. We're weaving new flows — from unexpected blends to deeper groupings, guiding you through what you didn't know you needed.
+              Welcome to a new way of organizing feeling.
+            </p>
+
+            
+                {/* <Bias item={featuredPlaylist} type="playlist" /> */}
+            
 
             <button type="button" className="cta-button secondary-cta" onClick={() => navigate('/playlists')}>
-              Explore All Playlists
+              Discover New Playlists
             </button>
           </div>
         );
+
       case 'genres':
-        const genres = getUniqueGenres(allSongs);
+                // const genres = getUniqueGenres(allSongs);
+        
         return (
           <div className="feature-card explore-genres-card">
-            <h4 className="feature-title"><FontAwesomeIcon icon={faTags} /> Genres</h4>
-            {genres.length > 0 ? (
-              <div className="genre-list">
-                {genres.slice(0, 5).map((genre, index) => (
-                  <span key={index} className="genre-tag">
-                    {genre}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p>No genres available.</p>
-            )}
+            <h4 className="feature-title"><FontAwesomeIcon icon={faFlask} />
+              Lab
+            </h4>
+             <p className="feature-description">
+              Where it all begins.
+              This is our creative nucleus — a playground of raw sketches, evolving loops, and whispers.
+              It's messy, real, dynamic.
+              Explore and create with our tools!
+            </p>
+
+
+                {/* {genres.length > 0 ? (
+                  <div className="genre-list">
+                    {genres.slice(0, 6).map((genre, index) => (
+                      <span key={index} className="genre-tag">
+                        {genre}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p>No genres available.</p>
+                )} */}
+
+
             <button type="button" className="cta-button secondary-cta">
-              Discover More Genres
+              Open Lab
             </button>
           </div>
         );
       default:
         return null;
-    }
-  };
+  } };
 
   return (
     <div className="music-hero" style={heroStyle}>
@@ -150,11 +173,13 @@ const Hero = ({
             <button 
               className="cta-button secondary-cta" 
               onClick={() => navigate(isAuthenticated ? '/songs' : '/register')}
+              style={{ maxWidth: '40%' }}
             >
               {isAuthenticated ? 'Explore' : 'Join Us'}
             </button>
             <button className="cta-button primary-cta" onClick={() => navigate('/artists')}>
               What's New?
+              <FontAwesomeIcon icon={faFireFlameCurved} style={{ marginLeft: '10px' }}/>
             </button>
           </div>
             
@@ -175,7 +200,7 @@ const Hero = ({
               className={`hero-tab-button ${activeFeatureTab === 'genres' ? 'active' : ''}`}
               onClick={() => setActiveFeatureTab('genres')}
             >
-              Filters
+              Lab
             </button>
           </div>
         </main>
@@ -185,8 +210,7 @@ const Hero = ({
         </aside>
       </div>
     </div>
-  );
-};
+); };
 
 Hero.propTypes = {
   title: PropTypes.string.isRequired,
@@ -212,8 +236,7 @@ Hero.propTypes = {
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       image: PropTypes.string,
-    })
-  ),
+  }) ),
   allSongs: PropTypes.array,
   allArtists: PropTypes.array,
   allAlbums: PropTypes.array,

@@ -40,42 +40,27 @@
   transform: translateX(320px);
 }
 
-/* Sidebar Header - Premium look */
+/* MODIFIED: Sidebar Header - Premium look */
 .sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-2xl) var(--spacing-xl);
-  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+  padding: 0 var(--spacing-xl);
+  height: var(--header-height); /* Match main header for alignment */
+  box-sizing: border-box;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+  flex-shrink: 0;
 }
 
-.sidebar-brand {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-brand h3 {
-  margin: 0;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-black);
-  color: var(--color-text-primary);
-  line-height: 1;
-  letter-spacing: -0.5px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-text-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.sidebar-subtitle {
-  margin: var(--spacing-xxs) 0 0;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-tertiary);
-  letter-spacing: 1px;
+/* NEW: Style for the new title */
+.sidebar-title {
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
-  opacity: 0.6;
+  color: var(--color-text-primary);
+  margin: 0;
 }
+
+/* REMOVED .sidebar-brand, .sidebar-brand h3, and .sidebar-subtitle */
 
 /* Close Button - Elegant animation */
 .close-btn {
@@ -102,10 +87,10 @@
   border-color: rgba(255,255,255,0.2);
 }
 
-/* Navigation Section - Modern minimalist */
+/* MODIFIED: Navigation Section - Added top padding */
 .sidebar-nav {
   flex: 1;
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-lg) 0 var(--spacing-xl);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) transparent;
@@ -398,19 +383,19 @@
     width: 280px;
     left: -280px;
   }
-  
+
   .sidebar.open {
     transform: translateX(280px);
   }
-  
+
   .sidebar-header {
     padding: var(--spacing-xl);
   }
-  
+
   .nav-link {
     padding: var(--spacing-md) var(--spacing-lg);
   }
-  
+
   .sidebar-footer {
     padding: var(--spacing-lg);
   }

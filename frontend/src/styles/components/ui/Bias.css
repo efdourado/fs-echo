@@ -36,7 +36,7 @@
   transition: transform 0.3s ease;
 }
 
-/* Content Area */
+
 .bias-card__content {
   position: relative;
   flex-grow: 1;
@@ -69,7 +69,7 @@
   transform: scale(1.05);
 }
 
-/* Text Content */
+
 .bias-card__text {
   flex: 1;
   min-width: 0;
@@ -96,7 +96,7 @@
   text-overflow: ellipsis;
 }
 
-/* Actions */
+
 .bias-card__actions {
   display: flex;
   align-items: center;
@@ -142,7 +142,7 @@
   transform: scale(1.05);
 }
 
-/* Playing State */
+
 .bias-card.is-playing {
   box-shadow: 0 4px 16px rgba(29, 185, 84, 0.2);
 }
@@ -156,7 +156,7 @@
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
-/* Progress Bar */
+
 .bias-card__progress-container {
   position: absolute;
   bottom: 0;
@@ -193,85 +193,3 @@
   .bias-card__actions {
     display: none;
 } }
-
-
-
-/* Original .bias-card and other styles remain the same */
-/* ... */
-
-/* Content Area */
-.bias-card__content {
-  position: relative;
-  flex-grow: 1;
-  height: calc(var(--card-height) - 20px);
-  margin-left: calc(var(--cover-size) / 2);
-  padding: 16px 16px 16px calc(var(--cover-size) / 2 + 8px);
-  
-  display: flex;
-  /* --- MODIFICATION: Default to column layout --- */
-  flex-direction: column; 
-  /* Align items to the start (left) in column mode */
-  align-items: flex-start;   
-  /* Stack items from the top in column mode */
-  justify-content: flex-start; 
-
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  overflow: hidden;
-  /* You might want to add transition for flex properties if supported,
-     or rely on transitions of child elements' properties. */
-  /* transition: all 0.3s ease; (already here, good) */
-}
-
-/* --- MODIFICATION: On hover, change .bias-card__content to row layout --- */
-.bias-card:hover .bias-card__content {
-  flex-direction: row; /* Switch to row layout */
-  justify-content: space-between; /* Original: Distribute space between text and actions */
-  align-items: center;          /* Original: Vertically center items in row */
-}
-
-/* Text Content */
-.bias-card__text {
-  min-width: 0; /* From original */
-  /* Add transitions for properties that change */
-  transition: padding-right 0.3s ease, margin-bottom 0.3s ease, width 0.3s ease, flex-grow 0.3s ease;
-
-  /* --- MODIFICATION: Default (column layout) styling --- */
-  width: 100%; /* Take full width of the content area */
-  padding-right: 0; /* No padding on the right */
-  margin-bottom: 8px; /* Add some space below text for the actions block */
-  flex-grow: 0; /* Don't grow to fill vertical space in column mode */
-  flex-shrink: 1; /* Allow shrinking if necessary (original behavior) */
-  flex-basis: auto; /* Content dictates initial size */
-}
-
-/* --- MODIFICATION: On hover (row layout) styling for text --- */
-.bias-card:hover .bias-card__text {
-  width: auto; /* Let flexbox determine width based on content and available space */
-  flex-grow: 1; /* Allow text area to grow and take available space (like original flex: 1) */
-  /* flex-shrink: 1; (already set) */
-  /* flex-basis: 0%; (if you want it to ignore content size for growth, often part of flex:1) */
-  padding-right: 12px; /* Original: space for actions on the right */
-  margin-bottom: 0; /* No bottom margin in row layout */
-}
-
-/* Actions */
-.bias-card__actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0; /* Original: hidden by default */
-  transform: translateX(8px); /* Original: initial offset for slide-in animation */
-  transition: all 0.3s ease; /* Original: for opacity and transform */
-  /* In column mode, ensure it doesn't stretch if align-items on parent was 'stretch' */
-  /* align-self: flex-start; (Useful if parent align-items could be stretch; 
-                              but with flex-start on parent, this is implicitly handled) */
-}
-
-.bias-card:hover .bias-card__actions {
-  opacity: 1; /* Original: make visible on hover */
-  transform: translateX(0); /* Original: slide into place */
-}
