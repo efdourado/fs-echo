@@ -225,11 +225,6 @@ button {
   padding: 0;
 }
 
-input:focus, button:focus, select:focus, textarea:focus {
-  outline: 1px solid transparent;
-  box-shadow: var(--shadow-focus);
-}
-
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
@@ -298,7 +293,7 @@ body.light-mode ::-webkit-scrollbar-thumb:hover {
 }
 
 .content-pusher.sidebar-open {
-  margin-left: 280px;
+  margin-left: 260px;
 }
 
 .content-pusher > main {

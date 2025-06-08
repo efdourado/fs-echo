@@ -35,6 +35,14 @@ const Header = ({ toggleSidebar }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  
+  useEffect(() => {
+    const defaultHeight = "68px";
+    const scrolledHeight = "60px";
+
+    const currentHeight = isScrolled ? scrolledHeight : defaultHeight;
+    document.documentElement.style.setProperty('--current-header-height', currentHeight);
+  }, [isScrolled]);
 
   useEffect(() => {
     const handleClickOutsideUserMenu = (event) => {
@@ -243,7 +251,7 @@ const Header = ({ toggleSidebar }) => {
           ) : (
             <>
               <Link to="/login" className="login-btn">
-                <span className="btn-label">Login</span>
+                <span className="btn-label">Log In</span>
               </Link>
             </>
           )}

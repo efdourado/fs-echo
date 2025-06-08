@@ -193,7 +193,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, currentColor 30%, transparent 100%);
+  background: linear-gradient(90deg, currentColor 100%, transparent 0%);
   opacity: 0.5;
 }
 

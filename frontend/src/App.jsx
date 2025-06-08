@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Player from './components/layout/Player';
 import Header from './components/layout/Header';
@@ -14,6 +14,8 @@ import Artist from './pages/ArtistPage';
 import Song from './pages/SongPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
+
+import ComingSoonPage from './pages/ComingSoonPage';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
@@ -42,7 +44,6 @@ const App = () => {
 
   return (
     <PlayerProvider>
-      <BrowserRouter>
         <div className="app-container">
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
@@ -55,6 +56,15 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
+
+                <Route path="/artists" element={<ComingSoonPage />} />
+                <Route path="/discover" element={<ComingSoonPage />} />
+                <Route path="/library" element={<ComingSoonPage />} />
+                <Route path="/archived" element={<ComingSoonPage />} />
+                <Route path="/help" element={<ComingSoonPage />} />
+                <Route path="/settings" element={<ComingSoonPage />} />
+                <Route path="/feedback" element={<ComingSoonPage />} />
+
                 <Route
                   path="/profile"
                   element={
@@ -68,9 +78,7 @@ const App = () => {
             <Footer />
           </div>
         </div>
-
         <Player />
-      </BrowserRouter>
     </PlayerProvider>
 ); };
 
