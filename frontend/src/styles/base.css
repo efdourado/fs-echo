@@ -178,7 +178,7 @@ a {
   transition: color var(--transition-duration-long) var(--transition-timing-function-ease);
 }
 a:hover {
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 img, video, svg {

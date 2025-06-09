@@ -1,30 +1,54 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faFolder, faCompass, faChevronRight, faUsers, faCog, faSignOutAlt, faCircleQuestion, faTrash, faCommentDots
 } from '@fortawesome/free-solid-svg-icons';
+
 import { useAuth } from '../../context/AuthContext';
-import fallbackImage from '/images/fb.jpeg';
+
+const menuLinks = [
+  { to: '/', label: 'Home', icon: faHome, end: true },
+  { to: '/discover', label: 'Discover', icon: faCompass },
+  { to: '/artists', label: 'Artists', icon: faUsers },
+  { to: '/library', label: 'Library', icon: faFolder },
+];
+
+const userLibraryLinks = [
+  { to: '/library/songs', label: 'Liked Songs' },
+  { to: '/library/playlists',label: 'Playlists' },
+];
+
+const otherLinks = [
+  { to: '/archived', label: 'Archived', icon: faTrash, end: true },
+  { to: '/help', label: 'Help', icon: faCircleQuestion, end: true },
+  { to: '/settings', label: 'Settings', icon: faCog },
+];
+
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { isAuthenticated, currentUser, logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     toggleSidebar();
   };
 
-  const handleLogin = () => {
-    navigate('/login');
-    toggleSidebar();
-  }
-
-  const handleSignup = () => {
-    navigate('/register');
-    toggleSidebar();
-  }
+  const renderNavLinks = (links) => (
+    links.map(link => (
+      <NavLink
+        key={link.to}
+        to={link.to}
+        end={link.end}
+        onClick={toggleSidebar}
+        className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}
+      >
+        {link.icon && <FontAwesomeIcon icon={link.icon} className="nav-icon" />}
+        <span>{link.label}</span>
+        <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
+      </NavLink>
+  )) );
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -32,29 +56,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="nav-section">
           <p className="nav-section-title">Menu</p>
           <div className="nav-links">
-            <NavLink to="/" end onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faHome} className="nav-icon" />
-              <span>Home</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
-
-            <NavLink to="/discover" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faCompass} className="nav-icon" />
-              <span>Discover</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
-
-            <NavLink to="/artists" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faUsers} className="nav-icon" />
-              <span>Artists</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
-
-            <NavLink to="/library" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faFolder} className="nav-icon" />
-              <span>Library</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
+            {renderNavLinks(menuLinks)}
           </div>
         </div>
 
@@ -62,14 +64,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <div className="nav-section">
             <p className="nav-section-title">Library</p>
             <div className="nav-links">
-              <NavLink to="/library/songs" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-                <span>Liked Songs</span>
-                <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-              </NavLink>
-              <NavLink to="/library/playlists" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-                <span>Playlists</span>
-                <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-              </NavLink>
+              {renderNavLinks(userLibraryLinks)}
             </div>
           </div>
         )}
@@ -77,23 +72,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <div className="nav-section">
           <p className="nav-section-title">Others</p>
           <div className="nav-links">
-            <NavLink to="/archived" end onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faTrash} className="nav-icon" />
-              <span>Archived</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
-
-            <NavLink to="/help" end onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faCircleQuestion} className="nav-icon" />
-              <span>Help</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
-
-            <NavLink to="/settings" onClick={toggleSidebar} className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}>
-              <FontAwesomeIcon icon={faCog} className="nav-icon" />
-              <span>Settings</span>
-              <FontAwesomeIcon icon={faChevronRight} className="nav-chevron" />
-            </NavLink>
+            {renderNavLinks(otherLinks)}
           </div>
         </div>
       </nav>
@@ -106,14 +85,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </button>
         ) : (
           <a 
-            href="mailto:ed320819@gmail.com?subject=Feedback%20for%20Echo%20App&body=Hi%20Team,%0A%0AI%20have%20some%20feedback%20about%20the%20app:%0A%0A" 
+            href="mailto:ed320819@gmail.com?subject=Feedback%20for%20Echo%20App&body=hi%20there@20👋%0A%0Athis%20is%20my%20feedback%20about%20the%20app:%0A%0A" 
             className="nav-link nav-link--logout" 
             aria-label="Give us Feedback"
           >
             <FontAwesomeIcon icon={faCommentDots} className="nav-icon" />
-            <span>Give us Feedback</span>
+            <span>Give us a Feedback</span>
           </a>
-          
         )}
       </div>
     </aside>

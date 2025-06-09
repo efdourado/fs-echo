@@ -75,7 +75,7 @@ const App = () => {
                 />
               </Routes>
             </main>
-            <Footer />
+            <Footer companyName={'Echo'} />
           </div>
         </div>
         <Player />

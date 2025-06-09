@@ -104,14 +104,16 @@ const Header = ({ toggleSidebar }) => {
     return (
       <header className={`header ${isScrolled ? "scrolled" : ""}`}>
         <div className="header-container">
+
           <div className="header-left">
             <Link to="/" className="header-logo">
               <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-              <span className="logo-text">
-                {/* optional company name here, shown next to the logo */}
+              <span className="logo-name">
+                Echo
               </span>
             </Link>
           </div>
+
           <div className="header-right">
             <button
               className="btn-icon-only btn-ghost theme-toggle"
@@ -139,10 +141,11 @@ const Header = ({ toggleSidebar }) => {
               <FontAwesomeIcon icon={faBars} className="btn-icon-graphic" />
             </button>
           )}
+
           <Link to="/" className="header-logo">
             <img src="/images/logo.png" alt="Echo Logo" className="logo-img" />
-            <span className="logo-text">
-              {/* optional company name here, shown next to the logo */}
+            <span className="logo-name">
+              Echo
             </span>
           </Link>
         </div>
