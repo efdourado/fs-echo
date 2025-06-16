@@ -1,0 +1,195 @@
+.bias-card {
+
+
+
+  --cover-size: 100px;
+  --card-height: 100px;
+  --action-btn-size: 32px;
+  --play-btn-size: 40px;
+  --progress-height: 2px;
+  
+
+  
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  transition: var(--transition-default);
+}
+
+.bias-card__cover {
+  position: absolute;
+  left: calc(-1 * var(--spacing-unit));
+  width: var(--cover-size);
+  height: var(--cover-size);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 2;
+}
+
+.bias-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+
+.bias-card__content {
+  position: relative;
+  flex-grow: 1;
+  height: calc(var(--card-height) - 20px);
+  margin-left: calc(var(--cover-size) / 2);
+  padding: 16px 16px 16px calc(var(--cover-size) / 2 + 8px);
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bias-card:hover {
+  transform: translateY(-2px);
+}
+
+.bias-card:hover .bias-card__cover {
+  transform: translateY(-4px) rotate(-2deg);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.bias-card:hover .bias-card__cover img {
+  transform: scale(1.05);
+}
+
+
+.bias-card__text {
+  flex: 1;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.bias-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bias-card__subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  margin: 4px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.bias-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: all 0.3s ease;
+}
+
+.bias-card:hover .bias-card__actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--action-btn-size);
+  height: var(--action-btn-size);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.action-btn.play {
+  background-color: #1DB954;
+  color: #fff;
+  width: var(--play-btn-size);
+  height: var(--play-btn-size);
+}
+
+.action-btn.play:hover {
+  background-color: #1ed760;
+  transform: scale(1.05);
+}
+
+
+.bias-card.is-playing {
+  box-shadow: 0 4px 16px rgba(29, 185, 84, 0.2);
+}
+
+.bias-card.is-playing .bias-card__cover {
+  box-shadow: 0 0 0 2px #1DB954, 0 6px 16px rgba(29, 185, 84, 0.3);
+}
+
+.bias-card.is-playing .action-btn.play {
+  background-color: #1DB954;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+
+.bias-card__progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--progress-height);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.bias-card__progress-bar {
+  height: 100%;
+  background-color: #1DB954;
+  transition: width 0.1s linear;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .bias-card {
+    --cover-size: 80px;
+    --card-height: 90px;
+  }
+  
+  .bias-card__content {
+    padding-left: 44px;
+    margin-left: 20px;
+  }
+  
+  .bias-card__cover {
+    left: -8px;
+  }
+  
+  .bias-card__actions {
+    display: none;
+} }

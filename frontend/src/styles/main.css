@@ -1,0 +1,18 @@
+@import url("./base.css");
+
+@import url("./components/ui/Bias.css");
+@import url("./components/ui/Card.css");
+
+@import url("./components/layout/Header.css");
+@import url("./components/layout/Footer.css");
+@import url("./components/layout/Player.css");
+@import url("./components/layout/Sidebar.css");
+
+@import url("./components/songs.css");
+@import url("./components/heroes.css");
+
+@import url("./pages/Auth.css");
+@import url("./pages/ArtistPage.css");
+@import url("./pages/HomePage.css");
+@import url("./pages/SongPage.css");
+@import url("./pages/ComingSoonPage.css");
