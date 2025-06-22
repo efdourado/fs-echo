@@ -10,13 +10,15 @@ const SongList = ({
   loading = false,
   initialItems = 10,
   showHeader = true,
+  displayAll = false,
 }) => {
   const [showAll, setShowAll] = useState(false);
 
   if (loading) return <div className="song-list-loading">Loading songs...</div>;
   if (!songs || songs.length === 0) return <div className="song-list-empty">No songs available</div>;
 
-  const displayedSongs = showAll ? songs : songs.slice(0, initialItems);
+  const displayedSongs = displayAll || showAll ? songs : songs.slice(0, initialItems);
+  const showToggleButton = !displayAll && songs.length > initialItems;
 
   return (
     <section className="song-list">
@@ -34,7 +36,7 @@ const SongList = ({
         ))}
       </div>
 
-      {songs.length > initialItems && (
+      {showToggleButton && (
         <div className="song-list__footer">
           <button
             className="song-list__toggle-btn"
@@ -55,6 +57,7 @@ SongList.propTypes = {
   loading: PropTypes.bool,
   initialItems: PropTypes.number,
   showHeader: PropTypes.bool,
+  displayAll: PropTypes.bool,
 };
 
 export default SongList;

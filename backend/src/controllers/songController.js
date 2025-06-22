@@ -21,4 +21,36 @@ export class SongController {
       res.json(song);
     } catch (error) {
       res.status(500).json({ error: error.message });
+  } }
+   
+  async createSong(req, res) {
+    try {
+      const song = await this.model.create(req.body);
+      res.status(201).json(song);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+  } }
+
+  async updateSong(req, res) {
+    const { id } = req.params;
+    try {
+      const song = await this.model.updateById(id, req.body);
+      if (!song) {
+        return res.status(404).json({ error: 'Song not found' });
+      }
+      res.json(song);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+  } }
+
+  async deleteSong(req, res) {
+    const { id } = req.params;
+    try {
+      const song = await this.model.deleteById(id);
+      if (!song) {
+        return res.status(404).json({ error: 'Song not found' });
+      }
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
 } } }

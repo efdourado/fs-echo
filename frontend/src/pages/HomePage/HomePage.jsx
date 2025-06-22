@@ -122,11 +122,8 @@ const Home = () => {
                 />
               )}
             </div>
-            <aside className="carousel">
-              <h2 className="carousel__header">
-                        <h2 className="carousel__title">Genres</h2>
-                        </h2>
-
+            <aside className="home-featured-genres">
+              <h2 className="genres-section-title">Genres</h2>
               <div className="genres-grid">
                 {uniqueGenres.map(genre => (
                   <div key={genre} className="genre-box">

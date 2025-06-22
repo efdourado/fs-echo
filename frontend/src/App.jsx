@@ -18,6 +18,9 @@ import RegisterPage from './pages/Auth/RegisterPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminRoute from './components/auth/AdminRoute';
+import AdminLayout from './pages/Admin/AdminLayout';
+
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
@@ -35,6 +38,13 @@ const UserProfilePage = () => {
     </div>
 ); };
 
+const AdminDashboard = () => (
+    <div>
+        <h2>Admin Dashboard</h2>
+        <p>Welcome to the admin area. Select a category from the sidebar to get started.</p>
+    </div>
+);
+
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -51,12 +61,12 @@ const App = () => {
             <Header toggleSidebar={toggleSidebar} />
             <main style={{ flex: 1, paddingTop: '72px' }}>
               <Routes>
+                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
-
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
                 <Route path="/library" element={<ComingSoonPage />} />
@@ -65,6 +75,7 @@ const App = () => {
                 <Route path="/settings" element={<ComingSoonPage />} />
                 <Route path="/feedback" element={<ComingSoonPage />} />
 
+                {/* Protected User Route */}
                 <Route
                   path="/profile"
                   element={
@@ -73,6 +84,25 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
+
+                {/* Protected Admin Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminRoute>
+                      <AdminLayout />
+                    </AdminRoute>
+                  }
+                >
+                   {/* Sub-rotas do painel de admin */}
+                   <Route path="dashboard" element={<AdminDashboard />} />
+                   {/* Adicionaremos as outras páginas de gerenciamento aqui */}
+                   <Route path="artists" element={<ComingSoonPage />} />
+                   <Route path="albums" element={<ComingSoonPage />} />
+                   <Route path="songs" element={<ComingSoonPage />} />
+                   <Route path="users" element={<ComingSoonPage />} />
+                </Route>
+
               </Routes>
             </main>
             <Footer companyName={'Echo'} />

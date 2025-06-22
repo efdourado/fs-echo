@@ -185,6 +185,18 @@
   transform: scale(1.05);
 }
 
+.collection-view__tracks-panel {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: var(--spacing-sm);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.collection-view__tracks-panel::-webkit-scrollbar {
+  display: none;
+}
+
 
 @media (min-width: 992px) {
   .collection-view__content {
@@ -225,6 +237,8 @@
   padding: var(--spacing-xl);
   box-shadow: var(--shadow-sm);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .genres-section-title {
@@ -235,19 +249,20 @@
 }
 
 .genres-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--spacing-md);
 }
 
 .genre-box {
-  padding: var(--spacing-xs) var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--border-radius-md);
   font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   color: var(--color-white);
   cursor: pointer;
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  text-align: center;
 }
 
 .genre-box:hover {

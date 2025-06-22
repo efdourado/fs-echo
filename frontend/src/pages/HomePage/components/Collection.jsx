@@ -95,7 +95,7 @@ const Collection = ({ collectionId, type = "album" }) => {
           <SongList 
             songs={songs} 
             showHeader={false}
-            initialItems={10}
+            displayAll={true}
           />
         </div>
       </div>

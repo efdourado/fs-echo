@@ -12,13 +12,45 @@ export class ArtistController {
   } }
 
   async getArtistById(req, res) {
-  const { id } = req.params;
-  try {
-    const artist = await this.model.findById(id);
-    if (!artist) {
-      return res.status(404).json({ error: 'artist not found' });
-    }
-    res.json(artist);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    const { id } = req.params;
+    try {
+      const artist = await this.model.findById(id);
+      if (!artist) {
+        return res.status(404).json({ error: 'artist not found' });
+      }
+      res.json(artist);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+  } }
+
+  async createArtist(req, res) {
+    try {
+      const artist = await this.model.create(req.body);
+      res.status(201).json(artist);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+  } }
+
+  async updateArtist(req, res) {
+    const { id } = req.params;
+    try {
+      const artist = await this.model.updateById(id, req.body);
+      if (!artist) {
+        return res.status(404).json({ error: 'Artist not found' });
+      }
+      res.json(artist);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+  } }
+
+  async deleteArtist(req, res) {
+    const { id } = req.params;
+    try {
+      const artist = await this.model.deleteById(id);
+      if (!artist) {
+        return res.status(404).json({ error: 'Artist not found' });
+      }
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
 } } }
