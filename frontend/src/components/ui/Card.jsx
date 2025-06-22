@@ -13,7 +13,6 @@ const Card = ({ item, type }) => {
     name,
     coverImage,
     image,
-    releaseDate,
     artist,
     owner,
   } = item;
@@ -22,7 +21,6 @@ const Card = ({ item, type }) => {
   const displayTitle = title || name;
   const imageUrl = coverImage || image || fallbackImage;
   const detailPath = `/${type}/${_id}`;
-  const releaseYear = releaseDate ? new Date(releaseDate).getFullYear() : null;
 
   let subtitle = '';
   switch (type) {
@@ -58,14 +56,9 @@ const Card = ({ item, type }) => {
           />
           
           {!isArtist && (
-            <>
-              <div className="card__play-overlay">
-                <FontAwesomeIcon icon={faCirclePlay} size="3x" />
-              </div>
-              {releaseYear && (
-                <div className="card__year">{releaseYear}</div>
-              )}
-            </>
+            <div className="card__play-overlay">
+              <FontAwesomeIcon icon={faCirclePlay} size="3x" />
+            </div>
           )}
         </div>
         <div className="card__info">

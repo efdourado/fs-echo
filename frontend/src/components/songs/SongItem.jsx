@@ -4,14 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { usePlayer } from "../../hooks/usePlayer";
-import { formatDuration } from "../../utils/duration";
 import fallbackImage from '/images/fb.jpeg';
 
 const SongItem = React.memo(({ song, onMenuClick }) => {
   const player = usePlayer();
 
   if (!song || !song.artist) {
-    // This check is important. It prevents rendering incomplete items.
     return null;
   }
 
@@ -24,8 +22,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
     e.stopPropagation();
     if (hasAudio) {
       isCurrent ? player.togglePlayPause() : player.playTrack(song);
-    }
-  };
+  } };
 
   const handleMenuClick = (e) => {
     e.preventDefault();
@@ -61,18 +58,6 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
         </div>
       </div>
       
-      <div className="song-item__album">
-        <span>{song.album?.title || 'Single'}</span>
-      </div>
-
-      <div className="song-item__plays">
-        <span>{song.plays?.toLocaleString() || '-'}</span>
-      </div>
-
-      <div className="song-item__duration">
-        <span>{formatDuration(song.duration || 0)}</span>
-      </div>
-
       <div className="song-item__menu-container">
         <button
           className="song-item__menu-btn"
@@ -83,8 +68,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
         </button>
       </div>
     </div>
-  );
-});
+); });
 
 SongItem.propTypes = {
   song: PropTypes.shape({

@@ -79,27 +79,6 @@
   opacity: 1;
 }
 
-.card__year {
-  position: absolute;
-  left: var(--spacing-sm);
-  bottom: var(--spacing-sm);
-  background: hsla(0, 0%, 0%, 0.75);
-  color: var(--color-white);
-  padding: var(--spacing-xxs) var(--spacing-sm);
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity var(--transition-duration-medium) ease, transform var(--transition-duration-medium) ease;
-  z-index: 3;
-}
-
-.card:not(.card--artist):hover .card__year {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .card__info {
   text-align: left;
   padding: var(--spacing-sm);

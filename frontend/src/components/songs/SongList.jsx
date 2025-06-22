@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import SongItem from "./SongItem";
-// Make sure you have your LoadingSpinner component from the previous step!
-// import LoadingSpinner from "../ui/LoadingSpinner";
 
 const SongList = ({
   title,
@@ -15,7 +13,6 @@ const SongList = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
 
-  // You can use your new LoadingSpinner here for consistency
   if (loading) return <div className="song-list-loading">Loading songs...</div>;
   if (!songs || songs.length === 0) return <div className="song-list-empty">No songs available</div>;
 
@@ -23,7 +20,14 @@ const SongList = ({
 
   return (
     <section className="song-list">
-      
+      {showHeader && title && (
+        <div className="song-list__header">
+          <div className="song-list__header-main">
+            <h2 className="song-list__title">{title}</h2>
+          </div>
+        </div>
+      )}
+
       <div className="song-list__container">
         {displayedSongs.map((song, index) => (
           <SongItem key={song._id || index} song={song} onMenuClick={onMenuClick} />
@@ -41,8 +45,7 @@ const SongList = ({
         </div>
       )}
     </section>
-  );
-};
+); };
 
 SongList.propTypes = {
   title: PropTypes.string,

@@ -1,125 +1,108 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import SongList from "../../../components/songs/SongList";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
+
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
+import SongList from "../../../components/songs/SongList";
+// import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const loadCollectionData = async () => {
       try {
         setLoading(true);
-        
-        const collectionData = type === 'album' 
-          ? await fetchAlbumById(collectionId)
-          : await fetchPlaylistById(collectionId);
+        const fetcher = type === 'album' ? fetchAlbumById : fetchPlaylistById;
+        const collectionData = await fetcher(collectionId);
         
         setCollection(collectionData);
-        
-        if (collectionData.songs && collectionData.songs.length > 0) {
-          setSongs(collectionData.songs);
-        } else {
-          console.warn('A coleção não veio com as músicas completas - considere ajustar o endpoint da API');
-          setSongs([]);
-        }
-
+        setSongs(collectionData.songs || []);
       } catch (error) {
         console.error(`Error loading ${type} data:`, error);
       } finally {
         setLoading(false);
-    } };
+      }
+    };
 
     if (collectionId) {
       loadCollectionData();
     }
   }, [collectionId, type]);
 
-  if (loading) {
-    return <div className="featured-collection loading">Loading {type}...</div>;
-  }
+  if (loading) return <div className="collection-view loading">Loading...</div>;
+  if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
-  if (!collection) {
-    return <div className="featured-collection error">Failed to load {type}</div>;
-  }
+  const handlePlayCollection = () => {
+    console.log("Playing collection:", collection.title);
+  };
+
+  const toggleFollow = () => {
+    setIsFollowing(!isFollowing);
+  };
+
+  const ownerName = type === 'playlist' 
+    ? (collection.owner?.username || collection.owner?.name) 
+    : collection.artist?.name;
 
   return (
-    <div className="featured-collection">
-      <div className="featured-collection__header">
-        <h2 className="featured-collection__title">
-          Featured {type === 'album' ? 'Album' : 'Playlist'}
-        </h2>
-      </div>
+    <div className="collection-view">
+      <h2 className="collection-view__main-title">
+        Featured {type === 'album' ? 'Album' : 'Playlist'}
+      </h2>
       
-      <div className="featured-collection__content">
-        <div className="featured-collection__info">
-          <div className="collection-cover">
+      <div className="collection-view__content">
+        {/* Left Panel for Info */}
+        <div className="collection-view__info-panel">
+          <div className="collection-view__cover-art">
             <img 
               src={collection.coverImage || "/images/fb.jpeg"} 
-              alt={collection.title} 
-              className="collection-cover__image"
+              alt={collection.title}
             />
           </div>
-          
-          <div className="collection-details">
-            <h3 className="collection-details__title">{collection.title}</h3>
-            
-            {type === 'album' && collection.artist && (
-              <p className="collection-details__artist">
-                {collection.artist.name}
-              </p>
-            )}
-            
-            {type === 'playlist' && collection.owner && (
-              <p className="collection-details__owner">
-                Created by: {collection.owner.username || collection.owner.name}
-              </p>
-            )}
-            
-            <div className="collection-stats">
+          <div className="collection-view__details">
+            <h1 className="collection-view__title">{collection.title}</h1>
+            <p className="collection-view__owner">By {ownerName}</p>
+            <div className="collection-view__meta">
               {type === 'album' && collection.releaseDate && (
-                <span className="collection-stats__item">
-                  {new Date(collection.releaseDate).getFullYear()}
-                </span>
+                <span>{new Date(collection.releaseDate).getFullYear()}</span>
               )}
-              
-              <span className="collection-stats__item">
-                {collection.totalPlays?.toLocaleString() || '0'} plays
-              </span>
-              
-              {collection.genre && collection.genre.length > 0 && (
-                <span className="collection-stats__item">
-                  {collection.genre[0]}
-                </span>
-              )}
+              {songs.length > 0 && <span className="meta-divider">•</span>}
+              {songs.length > 0 && <span>{songs.length} songs</span>}
             </div>
-            
-            <p className="collection-details__description">
-              {collection.description || `Popular ${type} featuring top tracks`}
+            <p className="collection-view__description">
+              {collection.description}
             </p>
-            
-            <div className="collection-actions">
-              <button className="collection-actions__play">Play</button>
-              <button className="collection-actions__follow">
-                {type === 'album' ? 'Follow' : 'Save'}
-              </button>
-            </div>
+          </div>
+          <div className="collection-view__actions">
+            <button className="action-button primary" onClick={handlePlayCollection}>
+              <FontAwesomeIcon icon={faPlay} />
+              <span>Play</span>
+            </button>
+            <button className={`action-button secondary ${isFollowing ? 'following' : ''}`} onClick={toggleFollow}>
+              <FontAwesomeIcon icon={isFollowing ? faHeart : faRegularHeart} />
+              <span>{isFollowing ? 'Following' : (type === 'album' ? 'Follow' : 'Save')}</span>
+            </button>
           </div>
         </div>
-        
-        <div className="featured-collection__tracks">
+
+        {/* Right Panel for Tracks */}
+        <div className="collection-view__tracks-panel">
           <SongList 
             songs={songs} 
-            loading={loading && songs.length === 0}
-            showCount={false}
-            initialItems={8}
+            showHeader={false}
+            initialItems={10}
           />
         </div>
       </div>
     </div>
-); };
+  );
+};
 
 Collection.propTypes = {
   collectionId: PropTypes.string.isRequired,
