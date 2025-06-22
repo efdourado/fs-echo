@@ -26,8 +26,14 @@ export class AlbumModel {
   }
   
   async findById(id) {
-    return await Album.findById(id).populate('artist').populate('songs');
-  }
+    return await Album.findById(id)
+      .populate('artist')
+      .populate({
+        path: 'songs',
+        populate: {
+          path: 'artist',
+          model: 'Artist'
+  } }); }
 
   async findByArtist(artistId) {
     return await Album.find({ artist: artistId });

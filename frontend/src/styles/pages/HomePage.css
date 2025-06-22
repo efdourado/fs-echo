@@ -175,6 +175,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
+
+
+
+
 .featured-collection {
   margin: var(--spacing-2xl) 0;
 }
@@ -323,6 +327,10 @@
   border-radius: var(--border-radius-lg);
   margin: var(--spacing-xl) 0;
 }
+
+
+
+
 
 @media (min-width: 768px) {
   .album-content {

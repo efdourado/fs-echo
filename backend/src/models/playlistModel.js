@@ -24,8 +24,14 @@ export class PlaylistModel {
   }
 
   async findById(id) {
-    return await Playlist.findById(id).populate('owner').populate('songs.song');
-  }
+    return await Playlist.findById(id)
+      .populate('owner')
+      .populate({
+        path: 'songs.song',
+        populate: {
+          path: 'artist',
+          model: 'Artist'
+  } }); }
 
   async findByOwner(ownerId) {
     return await Playlist.find({ owner: ownerId });

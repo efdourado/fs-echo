@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { usePlayer } from "../hooks/usePlayer";
 import { fetchSongById } from "../api/api";
 import fallbackImage from "/images/fb.jpeg";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const SongPage = () => {
   const { id } = useParams();
@@ -40,7 +41,7 @@ const SongPage = () => {
 
 
   if (loading) {
-    return <div className="song-page"><div className="loading-message">Loading song...</div></div>;
+    return <LoadingSpinner />;
   }
 
   if (error || !currentSong) {

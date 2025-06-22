@@ -13,6 +13,7 @@ import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
 import { PlayerContext } from "../context/PlayerContext";
 
 import SongList from "../components/songs/SongList";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 import fallbackImage from '/images/fb.jpeg';
 
 const ArtistPage = () => {
@@ -74,13 +75,7 @@ const ArtistPage = () => {
     setIsFollowing(!isFollowing);
   };
 
-  if (loading) return (
-    <div className="artist-page">
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-      </div>
-    </div>
-  );
+  if (loading) return <LoadingSpinner />;
 
   if (!artist) return (
     <div className="artist-page">

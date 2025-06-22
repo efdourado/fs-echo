@@ -1,50 +1,48 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import SongItem from "./SongItem";
+// Make sure you have your LoadingSpinner component from the previous step!
+// import LoadingSpinner from "../ui/LoadingSpinner";
 
 const SongList = ({
-  title = "Songs",
+  title,
   songs = [],
   showCount = true,
   onMenuClick,
   loading = false,
-  initialItems = 6,
+  initialItems = 10,
+  showHeader = true,
 }) => {
   const [showAll, setShowAll] = useState(false);
-  
-  if (loading) return <div className="song-list">Loading songs...</div>;
-  if (!songs || songs.length === 0) return <div className="song-list">No songs available</div>;
+
+  // You can use your new LoadingSpinner here for consistency
+  if (loading) return <div className="song-list-loading">Loading songs...</div>;
+  if (!songs || songs.length === 0) return <div className="song-list-empty">No songs available</div>;
 
   const displayedSongs = showAll ? songs : songs.slice(0, initialItems);
 
   return (
     <section className="song-list">
-      <div className="song-list-header">
-        <h2 className="song-list-title">{title}</h2>
-        {showCount && (
-          <span className="song-list-count">
-            {songs.length} {songs.length === 1 ? "song" : "songs"}
-          </span>
-        )}
+      
+      <div className="song-list__container">
+        {displayedSongs.map((song, index) => (
+          <SongItem key={song._id || index} song={song} onMenuClick={onMenuClick} />
+        ))}
       </div>
 
-      <div className="song-list-container">
-        {displayedSongs.map((song) => (
-          <SongItem key={song._id} song={song} onMenuClick={onMenuClick} />
-        ))}
-        
-        {songs.length > initialItems && (
-          <button 
-            className="song-list-toggle"
+      {songs.length > initialItems && (
+        <div className="song-list__footer">
+          <button
+            className="song-list__toggle-btn"
             onClick={() => setShowAll(!showAll)}
           >
-            {showAll ? 'Show Less' : `See More (${songs.length - initialItems})`}
+            {showAll ? 'Show Less' : `Show All ${songs.length} Songs`}
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </section>
-); };
+  );
+};
 
 SongList.propTypes = {
   title: PropTypes.string,
@@ -53,6 +51,7 @@ SongList.propTypes = {
   onMenuClick: PropTypes.func,
   loading: PropTypes.bool,
   initialItems: PropTypes.number,
+  showHeader: PropTypes.bool,
 };
 
 export default SongList;

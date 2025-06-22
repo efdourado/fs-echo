@@ -1,37 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faPause,
-  faEllipsisH,
-  faExclamation
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { usePlayer } from "../../hooks/usePlayer";
 import { formatDuration } from "../../utils/duration";
+import fallbackImage from '/images/fb.jpeg';
 
 const SongItem = React.memo(({ song, onMenuClick }) => {
   const player = usePlayer();
 
-  if (!song) return null;
+  if (!song || !song.artist) {
+    // This check is important. It prevents rendering incomplete items.
+    return null;
+  }
 
   const isCurrent = player?.currentTrack?._id === song._id;
-  const progress =
-    isCurrent && player?.duration ? (player.currentTime / player.duration) * 100 : 0;
+  const isPlaying = isCurrent && player?.isPlaying;
   const hasAudio = !!song.audioUrl;
 
   const handlePlayClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (!hasAudio) return;
-
-    if (isCurrent) {
-      player.togglePlayPause();
-    } else {
-      player.playTrack(song);
-  } };
+    if (hasAudio) {
+      isCurrent ? player.togglePlayPause() : player.playTrack(song);
+    }
+  };
 
   const handleMenuClick = (e) => {
     e.preventDefault();
@@ -41,93 +35,56 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
 
   return (
     <div
-      className={`song-item ${isCurrent ? "song-item--active" : ""} ${
-        !hasAudio ? "song-item--disabled" : ""
-      }`}
-      aria-current={isCurrent ? "true" : undefined}
+      className={`song-item ${isCurrent ? "song-item--active" : ""} ${!hasAudio ? "song-item--disabled" : ""}`}
+      onDoubleClick={handlePlayClick}
     >
-      <div className="song-item__number">
-        {isCurrent && player?.isPlaying ? (
-          <button 
-            className="song-item__play-button"
-            onClick={handlePlayClick}
-            aria-label="Pause"
-          >
-            <FontAwesomeIcon icon={faPause} />
-          </button>
-        ) : (
+      <div className="song-item__track">
+        <div className="song-item__cover-art-container">
+          <img
+            src={song.coverImage || fallbackImage}
+            alt={song.title}
+            className="song-item__cover-art"
+            onError={(e) => { e.target.src = fallbackImage; }}
+          />
           <button
-            className="song-item__play-button"
+            className="song-item__play-pause-btn"
             onClick={handlePlayClick}
-            aria-label="Play"
+            aria-label={isPlaying ? "Pause" : "Play"}
             disabled={!hasAudio}
           >
-            {hasAudio ? (
-              <FontAwesomeIcon icon={faPlay} />
-            ) : (
-              <FontAwesomeIcon icon={faExclamation} />
-            )}
+            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
           </button>
-        )}
+        </div>
+        <div className="song-item__info">
+          <p className="song-item__title">{song.title}</p>
+          <p className="song-item__artist">{song.artist.name}</p>
+        </div>
+      </div>
+      
+      <div className="song-item__album">
+        <span>{song.album?.title || 'Single'}</span>
       </div>
 
-      <div className="song-item__content">
-        <div className="song-item__info">
-          <div className="song-item__title-container">
-            <p className="song-item__title">
-              {song.title}
-              {song.isExplicit && (
-                <span className="song-item__explicit" aria-label="Explicit">
-                  E
-                </span>
-              )}
-            </p>
-            <div className="song-item__meta">
-              <span className="song-item__artist">
-                {song.artist?.name || "unknown artist"}
-              </span>
-              {song.plays > 0 && (
-                <>
-                  •
-                  <span className="song-item__plays">
-                    {song.plays.toLocaleString()} plays
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+      <div className="song-item__plays">
+        <span>{song.plays?.toLocaleString() || '-'}</span>
+      </div>
 
-        <div className="song-item__duration">
-          {formatDuration((hasAudio && isCurrent && player.duration) ? player.duration : song.duration || 0)}
-        </div>
+      <div className="song-item__duration">
+        <span>{formatDuration(song.duration || 0)}</span>
+      </div>
 
+      <div className="song-item__menu-container">
         <button
-          className="song-item__menu"
+          className="song-item__menu-btn"
           onClick={handleMenuClick}
-          aria-haspopup="true"
           aria-label="More options"
         >
-          <FontAwesomeIcon icon={faEllipsisH} />
+          <FontAwesomeIcon icon={faEllipsis} />
         </button>
-
-        {isCurrent && (
-          <div
-            className="song-item__progress-container"
-            role="progressbar"
-            aria-valuenow={progress}
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            <div
-              className="song-item__progress-bar"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-        )}
       </div>
     </div>
-); });
+  );
+});
 
 SongItem.propTypes = {
   song: PropTypes.shape({
@@ -136,7 +93,7 @@ SongItem.propTypes = {
     artist: PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
-    }).isRequired,
+    }),
     album: PropTypes.shape({
       _id: PropTypes.string,
       title: PropTypes.string,
@@ -144,9 +101,10 @@ SongItem.propTypes = {
     coverImage: PropTypes.string,
     audioUrl: PropTypes.string,
     isExplicit: PropTypes.bool,
-    genre: PropTypes.arrayOf(PropTypes.string),
     plays: PropTypes.number,
-    releaseDate: PropTypes.instanceOf(Date),
-}), onMenuClick: PropTypes.func, };
+    duration: PropTypes.number,
+  }).isRequired,
+  onMenuClick: PropTypes.func,
+};
 
 export default SongItem;

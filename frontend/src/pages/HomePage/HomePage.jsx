@@ -6,6 +6,8 @@ import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
 import Hero from "../../components/heroes/Hero.jsx";
 
+import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
+
 const Home = () => {
   const [songs, setSongs] = useState([]);
   const [singles, setSingles] = useState([]); 
@@ -80,7 +82,7 @@ const Home = () => {
 
   return (
     <div className="home-content">
-      {loading || !heroHighlight ? ( <p className="loading">Loading music...</p> ) : (
+      {loading || !heroHighlight ? ( <LoadingSpinner /> ) : (
         <>
           <Hero
             title="Join Us in your Echoes"
@@ -113,15 +115,17 @@ const Home = () => {
             type="artist"
           />
           <Carousel
-            title="Featured Albums"
+            title="Popular Albums"
             items={albums}
             type="album"
           />
-          <Carousel
+
+          {/* <Carousel
             title="Singles"
             items={singles}
             type="song"
-          />
+          /> */}
+
         </>
       )}
     </div>
