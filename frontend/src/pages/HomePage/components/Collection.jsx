@@ -51,13 +51,13 @@ const Collection = ({ collectionId, type = "album" }) => {
     : collection.artist?.name;
 
   return (
-    <div className="collection-view">
-      <h2 className="collection-view__main-title">
-        Featured {type === 'album' ? 'Album' : 'Playlist'}
-      </h2>
+
+    <section className="carousel">
+      <div className="carousel__header">
+        <h2 className="carousel__title">Featured {type === 'album' ? 'Album' : 'Playlist'}s</h2>
+      </div>
       
       <div className="collection-view__content">
-        {/* Left Panel for Info */}
         <div className="collection-view__info-panel">
           <div className="collection-view__cover-art">
             <img 
@@ -79,16 +79,7 @@ const Collection = ({ collectionId, type = "album" }) => {
               {collection.description}
             </p>
           </div>
-          <div className="collection-view__actions">
-            <button className="action-button primary" onClick={handlePlayCollection}>
-              <FontAwesomeIcon icon={faPlay} />
-              <span>Play</span>
-            </button>
-            <button className={`action-button secondary ${isFollowing ? 'following' : ''}`} onClick={toggleFollow}>
-              <FontAwesomeIcon icon={isFollowing ? faHeart : faRegularHeart} />
-              <span>{isFollowing ? 'Following' : (type === 'album' ? 'Follow' : 'Save')}</span>
-            </button>
-          </div>
+          
         </div>
 
         {/* Right Panel for Tracks */}
@@ -100,7 +91,9 @@ const Collection = ({ collectionId, type = "album" }) => {
           />
         </div>
       </div>
-    </div>
+
+    </section>
+
   );
 };
 

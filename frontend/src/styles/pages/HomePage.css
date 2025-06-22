@@ -7,7 +7,10 @@
 
 
 .carousel {
+  background: var(--color-surface);
   margin: var(--spacing-xl) 0;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
 }
 
 .carousel__header {
@@ -27,10 +30,10 @@
 .carousel__items {
   display: flex;
   overflow-x: auto;
-  padding-bottom: var(--spacing-md);
   gap: var(--spacing-lg);
   -ms-overflow-style: none;
   scrollbar-width: none;
+  
 }
 
 .carousel__items::-webkit-scrollbar {
@@ -47,172 +50,31 @@
 
 
 
-.album-content {
-  display: grid;
-  gap: var(--spacing-xl);
-  margin: var(--spacing-2xl) 0;
-}
-
-.album-info {
-  background-color: var(--color-surface);
-  padding: var(--spacing-lg);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-}
-
-.album-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.album-card .album-title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  margin: 0;
-}
-
-.album-card .album-artist {
-  font-size: var(--font-size-md);
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
-.see-albums-btn {
-  margin-top: var(--spacing-md);
-  background-color: var(--color-primary-accent);
-  color: var(--color-text-on-primary);
-  border: none;
-  padding: var(--button-padding-md);
-  height: var(--button-height-md);
-  border-radius: var(--border-radius-md);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: background-color var(--transition-duration-short) var(--transition-timing-function-ease);
-}
-.see-albums-btn:hover {
-  background-color: var(--color-primary-hover);
-}
-
-.album-showcase {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--spacing-xl);
-  margin: var(--spacing-2xl) 0;
-  background: var(--color-surface);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-sm);
-}
-
-.album-showcase .album-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.album-showcase .album-card__cover {
-  aspect-ratio: 1/1;
-  margin-bottom: var(--spacing-md);
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  background-color: var(--color-surface-hover);
-}
-
-.album-showcase .album-card__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-duration-medium) var(--transition-timing-function-ease);
-}
-
-.album-showcase .album-card__link:hover .album-card__image {
-  transform: scale(1.03);
-}
-
-.album-showcase .album-card__details {
-  padding: 0 var(--spacing-xs);
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.album-showcase .album-card__title {
-  font-size: var(--font-size-xl);
-  margin: 0 0 var(--spacing-xxs);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-
-.album-showcase .album-card__artist {
-  color: var(--color-text-secondary);
-  margin: 0 0 var(--spacing-sm);
-  font-size: var(--font-size-md);
-}
-
-.album-showcase .album-card__meta {
-  display: flex;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-tertiary);
-  margin-top: auto;
-}
-
-.album-showcase__tracks {
-  padding-top: var(--spacing-xs);
-}
-
-.album-showcase__tracks .track-list-header {
-  padding: 0;
-  margin-bottom: var(--spacing-md);
-}
-
-.album-showcase__tracks .track-list-title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-}
-
-
-
-/* === Collection View (Side-by-Side Redesign) === */
-
-.collection-view {
-  background: var(--color-surface);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-xl);
-  margin: var(--spacing-2xl) 0;
-  box-shadow: var(--shadow-sm);
-}
-
-.collection-view__main-title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  margin: 0 0 var(--spacing-lg) 0;
-}
 
 .collection-view__content {
   display: grid;
-  grid-template-columns: 1fr; /* Padrão de uma coluna para telemóveis */
-  gap: var(--spacing-xl);
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+    padding: var(--spacing-md);
+
+}
+.collection-view__content:hover {
+  background-color: var(--color-surface-hover);
+  
+
 }
 
-/* Em ecrãs maiores (desktops), muda para 2 colunas */
 @media (min-width: 992px) {
   .collection-view__content {
-    grid-template-columns: 320px 1fr; 
+    grid-template-columns: auto 1fr; 
   }
 }
 
-/* Painel Esquerdo (Informação) */
 .collection-view__info-panel {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
   text-align: center;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 @media (min-width: 992px) {
@@ -224,7 +86,6 @@
 .collection-view__cover-art {
   width: 100%;
   max-width: 250px;
-  margin: 0 auto;
   aspect-ratio: 1/1;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-lg);
@@ -237,6 +98,8 @@
   height: 100%;
   object-fit: cover;
 }
+
+
 
 .collection-view__title {
   font-size: var(--font-size-2xl);
@@ -303,19 +166,6 @@
 }
 
 
-/* Painel Direito (Faixas) */
-.collection-view__tracks-panel {
-  background-color: var(--color-background);
-  border-radius: var(--border-radius-md);
-  padding: var(--spacing-sm);
-}
-
-
-
-
-
-
-
 
 
 
@@ -349,3 +199,68 @@
     max-width: 300px;
     margin: 0 auto var(--spacing-lg);
 } }
+
+
+/* Styles for the new featured section grid */
+.home-featured-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+/* On larger screens, switch to a two-column layout */
+@media (min-width: 1024px) {
+  .home-featured-section {
+    grid-template-columns: 2fr 1fr;
+    align-items: flex-start;
+  }
+}
+
+/* Remove the default margin from the collection view when it's inside our new grid */
+.home-featured-collection .collection-view {
+    margin: 0;
+}
+
+.home-featured-genres {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  height: 100%; /* Ensure it takes full height in the grid cell */
+}
+
+.genres-section-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.genres-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.genre-box {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.genre-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Colorful gradients for the genre boxes */
+.genre-box:nth-child(6n + 1) { background: linear-gradient(135deg, #e55d87, #59cde7); }
+.genre-box:nth-child(6n + 2) { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+.genre-box:nth-child(6n + 3) { background: linear-gradient(135deg, #f2994a, #f2c94c); }
+.genre-box:nth-child(6n + 4) { background: linear-gradient(135deg, #ee0979, #ff6a00); }
+.genre-box:nth-child(6n + 5) { background: linear-gradient(135deg, #42275a, #734b6d); }
+.genre-box:nth-child(6n + 6) { background: linear-gradient(135deg, #3ca55c, #b5ac49); }

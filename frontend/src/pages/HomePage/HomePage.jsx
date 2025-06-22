@@ -10,13 +10,14 @@ import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
-  const [singles, setSingles] = useState([]); 
+  const [singles, setSingles] = useState([]);
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
   const [heroHighlight, setHeroHighlight] = useState(null);
+  const [uniqueGenres, setUniqueGenres] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -27,7 +28,6 @@ const Home = () => {
           fetchAlbums(),
           fetchPlaylists(),
         ]);
-
 
         const singleSongs = songsData.filter(song => song.album && song.album.type === 'single');
         setSingles(singleSongs);
@@ -42,6 +42,17 @@ const Home = () => {
         if (properAlbums.length > 0) {
           setFeaturedAlbumId(properAlbums.length > 1 ? properAlbums[1]._id : properAlbums[0]._id);
         }
+
+        const getUniqueGenres = (data) => {
+          const genres = new Set();
+          data.forEach(item => {
+            if (item.genre) {
+              item.genre.forEach(g => genres.add(g));
+            }
+          });
+          return Array.from(genres).slice(0, 12);
+        };
+        setUniqueGenres(getUniqueGenres(songsData));
 
         if (songsData.length > 0) {
           const mainHighlightSong = songsData[0];
@@ -101,13 +112,30 @@ const Home = () => {
             items={playlists}
             type="playlist"
           />
+          
+          <div className="home-featured-section">
+            <div className="home-featured-collection">
+              {featuredAlbumId && (
+                <Collection
+                  collectionId={featuredAlbumId}
+                  type="album"
+                />
+              )}
+            </div>
+            <aside className="carousel">
+              <h2 className="carousel__header">
+                        <h2 className="carousel__title">Genres</h2>
+                        </h2>
 
-          {featuredAlbumId && (
-            <Collection
-              collectionId={featuredAlbumId}
-              type="album"
-            />
-          )}
+              <div className="genres-grid">
+                {uniqueGenres.map(genre => (
+                  <div key={genre} className="genre-box">
+                    {genre}
+                  </div>
+                ))}
+              </div>
+            </aside>
+          </div>
 
           <Carousel
             title="Your Favourite Artists"
@@ -119,13 +147,6 @@ const Home = () => {
             items={albums}
             type="album"
           />
-
-          {/* <Carousel
-            title="Singles"
-            items={singles}
-            type="song"
-          /> */}
-
         </>
       )}
     </div>

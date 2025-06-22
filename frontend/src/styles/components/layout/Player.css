@@ -1,53 +1,66 @@
+/* === Modern Glassmorphism Player Redesign === */
+
 .player {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: var(--player-height);
-  background: linear-gradient(135deg, var(--color-surface-hover) 0%, var(--color-surface) 100%);
-  border-top: 1px solid var(--color-border);
+  
+  /* Glassmorphism Effect */
+  background: hsla(240, 5%, 15%, 0.7);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid hsla(0, 0%, 100%, 0.12);
+  
   display: flex;
   align-items: center;
   padding: 0 var(--spacing-lg);
   z-index: var(--z-index-player);
-  transition: background-color var(--transition-duration-medium) var(--transition-timing-function-ease);
-  box-shadow: var(--shadow-lg);
+  
+  transition: background-color var(--transition-duration-medium) ease,
+              left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.player--active { /* different style when playing */ }
+.player.sidebar-open {
+  left: 260px;
+}
 
 .player__content {
-  display: flex;
   width: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: var(--spacing-lg);
 }
+
+
+/* === Left Side: Song Info === */
 
 .player__song-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  min-width: 200px;
-  flex-shrink: 0;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .player__cover {
   width: 56px;
   height: 56px;
-  border-radius: var(--border-radius-sm);
+  border-radius: 8px;
   object-fit: cover;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.4);
+  transition: transform 0.4s ease;
   background-color: var(--color-surface-hover);
 }
 
+.player__song-info:hover .player__cover {
+    transform: scale(1.08);
+}
+
 .player__song-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -70,13 +83,17 @@
   text-overflow: ellipsis;
 }
 
+
+/* === Center: Controls === */
+
 .player__controls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-grow: 1;
   gap: var(--spacing-xs);
-  max-width: 600px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .player__main-controls {
@@ -85,39 +102,51 @@
   gap: var(--spacing-lg);
 }
 
-.player__play-button {
-  background-color: var(--color-text-primary);
-  color: var(--color-background);
-  width: 36px;
-  height: 36px;
-  border-radius: var(--border-radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: transform var(--transition-duration-short) var(--transition-timing-function-ease),
-              background-color var(--transition-duration-short) var(--transition-timing-function-ease);
-}
-.player__play-button:hover {
-  transform: scale(1.05);
-  background-color: var(--color-primary-accent);
-  color: var(--color-text-on-primary);
-}
-
+.player__control-btn,
 .player__nav-button {
   background: transparent;
   color: var(--color-text-secondary);
   border: none;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   padding: var(--spacing-xs);
   cursor: pointer;
-  transition: color var(--transition-duration-short) var(--transition-timing-function-ease);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
+.player__control-btn:hover,
 .player__nav-button:hover {
   color: var(--color-text-primary);
+  background-color: hsla(0,0%,100%,0.1);
 }
+
+.player__play-button {
+  background-color: var(--color-primary-accent);
+  color: var(--color-white);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 0 hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), var(--color-primary-accent-l), 0.7);
+  transition: all 0.3s ease;
+}
+
+.player__play-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px 3px hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), var(--color-primary-accent-l), 0.5);
+}
+
+
+/* === Center: Progress Bar === */
 
 .player__progress-container {
   display: flex;
@@ -134,18 +163,18 @@
 }
 
 .player__progress-bar {
-  height: 4px;
-  background-color: var(--color-surface-hover);
+  --progress: 0%;
+  height: 6px;
+  background-color: hsla(0, 0%, 100%, 0.15);
   border-radius: var(--border-radius-full);
   flex-grow: 1;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
-  transition: height var(--transition-duration-short) var(--transition-timing-function-ease);
+  transition: height 0.2s ease;
 }
 
 .player__progress-bar:hover {
-  height: 6px;
+  height: 8px;
 }
 
 .player__progress-fill {
@@ -153,59 +182,104 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: var(--progress, 0%);
+  width: var(--progress);
   background-color: var(--color-primary-accent);
   border-radius: var(--border-radius-full);
   transition: width 0.1s linear;
 }
 
-@media (max-width: 768px) {
-  .player {
-    height: calc(var(--player-height) - 10px);
-    padding: 0 var(--spacing-md);
-  }
+/* Progress bar thumb on hover */
+.player__progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%) scale(0);
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
 
-  .player__song-info {
-    min-width: auto;
-    flex-basis: 150px;
-    flex-grow: 0;
-  }
-  
-  .player__cover {
-    width: 48px;
-    height: 48px;
-  }
+.player__progress-bar:hover .player__progress-fill::after {
+  transform: translate(50%, -50%) scale(1);
+}
 
-  .player__title {
-    font-size: var(--font-size-xs);
-  }
 
-  .player__artist {
-    font-size: calc(var(--font-size-xs) - 2px);
-  }
+/* === Right Side: Volume Controls === */
 
-  .player__main-controls {
-    gap: var(--spacing-md);
-  }
-  .player__play-button {
-    width: 32px;
-    height: 32px;
-  }
-  .player__nav-button {
-    font-size: calc(var(--font-size-md) - 2px);
-    padding: var(--spacing-xxs);
-  }
-  .player__controls {
-    gap: var(--spacing-xxs);
-} }
+.player__extra-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
 
-@media (max-width: 480px) {
-  .player__song-details {
-    max-width: 100px;
-  }
-  .player__artist {
-    display: none;
-  }
-  .player__main-controls {
-    gap: var(--spacing-sm);
-} }
+.player__volume-slider-container {
+  width: 100px;
+}
+
+.player__volume-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Track */
+.player__volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: hsla(0, 0%, 100%, 0.2);
+  border-radius: var(--border-radius-full);
+}
+.player__volume-slider::-moz-range-track {
+  height: 4px;
+  background: hsla(0, 0%, 100%, 0.2);
+  border-radius: var(--border-radius-full);
+}
+
+/* Thumb */
+.player__volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: var(--color-white);
+  border-radius: 50%;
+  margin-top: -5px; /* Vertically center thumb */
+  transition: transform 0.2s ease;
+}
+.player__volume-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  background: var(--color-white);
+  border-radius: 50%;
+  border: none;
+}
+
+.player__volume-slider:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+}
+
+
+/* === Responsive Adjustments === */
+@media (max-width: 900px) {
+    .player__content {
+        grid-template-columns: 1fr 1.5fr;
+    }
+    .player__extra-controls {
+        display: none; /* Hide volume on smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .player__content {
+        grid-template-columns: auto 1fr; /* Icon and track name + controls */
+    }
+    .player__song-details {
+        display: none; /* Hide song details, just show cover art */
+    }
+    .player__controls {
+        max-width: none;
+    }
+}

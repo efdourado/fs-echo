@@ -1,66 +1,70 @@
 import React, { useContext, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBackwardStep,
-  faPlay, // Changed from faCirclePlay for consistency with faPause
+  faPlay,
   faForwardStep,
-  faPause, // Changed from faCirclePause
+  faPause,
+  faVolumeUp,
+  faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { PlayerContext } from '../../context/PlayerContext';
 import { formatDuration } from '../../utils/duration';
-import fallbackImage from '/images/fb.jpeg'; // Ensure you have a fallback image
+import fallbackImage from '/images/fb.jpeg';
 
-const Player = () => {
+const Player = ({ isSidebarOpen }) => {
   const {
-    currentTrack, // currentTrack is actually currentSong in your context, let's assume it's the song object
+    currentTrack,
     isPlaying,
-    togglePlayPause,
-    skipTrack,
+    volume,
+    isMuted,
     currentTime,
     duration,
-    seek
+    togglePlayPause,
+    skipTrack,
+    seek,
+    setVolume,
+    toggleMute,
   } = useContext(PlayerContext);
 
   const progressBarRef = useRef(null);
-  // Use currentTrack.duration as a fallback if the live duration isn't available yet
   const effectiveDuration = duration || currentTrack?.duration || 0;
 
   const handleProgressClick = (e) => {
     if (!progressBarRef.current || effectiveDuration <= 0) return;
-
     const rect = progressBarRef.current.getBoundingClientRect();
     const clickPosition = (e.clientX - rect.left) / rect.width;
     const seekTime = clickPosition * effectiveDuration;
-
     seek(seekTime);
   };
 
   useEffect(() => {
-    if (progressBarRef.current) { // Check if ref is mounted
+    if (progressBarRef.current) {
       const progressPercent = effectiveDuration > 0 ? (currentTime / effectiveDuration) * 100 : 0;
       progressBarRef.current.style.setProperty("--progress", `${progressPercent}%`);
     }
   }, [currentTime, effectiveDuration]);
+  
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+  };
 
   if (!currentTrack) return null;
 
   return (
-    // The 'player--active' class can be added based on isPlaying if desired for specific active styles
-    <div className={`player ${isPlaying ? 'player--active' : ''}`}>
+    <div className={`player ${isPlaying ? 'player--active' : ''} ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="player__content">
-        {/* Updated class name here */}
+        {/* Left Side: Song Info */}
         <div className="player__song-info">
           <img
             src={currentTrack.coverImage || fallbackImage}
-            alt={`Cover for ${currentTrack.title}`} // More descriptive alt text
+            alt={`Cover for ${currentTrack.title}`}
             className="player__cover"
-            onError={(e) => {
-              e.target.src = fallbackImage; // Use imported fallback
-              e.target.onerror = null; // Prevent infinite loop if fallback also fails
-            }}
+            onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
           />
-          {/* Updated class name here */}
           <div className="player__song-details">
             <h3 className="player__title" title={currentTrack.title}>{currentTrack.title}</h3>
             <p className="player__artist" title={currentTrack.artist?.name || 'Unknown Artist'}>
@@ -69,39 +73,21 @@ const Player = () => {
           </div>
         </div>
 
+        {/* Center: Main Controls & Progress Bar */}
         <div className="player__controls">
           <div className="player__main-controls">
-            <button
-              className="player__nav-button"
-              onClick={() => skipTrack('backward')}
-              aria-label="Previous song" // Changed from "track"
-            >
+            <button className="player__nav-button" onClick={() => skipTrack('backward')} aria-label="Previous song">
               <FontAwesomeIcon icon={faBackwardStep} />
             </button>
-
-            <button
-              className="player__play-button"
-              onClick={togglePlayPause}
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {/* Using faPlay and faPause for better visual consistency */}
+            <button className="player__play-button" onClick={togglePlayPause} aria-label={isPlaying ? 'Pause' : 'Play'}>
               <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} size="lg" />
             </button>
-
-            <button
-              className="player__nav-button"
-              onClick={() => skipTrack('forward')}
-              aria-label="Next song" // Changed from "track"
-            >
+            <button className="player__nav-button" onClick={() => skipTrack('forward')} aria-label="Next song">
               <FontAwesomeIcon icon={faForwardStep} />
             </button>
           </div>
-
           <div className="player__progress-container">
-            <span className="player__time">
-              {formatDuration(currentTime)}
-            </span>
-
+            <span className="player__time">{formatDuration(currentTime)}</span>
             <div
               ref={progressBarRef}
               className="player__progress-bar"
@@ -110,24 +96,43 @@ const Player = () => {
               aria-valuenow={effectiveDuration > 0 ? (currentTime / effectiveDuration) * 100 : 0}
               aria-valuemin="0"
               aria-valuemax="100"
-              aria-label="Song progress" // Added aria-label
+              aria-label="Song progress"
             >
               <div className="player__progress-fill" />
             </div>
-
-            <span className="player__time">
-              {formatDuration(effectiveDuration)}
-            </span>
+            <span className="player__time">{formatDuration(effectiveDuration)}</span>
           </div>
         </div>
-        {/* Example of how you might add other controls like volume - not in original scope but for context */}
-        {/* <div className="player__volume-controls">
-           Volume slider, mute button etc.
-        </div> 
-        */}
+
+        {/* Right Side: Extra Controls (Volume) */}
+        <div className="player__extra-controls">
+          <button className="player__control-btn" onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
+            <FontAwesomeIcon icon={isMuted || volume === 0 ? faVolumeMute : faVolumeUp} />
+          </button>
+          <div className="player__volume-slider-container">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={isMuted ? 0 : volume}
+              onChange={handleVolumeChange}
+              className="player__volume-slider"
+              aria-label="Volume"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
+};
+
+Player.propTypes = {
+  isSidebarOpen: PropTypes.bool,
+};
+
+Player.defaultProps = {
+  isSidebarOpen: false,
 };
 
 export default Player;

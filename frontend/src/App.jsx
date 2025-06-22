@@ -78,7 +78,7 @@ const App = () => {
             <Footer companyName={'Echo'} />
           </div>
         </div>
-        <Player />
+        <Player isSidebarOpen={isSidebarOpen} />
     </PlayerProvider>
 ); };
 
