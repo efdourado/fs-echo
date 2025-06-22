@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 import SongList from "../../../components/songs/SongList";
-// import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
@@ -35,7 +35,7 @@ const Collection = ({ collectionId, type = "album" }) => {
     }
   }, [collectionId, type]);
 
-  if (loading) return <div className="collection-view loading">Loading...</div>;
+  if (loading) return <LoadingSpinner />;
   if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
   const handlePlayCollection = () => {
@@ -54,7 +54,7 @@ const Collection = ({ collectionId, type = "album" }) => {
 
     <section className="carousel">
       <div className="carousel__header">
-        <h2 className="carousel__title">Featured {type === 'album' ? 'Album' : 'Playlist'}s</h2>
+        <h2 className="carousel__title">Featured {type === 'album' ? 'Album' : 'Playlist'}</h2>
       </div>
       
       <div className="collection-view__content">
@@ -64,6 +64,7 @@ const Collection = ({ collectionId, type = "album" }) => {
               src={collection.coverImage || "/images/fb.jpeg"} 
               alt={collection.title}
             />
+        
           </div>
           <div className="collection-view__details">
             <h1 className="collection-view__title">{collection.title}</h1>
@@ -78,11 +79,18 @@ const Collection = ({ collectionId, type = "album" }) => {
             <p className="collection-view__description">
               {collection.description}
             </p>
+            <div className="collection-view__actions">
+                <button className="action-button icon-only" onClick={handlePlayCollection} aria-label={`Play ${collection.title}`}>
+                   <FontAwesomeIcon icon={faPlay}/>
+                </button>
+
+                 <button className="action-button icon-only" aria-label="Add to library">
+                    <FontAwesomeIcon icon={faPlus} />
+                </button>
+            </div>
           </div>
-          
         </div>
 
-        {/* Right Panel for Tracks */}
         <div className="collection-view__tracks-panel">
           <SongList 
             songs={songs} 
@@ -91,11 +99,8 @@ const Collection = ({ collectionId, type = "album" }) => {
           />
         </div>
       </div>
-
     </section>
-
-  );
-};
+); };
 
 Collection.propTypes = {
   collectionId: PropTypes.string.isRequired,

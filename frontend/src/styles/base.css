@@ -293,7 +293,7 @@ body.light-mode ::-webkit-scrollbar-thumb:hover {
 }
 
 .content-pusher.sidebar-open {
-  margin-left: 260px;
+  margin-left: 320px;
 }
 
 .content-pusher > main {

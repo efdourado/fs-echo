@@ -1,8 +1,8 @@
 .sidebar {
   position: fixed;
   top: var(--current-header-height, var(--header-height));
-  left: -260px;
-  width: 260px;
+  left: -320px;
+  width: 320px;
   height: calc(100vh - var(--current-header-height, var(--header-height)));
   background-color: var(--color-background);
   z-index: var(--z-index-sticky);
@@ -16,7 +16,7 @@
 }
 
 .sidebar.open {
-  transform: translateX(260px);
+  transform: translateX(320px);
 }
 
 .sidebar-nav {

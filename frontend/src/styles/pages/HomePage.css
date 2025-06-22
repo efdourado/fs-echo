@@ -2,14 +2,14 @@
   flex: 1;
   padding: var(--spacing-lg) var(--container-padding-x);
   background-color: var(--color-background);
+  
 }
 
 
 
 .carousel {
-  background: var(--color-surface);
-  margin: var(--spacing-xl) 0;
-  padding: var(--spacing-xl);
+  margin: var(--spacing-xs) 0;
+  padding: var(--spacing-xs) 0;
   border-radius: var(--border-radius-lg);
 }
 
@@ -22,7 +22,6 @@
 
 .carousel__title {
   font-size: var(--font-size-2xl);
-  margin: 0;
   font-weight: var(--font-weight-semibold);
   text-shadow: 0 6px 16px rgba(0,0,0,0.6);
 }
@@ -30,10 +29,10 @@
 .carousel__items {
   display: flex;
   overflow-x: auto;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm);
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
+  margin-left: -12px;
 }
 
 .carousel__items::-webkit-scrollbar {
@@ -46,28 +45,19 @@
 
 
 
-
-
-
-
-
 .collection-view__content {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-md);
-    padding: var(--spacing-md);
+  padding: var(--spacing-sm);
+  margin-left: -12px;
+  border-radius: var(--border-radius-lg);
+  position: relative;
+  transition: background-color 0.2s ease-out;
 
 }
 .collection-view__content:hover {
   background-color: var(--color-surface-hover);
-  
-
-}
-
-@media (min-width: 992px) {
-  .collection-view__content {
-    grid-template-columns: auto 1fr; 
-  }
 }
 
 .collection-view__info-panel {
@@ -75,12 +65,6 @@
   text-align: center;
   align-items: center;
   gap: var(--spacing-sm);
-}
-
-@media (min-width: 992px) {
-    .collection-view__info-panel {
-        text-align: left;
-    }
 }
 
 .collection-view__cover-art {
@@ -91,22 +75,60 @@
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   background-color: var(--color-surface-hover);
+  position: relative;
+  margin: 0 auto;
 }
 
 .collection-view__cover-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .3s ease;
 }
 
+.collection-view__content:hover .collection-view__cover-art img {
+    transform: scale(1.05);
+}
 
+.collection-view__play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.collection-view__content:hover .collection-view__play-overlay {
+  opacity: 1;
+}
+
+.collection-view__play-overlay .fa-icon {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  transition: transform 0.2s ease;
+}
+
+.collection-view__play-overlay:hover .fa-icon {
+  transform: scale(1.1);
+}
 
 .collection-view__title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: var(--line-height-tight);
-  margin: var(--spacing-sm) 0 0 0;
+  margin: var(--spacing-xxs) 0;
 }
 
 .collection-view__owner {
@@ -125,12 +147,6 @@
   margin-top: var(--spacing-sm);
 }
 
-@media (min-width: 992px) {
-    .collection-view__meta {
-        justify-content: flex-start;
-    }
-}
-
 .collection-view__meta .meta-divider {
   opacity: 0.5;
 }
@@ -144,81 +160,63 @@
 
 .collection-view__actions {
   display: flex;
-  flex-direction: column;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-lg);
 }
 
-@media (min-width: 480px) {
-    .collection-view__actions {
-        flex-direction: row;
-    }
+
+.collection-view__actions .action-button.icon-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.collection-view__actions .action-button.icon-only:hover {
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-hover);
+  transform: scale(1.05);
 }
 
-.action-button {
-  flex-grow: 1; /* Faz os botões ocuparem o espaço disponível em ecrãs pequenos */
-}
 
 @media (min-width: 992px) {
-    .action-button {
-        flex-grow: 0; /* Desativa o crescimento em ecrãs maiores */
-    }
-}
-
-
-
-
-
-@media (min-width: 768px) {
-  .album-content {
-    grid-template-columns: 1fr 1fr;
-  }
-  .featured-collection__content {
-    flex-direction: row;
-} }
-
-@media (min-width: 1024px) {
-  .album-content {
-    grid-template-columns: 1.5fr 1fr;
+  .collection-view__content {
+    grid-template-columns: auto 1fr; 
   }
 
-  .featured-collection__info {
-     flex: 0 0 320px;
+  .collection-view__info-panel {
+    text-align: left;
   }
-  .featured-collection__tracks {
-     flex: 1;
-} }
-
-@media (max-width: 768px) {
-  .album-showcase {
-    grid-template-columns: 1fr;
-    padding: var(--spacing-md);
-  }
-
-  .album-showcase .album-card__cover {
-    max-width: 300px;
-    margin: 0 auto var(--spacing-lg);
+  .collection-view__meta {
+    justify-content: flex-start;
 } }
 
 
-/* Styles for the new featured section grid */
+
+
+
+
 .home-featured-section {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
 }
 
-/* On larger screens, switch to a two-column layout */
 @media (min-width: 1024px) {
   .home-featured-section {
     grid-template-columns: 2fr 1fr;
     align-items: flex-start;
-  }
-}
+} }
 
-/* Remove the default margin from the collection view when it's inside our new grid */
 .home-featured-collection .collection-view {
-    margin: 0;
+  margin: 0;
 }
 
 .home-featured-genres {
@@ -226,7 +224,7 @@
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-xl);
   box-shadow: var(--shadow-sm);
-  height: 100%; /* Ensure it takes full height in the grid cell */
+  height: 100%;
 }
 
 .genres-section-title {
@@ -257,7 +255,6 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Colorful gradients for the genre boxes */
 .genre-box:nth-child(6n + 1) { background: linear-gradient(135deg, #e55d87, #59cde7); }
 .genre-box:nth-child(6n + 2) { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
 .genre-box:nth-child(6n + 3) { background: linear-gradient(135deg, #f2994a, #f2c94c); }

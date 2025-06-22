@@ -55,11 +55,7 @@ const Card = ({ item, type }) => {
             }}
           />
           
-          {!isArtist && (
-            <div className="card__play-overlay">
-              <FontAwesomeIcon icon={faCirclePlay} size="3x" />
-            </div>
-          )}
+            
         </div>
         <div className="card__info">
           <h3 className="card__title" title={displayTitle}>
