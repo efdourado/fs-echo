@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { fetchAlbums } from '../../api/api';
 import { deleteAlbum } from '../../api/adminApi';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import './AdminPages.css';
 
 const ManageAlbumsPage = () => {
   const [albums, setAlbums] = useState([]);
