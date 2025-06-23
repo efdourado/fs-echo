@@ -17,6 +17,4 @@
 @import url("./pages/HomePage.css");
 @import url("./pages/SongPage.css");
 @import url("./pages/ComingSoonPage.css");
-
-@import url("./pages/Admin/AdminLayout.css");
-@import url("./pages/Admin/AdminPages.css");
+@import url("./pages/Admin.css");

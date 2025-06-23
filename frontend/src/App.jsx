@@ -19,12 +19,11 @@ import ComingSoonPage from './pages/ComingSoonPage';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
-import AdminLayout from './pages/Admin/AdminLayout';
-import ManageArtistsPage from './pages/Admin/ManageArtistsPage';
+import AdminPage from './pages/Admin/AdminPage';
+
+
 import ArtistForm from './pages/Admin/ArtistForm';
-import ManageSongsPage from './pages/Admin/ManageSongsPage';
 import SongForm from './pages/Admin/SongForm';
-import ManageAlbumsPage from './pages/Admin/ManageAlbumsPage';
 import AlbumForm from './pages/Admin/AlbumForm';
 
 const UserProfilePage = () => {
@@ -95,25 +94,19 @@ const App = () => {
                   path="/admin"
                   element={
                     <AdminRoute>
-                      <AdminLayout />
+                      <AdminPage />
                     </AdminRoute>
                   }
-                >
-                   <Route path="dashboard" element={<AdminDashboard />} />
-                   <Route path="artists" element={<ManageArtistsPage />} />
-                   <Route path="artists/new" element={<ArtistForm />} />
-                   <Route path="artists/edit/:id" element={<ArtistForm />} />
-                   <Route path="songs" element={<ManageSongsPage />} />
-                   <Route path="songs/new" element={<SongForm />} />
-                   <Route path="songs/edit/:id" element={<SongForm />} />
-                   <Route path="albums" element={<ManageAlbumsPage />} />
-                   <Route path="albums/new" element={<AlbumForm />} />
-                   <Route path="albums/edit/:id" element={<AlbumForm />} />
-                   <Route path="users" element={<ComingSoonPage />} />
-                </Route>
-
-
+                />
+                <Route path="/admin/artists/new" element={<AdminRoute><ArtistForm /></AdminRoute>} />
+                <Route path="/admin/artists/edit/:id" element={<AdminRoute><ArtistForm /></AdminRoute>} />
+                <Route path="/admin/songs/new" element={<AdminRoute><SongForm /></AdminRoute>} />
+                <Route path="/admin/songs/edit/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
+                <Route path="/admin/albums/new" element={<AdminRoute><AlbumForm /></AdminRoute>} />
+                <Route path="/admin/albums/edit/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
+                <Route path="/admin/users" element={<AdminRoute><ComingSoonPage /></AdminRoute>} />
               </Routes>
+
             </main>
             <Footer companyName={'Echo'} />
           </div>
