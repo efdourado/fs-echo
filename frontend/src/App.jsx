@@ -14,6 +14,7 @@ import Artist from './pages/ArtistPage';
 import Song from './pages/SongPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
+import LibraryPage from './pages/LibraryPage/LibraryPage'; // Import the new page
 
 import ComingSoonPage from './pages/ComingSoonPage';
 
@@ -73,13 +74,21 @@ const App = () => {
                 <Route path="/song/:id" element={<Song />} />
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
-                <Route path="/library" element={<ComingSoonPage />} />
+                
                 <Route path="/archived" element={<ComingSoonPage />} />
                 <Route path="/help" element={<ComingSoonPage />} />
                 <Route path="/settings" element={<ComingSoonPage />} />
                 <Route path="/feedback" element={<ComingSoonPage />} />
 
-                {/* Protected User Route */}
+                {/* Protected User Routes */}
+                <Route
+                  path="/library"
+                  element={
+                    <ProtectedRoute>
+                      <LibraryPage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/profile"
                   element={

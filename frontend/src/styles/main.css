@@ -13,6 +13,7 @@
 @import url("./components/heroes.css");
 
 @import url("./pages/Auth.css");
+@import url("./pages/LibraryPage.css");
 @import url("./pages/ArtistPage.css");
 @import url("./pages/HomePage.css");
 @import url("./pages/SongPage.css");

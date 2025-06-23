@@ -73,6 +73,7 @@ router.put('/album/:id', protect, admin, albumController.updateAlbum.bind(albumC
 router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 router.get('/artist/:artistId/albums', albumController.getAlbumsByArtist.bind(albumController));
 
+router.get('/me/playlists', protect, playlistController.getMyPlaylists.bind(playlistController));
 router.get('/playlists', playlistController.getAllPlaylists.bind(playlistController));
 router.get('/playlist/:id', playlistController.getPlaylistById.bind(playlistController));
 router.post('/playlists', protect, playlistController.createPlaylist.bind(playlistController));

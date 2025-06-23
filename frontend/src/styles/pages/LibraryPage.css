@@ -1,0 +1,60 @@
+.library-page {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--container-padding-x);
+  min-height: calc(100vh - var(--header-height) - 150px);
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-lg);
+}
+
+.library-header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.create-playlist-btn {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: none;
+  border-radius: var(--border-radius-full);
+  padding: var(--button-padding-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.create-playlist-btn:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-md);
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.playlists-grid .empty-state {
+  grid-column: 1 / -1; /* Make it span all columns */
+  text-align: center;
+  padding: var(--spacing-4xl) 0;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+}
+
+.playlists-grid .empty-state p {
+  margin-bottom: var(--spacing-sm);
+}

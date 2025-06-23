@@ -9,6 +9,10 @@ const adminApi = axios.create({
     'Authorization': `bearer ${token}`
 } });
 
+export const getMyPlaylists = () => adminApi.get('/me/playlists');
+export const createPlaylist = (playlistData) => adminApi.post('/playlists', playlistData);
+export const addSongToPlaylist = (playlistId, songId) => adminApi.post(`/playlist/${playlistId}/song/${songId}`);
+
 export const createArtist = (formData) => adminApi.post('/artists', formData);
 export const updateArtist = (id, formData) => adminApi.put(`/artist/${id}`, formData);
 export const deleteArtist = (id) => adminApi.delete(`/artist/${id}`);
