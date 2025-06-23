@@ -66,6 +66,8 @@ const ArtistForm = () => {
   };
 
 
+  // dentro do componente ArtistForm
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -73,16 +75,16 @@ const ArtistForm = () => {
 
     const formData = new FormData();
     
-    // Adiciona todos os campos do estado, exceto 'socials'
-    Object.keys(artist).forEach(key => {
-        if (key !== 'socials') {
-            formData.append(key, artist[key]);
-        }
-    });
-
-    // Adiciona o objeto socials como uma string JSON
+    // Anexa os campos de texto um por um
+    formData.append('name', artist.name);
+    formData.append('description', artist.description);
+    formData.append('genre', artist.genre); // Já é uma string separada por vírgulas
+    formData.append('verified', artist.verified);
+    
+    // Anexa o objeto socials como uma string JSON
     formData.append('socials', JSON.stringify(artist.socials));
     
+    // Anexa os arquivos se eles foram selecionados
     if (imageFile) formData.append('image', imageFile);
     if (bannerFile) formData.append('banner', bannerFile);
 
