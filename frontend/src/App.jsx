@@ -16,7 +16,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 
 import LibraryPage from './pages/LibraryPage/LibraryPage';
-import PlaylistPage from './pages/PlaylistPage/PlaylistPage';
+import CollectionView from './pages/CollectionView/CollectionView';
 
 
 import ComingSoonPage from './pages/ComingSoonPage';
@@ -47,7 +47,7 @@ const UserProfilePage = () => {
 ); };
 
 const App = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -69,11 +69,13 @@ const App = () => {
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
 
-                <Route path="/playlist/:id" element={<PlaylistPage />} />
+                <Route path="/playlist/:id" element={<CollectionView type="playlist" />} />
+                <Route path="/album/:id" element={<CollectionView type="album" />} />
+
 
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
-                
+
                 <Route path="/archived" element={<ComingSoonPage />} />
                 <Route path="/help" element={<ComingSoonPage />} />
                 <Route path="/settings" element={<ComingSoonPage />} />

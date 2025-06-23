@@ -113,26 +113,15 @@ const Home = () => {
             type="playlist"
           />
           
-          <div className="home-featured-section">
-            <div className="home-featured-collection">
-              {featuredAlbumId && (
-                <Collection
-                  collectionId={featuredAlbumId}
-                  type="album"
-                />
-              )}
-            </div>
-            <aside className="home-featured-genres">
-              <h2 className="genres-section-title">Genres</h2>
-              <div className="genres-grid">
-                {uniqueGenres.map(genre => (
-                  <div key={genre} className="genre-box">
-                    {genre}
-                  </div>
-                ))}
-              </div>
-            </aside>
+          <div className="home-featured-collection">
+            {featuredAlbumId && (
+              <Collection
+                collectionId={featuredAlbumId}
+                type="album"
+              />
+            )}
           </div>
+        
 
           <Carousel
             title="Your Favourite Artists"
