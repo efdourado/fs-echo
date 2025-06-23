@@ -1,3 +1,5 @@
+import * as mm from 'music-metadata';
+
 export class SongController {
   constructor(songModel) {
     this.model = songModel;

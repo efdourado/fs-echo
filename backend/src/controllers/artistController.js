@@ -23,14 +23,17 @@ export class ArtistController {
       res.status(500).json({ error: error.message });
   } }
 
-  
   async createArtist(req, res) {
     try {
       const artistData = { ...req.body };
       
-      // Converte o campo socials de string JSON para objeto
       if (artistData.socials) {
         artistData.socials = JSON.parse(artistData.socials);
+      }
+      
+      // FIX: Converte a string de gêneros em um array
+      if (artistData.genre && typeof artistData.genre === 'string') {
+        artistData.genre = artistData.genre.split(',').map(g => g.trim()).filter(g => g);
       }
 
       if (req.files) {
@@ -53,9 +56,13 @@ export class ArtistController {
     try {
       const updateData = { ...req.body };
 
-      // Converte o campo socials de string JSON para objeto
       if (updateData.socials) {
         updateData.socials = JSON.parse(updateData.socials);
+      }
+
+      // FIX: Converte a string de gêneros em um array
+      if (updateData.genre && typeof updateData.genre === 'string') {
+        updateData.genre = updateData.genre.split(',').map(g => g.trim()).filter(g => g);
       }
 
       if (req.files) {
@@ -76,11 +83,9 @@ export class ArtistController {
       res.status(400).json({ error: error.message });
   } }
 
-  // ... (deleteArtist) ...
   async deleteArtist(req, res) {
     const { id } = req.params;
     try {
-      // Futuramente, podemos adicionar a lógica para excluir os arquivos do servidor aqui
       const artist = await this.model.deleteById(id);
       if (!artist) {
         return res.status(404).json({ error: 'Artist not found' });

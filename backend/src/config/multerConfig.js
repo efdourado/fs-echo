@@ -18,12 +18,14 @@ const ensureDirectoryExistence = (filePath) => {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     let uploadPath;
-    if (file.fieldname === 'coverImage') {
-      uploadPath = path.join(__dirname, '../../../public/uploads/images');
+    const baseDir = path.join(__dirname, '../../../frontend/public/uploads');
+
+    if (file.fieldname === 'coverImage' || file.fieldname === 'image' || file.fieldname === 'banner') {
+      uploadPath = path.join(baseDir, 'images');
     } else if (file.fieldname === 'audioUrl') {
-      uploadPath = path.join(__dirname, '../../../public/uploads/audio');
+      uploadPath = path.join(baseDir, 'audio');
     } else {
-      uploadPath = path.join(__dirname, '../../../public/uploads/others');
+      uploadPath = path.join(baseDir, 'others');
     }
     
     ensureDirectoryExistence(path.join(uploadPath, file.originalname));
