@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import { fetchUserById, updateUser } from '../../api/adminApi';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import { useAuth } from '../../context/AuthContext';
 
 const UserForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { updateCurrentUser, currentUser } = useAuth();
   const isEditing = Boolean(id);
 
   const [user, setUser] = useState({
@@ -50,15 +53,20 @@ const UserForm = () => {
     setError('');
 
     try {
-      await updateUser(id, user);
-      navigate('/admin'); 
+      const { password, ...submissionData } = user;
+      await updateUser(id, submissionData);
+
+      if (currentUser && currentUser._id === id) {
+        updateCurrentUser(submissionData);
+      }
+      
+      navigate('/admin');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save user.');
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   if (loading) return <LoadingSpinner />;
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
+import { faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 import SongList from "../../../components/songs/SongList";
@@ -42,13 +41,11 @@ const Collection = ({ collectionId, type = "album" }) => {
     console.log("Playing collection:", collection.title);
   };
 
-  const toggleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
-
   const ownerName = type === 'playlist' 
     ? (collection.owner?.username || collection.owner?.name) 
     : collection.artist?.name;
+
+  const coverImageUrl = collection.coverImage || fallbackImage;
 
   return (
 

@@ -139,10 +139,8 @@ body.light-mode {
   --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.04);
   --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.08);
 
-  --hero-gradient-start: hsla(0, 0%, 8%, 0.6);
-  --hero-gradient-end: hsla(0, 0%, 26%, 0.3);
-  --hero-text-primary: var(--color-almost-black);
-  --hero-text-secondary: var(--color-dark-grey);
+  --hero-gradient-start: hsla(0, 0%, 8%, 0.9);
+  --hero-gradient-end: hsla(0, 0%, 26%, 0.6);
 }
 
 *, *::before, *::after {

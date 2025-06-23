@@ -63,7 +63,7 @@
   display: flex;
   text-align: center;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xl);
 }
 
 .collection-view__cover-art {

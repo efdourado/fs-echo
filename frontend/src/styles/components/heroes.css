@@ -42,7 +42,7 @@
   font-size: var(--font-size-xxs);
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--color-text-tertiary);
+  color: var(--hero-text-secondary);
   margin: 0;
   padding: var(--spacing-sm) 0;
   font-weight: var(--font-weight-bold);
@@ -86,6 +86,7 @@
 
 .music-hero .title {
   font-size: var(--font-size-5xl);
+  color: var(--hero-text-primary);
   margin-bottom: var(--spacing-md);
   font-weight: var(--font-weight-black);
   letter-spacing: -0.05em;
@@ -109,7 +110,7 @@
 .hero-tab-button {
   background: transparent;
   border: none;
-  color: var(--color-text-secondary);
+  color: var(--hero-text-secondary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -174,7 +175,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-black);
   letter-spacing: 2px;
-  color: var(--color-text);
+  color: var(--hero-text-primary);
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -194,6 +195,10 @@
   height: 1px;
   background: linear-gradient(90deg, currentColor 100%, transparent 0%);
   opacity: 0.5;
+}
+
+.feature-description {
+  color: var(--hero-text-secondary);
 }
 
 
@@ -236,7 +241,7 @@
 
 .secondary-cta {
   background: var(--color-primary);
-  color: var(--color-text-primary);
+  color: var(--hero-text-primary);
 }
 
 .hero-quick-links {

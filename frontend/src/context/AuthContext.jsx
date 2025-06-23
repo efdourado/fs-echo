@@ -39,6 +39,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  const updateCurrentUser = (newUserData) => {
+    setCurrentUser(prevUser => ({ ...prevUser, ...newUserData }));
+  };
+
   const login = async (email, password) => {
     try {
       const response = await axios.post(`${API_URL}/auth/login`, { email, password });
@@ -85,6 +89,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     loadingAuth: loading,
+    updateCurrentUser,
   };
 
   return (
