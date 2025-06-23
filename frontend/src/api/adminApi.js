@@ -16,3 +16,7 @@ export const deleteArtist = (id) => adminApi.delete(`/artist/${id}`);
 export const createSong = (formData) => adminApi.post('/songs', formData);
 export const updateSong = (id, formData) => adminApi.put(`/song/${id}`, formData);
 export const deleteSong = (id) => adminApi.delete(`/song/${id}`);
+
+export const createAlbum = (formData) => adminApi.post('/albums', formData);
+export const updateAlbum = (id, formData) => adminApi.put(`/album/${id}`, formData);
+export const deleteAlbum = (id) => adminApi.delete(`/album/${id}`);

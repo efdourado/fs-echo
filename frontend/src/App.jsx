@@ -103,9 +103,12 @@ const App = () => {
                    <Route path="songs" element={<ManageSongsPage />} />
                    <Route path="songs/new" element={<SongForm />} />
                    <Route path="songs/edit/:id" element={<SongForm />} />
-                   <Route path="albums" element={<ComingSoonPage />} />
+                   <Route path="albums" element={<ManageAlbumsPage />} />
+                   <Route path="albums/new" element={<AlbumForm />} />
+                   <Route path="albums/edit/:id" element={<AlbumForm />} />
                    <Route path="users" element={<ComingSoonPage />} />
                 </Route>
+
 
               </Routes>
             </main>

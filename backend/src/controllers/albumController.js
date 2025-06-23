@@ -25,7 +25,11 @@ export class AlbumController {
 
   async createAlbum(req, res) {
     try {
-      const album = await this.model.create(req.body);
+      const albumData = { ...req.body };
+      if (req.files?.coverImage) {
+        albumData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
+      }
+      const album = await this.model.create(albumData);
       res.status(201).json(album);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -34,7 +38,11 @@ export class AlbumController {
   async updateAlbum(req, res) {
     const { id } = req.params;
     try {
-      const album = await this.model.updateById(id, req.body);
+      const updateData = { ...req.body };
+      if (req.files?.coverImage) {
+        updateData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
+      }
+      const album = await this.model.updateById(id, updateData);
       if (!album) {
         return res.status(404).json({ error: 'Album not found' });
       }

@@ -93,12 +93,26 @@ router.get('/user/:id', protect, admin, userController.getUserById.bind(userCont
 router.put('/user/:id', protect, admin, userController.updateUser.bind(userController));
 router.delete('/user/:id', protect, admin, userController.deleteUser.bind(userController));
 
+
 router.get('/albums', albumController.getAllAlbums.bind(albumController));
 router.get('/album/:id', albumController.getAlbumById.bind(albumController));
-router.post('/albums', protect, admin, albumController.createAlbum.bind(albumController));
-router.put('/album/:id', protect, admin, albumController.updateAlbum.bind(albumController));
+router.post(
+    '/albums', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'coverImage', maxCount: 1 }]), 
+    albumController.createAlbum.bind(albumController)
+);
+router.put(
+    '/album/:id', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'coverImage', maxCount: 1 }]), 
+    albumController.updateAlbum.bind(albumController)
+);
 router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 router.get('/artist/:artistId/albums', albumController.getAlbumsByArtist.bind(albumController));
+
 
 router.get('/playlists', playlistController.getAllPlaylists.bind(playlistController));
 router.get('/playlist/:id', playlistController.getPlaylistById.bind(playlistController));
