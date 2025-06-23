@@ -103,7 +103,6 @@ const ArtistForm = () => {
   };
 
 
-  // ... (código JSX do return)
   return (
     <div className="admin-page">
       <h1>{isEditing ? 'Edit Artist' : 'Create New Artist'}</h1>
