@@ -1,0 +1,205 @@
+/* Estilos gerais para páginas de admin */
+.admin-page {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.admin-header h1 {
+  margin: 0;
+}
+
+.admin-button-new {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--button-padding-md);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  transition: all 0.2s ease-out;
+}
+.admin-button-new:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Tabela de Admin */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-table th, .admin-table td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table thead th {
+  background-color: var(--color-surface-hover);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.admin-table-image {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.admin-button-edit, .admin-button-delete {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.admin-button-edit {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.admin-button-edit:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+
+.admin-button-delete {
+  background-color: transparent;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+.admin-button-delete:hover {
+  background-color: var(--color-error);
+  color: var(--color-text-on-primary);
+}
+
+
+/* Formulário de Admin */
+.admin-form {
+  background-color: var(--color-surface);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group.span-2 {
+  grid-column: span 2;
+}
+
+.form-group label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-secondary);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="url"],
+.form-group textarea {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+}
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+}
+
+.form-group-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+.form-group-checkbox input {
+  width: auto;
+}
+
+.admin-button-save {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  padding: var(--button-padding-md);
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  cursor: pointer;
+  min-width: 150px;
+}
+.admin-button-save:disabled {
+  background-color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .form-group.span-2 {
+        grid-column: span 1;
+    }
+}
+
+
+.form-preview-image {
+  max-width: 150px;
+  height: auto;
+  margin-top: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.form-group input[type="file"] {
+    background-color: var(--color-background);
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    width: 100%;
+}

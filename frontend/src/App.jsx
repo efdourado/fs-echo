@@ -20,6 +20,8 @@ import ComingSoonPage from './pages/ComingSoonPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
 import AdminLayout from './pages/Admin/AdminLayout';
+import ManageArtistsPage from './pages/Admin/ManageArtistsPage';
+import ArtistForm from './pages/Admin/ArtistForm';
 
 
 const UserProfilePage = () => {
@@ -96,8 +98,9 @@ const App = () => {
                 >
                    {/* Sub-rotas do painel de admin */}
                    <Route path="dashboard" element={<AdminDashboard />} />
-                   {/* Adicionaremos as outras páginas de gerenciamento aqui */}
-                   <Route path="artists" element={<ComingSoonPage />} />
+                   <Route path="artists" element={<ManageArtistsPage />} />
+                   <Route path="artists/new" element={<ArtistForm />} />
+                   <Route path="artists/edit/:id" element={<ArtistForm />} />
                    <Route path="albums" element={<ComingSoonPage />} />
                    <Route path="songs" element={<ComingSoonPage />} />
                    <Route path="users" element={<ComingSoonPage />} />

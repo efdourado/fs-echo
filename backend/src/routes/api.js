@@ -16,6 +16,8 @@ import { connectToDatabase } from '../config/db.js';
 import { createAuthRouter } from './authRoutes.js';
 import { protect, admin } from '../middlewares/authMiddleware.js';
 
+import upload from '../config/multerConfig.js';
+
 const router = express.Router();
 
 await connectToDatabase();
@@ -50,9 +52,22 @@ router.get('/', (req, res) => {
 
 router.get('/artists', artistController.getAllArtists.bind(artistController));
 router.get('/artist/:id', artistController.getArtistById.bind(artistController));
-router.post('/artists', protect, admin, artistController.createArtist.bind(artistController));
-router.put('/artist/:id', protect, admin, artistController.updateArtist.bind(artistController));
+router.post(
+    '/artists', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'image', maxCount: 1 }, { name: 'banner', maxCount: 1 }]), 
+    artistController.createArtist.bind(artistController)
+);
+router.put(
+    '/artist/:id', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'image', maxCount: 1 }, { name: 'banner', maxCount: 1 }]), 
+    artistController.updateArtist.bind(artistController)
+);
 router.delete('/artist/:id', protect, admin, artistController.deleteArtist.bind(artistController));
+
 
 router.get('/songs', songController.getAllSongs.bind(songController));
 router.get('/song/:id', songController.getSongById.bind(songController));

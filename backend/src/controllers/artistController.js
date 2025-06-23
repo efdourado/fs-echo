@@ -25,7 +25,17 @@ export class ArtistController {
 
   async createArtist(req, res) {
     try {
-      const artist = await this.model.create(req.body);
+      const artistData = { ...req.body };
+      
+      if (req.files) {
+        if (req.files.image) {
+          artistData.image = `/uploads/images/${req.files.image[0].filename}`;
+        }
+        if (req.files.banner) {
+          artistData.banner = `/uploads/images/${req.files.banner[0].filename}`;
+      } }
+
+      const artist = await this.model.create(artistData);
       res.status(201).json(artist);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -34,7 +44,17 @@ export class ArtistController {
   async updateArtist(req, res) {
     const { id } = req.params;
     try {
-      const artist = await this.model.updateById(id, req.body);
+      const updateData = { ...req.body };
+
+      if (req.files) {
+         if (req.files.image) {
+          updateData.image = `/uploads/images/${req.files.image[0].filename}`;
+        }
+        if (req.files.banner) {
+          updateData.banner = `/uploads/images/${req.files.banner[0].filename}`;
+      } }
+
+      const artist = await this.model.updateById(id, updateData);
       if (!artist) {
         return res.status(404).json({ error: 'Artist not found' });
       }
