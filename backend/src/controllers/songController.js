@@ -25,21 +25,53 @@ export class SongController {
    
   async createSong(req, res) {
     try {
-      const song = await this.model.create(req.body);
+      const songData = { ...req.body };
+      
+      if (!req.files || !req.files.audioUrl) {
+          return res.status(400).json({ error: 'Audio file is required.' });
+      }
+
+      const audioFile = req.files.audioUrl[0];
+      songData.audioUrl = `/uploads/audio/${audioFile.filename}`;
+      
+      const metadata = await mm.parseFile(audioFile.path);
+      songData.duration = metadata.format.duration;
+
+      if (req.files.coverImage) {
+        songData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
+      }
+
+      const song = await this.model.create(songData);
       res.status(201).json(song);
     } catch (error) {
+      console.error(error);
       res.status(400).json({ error: error.message });
   } }
 
   async updateSong(req, res) {
     const { id } = req.params;
     try {
-      const song = await this.model.updateById(id, req.body);
+      const updateData = { ...req.body };
+      
+      if (req.files) {
+        if (req.files.audioUrl) {
+            const audioFile = req.files.audioUrl[0];
+            updateData.audioUrl = `/uploads/audio/${audioFile.filename}`;
+            const metadata = await mm.parseFile(audioFile.path);
+            updateData.duration = metadata.format.duration;
+        }
+
+        if (req.files.coverImage) {
+            updateData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
+      } }
+
+      const song = await this.model.updateById(id, updateData);
       if (!song) {
         return res.status(404).json({ error: 'Song not found' });
       }
       res.json(song);
     } catch (error) {
+      console.error(error);
       res.status(400).json({ error: error.message });
   } }
 

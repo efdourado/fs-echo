@@ -12,3 +12,7 @@ const adminApi = axios.create({
 export const createArtist = (formData) => adminApi.post('/artists', formData);
 export const updateArtist = (id, formData) => adminApi.put(`/artist/${id}`, formData);
 export const deleteArtist = (id) => adminApi.delete(`/artist/${id}`);
+
+export const createSong = (formData) => adminApi.post('/songs', formData);
+export const updateSong = (id, formData) => adminApi.put(`/song/${id}`, formData);
+export const deleteSong = (id) => adminApi.delete(`/song/${id}`);

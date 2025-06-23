@@ -71,8 +71,20 @@ router.delete('/artist/:id', protect, admin, artistController.deleteArtist.bind(
 
 router.get('/songs', songController.getAllSongs.bind(songController));
 router.get('/song/:id', songController.getSongById.bind(songController));
-router.post('/songs', protect, admin, songController.createSong.bind(songController));
-router.put('/song/:id', protect, admin, songController.updateSong.bind(songController));
+router.post(
+    '/songs', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioUrl', maxCount: 1 }]),
+    songController.createSong.bind(songController)
+);
+router.put(
+    '/song/:id', 
+    protect, 
+    admin, 
+    upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioUrl', maxCount: 1 }]),
+    songController.updateSong.bind(songController)
+);
 router.delete('/song/:id', protect, admin, songController.deleteSong.bind(songController));
 
 

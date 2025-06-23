@@ -1,13 +1,32 @@
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const ensureDirectoryExistence = (filePath) => {
+  const dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+    return true;
+  }
+  ensureDirectoryExistence(dirname);
+  fs.mkdirSync(dirname);
+};
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../../../public/uploads/images');
+    let uploadPath;
+    if (file.fieldname === 'coverImage') {
+      uploadPath = path.join(__dirname, '../../../public/uploads/images');
+    } else if (file.fieldname === 'audioUrl') {
+      uploadPath = path.join(__dirname, '../../../public/uploads/audio');
+    } else {
+      uploadPath = path.join(__dirname, '../../../public/uploads/others');
+    }
+    
+    ensureDirectoryExistence(path.join(uploadPath, file.originalname));
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -17,16 +36,16 @@ const storage = multer.diskStorage({
 } });
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith('image') || file.mimetype.startsWith('audio')) {
     cb(null, true);
   } else {
-    cb(new Error('Not an image! Please upload only images.'), false);
+    cb(new Error('Invalid file type! Please upload only images or audio files.'), false);
 } };
 
 const upload = multer({ 
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 10
   },
   fileFilter: fileFilter
 });

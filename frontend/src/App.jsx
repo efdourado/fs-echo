@@ -96,13 +96,14 @@ const App = () => {
                     </AdminRoute>
                   }
                 >
-                   {/* Sub-rotas do painel de admin */}
                    <Route path="dashboard" element={<AdminDashboard />} />
                    <Route path="artists" element={<ManageArtistsPage />} />
                    <Route path="artists/new" element={<ArtistForm />} />
                    <Route path="artists/edit/:id" element={<ArtistForm />} />
+                   <Route path="songs" element={<ManageSongsPage />} />
+                   <Route path="songs/new" element={<SongForm />} />
+                   <Route path="songs/edit/:id" element={<SongForm />} />
                    <Route path="albums" element={<ComingSoonPage />} />
-                   <Route path="songs" element={<ComingSoonPage />} />
                    <Route path="users" element={<ComingSoonPage />} />
                 </Route>
 
