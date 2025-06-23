@@ -310,7 +310,7 @@ body.light-mode .search-input {
   transition: all var(--transition-duration-medium) var(--transition-timing-function-ease);
   white-space: nowrap;
   text-decoration: none;
-
+  
   padding: var(--spacing-xs);
   width: var(--button-height-sm);
   height: var(--button-height-sm);

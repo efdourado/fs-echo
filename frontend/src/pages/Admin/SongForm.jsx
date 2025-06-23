@@ -86,6 +86,30 @@ const SongForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="admin-form">
           <div className="form-grid">
+
+            {/* Fields added here */}
+            <div className="form-group span-2">
+              <label htmlFor="title">Title</label>
+              <input type="text" id="title" name="title" value={song.title} onChange={handleChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="artist">Artist</label>
+              <select id="artist" name="artist" value={song.artist} onChange={handleChange} required>
+                <option value="" disabled>Select an artist</option>
+                {artists.map(artist => <option key={artist._id} value={artist._id}>{artist.name}</option>)}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="album">Album (Optional)</label>
+              <select id="album" name="album" value={song.album} onChange={handleChange}>
+                <option value="">No Album</option>
+                {albums.map(album => <option key={album._id} value={album._id}>{album.title}</option>)}
+              </select>
+            </div>
+            {/* End of added fields */}
+
             <div className="form-group">
               <label>Cover Image URL</label>
               <input type="url" name="coverImage" value={song.coverImage} onChange={handleChange} accept="image/*" />

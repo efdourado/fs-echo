@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { formatDuration } from '../../../utils/duration';
 import fallbackImage from '/images/fb.jpeg';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const renderers = {
   image: (item) => (
     <img
@@ -29,8 +32,8 @@ const tableConfig = {
         <td data-label="Genres">{renderers.genres(item)}</td>
         <td data-label="Verified">{renderers.verified(item)}</td>
       </>
-    ),
-  },
+  ), },
+  
   albums: {
     columns: ['Cover', 'Title', 'Artist', 'Songs', 'Actions'],
     renderRow: (item, handleDelete) => (
@@ -40,8 +43,8 @@ const tableConfig = {
         <td data-label="Artist">{renderers.artistName(item)}</td>
         <td data-label="Songs">{renderers.albumSongs(item)}</td>
       </>
-    ),
-  },
+  ), },
+
   songs: {
     columns: ['Cover', 'Title', 'Artist', 'Duration', 'Actions'],
     renderRow: (item, handleDelete) => (
@@ -51,9 +54,9 @@ const tableConfig = {
         <td data-label="Artist">{renderers.artistName(item)}</td>
         <td data-label="Duration">{renderers.duration(item)}</td>
       </>
-    ),
-  },
-   users: {
+  ), },
+
+  users: {
     columns: ['Avatar', 'Username', 'Email', 'Admin', 'Actions'],
     renderRow: (item, handleDelete) => (
       <>
@@ -62,9 +65,7 @@ const tableConfig = {
         <td data-label="Email">{item.email}</td>
         <td data-label="Admin">{item.isAdmin ? 'Yes' : 'No'}</td>
       </>
-    ),
-  },
-};
+), }, };
 
 const AdminTable = ({ type, data, handleDelete }) => {
   const config = tableConfig[type];
@@ -92,7 +93,8 @@ const AdminTable = ({ type, data, handleDelete }) => {
               <div className="admin-table-actions">
                 <Link to={`/admin/${type}/edit/${item._id}`} className="admin-button-edit">Edit</Link>
                 {handleDelete && (
-                  <button onClick={() => handleDelete(item._id)} className="admin-button-delete">Delete</button>
+                  <button onClick={() => handleDelete(item._id)} className="admin-button-delete"><FontAwesomeIcon icon={faTrash} className="btn-icon-graphic" />
+                  </button>
                 )}
               </div>
             </td>
@@ -100,7 +102,6 @@ const AdminTable = ({ type, data, handleDelete }) => {
         ))}
       </tbody>
     </table>
-  );
-};
+); };
 
 export default AdminTable;

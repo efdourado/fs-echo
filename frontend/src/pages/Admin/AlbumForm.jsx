@@ -10,10 +10,14 @@ const AlbumForm = () => {
   const isEditing = Boolean(id);
 
   const [album, setAlbum] = useState({
-    title: '', artist: '', songs: [], releaseDate: '', genre: '', type: 'album', coverImage: ''
+    title: '', 
+    artist: '', 
+    songs: [], 
+    releaseDate: '', 
+    genre: '', 
+    type: 'album', 
+    coverImage: ''
   });
-  const [coverFile, setCoverFile] = useState(null);
-  const [coverPreview, setCoverPreview] = useState('');
   
   const [artists, setArtists] = useState([]);
   const [songs, setSongs] = useState([]);
@@ -36,7 +40,6 @@ const AlbumForm = () => {
             genre: data.genre?.join(', ') || '',
             releaseDate: data.releaseDate ? data.releaseDate.split('T')[0] : ''
           });
-          if (data.coverImage) setCoverPreview(`http://localhost:3000${data.coverImage}`);
         })
         .catch(err => setError('Failed to fetch album details.'))
         .finally(() => setLoading(false));
@@ -59,37 +62,21 @@ const AlbumForm = () => {
     setAlbum(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setCoverFile(file);
-      setCoverPreview(URL.createObjectURL(file));
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    const formData = new FormData();
-    Object.keys(album).forEach(key => {
-        if (key === 'songs') {
-            album.songs.forEach(songId => {
-                formData.append('songs[]', songId);
-            });
-        } else {
-            formData.append(key, album[key]);
-        }
-    });
-
-    if (coverFile) formData.append('coverImage', coverFile);
+    const submissionData = {
+        ...album,
+        genre: album.genre.split(',').map(g => g.trim()).filter(g => g),
+    };
 
     try {
       if (isEditing) {
-        await updateAlbum(id, formData);
+        await updateAlbum(id, submissionData);
       } else {
-        await createAlbum(formData);
+        await createAlbum(submissionData);
       }
       navigate('/admin/albums');
     } catch (err) {
@@ -145,14 +132,19 @@ const AlbumForm = () => {
             <div className="form-group span-2">
               <label htmlFor="songs">Songs (Hold Ctrl/Cmd to select multiple)</label>
               <select id="songs" name="songs" value={album.songs} onChange={handleMultiSelectChange} multiple className="form-multiselect">
-                {songs.map(song => <option key={song._id} value={song._id}>{song.title} - {song.artist.name}</option>)}
+                {/* This is the line that has been fixed */}
+                {songs.map(song => (
+                  <option key={song._id} value={song._id}>
+                    {song.title} - {song.artist?.name || 'Unknown Artist'}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="form-group span-2">
-              <label>Cover Image</label>
-              <input type="file" name="coverImage" onChange={handleFileChange} accept="image/*" />
-              {coverPreview && <img src={coverPreview} alt="Preview" className="form-preview-image" />}
+              <label>Cover Image URL</label>
+              <input type="url" name="coverImage" value={album.coverImage} onChange={handleChange} accept="image/*" />
+              {album.coverImage && <img src={album.coverImage} alt="Preview" className="form-preview-image" />}
             </div>
           </div>
         </div>
