@@ -27,7 +27,7 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onMenuClick?.(song._id, e.currentTarget);
+    onMenuClick?.(song);
   };
 
   return (

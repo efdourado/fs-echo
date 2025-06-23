@@ -3,6 +3,7 @@
 @import url("./components/ui/Bias.css");
 @import url("./components/ui/Card.css");
 @import url("./components/ui/LoadingSpinner.css");
+@import url("./components/ui/Modal.css");
 
 @import url("./components/layout/Header.css");
 @import url("./components/layout/Footer.css");
@@ -17,5 +18,6 @@
 @import url("./pages/ArtistPage.css");
 @import url("./pages/HomePage.css");
 @import url("./pages/SongPage.css");
+@import url("./pages/PlaylistPage.css");
 @import url("./pages/ComingSoonPage.css");
 @import url("./pages/Admin.css");

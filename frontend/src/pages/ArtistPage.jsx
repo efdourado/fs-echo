@@ -12,6 +12,9 @@ import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
 import { PlayerContext } from "../context/PlayerContext";
 
+import Modal from "../components/ui/Modal";
+import AddToPlaylistModal from "../components/songs/AddToPlaylistModal";
+
 import SongList from "../components/songs/SongList";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import fallbackImage from '/images/fb.jpeg';
@@ -26,6 +29,9 @@ const ArtistPage = () => {
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [showAllSongs, setShowAllSongs] = useState(false);
+
+  const [isAddToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
 
   useEffect(() => {
     const loadArtistData = async () => {
@@ -75,6 +81,11 @@ const ArtistPage = () => {
     setIsFollowing(!isFollowing);
   };
 
+  const handleMenuClick = (song) => {
+    setSelectedSong(song);
+    setAddToPlaylistModalOpen(true);
+  };
+
   if (loading) return <LoadingSpinner />;
 
   if (!artist) return (
@@ -102,8 +113,6 @@ const ArtistPage = () => {
   };
 
   const displayedSongs = showAllSongs ? songs : songs.slice(0, 5);
-  const initialItemsForSongList = showAllSongs ? songs.length : 5;
-
 
   return (
     <div className="artist-page">
@@ -181,6 +190,7 @@ const ArtistPage = () => {
                 <SongList
                   songs={displayedSongs}
                   showCount={false}
+                  onMenuClick={handleMenuClick}
                 />
               ) : (
                 <p className="empty-state">No popular songs found for this artist.</p>
@@ -296,6 +306,19 @@ const ArtistPage = () => {
           </aside>
         </div>
       </div>
+      
+      {selectedSong && (
+        <Modal
+          isOpen={isAddToPlaylistModalOpen}
+          onClose={() => setAddToPlaylistModalOpen(false)}
+          title="Add to Playlist"
+        >
+          <AddToPlaylistModal
+            song={selectedSong}
+            onClose={() => setAddToPlaylistModalOpen(false)}
+          />
+        </Modal>
+      )}
     </div>
 ); };
 

@@ -14,7 +14,10 @@ import Artist from './pages/ArtistPage';
 import Song from './pages/SongPage';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
-import LibraryPage from './pages/LibraryPage/LibraryPage'; // Import the new page
+
+import LibraryPage from './pages/LibraryPage/LibraryPage';
+import PlaylistPage from './pages/PlaylistPage/PlaylistPage';
+
 
 import ComingSoonPage from './pages/ComingSoonPage';
 
@@ -43,13 +46,6 @@ const UserProfilePage = () => {
     </div>
 ); };
 
-const AdminDashboard = () => (
-    <div>
-        <h2>Admin Dashboard</h2>
-        <p>Welcome to the admin area. Select a category from the sidebar to get started.</p>
-    </div>
-);
-
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -72,6 +68,9 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
+
+                <Route path="/playlist/:id" element={<PlaylistPage />} />
+
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
                 
@@ -80,7 +79,6 @@ const App = () => {
                 <Route path="/settings" element={<ComingSoonPage />} />
                 <Route path="/feedback" element={<ComingSoonPage />} />
 
-                {/* Protected User Routes */}
                 <Route
                   path="/library"
                   element={
@@ -98,7 +96,6 @@ const App = () => {
                   }
                 />
 
-                {/* Protected Admin Routes */}
                 <Route
                   path="/admin"
                   element={
