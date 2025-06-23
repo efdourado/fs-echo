@@ -12,6 +12,7 @@ const adminApi = axios.create({
 export const getMyPlaylists = () => adminApi.get('/me/playlists');
 export const createPlaylist = (playlistData) => adminApi.post('/playlists', playlistData);
 export const addSongToPlaylist = (playlistId, songId) => adminApi.post(`/playlist/${playlistId}/song/${songId}`);
+export const deletePlaylist = (id) => adminApi.delete(`/playlist/${id}`);
 
 export const createArtist = (formData) => adminApi.post('/artists', formData);
 export const updateArtist = (id, formData) => adminApi.put(`/artist/${id}`, formData);

@@ -3,7 +3,7 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  color: var(--color-white);
+  color: var(--hero-text-primary);
   position: relative;
   min-height: 600px;
   display: flex;
@@ -89,12 +89,11 @@
   margin-bottom: var(--spacing-md);
   font-weight: var(--font-weight-black);
   letter-spacing: -0.05em;
-  text-shadow: 0 6px 16px rgba(0,0,0,0.6);
 }
 
 .music-hero .subtitle {
   font-size: var(--font-size-xl);
-  color: var(--color-text-secondary);
+  color: var(--hero-text-secondary);
   line-height: var(--line-height-relaxed);
   max-width: 90%;
   opacity: 0.9;

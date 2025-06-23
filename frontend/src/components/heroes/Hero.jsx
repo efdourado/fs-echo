@@ -30,7 +30,7 @@ const Hero = ({
                 // const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
 
   const heroStyle = {
-    backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.55)), url(${bgImage})`,
+    backgroundImage: `linear-gradient(to right, var(--hero-gradient-start), var(--hero-gradient-end)), url(${bgImage})`,
   };
 
                 // const handlePlayHighlight = (e) => {

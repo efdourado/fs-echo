@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { getMyPlaylists } from '../../api/adminApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import { getMyPlaylists, deletePlaylist } from '../../api/adminApi';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import Card from '../../components/ui/Card';
 import Modal from '../../components/ui/Modal';
@@ -36,6 +37,17 @@ const LibraryPage = () => {
     setPlaylists(prevPlaylists => [newPlaylist, ...prevPlaylists]);
   };
 
+  const handleDeletePlaylist = async (playlistId) => {
+    if (window.confirm('Are you sure you want to delete this playlist?')) {
+      try {
+        await deletePlaylist(playlistId);
+
+        setPlaylists(prevPlaylists => prevPlaylists.filter(p => p._id !== playlistId));
+      } catch (err) {
+        setError('Failed to delete the playlist.');
+        console.error(err);
+  } } };
+
   return (
     <div className="library-page">
       <div className="library-header">
@@ -54,7 +66,18 @@ const LibraryPage = () => {
         <div className="playlists-grid">
           {playlists.length > 0 ? (
             playlists.map(playlist => (
-              <Card key={playlist._id} item={playlist} type="playlist" />
+              <div key={playlist._id} className="playlist-card-container">
+                <Card item={playlist} type="playlist" />
+                {/* Botão de Exclusão adicionado aqui */}
+                <button 
+                  onClick={() => handleDeletePlaylist(playlist._id)}
+                  className="admin-button-delete" 
+                  style={{position: 'absolute', top: '10px', right: '10px', zIndex: 2}}
+                  aria-label="Delete Playlist"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
             ))
           ) : (
             <div className="empty-state">

@@ -16,6 +16,8 @@ import { connectToDatabase } from '../config/db.js';
 import { createAuthRouter } from './authRoutes.js';
 import { protect, admin } from '../middlewares/authMiddleware.js';
 
+import { isArtistOwner } from '../middlewares/artistAuthMiddleware.js'; 
+
 const router = express.Router();
 
 await connectToDatabase();
@@ -53,12 +55,17 @@ router.get('/artist/:id', artistController.getArtistById.bind(artistController))
 router.post('/artists', protect, admin, artistController.createArtist.bind(artistController));
 router.put('/artist/:id', protect, admin, artistController.updateArtist.bind(artistController));
 router.delete('/artist/:id', protect, admin, artistController.deleteArtist.bind(artistController));
+router.put('/artist/song/:id', protect, isArtistOwner, songController.updateSong.bind(songController));
+router.put('/artist/album/:id', protect, isArtistOwner, albumController.updateAlbum.bind(albumController));
+router.put('/artist/profile/:id', protect, isArtistOwner, artistController.updateArtist.bind(artistController));
+
 
 router.get('/songs', songController.getAllSongs.bind(songController));
 router.get('/song/:id', songController.getSongById.bind(songController));
 router.post('/songs', protect, admin, songController.createSong.bind(songController));
 router.put('/song/:id', protect, admin, songController.updateSong.bind(songController));
 router.delete('/song/:id', protect, admin, songController.deleteSong.bind(songController));
+
 
 router.get('/users', protect, admin, userController.getAllUsers.bind(userController));
 router.get('/user/:id', protect, admin, userController.getUserById.bind(userController));
