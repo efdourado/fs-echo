@@ -16,8 +16,6 @@ import { connectToDatabase } from '../config/db.js';
 import { createAuthRouter } from './authRoutes.js';
 import { protect, admin } from '../middlewares/authMiddleware.js';
 
-import upload from '../config/multerConfig.js';
-
 const router = express.Router();
 
 await connectToDatabase();
@@ -52,41 +50,15 @@ router.get('/', (req, res) => {
 
 router.get('/artists', artistController.getAllArtists.bind(artistController));
 router.get('/artist/:id', artistController.getArtistById.bind(artistController));
-router.post(
-    '/artists', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'image', maxCount: 1 }, { name: 'banner', maxCount: 1 }]), 
-    artistController.createArtist.bind(artistController)
-);
-router.put(
-    '/artist/:id', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'image', maxCount: 1 }, { name: 'banner', maxCount: 1 }]), 
-    artistController.updateArtist.bind(artistController)
-);
+router.post('/artists', protect, admin, artistController.createArtist.bind(artistController));
+router.put('/artist/:id', protect, admin, artistController.updateArtist.bind(artistController));
 router.delete('/artist/:id', protect, admin, artistController.deleteArtist.bind(artistController));
-
 
 router.get('/songs', songController.getAllSongs.bind(songController));
 router.get('/song/:id', songController.getSongById.bind(songController));
-router.post(
-    '/songs', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioUrl', maxCount: 1 }]),
-    songController.createSong.bind(songController)
-);
-router.put(
-    '/song/:id', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'coverImage', maxCount: 1 }, { name: 'audioUrl', maxCount: 1 }]),
-    songController.updateSong.bind(songController)
-);
+router.post('/songs', protect, admin, songController.createSong.bind(songController));
+router.put('/song/:id', protect, admin, songController.updateSong.bind(songController));
 router.delete('/song/:id', protect, admin, songController.deleteSong.bind(songController));
-
 
 router.get('/users', protect, admin, userController.getAllUsers.bind(userController));
 router.get('/user/:id', protect, admin, userController.getUserById.bind(userController));
@@ -96,27 +68,13 @@ router.delete('/user/:id', protect, admin, userController.deleteUser.bind(userCo
 
 router.get('/albums', albumController.getAllAlbums.bind(albumController));
 router.get('/album/:id', albumController.getAlbumById.bind(albumController));
-router.post(
-    '/albums', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'coverImage', maxCount: 1 }]), 
-    albumController.createAlbum.bind(albumController)
-);
-router.put(
-    '/album/:id', 
-    protect, 
-    admin, 
-    upload.fields([{ name: 'coverImage', maxCount: 1 }]), 
-    albumController.updateAlbum.bind(albumController)
-);
+router.post('/albums', protect, admin, albumController.createAlbum.bind(albumController));
+router.put('/album/:id', protect, admin, albumController.updateAlbum.bind(albumController));
 router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 router.get('/artist/:artistId/albums', albumController.getAlbumsByArtist.bind(albumController));
 
-
 router.get('/playlists', playlistController.getAllPlaylists.bind(playlistController));
 router.get('/playlist/:id', playlistController.getPlaylistById.bind(playlistController));
-
 router.post('/playlists', protect, playlistController.createPlaylist.bind(playlistController));
 router.put('/playlist/:id', protect, playlistController.updatePlaylist.bind(playlistController));
 router.delete('/playlist/:id', protect, playlistController.deletePlaylist.bind(playlistController));

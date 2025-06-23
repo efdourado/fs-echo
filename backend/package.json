@@ -20,8 +20,6 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.15.0",
-    "multer": "^2.0.1",
-    "music-metadata": "^11.3.0",
     "path": "^0.12.7"
   }
 }

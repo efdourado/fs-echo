@@ -63,7 +63,7 @@ const ManageSongsPage = () => {
           {songs.map(song => (
             <tr key={song._id}>
               <td>
-                <img src={song.coverImage ? `http://localhost:3000${song.coverImage}`: '/images/fb.jpeg'} alt={song.title} className="admin-table-image" />
+                <img src={song.coverImage || '/images/fb.jpeg'} alt={song.title} className="admin-table-image" />
               </td>
               <td data-label="Title">{song.title}</td>
               <td data-label="Artist">{song.artist?.name || 'N/A'}</td>

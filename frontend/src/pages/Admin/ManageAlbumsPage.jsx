@@ -62,7 +62,7 @@ const ManageAlbumsPage = () => {
           {albums.map(album => (
             <tr key={album._id}>
               <td>
-                <img src={album.coverImage ? `http://localhost:3000${album.coverImage}`: '/images/fb.jpeg'} alt={album.title} className="admin-table-image" />
+                <img src={album.coverImage || '/images/fb.jpeg'} alt={album.title} className="admin-table-image" />
               </td>
               <td data-label="Title">{album.title}</td>
               <td data-label="Artist">{album.artist?.name || 'N/A'}</td>

@@ -30,14 +30,11 @@ const ManageArtistsPage = () => {
     if (window.confirm('Are you sure you want to delete this artist? This action cannot be undone.')) {
       try {
         await deleteArtist(artistId);
-        // Recarregar a lista de artistas após a exclusão
         loadArtists();
       } catch (err) {
         setError('Failed to delete artist.');
         console.error(err);
-      }
-    }
-  };
+  } } };
 
   if (loading) return <LoadingSpinner />;
   if (error) return <p className="error-message">{error}</p>;
@@ -81,7 +78,6 @@ const ManageArtistsPage = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+); };
 
 export default ManageArtistsPage;

@@ -10,15 +10,20 @@ const SongForm = () => {
   const isEditing = Boolean(id);
 
   const [song, setSong] = useState({
-    title: '', artist: '', album: '', releaseDate: '', isExplicit: false, genre: '', lyrics: ''
+    title: '',
+    artist: '',
+    album: '',
+    releaseDate: '',
+    isExplicit: false,
+    genre: '',
+    lyrics: '',
+    coverImage: '',
+    audioUrl: '',
+    duration: 0,
   });
-  const [coverFile, setCoverFile] = useState(null);
-  const [audioFile, setAudioFile] = useState(null);
-  const [coverPreview, setCoverPreview] = useState('');
-  
+
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -37,53 +42,32 @@ const SongForm = () => {
             genre: data.genre?.join(', ') || '',
             releaseDate: data.releaseDate ? data.releaseDate.split('T')[0] : ''
           });
-          if (data.coverImage) setCoverPreview(`http://localhost:3000${data.coverImage}`);
         })
         .catch(err => setError('Failed to fetch song details.'))
         .finally(() => setLoading(false));
-  } }, [id, isEditing]);
+    }
+  }, [id, isEditing]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setSong(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    const file = files[0];
-    if (!file) return;
-
-    if (name === 'coverImage') {
-      setCoverFile(file);
-      setCoverPreview(URL.createObjectURL(file));
-    } else if (name === 'audioUrl') {
-      setAudioFile(file);
-  } };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isEditing && !audioFile) {
-        setError('An audio file is required to create a new song.');
-        return;
-    }
     setLoading(true);
     setError('');
 
-    const formData = new FormData();
-    // Append all text fields
-    Object.keys(song).forEach(key => {
-        if (key !== 'coverImage' && key !== 'audioUrl') {
-             formData.append(key, song[key]);
-    } });
-
-    if (coverFile) formData.append('coverImage', coverFile);
-    if (audioFile) formData.append('audioUrl', audioFile);
+    const submissionData = {
+        ...song,
+        genre: song.genre.split(',').map(g => g.trim()).filter(g => g),
+    };
 
     try {
       if (isEditing) {
-        await updateSong(id, formData);
+        await updateSong(id, submissionData);
       } else {
-        await createSong(formData);
+        await createSong(submissionData);
       }
       navigate('/admin/songs');
     } catch (err) {
@@ -102,39 +86,22 @@ const SongForm = () => {
       <form onSubmit={handleSubmit}>
         <div className="admin-form">
           <div className="form-grid">
-            <div className="form-group span-2">
-              <label htmlFor="title">Title</label>
-              <input type="text" id="title" name="title" value={song.title} onChange={handleChange} required />
+            <div className="form-group">
+              <label>Cover Image URL</label>
+              <input type="url" name="coverImage" value={song.coverImage} onChange={handleChange} accept="image/*" />
+              {song.coverImage && <img src={song.coverImage} alt="Preview" className="form-preview-image" />}
             </div>
 
             <div className="form-group">
-              <label htmlFor="artist">Artist</label>
-              <select id="artist" name="artist" value={song.artist} onChange={handleChange} required>
-                <option value="" disabled>Select an artist</option>
-                {artists.map(artist => <option key={artist._id} value={artist._id}>{artist.name}</option>)}
-              </select>
+              <label>Audio File URL</label>
+              <input type="url" name="audioUrl" value={song.audioUrl} onChange={handleChange} required />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="duration">Duration (in seconds)</label>
+              <input type="number" id="duration" name="duration" value={song.duration} onChange={handleChange} required />
             </div>
             
-            <div className="form-group">
-              <label htmlFor="album">Album (Optional)</label>
-              <select id="album" name="album" value={song.album} onChange={handleChange}>
-                <option value="">Select an album</option>
-                {albums.map(album => <option key={album._id} value={album._id}>{album.title}</option>)}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Cover Image</label>
-              <input type="file" name="coverImage" onChange={handleFileChange} accept="image/*" />
-              {coverPreview && <img src={coverPreview} alt="Preview" className="form-preview-image" />}
-            </div>
-
-            <div className="form-group">
-              <label>Audio File {isEditing ? "(Optional: only to replace)" : "(Required)"}</label>
-              <input type="file" name="audioUrl" onChange={handleFileChange} accept="audio/*" />
-              {audioFile && <p>Selected: {audioFile.name}</p>}
-            </div>
-
             <div className="form-group">
               <label htmlFor="releaseDate">Release Date</label>
               <input type="date" id="releaseDate" name="releaseDate" value={song.releaseDate} onChange={handleChange} />
