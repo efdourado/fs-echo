@@ -22,7 +22,10 @@ import AdminRoute from './components/auth/AdminRoute';
 import AdminLayout from './pages/Admin/AdminLayout';
 import ManageArtistsPage from './pages/Admin/ManageArtistsPage';
 import ArtistForm from './pages/Admin/ArtistForm';
-
+import ManageSongsPage from './pages/Admin/ManageSongsPage';
+import SongForm from './pages/Admin/SongForm';
+import ManageAlbumsPage from './pages/Admin/ManageAlbumsPage';
+import AlbumForm from './pages/Admin/AlbumForm';
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();

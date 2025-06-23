@@ -9,7 +9,6 @@ const SongForm = () => {
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
-  // Form states
   const [song, setSong] = useState({
     title: '', artist: '', album: '', releaseDate: '', isExplicit: false, genre: '', lyrics: ''
   });
@@ -17,16 +16,13 @@ const SongForm = () => {
   const [audioFile, setAudioFile] = useState(null);
   const [coverPreview, setCoverPreview] = useState('');
   
-  // Data for dropdowns
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
 
-  // Control states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch artists and albums for the dropdowns
     fetchArtists().then(setArtists).catch(() => setError('Could not load artists.'));
     fetchAlbums().then(setAlbums).catch(() => setError('Could not load albums.'));
 
@@ -45,8 +41,7 @@ const SongForm = () => {
         })
         .catch(err => setError('Failed to fetch song details.'))
         .finally(() => setLoading(false));
-    }
-  }, [id, isEditing]);
+  } }, [id, isEditing]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -63,8 +58,7 @@ const SongForm = () => {
       setCoverPreview(URL.createObjectURL(file));
     } else if (name === 'audioUrl') {
       setAudioFile(file);
-    }
-  };
+  } };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,10 +74,8 @@ const SongForm = () => {
     Object.keys(song).forEach(key => {
         if (key !== 'coverImage' && key !== 'audioUrl') {
              formData.append(key, song[key]);
-        }
-    });
+    } });
 
-    // Append files if they exist
     if (coverFile) formData.append('coverImage', coverFile);
     if (audioFile) formData.append('audioUrl', audioFile);
 
@@ -98,8 +90,7 @@ const SongForm = () => {
       setError(err.response?.data?.error || 'Failed to save the song.');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   if (loading && isEditing) return <LoadingSpinner />;
 
@@ -170,7 +161,6 @@ const SongForm = () => {
         </button>
       </form>
     </div>
-  );
-};
+); };
 
 export default SongForm;
