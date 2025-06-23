@@ -1,8 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause, faPlus, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faEllipsis } from '@fortawesome/free-solid-svg-icons';
+
 import { usePlayer } from '../../hooks/usePlayer';
 import fallbackImage from '/images/fb.jpeg';
 
@@ -18,7 +20,6 @@ const Bias = ({ item, type }) => {
   const detailPath = `/${type}/${item._id}`;
 
   const isCurrentPlaying = isSong && player?.currentTrack?._id === item._id;
-  const progress = isCurrentPlaying && player.duration ? (player.currentTime / player.duration) * 100 : 0;
 
   const handlePlayClick = (e) => {
     e.preventDefault();
@@ -59,9 +60,6 @@ const Bias = ({ item, type }) => {
         </div>
 
         <div className="bias-card__actions">
-          <button className="action-btn" aria-label="Add to queue">
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
           <button 
             className="action-btn play" 
             onClick={handlePlayClick} 
@@ -70,17 +68,16 @@ const Bias = ({ item, type }) => {
           >
             <FontAwesomeIcon icon={isCurrentPlaying ? faPause : faPlay} />
           </button>
-          <button className="action-btn" aria-label="Like">
-            <FontAwesomeIcon icon={faHeart} />
+
+          <button
+            className="action-btn menu"
+            aria-label="More options"
+          >
+            <FontAwesomeIcon icon={faEllipsis} />
           </button>
+
         </div>
       </div>
-
-      {isCurrentPlaying && (
-        <div className="bias-card__progress-container" role="progressbar">
-          <div className="bias-card__progress-bar" style={{ width: `${progress}%` }}></div>
-        </div>
-      )}
     </div>
 ); };
 

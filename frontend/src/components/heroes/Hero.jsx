@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire, faMagnet, faFlask, faFireFlameCurved } from '@fortawesome/free-solid-svg-icons';
 
-import { usePlayer } from '../../hooks/usePlayer';
 import Bias from '../ui/Bias';
 import { useAuth } from '../../context/AuthContext';
 import fallbackImage from '/images/fb.jpeg';
@@ -13,49 +12,21 @@ import fallbackImage from '/images/fb.jpeg';
 const Hero = ({
   title,
   subtitle,
-  highlight,
   talents = [],
-
   bgImage,
   allSongs = [],
-  allArtists = [],
-  allAlbums = [],
   allPlaylists = [],
 }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [activeFeatureTab, setActiveFeatureTab] = useState('songs');
-  
-                // const player = usePlayer();
-                // const highlightLink = highlight?._id ? `/${highlight.type}/${highlight._id}` : '#';
-
   const heroStyle = {
     backgroundImage: `linear-gradient(to right, var(--hero-gradient-start), var(--hero-gradient-end)), url(${bgImage})`,
   };
 
-                // const handlePlayHighlight = (e) => {
-                //   e.preventDefault();
-                //   e.stopPropagation();
-                //   if (highlight.type === 'song' && highlight.audioUrl) {
-                //     player.playTrack(highlight);
-                //   } else {
-                //     navigate(highlightLink);
-                // } };
-
-                // const getUniqueGenres = (data) => {
-                //   const genres = new Set();
-                //   data.forEach(item => {
-                //     if (item.genre) {
-                //       item.genre.forEach(g => genres.add(g));
-                //   } });
-                //   return Array.from(genres);
-                // };
-
   const renderFeatureContent = () => {
     switch (activeFeatureTab) {
       case 'songs':
-                // const curatedSong = allSongs[1];
-
         return (
           <div className="feature-card top-songs-card">
             <h4 className="feature-title"><FontAwesomeIcon icon={faFire} />
@@ -68,9 +39,11 @@ const Hero = ({
             </p>
 
 
-                {/* {curatedSong && (
-                  <Bias item={curatedSong} type="song" isEditorPick={true} />
-                )} */}
+            <div className="feature-bias">
+              {allSongs.slice(0,3).map((song) => (
+                <Bias key={song._id} item={song} type="song" isEditorPick={true} />
+              ))}
+            </div>
 
 
             <button type="button" className="cta-button" onClick={() => navigate('/songs')}>
@@ -80,9 +53,6 @@ const Hero = ({
         );
         
       case 'playlists':
-                // const popularPlaylists = allPlaylists.slice(0, 3);
-                // const featuredPlaylist = popularPlaylists[0];
-
         return (
           <div className="feature-card featured-playlist-card">
             <h4 className="feature-title"><FontAwesomeIcon icon={faMagnet} />
@@ -93,9 +63,13 @@ const Hero = ({
               Welcome to a new way of organizing feeling.
             </p>
 
-            
-                {/* <Bias item={featuredPlaylist} type="playlist" /> */}
-            
+
+             <div className="feature-bias">  
+              {allPlaylists.slice(0,3).map((playlist) => (
+                <Bias key={playlist._id} item={playlist} type="playlist" isEditorPick={true} />
+              ))}
+            </div>
+
 
             <button type="button" className="cta-button secondary-cta" onClick={() => navigate('/playlists')}>
               Discover New Playlists
@@ -103,9 +77,7 @@ const Hero = ({
           </div>
         );
 
-      case 'genres':
-                // const genres = getUniqueGenres(allSongs);
-        
+      case 'lab':        
         return (
           <div className="feature-card explore-genres-card">
             <h4 className="feature-title"><FontAwesomeIcon icon={faFlask} />
@@ -117,20 +89,6 @@ const Hero = ({
               It's messy, real, dynamic.
               Explore and create with our tools!
             </p>
-
-
-                {/* {genres.length > 0 ? (
-                  <div className="genre-list">
-                    {genres.slice(0, 6).map((genre, index) => (
-                      <span key={index} className="genre-tag">
-                        {genre}
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <p>No genres available.</p>
-                )} */}
-
 
             <button type="button" className="cta-button secondary-cta">
               Open Lab
@@ -196,8 +154,8 @@ const Hero = ({
               Playlists
             </button>
             <button 
-              className={`hero-tab-button ${activeFeatureTab === 'genres' ? 'active' : ''}`}
-              onClick={() => setActiveFeatureTab('genres')}
+              className={`hero-tab-button ${activeFeatureTab === 'lab' ? 'active' : ''}`}
+              onClick={() => setActiveFeatureTab('lab')}
             >
               Lab
             </button>

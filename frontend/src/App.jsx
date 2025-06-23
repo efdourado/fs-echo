@@ -29,6 +29,7 @@ import AdminPage from './pages/Admin/AdminPage';
 import ArtistForm from './pages/Admin/ArtistForm';
 import SongForm from './pages/Admin/SongForm';
 import AlbumForm from './pages/Admin/AlbumForm';
+import UserForm from './pages/Admin/UserForm';
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
@@ -112,6 +113,7 @@ const App = () => {
                 <Route path="/admin/songs/edit/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
                 <Route path="/admin/albums/new" element={<AdminRoute><AlbumForm /></AdminRoute>} />
                 <Route path="/admin/albums/edit/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
+                <Route path="/admin/users/edit/:id" element={<AdminRoute><UserForm /></AdminRoute>} />
                 <Route path="/admin/users" element={<AdminRoute><ComingSoonPage /></AdminRoute>} />
               </Routes>
 

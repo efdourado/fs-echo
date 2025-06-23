@@ -25,3 +25,6 @@ export const deleteSong = (id) => adminApi.delete(`/song/${id}`);
 export const createAlbum = (formData) => adminApi.post('/albums', formData);
 export const updateAlbum = (id, formData) => adminApi.put(`/album/${id}`, formData);
 export const deleteAlbum = (id) => adminApi.delete(`/album/${id}`);
+
+export const fetchUserById = (id) => adminApi.get(`/user/${id}`);
+export const updateUser = (id, userData) => adminApi.put(`/user/${id}`, userData);

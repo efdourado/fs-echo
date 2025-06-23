@@ -39,11 +39,11 @@ const User = mongoose.model('User', userSchema);
 
 export class UserModel {
   async findAll() {
-    return await User.find();
+    return await User.find().select('-password');
   }
 
   async findById(id) {
-    return await User.findById(id);
+    return await User.findById(id).select('-password');
   }
 
   async findByEmail(email) {
@@ -51,7 +51,7 @@ export class UserModel {
   }
 
   async findByUsername(username) {
-    return await User.findOne({ username });
+    return await User.findOne({ username }).select('-password');
   }
 
   async create(userData) {

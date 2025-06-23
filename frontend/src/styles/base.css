@@ -110,8 +110,8 @@
   --z-index-player: 1200;
   --z-index-toast: 1300;
 
-  --hero-gradient-start: rgba(0, 0, 0, 0.95);
-  --hero-gradient-end: rgba(0, 0, 0, 0.55);
+  --hero-gradient-start: rgba(0, 0, 0, 0.8);
+  --hero-gradient-end: rgba(0, 0, 0, 0.6);
   --hero-text-primary: var(--color-white);
   --hero-text-secondary: var(--color-text-secondary);
 }
@@ -139,8 +139,8 @@ body.light-mode {
   --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.04);
   --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.08);
 
-  --hero-gradient-start: hsla(0, 0%, 100%, 0.9);
-  --hero-gradient-end: hsla(0, 0%, 98%, 0.7);
+  --hero-gradient-start: hsla(0, 0%, 8%, 0.6);
+  --hero-gradient-end: hsla(0, 0%, 26%, 0.3);
   --hero-text-primary: var(--color-almost-black);
   --hero-text-secondary: var(--color-dark-grey);
 }
