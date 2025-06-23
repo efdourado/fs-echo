@@ -23,17 +23,24 @@ export class ArtistController {
       res.status(500).json({ error: error.message });
   } }
 
+  
   async createArtist(req, res) {
     try {
       const artistData = { ...req.body };
       
+      // Converte o campo socials de string JSON para objeto
+      if (artistData.socials) {
+        artistData.socials = JSON.parse(artistData.socials);
+      }
+
       if (req.files) {
         if (req.files.image) {
           artistData.image = `/uploads/images/${req.files.image[0].filename}`;
         }
         if (req.files.banner) {
           artistData.banner = `/uploads/images/${req.files.banner[0].filename}`;
-      } }
+        }
+      }
 
       const artist = await this.model.create(artistData);
       res.status(201).json(artist);
@@ -46,13 +53,19 @@ export class ArtistController {
     try {
       const updateData = { ...req.body };
 
+      // Converte o campo socials de string JSON para objeto
+      if (updateData.socials) {
+        updateData.socials = JSON.parse(updateData.socials);
+      }
+
       if (req.files) {
          if (req.files.image) {
           updateData.image = `/uploads/images/${req.files.image[0].filename}`;
         }
         if (req.files.banner) {
           updateData.banner = `/uploads/images/${req.files.banner[0].filename}`;
-      } }
+        }
+      }
 
       const artist = await this.model.updateById(id, updateData);
       if (!artist) {
@@ -63,9 +76,11 @@ export class ArtistController {
       res.status(400).json({ error: error.message });
   } }
 
+  // ... (deleteArtist) ...
   async deleteArtist(req, res) {
     const { id } = req.params;
     try {
+      // Futuramente, podemos adicionar a lógica para excluir os arquivos do servidor aqui
       const artist = await this.model.deleteById(id);
       if (!artist) {
         return res.status(404).json({ error: 'Artist not found' });
@@ -73,4 +88,5 @@ export class ArtistController {
       res.status(204).end();
     } catch (error) {
       res.status(500).json({ error: error.message });
-} } }
+  } }
+}

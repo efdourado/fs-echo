@@ -7,6 +7,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 const ArtistForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  // ... (outros estados)
   const [artist, setArtist] = useState({
     name: '',
     description: '',
@@ -16,29 +17,29 @@ const ArtistForm = () => {
     verified: false,
     socials: { instagram: '', x: '', youtube: '', tiktok: '' }
   });
-  
   const [imageFile, setImageFile] = useState(null);
   const [bannerFile, setBannerFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [bannerPreview, setBannerPreview] = useState('');
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const isEditing = Boolean(id);
 
+
+  // ... (useEffect e outros handlers)
   useEffect(() => {
     if (isEditing) {
       setLoading(true);
       fetchArtistById(id)
         .then(data => {
-          setArtist({ ...data, genre: data.genre.join(', ') });
-          // Define as previews das imagens existentes
+          setArtist({ ...data, genre: data.genre.join(', '), socials: data.socials || { instagram: '', x: '', youtube: '', tiktok: '' } });
           if (data.image) setImagePreview(`http://localhost:3000${data.image}`);
           if (data.banner) setBannerPreview(`http://localhost:3000${data.banner}`);
         })
         .catch(err => setError('Failed to fetch artist details.'))
         .finally(() => setLoading(false));
-  } }, [id, isEditing]);
+    }
+  }, [id, isEditing]);
 
   const handleTextChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -47,7 +48,8 @@ const ArtistForm = () => {
       setArtist(prev => ({ ...prev, socials: { ...prev.socials, [socialPlatform]: value }}));
     } else {
       setArtist(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-  } };
+    }
+  };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -60,7 +62,9 @@ const ArtistForm = () => {
     } else if (name === 'banner') {
       setBannerFile(file);
       setBannerPreview(URL.createObjectURL(file));
-  } };
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,17 +72,17 @@ const ArtistForm = () => {
     setError('');
 
     const formData = new FormData();
-    // Adiciona todos os campos de texto
-    formData.append('name', artist.name);
-    formData.append('description', artist.description);
-    formData.append('genre', artist.genre.split(',').map(g => g.trim()).filter(g => g));
-    formData.append('verified', artist.verified);
-    // Adiciona os campos de objeto aninhado
-    Object.keys(artist.socials).forEach(key => {
-        formData.append(`socials[${key}]`, artist.socials[key]);
-    });
     
+    // Adiciona todos os campos do estado, exceto 'socials'
+    Object.keys(artist).forEach(key => {
+        if (key !== 'socials') {
+            formData.append(key, artist[key]);
+        }
+    });
 
+    // Adiciona o objeto socials como uma string JSON
+    formData.append('socials', JSON.stringify(artist.socials));
+    
     if (imageFile) formData.append('image', imageFile);
     if (bannerFile) formData.append('banner', bannerFile);
 
@@ -93,10 +97,11 @@ const ArtistForm = () => {
       setError(err.response?.data?.message || 'Failed to save artist.');
     } finally {
       setLoading(false);
-  } };
+    }
+  };
 
-  if (loading && isEditing) return <LoadingSpinner />;
 
+  // ... (código JSX do return)
   return (
     <div className="admin-page">
       <h1>{isEditing ? 'Edit Artist' : 'Create New Artist'}</h1>
@@ -157,6 +162,8 @@ const ArtistForm = () => {
         </div>
       </form>
     </div>
-); };
+  );
+};
+
 
 export default ArtistForm;
