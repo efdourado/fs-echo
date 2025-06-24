@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+// MODIFICAÇÃO: Importar o ícone de pause
+import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { fetchPlaylistById, fetchAlbumById } from '../../api/api';
 import { usePlayer } from '../../hooks/usePlayer';
@@ -13,7 +14,7 @@ import fallbackImage from '/images/fb.jpeg';
 
 const CollectionView = ({ type }) => {
   const { id } = useParams();
-  const { setSongs, playTrack } = usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
 
   const [collection, setCollection] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,20 +33,22 @@ const CollectionView = ({ type }) => {
         console.error(err);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
     loadCollection();
   }, [id, type]);
 
+  const isThisCollectionPlaying = playContext?.type === type && playContext?.id === id;
+
   const handlePlayCollection = () => {
-    // Normalize tracks based on type
     const tracks = type === 'playlist'
       ? collection.songs.map(item => item.song).filter(Boolean)
       : collection.songs.filter(Boolean);
       
-    if (tracks && tracks.length > 0) {
-      setSongs(tracks);
-      playTrack(tracks[0]);
+    if (isThisCollectionPlaying) {
+      togglePlayPause();
+    } 
+    else if (tracks && tracks.length > 0) {
+      startPlayback(tracks, { type, id });
     }
   };
 
@@ -61,7 +64,6 @@ const CollectionView = ({ type }) => {
     return <div className="error-message">Collection not found.</div>;
   }
 
-  // Normalize data for rendering
   const displayData = {
     name: collection.name || collection.title,
     description: collection.description || `An album by ${collection.artist?.name}`,
@@ -94,9 +96,10 @@ const CollectionView = ({ type }) => {
       </div>
 
       <div className="collection-actions">
+        {/* MODIFICAÇÃO: O botão agora alterna entre play e pause */}
         <button className="play-button-large" onClick={handlePlayCollection}>
-          <FontAwesomeIcon icon={faPlayCircle} />
-          <span>Play</span>
+          <FontAwesomeIcon icon={isThisCollectionPlaying && isPlaying ? faPauseCircle : faPlayCircle} />
+          <span>{isThisCollectionPlaying && isPlaying ? 'Pause' : 'Play'}</span>
         </button>
       </div>
 

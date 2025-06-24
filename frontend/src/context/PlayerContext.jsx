@@ -10,8 +10,19 @@ export const PlayerProvider = ({ children }) => {
     currentTrack: null,
     isPlaying: false,
     volume: 0.7,
-    isMuted: false
+    isMuted: false,
+    playContext: null,
   });
+
+  const startPlayback = useCallback((newSongs, newContext) => {
+    if (newSongs && newSongs.length > 0) {
+      setSongs(newSongs);
+      setState(prev => ({
+        ...prev,
+        currentTrack: newSongs[0],
+        playContext: newContext,
+        isPlaying: true,
+  })); } }, []);
 
   const skipTrack = useCallback((direction) => {
     if (!state.currentTrack || !songs.length) return;
@@ -35,16 +46,13 @@ export const PlayerProvider = ({ children }) => {
 
   const playTrack = useCallback((track) => {
     if (!track?.audioUrl) return;
-    setState(prev => ({
-      ...prev,
-      currentTrack: track,
-      isPlaying: true
-    }));
-  }, []);
+    startPlayback([track], { type: 'song', id: track._id });
+  }, [startPlayback]);
 
   const togglePlayPause = useCallback(() => {
+    if (!state.currentTrack) return;
     setState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
-  }, []);
+  }, [state.currentTrack]);
 
   const toggleMute = useCallback(() => {
     setState(prev => ({ ...prev, isMuted: !prev.isMuted }));
@@ -62,6 +70,12 @@ export const PlayerProvider = ({ children }) => {
     onPause: () => setState(prev => ({ ...prev, isPlaying: false })),
     onEnded: () => skipTrack('forward')
   });
+  
+  useEffect(() => {
+    if (!state.isPlaying && !state.currentTrack) {
+      setState(prev => ({ ...prev, playContext: null }));
+    }
+  }, [state.isPlaying, state.currentTrack]);
 
   const value = useMemo(() => ({
     ...state,
@@ -69,13 +83,15 @@ export const PlayerProvider = ({ children }) => {
     currentTime: audio.currentTime,
     duration: audio.duration,
     playTrack,
+    startPlayback,
     togglePlayPause,
     toggleMute,
     setVolume,
     skipTrack,
     seek: audio.seek,
-    setSongs
-  }), [state, audio, playTrack, togglePlayPause, toggleMute, setVolume, skipTrack, songs]);
+    setSongs,
+  }), [state, audio, playTrack, startPlayback, togglePlayPause, toggleMute, setVolume, skipTrack, songs]);
+
 
   return (
     <PlayerContext.Provider value={value}>

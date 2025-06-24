@@ -105,8 +105,9 @@ const Home = () => {
             items={playlists}
             type="playlist"
           />
+        
 
-           <div className="home-featured-collection">
+          <div className="home-featured-collection">
             {featuredPlaylistId && (
               <Collection
                 collectionId={featuredPlaylistId}
