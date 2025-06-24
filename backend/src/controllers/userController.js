@@ -83,11 +83,11 @@ export class UserController {
       const user = await this.model.create({ username, email, password });
 
       if (user) {
+        const userObject = user.toObject();
+        delete userObject.password;
+
         res.status(201).json({
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          isAdmin: user.isAdmin,
+          ...userObject,
           token: generateToken(user._id),
         });
       } else {
@@ -109,11 +109,12 @@ export class UserController {
       const user = await this.model.findByEmail(email);
 
       if (user && (await user.comparePassword(password))) {
+        // FIXED: Return the full user object
+        const userObject = user.toObject();
+        delete userObject.password;
+
         res.json({
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          isAdmin: user.isAdmin,
+          ...userObject,
           token: generateToken(user._id),
         });
       } else {
@@ -126,12 +127,7 @@ export class UserController {
 
   async getCurrentUser(req, res) {
     if (req.user) {
-      res.json({
-        _id: req.user._id,
-        username: req.user.username,
-        email: req.user.email,
-        isAdmin: req.user.isAdmin,
-      });
+      res.json(req.user);
     } else {
       res.status(404).json({ message: 'user not found' });
 } } }
