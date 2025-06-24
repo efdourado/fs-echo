@@ -8,6 +8,17 @@ import { faPlay, faPause, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { usePlayer } from '../../hooks/usePlayer';
 import fallbackImage from '/images/fb.jpeg';
 
+// Sound wave component
+const SoundWave = () => (
+  <div className="sound-wave">
+    <div className="sound-wave__bar"></div>
+    <div className="sound-wave__bar"></div>
+    <div className="sound-wave__bar"></div>
+    <div className="sound-wave__bar"></div>
+  </div>
+);
+
+
 const Bias = ({ item, type }) => {
   const player = usePlayer();
   const navigate = useNavigate();
@@ -19,14 +30,15 @@ const Bias = ({ item, type }) => {
   const imageUrl = item.coverImage || item.image || fallbackImage;
   const detailPath = `/${type}/${item._id}`;
 
-  const isCurrentPlaying = isSong && player?.currentTrack?._id === item._id;
+  const isCurrentTrack = isSong && player?.currentTrack?._id === item._id;
+  const isPlaying = isCurrentTrack && player.isPlaying;
 
   const handlePlayClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (isSong && item.audioUrl) {
-      if (isCurrentPlaying) {
+      if (isCurrentTrack) {
         player.togglePlayPause();
       } else {
         player.playTrack(item);
@@ -44,7 +56,7 @@ const Bias = ({ item, type }) => {
   };
   
   return (
-    <div className={`bias-card ${isCurrentPlaying ? 'is-playing' : ''}`}>
+    <div className={`bias-card ${isPlaying ? 'is-playing' : ''}`}>
       <Link to={detailPath} className="bias-card__cover">
         <img
           src={imageUrl}
@@ -55,7 +67,10 @@ const Bias = ({ item, type }) => {
       
       <div className="bias-card__content">
         <div className="bias-card__text">
-          <h3 className="bias-card__title">{title}</h3>
+          <h3 className="bias-card__title">
+            {title}
+            {isPlaying && <SoundWave />}
+          </h3>
           <p className="bias-card__subtitle">{getSubtitle()}</p>
         </div>
 
@@ -63,10 +78,10 @@ const Bias = ({ item, type }) => {
           <button 
             className="action-btn play" 
             onClick={handlePlayClick} 
-            aria-label={isCurrentPlaying ? "Pause" : "Play"}
+            aria-label={isPlaying ? "Pause" : "Play"}
             disabled={isSong && !item.audioUrl}
           >
-            <FontAwesomeIcon icon={isCurrentPlaying ? faPause : faPlay} />
+            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
           </button>
 
           <button
