@@ -80,15 +80,22 @@ export class PlaylistController {
     try {
       const playlist = await this.model.findById(id);
       if (!playlist) {
-        return res.status(404).json({ error: 'Playlist not found' });
+        return res.status(404).json({ message: 'Playlist not found' });
       }
       if (playlist.owner.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ error: 'User not authorized to modify this playlist' });
+        return res.status(403).json({ message: 'User not authorized to modify this playlist' });
       }
+
       const updatedPlaylist = await this.model.addSong(id, songId);
+
+      if (!updatedPlaylist) {
+        return res.status(409).json({ message: 'Song is already in this playlist.' });
+      }
+
       res.json(updatedPlaylist);
     } catch (error) {
-      res.status(400).json({ error: error.message });
+
+      res.status(400).json({ message: error.message });
   } }
 
   async removeSongFromPlaylist(req, res) {

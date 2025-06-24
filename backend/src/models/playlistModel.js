@@ -51,9 +51,9 @@ export class PlaylistModel {
   }
 
   async addSong(playlistId, songId) {
-    return await Playlist.findByIdAndUpdate(
-      playlistId,
-      { $push: { songs: { song: songId } } },
+    return await Playlist.findOneAndUpdate(
+      { _id: playlistId, 'songs.song': { $ne: songId } },
+      { $push: { songs: { song: songId, addedAt: new Date() } } },
       { new: true }
   ); }
 

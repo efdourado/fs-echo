@@ -33,7 +33,8 @@ const AddToPlaylistModal = ({ song, onClose }) => {
         onClose();
       }, 1500);
     } catch (err) {
-      setError('Failed to add song. It might already be in the playlist.');
+      const errorMessage = err.response?.data?.message || 'Failed to add song. Please try again.';
+      setError(errorMessage);
   } };
 
   if (success) {
