@@ -6,7 +6,7 @@ import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { usePlayer } from "../../hooks/usePlayer";
 import fallbackImage from '/images/fb.jpeg';
 
-const SongItem = React.memo(({ song, onMenuClick }) => {
+const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
   const player = usePlayer();
 
   if (!song || !song.artist) {
@@ -32,9 +32,14 @@ const SongItem = React.memo(({ song, onMenuClick }) => {
 
   return (
     <div
-      className={`song-item ${isCurrent ? "song-item--active" : ""} ${!hasAudio ? "song-item--disabled" : ""}`}
+      className={`song-item ${isCurrent ? "song-item--active" : ""} ${!hasAudio ? "song-item--disabled" : ""} ${showNumber ? "has-number" : ""}`}
       onDoubleClick={handlePlayClick}
     >
+      {showNumber && (
+        <div className="song-item-number">
+            <span className="number-text">{index + 1}</span>
+        </div>
+      )}
       <div className="song-item__track">
         <div className="song-item__cover-art-container">
           <img
@@ -89,6 +94,8 @@ SongItem.propTypes = {
     duration: PropTypes.number,
   }).isRequired,
   onMenuClick: PropTypes.func,
+  showNumber: PropTypes.bool,
+  index: PropTypes.number,
 };
 
 export default SongItem;

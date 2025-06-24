@@ -44,38 +44,64 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .collection-view__content {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
   gap: var(--spacing-md);
   padding: var(--spacing-sm);
   margin-left: -12px;
+  margin-bottom: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
   position: relative;
   transition: background-color 0.2s ease-out;
 
 }
 .collection-view__content:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface);
 }
+
+
+
+
+
 
 .collection-view__info-panel {
   display: flex;
-  text-align: center;
   align-items: center;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-lg);
 }
+
+
+
+
 
 .collection-view__cover-art {
   width: 100%;
-  max-width: 250px;
+  max-width: 230px;
   aspect-ratio: 1/1;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   background-color: var(--color-surface-hover);
   position: relative;
-  margin: 0 auto;
 }
 
 .collection-view__cover-art img {
@@ -86,7 +112,7 @@
 }
 
 .collection-view__content:hover .collection-view__cover-art img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .collection-view__play-overlay {
@@ -131,15 +157,14 @@
 }
 
 .collection-view__owner {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-md);
-    margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  margin: 0;
 }
 
 .collection-view__meta {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
@@ -157,10 +182,26 @@
   margin: var(--spacing-sm) 0;
 }
 
+
+
+
+
+
+
+
+
+.collection-view__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-width: 200px;
+  overflow: hidden;
+}
+
+
 .collection-view__actions {
   display: flex;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
 }
 
 
@@ -184,10 +225,18 @@
   transform: scale(1.05);
 }
 
+
+
+
+
+
+
+
+
+
 .collection-view__tracks-panel {
   max-height: 260px;
   overflow-y: auto;
-  padding-right: var(--spacing-sm);
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -195,16 +244,3 @@
 .collection-view__tracks-panel::-webkit-scrollbar {
   display: none;
 }
-
-
-@media (min-width: 992px) {
-  .collection-view__content {
-    grid-template-columns: auto 1fr; 
-  }
-
-  .collection-view__info-panel {
-    text-align: left;
-  }
-  .collection-view__meta {
-    justify-content: flex-start;
-} }

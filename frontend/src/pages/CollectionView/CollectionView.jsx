@@ -101,7 +101,7 @@ const CollectionView = ({ type }) => {
       </div>
 
       <div className="collection-song-list">
-        <SongList songs={displayData.tracks} showHeader={false} displayAll={true} />
+        <SongList songs={displayData.tracks} showHeader={false} displayAll={true} showNumber={true} />
       </div>
     </div>
   );

@@ -16,8 +16,8 @@ const Home = () => {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
+  const [featuredPlaylistId, setFeaturedPlaylistId] = useState(null);
   const [heroHighlight, setHeroHighlight] = useState(null);
-  const [uniqueGenres, setUniqueGenres] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -42,17 +42,10 @@ const Home = () => {
         if (properAlbums.length > 0) {
           setFeaturedAlbumId(properAlbums.length > 1 ? properAlbums[1]._id : properAlbums[0]._id);
         }
-
-        const getUniqueGenres = (data) => {
-          const genres = new Set();
-          data.forEach(item => {
-            if (item.genre) {
-              item.genre.forEach(g => genres.add(g));
-            }
-          });
-          return Array.from(genres).slice(0, 12);
-        };
-        setUniqueGenres(getUniqueGenres(songsData));
+        
+        if (playlistsData.length > 0) {
+          setFeaturedPlaylistId(playlistsData[1]._id);
+        }
 
         if (songsData.length > 0) {
           const mainHighlightSong = songsData[0];
@@ -118,6 +111,17 @@ const Home = () => {
               <Collection
                 collectionId={featuredAlbumId}
                 type="album"
+              />
+            )}
+          </div>
+
+
+
+         <div className="home-featured-collection">
+            {featuredPlaylistId && (
+              <Collection
+                collectionId={featuredPlaylistId}
+                type="playlist"
               />
             )}
           </div>

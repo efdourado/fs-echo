@@ -215,3 +215,55 @@
 .add-to-playlist-feedback.success .fa-check-circle {
   font-size: var(--font-size-3xl);
 }
+
+
+
+
+
+
+.song-item {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Default: track | menu */
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+}
+
+.song-item.has-number {
+    grid-template-columns: min-content 1fr auto; /* number | track | menu */
+}
+
+.song-item-number {
+    grid-column: 1 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    padding-right: var(--spacing-sm);
+}
+
+.song-item.has-number .song-item__track {
+    grid-column: 2 / 3;
+}
+
+.song-item.has-number .song-item__menu-container {
+    grid-column: 3 / 4;
+}
+
+.song-item:not(.has-number) .song-item__track {
+    grid-column: 1 / 2;
+}
+
+.song-item:not(.has-number) .song-item__menu-container {
+    grid-column: 2 / 3;
+}
+
+.song-item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* (The rest of your .song-item styles remain the same) */

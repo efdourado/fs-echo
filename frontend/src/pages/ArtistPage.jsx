@@ -191,6 +191,7 @@ const ArtistPage = () => {
                   songs={displayedSongs}
                   showCount={false}
                   onMenuClick={handleMenuClick}
+                  showNumber={true}
                 />
               ) : (
                 <p className="empty-state">No popular songs found for this artist.</p>

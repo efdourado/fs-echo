@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 import SongList from "../../../components/songs/SongList";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+
+import fallbackImage from '/images/fb.jpeg';
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
@@ -33,7 +35,7 @@ const Collection = ({ collectionId, type = "album" }) => {
       loadCollectionData();
     }
   }, [collectionId, type]);
-
+faEllipsis
   if (loading) return <LoadingSpinner />;
   if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
@@ -58,7 +60,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         <div className="collection-view__info-panel">
           <div className="collection-view__cover-art">
             <img 
-              src={collection.coverImage || "/images/fb.jpeg"} 
+              src={coverImageUrl} 
               alt={collection.title}
             />
         
@@ -76,13 +78,16 @@ const Collection = ({ collectionId, type = "album" }) => {
             <p className="collection-view__description">
               {collection.description}
             </p>
+
+
+
             <div className="collection-view__actions">
                 <button className="action-button icon-only" onClick={handlePlayCollection} aria-label={`Play ${collection.title}`}>
                    <FontAwesomeIcon icon={faPlay}/>
                 </button>
 
                  <button className="action-button icon-only" aria-label="Add to library">
-                    <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faEllipsis} />
                 </button>
             </div>
           </div>
@@ -90,9 +95,10 @@ const Collection = ({ collectionId, type = "album" }) => {
 
         <div className="collection-view__tracks-panel">
           <SongList 
-            songs={songs} 
-            showHeader={false}
-            displayAll={true}
+          songs={songs} 
+          showHeader={false}
+          displayAll={true}
+          showNumber={true}
           />
         </div>
       </div>

@@ -8,7 +8,6 @@ import { faPlay, faPause, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { usePlayer } from '../../hooks/usePlayer';
 import fallbackImage from '/images/fb.jpeg';
 
-// Sound wave component
 const SoundWave = () => (
   <div className="sound-wave">
     <div className="sound-wave__bar"></div>
@@ -17,7 +16,6 @@ const SoundWave = () => (
     <div className="sound-wave__bar"></div>
   </div>
 );
-
 
 const Bias = ({ item, type }) => {
   const player = usePlayer();

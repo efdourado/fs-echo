@@ -11,6 +11,7 @@ const SongList = ({
   initialItems = 10,
   showHeader = true,
   displayAll = false,
+  showNumber = false,
 }) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -32,7 +33,13 @@ const SongList = ({
 
       <div className="song-list__container">
         {displayedSongs.map((song, index) => (
-          <SongItem key={song._id || index} song={song} onMenuClick={onMenuClick} />
+          <SongItem
+            key={song._id || index}
+            song={song}
+            onMenuClick={onMenuClick}
+            showNumber={showNumber}
+            index={index}
+          />
         ))}
       </div>
 
@@ -58,6 +65,7 @@ SongList.propTypes = {
   initialItems: PropTypes.number,
   showHeader: PropTypes.bool,
   displayAll: PropTypes.bool,
+  showNumber: PropTypes.bool,
 };
 
 export default SongList;
