@@ -94,7 +94,7 @@ const AdminPage = () => {
           )}
           </div>
         
-        <Link to={`/admin/${activeTab}/new`} className="login-btn create-btn">
+        <Link to={`/admin/new/${activeTab.slice(0, -1)}`} className="login-btn create-btn">
           <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
           <span className="btn-label"> Add New {activeTab.slice(0, -1)}</span>
         </Link>

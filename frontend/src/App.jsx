@@ -63,20 +63,19 @@ const App = () => {
             <Header toggleSidebar={toggleSidebar} />
             <main style={{ flex: 1, paddingTop: '72px' }}>
               <Routes>
-                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+
+
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
-
                 <Route path="/playlist/:id" element={<CollectionView type="playlist" />} />
                 <Route path="/album/:id" element={<CollectionView type="album" />} />
 
 
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
-
                 <Route path="/archived" element={<ComingSoonPage />} />
                 <Route path="/help" element={<ComingSoonPage />} />
                 <Route path="/settings" element={<ComingSoonPage />} />
@@ -98,7 +97,6 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-
                 <Route
                   path="/admin"
                   element={
@@ -107,16 +105,17 @@ const App = () => {
                     </AdminRoute>
                   }
                 />
-                <Route path="/admin/artists/new" element={<AdminRoute><ArtistForm /></AdminRoute>} />
-                <Route path="/admin/artists/edit/:id" element={<AdminRoute><ArtistForm /></AdminRoute>} />
-                <Route path="/admin/songs/new" element={<AdminRoute><SongForm /></AdminRoute>} />
-                <Route path="/admin/songs/edit/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
-                <Route path="/admin/albums/new" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-                <Route path="/admin/albums/edit/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-                <Route path="/admin/users/edit/:id" element={<AdminRoute><UserForm /></AdminRoute>} />
+                <Route path="/admin/new/artist" element={<AdminRoute><ArtistForm /></AdminRoute>} />
+                <Route path="/admin/new/song" element={<AdminRoute><SongForm /></AdminRoute>} />
+                <Route path="/admin/new/album" element={<AdminRoute><AlbumForm /></AdminRoute>} />
+
+                <Route path="/admin/edit/artist/:id" element={<AdminRoute><ArtistForm /></AdminRoute>} />
+                <Route path="/admin/edit/song/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
+                <Route path="/admin/edit/album/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
+                <Route path="/admin/edit/user/:id" element={<AdminRoute><UserForm /></AdminRoute>} />
+
                 <Route path="/admin/users" element={<AdminRoute><ComingSoonPage /></AdminRoute>} />
               </Routes>
-
             </main>
             <Footer companyName={'Echo'} />
           </div>

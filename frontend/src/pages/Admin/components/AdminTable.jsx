@@ -91,7 +91,7 @@ const AdminTable = ({ type, data, handleDelete }) => {
             {config.renderRow(item, handleDelete)}
             <td data-label="Actions">
               <div className="admin-table-actions">
-                <Link to={`/admin/${type}/edit/${item._id}`} className="admin-button-edit">Edit</Link>
+                <Link to={`/admin/edit/${type.slice(0, -1)}/${item._id}`} className="admin-button-edit">Edit</Link>
                 {handleDelete && (
                   <button onClick={() => handleDelete(item._id)} className="admin-button-delete"><FontAwesomeIcon icon={faTrash} className="btn-icon-graphic" />
                   </button>
