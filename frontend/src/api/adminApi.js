@@ -1,13 +1,23 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-const token = localStorage.getItem('authToken');
 
 const adminApi = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Authorization': `bearer ${token}`
-} });
+});
+
+adminApi.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers['Authorization'] = `bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+} );
+
 
 export const getMyPlaylists = () => adminApi.get('/me/playlists');
 export const createPlaylist = (playlistData) => adminApi.post('/playlists', playlistData);

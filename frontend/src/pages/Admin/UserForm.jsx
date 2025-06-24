@@ -54,13 +54,13 @@ const UserForm = () => {
 
     try {
       const { password, ...submissionData } = user;
-      await updateUser(id, submissionData);
+      const response = await updateUser(id, submissionData);
 
       if (currentUser && currentUser._id === id) {
-        updateCurrentUser(submissionData);
+        updateCurrentUser(response.data);
       }
       
-      navigate('/admin');
+      navigate('/admin/users');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save user.');
       console.error(err);
