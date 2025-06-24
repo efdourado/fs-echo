@@ -47,7 +47,7 @@
 
 .collection-view__content {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 0.8fr 1fr;
   justify-content: space-between;
   gap: var(--spacing-md);
   padding: var(--spacing-sm);
@@ -73,9 +73,9 @@
 
 .collection-view__cover-art {
   width: 100%;
-  max-width: 230px;
+  max-width: 320px;
   aspect-ratio: 1/1;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   background-color: var(--color-surface-hover);
@@ -94,8 +94,6 @@
 .collection-view__details {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  max-width: 200px;
   overflow: hidden;
 }
 
@@ -105,11 +103,13 @@
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .collection-view__owner {
   color: var(--color-text-secondary);
   font-size: var(--font-size-md);
+  margin-bottom: var(--spacing-md);
 }
 
 .collection-view__meta {
@@ -118,6 +118,8 @@
   gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
+  margin-bottom: var(--spacing-md);
+
 }
 
 .collection-view__meta .meta-divider {
@@ -128,7 +130,7 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   line-height: var(--line-height-relaxed);
-  margin: var(--spacing-sm) 0;
+  margin: 0;
 }
 
 
@@ -137,13 +139,14 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
 }
 
 
 
 
 .collection-view__tracks-panel {
-  max-height: 260px;
+  max-height: 320px;
   margin-left: var(--spacing-lg);
   overflow-y: auto;
   -ms-overflow-style: none;

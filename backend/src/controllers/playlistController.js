@@ -9,8 +9,7 @@ export class PlaylistController {
       res.json(playlists);
     } catch (error) {
       res.status(500).json({ message: error.message });
-    }
-  }
+  } }
 
   async getPlaylistById(req, res) {
     const { id } = req.params;
@@ -22,8 +21,7 @@ export class PlaylistController {
       res.json(playlist);
     } catch (error) {
       res.status(500).json({ message: error.message });
-    }
-  }
+  } }
 
   async getMyPlaylists(req, res) {
     try {
@@ -31,8 +29,7 @@ export class PlaylistController {
       res.json(playlists);
     } catch (error) {
       res.status(500).json({ message: error.message });
-    }
-  }
+  } }
 
   async createPlaylist(req, res) {
     try {
@@ -44,8 +41,7 @@ export class PlaylistController {
       res.status(201).json(playlist);
     } catch (error) {
       res.status(400).json({ message: error.message });
-    }
-  }
+  } }
 
   async updatePlaylist(req, res) {
     const { id } = req.params;
@@ -54,7 +50,6 @@ export class PlaylistController {
       if (!playlist) {
         return res.status(404).json({ message: 'Playlist not found' });
       }
-      // CORREÇÃO APLICADA AQUI
       if (playlist.owner._id.toString() !== req.user._id.toString()) {
         return res.status(403).json({ message: 'User not authorized to update this playlist' });
       }
@@ -62,8 +57,7 @@ export class PlaylistController {
       res.json(updatedPlaylist);
     } catch (error) {
       res.status(400).json({ message: error.message });
-    }
-  }
+  } }
 
   async deletePlaylist(req, res) {
     const { id } = req.params;
@@ -80,8 +74,7 @@ export class PlaylistController {
       res.status(204).end();
     } catch (error) {
       res.status(500).json({ message: error.message });
-    }
-  }
+  } }
 
   async addSongToPlaylist(req, res) {
     const { id, songId } = req.params;
@@ -101,8 +94,7 @@ export class PlaylistController {
       res.json(updatedPlaylist);
     } catch (error) {
       res.status(400).json({ message: error.message });
-    }
-  }
+  } }
 
   async removeSongFromPlaylist(req, res) {
     const { id, songId } = req.params;
@@ -119,8 +111,7 @@ export class PlaylistController {
       res.json(updatedPlaylist);
     } catch (error) {
       res.status(400).json({ message: error.message });
-    }
-  }
+  } }
 
   async getPlaylistsByOwner(req, res) {
     const { ownerId } = req.params;
@@ -129,4 +120,4 @@ export class PlaylistController {
       res.json(playlists);
     } catch (error) {
       res.status(500).json({ message: error.message });
-  } } }
+} } }

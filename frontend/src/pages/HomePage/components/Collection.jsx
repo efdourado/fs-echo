@@ -1,3 +1,5 @@
+// efdourado/fs-echo/fs-echo-e7183da83a9bd3fb2ed400214354ee6ee9b8395c/frontend/src/pages/HomePage/components/Collection.jsx
+
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,6 +8,7 @@ import { faPlay, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 import SongList from "../../../components/songs/SongList";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import { usePlayer } from "../../../hooks/usePlayer";
 
 import fallbackImage from '/images/fb.jpeg';
 
@@ -13,7 +16,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const { setSongs: setPlayerSongs, playTrack } = usePlayer();
 
   useEffect(() => {
     const loadCollectionData = async () => {
@@ -23,26 +26,34 @@ const Collection = ({ collectionId, type = "album" }) => {
         const collectionData = await fetcher(collectionId);
         
         setCollection(collectionData);
-        setSongs(collectionData.songs || []);
+
+        const tracks = type === 'playlist' 
+          ? collectionData.songs.map(item => item.song).filter(Boolean) 
+          : (collectionData.songs || []);
+        setSongs(tracks);
+
       } catch (error) {
         console.error(`Error loading ${type} data:`, error);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
 
     if (collectionId) {
       loadCollectionData();
     }
   }, [collectionId, type]);
-faEllipsis
+
   if (loading) return <LoadingSpinner />;
   if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
   const handlePlayCollection = () => {
-    console.log("Playing collection:", collection.title);
+    if (songs && songs.length > 0) {
+      setPlayerSongs(songs);
+      playTrack(songs[0]);
+    }
   };
 
+  const collectionName = type === 'playlist' ? collection.name : collection.title;
   const ownerName = type === 'playlist' 
     ? (collection.owner?.username || collection.owner?.name) 
     : collection.artist?.name;
@@ -50,7 +61,6 @@ faEllipsis
   const coverImageUrl = collection.coverImage || fallbackImage;
 
   return (
-
     <section className="carousel">
       <div className="carousel__header">
         <h2 className="carousel__title">Featured {type === 'album' ? 'Album' : 'Playlist'}</h2>
@@ -61,12 +71,11 @@ faEllipsis
           <div className="collection-view__cover-art">
             <img 
               src={coverImageUrl} 
-              alt={collection.title}
+              alt={collectionName}
             />
-        
           </div>
           <div className="collection-view__details">
-            <h1 className="collection-view__title">{collection.title}</h1>
+            <h1 className="collection-view__title">{collectionName}</h1>
             <p className="collection-view__owner">By {ownerName}</p>
             <div className="collection-view__meta">
               {type === 'album' && collection.releaseDate && (
@@ -77,13 +86,10 @@ faEllipsis
             </div>
             {collection.description && <p className="collection-view__description">{collection.description}</p>}
 
-
-
             <div className="collection-view__actions">
-                <button className="action-btn play" onClick={handlePlayCollection} aria-label={`Play ${collection.title}`}>
+                <button className="action-btn play" onClick={handlePlayCollection} aria-label={`Play ${collectionName}`}>
                    <FontAwesomeIcon icon={faPlay}/>
                 </button>
-
                  <button className="action-btn menu" aria-label="More options">
                     <FontAwesomeIcon icon={faEllipsis} />
                 </button>
@@ -93,10 +99,10 @@ faEllipsis
 
         <div className="collection-view__tracks-panel">
           <SongList 
-          songs={songs} 
-          showHeader={false}
-          displayAll={true}
-          showNumber={true}
+            songs={songs} 
+            showHeader={false}
+            displayAll={true}
+            showNumber={true}
           />
         </div>
       </div>
