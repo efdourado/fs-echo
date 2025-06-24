@@ -75,18 +75,16 @@ faEllipsis
               {songs.length > 0 && <span className="meta-divider">•</span>}
               {songs.length > 0 && <span>{songs.length} songs</span>}
             </div>
-            <p className="collection-view__description">
-              {collection.description}
-            </p>
+            {collection.description && <p className="collection-view__description">{collection.description}</p>}
 
 
 
             <div className="collection-view__actions">
-                <button className="action-button icon-only" onClick={handlePlayCollection} aria-label={`Play ${collection.title}`}>
+                <button className="action-btn play" onClick={handlePlayCollection} aria-label={`Play ${collection.title}`}>
                    <FontAwesomeIcon icon={faPlay}/>
                 </button>
 
-                 <button className="action-button icon-only" aria-label="Add to library">
+                 <button className="action-btn menu" aria-label="More options">
                     <FontAwesomeIcon icon={faEllipsis} />
                 </button>
             </div>

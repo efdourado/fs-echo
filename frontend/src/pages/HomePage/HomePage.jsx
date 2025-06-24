@@ -40,11 +40,11 @@ const Home = () => {
         setPlaylists(playlistsData);
 
         if (properAlbums.length > 0) {
-          setFeaturedAlbumId(properAlbums.length > 1 ? properAlbums[1]._id : properAlbums[0]._id);
+          setFeaturedAlbumId(properAlbums.length > 1 ? properAlbums[0]._id : properAlbums[0]._id);
         }
         
         if (playlistsData.length > 0) {
-          setFeaturedPlaylistId(playlistsData[1]._id);
+          setFeaturedPlaylistId(playlistsData[0]._id);
         }
 
         if (songsData.length > 0) {
@@ -111,17 +111,6 @@ const Home = () => {
               <Collection
                 collectionId={featuredAlbumId}
                 type="album"
-              />
-            )}
-          </div>
-
-
-
-         <div className="home-featured-collection">
-            {featuredPlaylistId && (
-              <Collection
-                collectionId={featuredPlaylistId}
-                type="playlist"
               />
             )}
           </div>

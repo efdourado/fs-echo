@@ -6,7 +6,6 @@
 }
 
 
-
 .carousel {
   margin: var(--spacing-xs) 0;
   padding: var(--spacing-xs) 0;
@@ -46,21 +45,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .collection-view__content {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -80,17 +64,11 @@
 
 
 
-
-
-
 .collection-view__info-panel {
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
 }
-
-
-
 
 
 .collection-view__cover-art {
@@ -111,55 +89,27 @@
   transition: transform .3s ease;
 }
 
-.collection-view__content:hover .collection-view__cover-art img {
-  transform: scale(1.05);
-}
 
-.collection-view__play-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+
+.collection-view__details {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-size: var(--font-size-lg);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 2;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-width: 200px;
+  overflow: hidden;
 }
 
-.collection-view__content:hover .collection-view__play-overlay {
-  opacity: 1;
-}
 
-.collection-view__play-overlay .fa-icon {
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  transition: transform 0.2s ease;
-}
-
-.collection-view__play-overlay:hover .fa-icon {
-  transform: scale(1.1);
-}
 
 .collection-view__title {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  line-height: var(--line-height-tight);
-  margin: var(--spacing-xxs) 0;
 }
 
 .collection-view__owner {
   color: var(--color-text-secondary);
   font-size: var(--font-size-md);
-  margin: 0;
 }
 
 .collection-view__meta {
@@ -168,7 +118,6 @@
   gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
-  margin-top: var(--spacing-sm);
 }
 
 .collection-view__meta .meta-divider {
@@ -184,58 +133,18 @@
 
 
 
-
-
-
-
-
-
-.collection-view__details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  max-width: 200px;
-  overflow: hidden;
-}
-
-
 .collection-view__actions {
   display: flex;
+  align-items: center;
   gap: var(--spacing-sm);
 }
-
-
-.collection-view__actions .action-button.icon-only {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all .2s ease;
-}
-.collection-view__actions .action-button.icon-only:hover {
-  border-color: var(--color-text-primary);
-  color: var(--color-text-primary);
-  background-color: var(--color-surface-hover);
-  transform: scale(1.05);
-}
-
-
-
-
-
-
 
 
 
 
 .collection-view__tracks-panel {
   max-height: 260px;
+  margin-left: var(--spacing-lg);
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;

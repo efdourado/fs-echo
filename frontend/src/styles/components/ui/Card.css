@@ -28,7 +28,7 @@
   padding: var(--spacing-sm);
 }
 .card__link:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-surface);
 }
 
 .card__image-container {
