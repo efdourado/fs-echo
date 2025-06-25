@@ -16,7 +16,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 
 import LibraryPage from './pages/LibraryPage/LibraryPage';
-import CollectionView from './pages/CollectionView/CollectionView';
+import CollectionPage from './pages/HomePage/components/CollectionPage';
 
 
 import ComingSoonPage from './pages/ComingSoonPage';
@@ -70,8 +70,8 @@ const App = () => {
 
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/song/:id" element={<Song />} />
-                <Route path="/playlist/:id" element={<CollectionView type="playlist" />} />
-                <Route path="/album/:id" element={<CollectionView type="album" />} />
+                <Route path="/playlist/:id" element={<CollectionPage type="playlist" />} />
+                <Route path="/album/:id" element={<CollectionPage type="album" />} />
 
 
                 <Route path="/artists" element={<ComingSoonPage />} />
@@ -80,6 +80,10 @@ const App = () => {
                 <Route path="/help" element={<ComingSoonPage />} />
                 <Route path="/settings" element={<ComingSoonPage />} />
                 <Route path="/feedback" element={<ComingSoonPage />} />
+
+
+                <Route path="/library/songs" element={<ComingSoonPage />} />
+                <Route path="/library/playlists" element={<ComingSoonPage />} />
 
                 <Route
                   path="/library"

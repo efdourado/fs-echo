@@ -13,11 +13,16 @@
 @import url("./components/songs.css");
 @import url("./components/heroes.css");
 
+@import url("./pages/HomePage/HomePage.css");
+@import url("./pages/HomePage/components/Carousel.css");
+@import url("./pages/HomePage/components/Collection.css");
+@import url("./pages/HomePage/components/CollectionPage.css");
+
+@import url("./pages/LibraryPage/LibraryPage.css");
+@import url("./pages/LibraryPage/components/CreatorCard.css");
+
 @import url("./pages/Auth.css");
-@import url("./pages/LibraryPage.css");
 @import url("./pages/ArtistPage.css");
-@import url("./pages/HomePage.css");
 @import url("./pages/SongPage.css");
-@import url("./pages/CollectionView.css");
 @import url("./pages/ComingSoonPage.css");
 @import url("./pages/Admin.css");

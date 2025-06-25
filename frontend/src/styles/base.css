@@ -93,7 +93,7 @@
 
   --header-height: 68px;
   --player-height: 80px;
-  --container-padding-x: var(--spacing-xl);
+  --container-padding-x: var(--spacing-4xl);
   --container-max-width: 1600px;
 
   --button-height-sm: 28px;

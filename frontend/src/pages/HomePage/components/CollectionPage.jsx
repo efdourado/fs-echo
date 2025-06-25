@@ -5,14 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { fetchPlaylistById, fetchAlbumById } from '../../api/api';
-import { usePlayer } from '../../hooks/usePlayer';
+import { fetchPlaylistById, fetchAlbumById } from '../../../api/api';
+import { usePlayer } from '../../../hooks/usePlayer';
 
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import SongList from '../../components/songs/SongList';
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import SongList from '../../../components/songs/SongList';
 import fallbackImage from '/images/fb.jpeg';
 
-const CollectionView = ({ type }) => {
+const CollectionPage = ({ type }) => {
   const { id } = useParams();
   const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
 
@@ -96,7 +96,6 @@ const CollectionView = ({ type }) => {
       </div>
 
       <div className="collection-actions">
-        {/* MODIFICAÇÃO: O botão agora alterna entre play e pause */}
         <button className="play-button-large" onClick={handlePlayCollection}>
           <FontAwesomeIcon icon={isThisCollectionPlaying && isPlaying ? faPauseCircle : faPlayCircle} />
           <span>{isThisCollectionPlaying && isPlaying ? 'Pause' : 'Play'}</span>
@@ -107,11 +106,10 @@ const CollectionView = ({ type }) => {
         <SongList songs={displayData.tracks} showHeader={false} displayAll={true} showNumber={true} />
       </div>
     </div>
-  );
-};
+); };
 
-CollectionView.propTypes = {
+CollectionPage.propTypes = {
   type: PropTypes.oneOf(['playlist', 'album']).isRequired,
 };
 
-export default CollectionView;
+export default CollectionPage;
