@@ -14,7 +14,7 @@ const TABS = {
   artists: { label: 'Artists', fetch: api.fetchArtists, delete: adminApi.deleteArtist },
   albums: { label: 'Albums', fetch: api.fetchAlbums, delete: adminApi.deleteAlbum },
   songs: { label: 'Songs', fetch: api.fetchSongs, delete: adminApi.deleteSong },
-  users: { label: 'Users', fetch: api.fetchUsers, delete: null },
+  users: { label: 'Users', fetch: api.fetchUsers, delete: adminApi.deleteUser },
 };
 
 const AdminPage = () => {
@@ -42,8 +42,7 @@ const AdminPage = () => {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  }, [activeTab]);
+  } }, [activeTab]);
 
   useEffect(() => {
     loadData();
