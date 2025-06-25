@@ -11,6 +11,7 @@ export async function fetchArtistById(id) {
   return response.data;
 }
 
+
 export async function fetchSongs() {
   const response = await axios.get(`${URL}/songs`);
   return response.data;
@@ -20,10 +21,6 @@ export async function fetchSongById(id) {
   return response.data;
 }
 
-export async function fetchUsers() {
-  const response = await axios.get(`${URL}/users`);
-  return response.data;
-}
 
 export async function fetchAlbums() {
   const response = await axios.get(`${URL}/albums`);
@@ -34,11 +31,18 @@ export async function fetchAlbumById(id) {
   return response.data;
 }
 
+
 export async function fetchPlaylists() {
   const response = await axios.get(`${URL}/playlists`);
   return response.data;
 }
 export async function fetchPlaylistById(id) {
   const response = await axios.get(`${URL}/playlist/${id}`);
+  return response.data;
+}
+
+
+export async function fetchUsers() {
+  const response = await axios.get(`${URL}/users`);
   return response.data;
 }

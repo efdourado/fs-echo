@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// MODIFICAÇÃO: Importar o ícone de pause
+
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { fetchPlaylistById, fetchAlbumById } from '../../api/api';
