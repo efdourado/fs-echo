@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import { getMyPlaylists } from "../../api/adminApi";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import Card from "../../components/ui/Card";
-import Modal from "../../components/ui/Modal";
-import CreatePlaylistForm from "./components/CreatePlaylistForm";
+import { getMyPlaylists } from "../api/adminApi";
 
-import CreatorCard from "./components/CreatorCard";
+import Card from "../components/ui/Card";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const LibraryPage = () => {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchPlaylists = async () => {
     try {
@@ -29,11 +25,6 @@ const LibraryPage = () => {
   useEffect(() => {
     fetchPlaylists();
   }, []);
-
-  const handlePlaylistCreated = (newPlaylist) => {
-    setIsModalOpen(false); // Close modal
-    setPlaylists((prevPlaylists) => [newPlaylist, ...prevPlaylists]);
-  };
 
   return (
     <div className="library-page">
@@ -52,17 +43,8 @@ const LibraryPage = () => {
               <Card item={playlist} type="playlist" />
             </div>
           ))}
-
-          <CreatorCard onClick={() => setIsModalOpen(true)} />
         </div>
       )}
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Create New Playlist">
-        <CreatePlaylistForm
-          onSuccess={handlePlaylistCreated}
-          onCancel={() => setIsModalOpen(false)}
-        />
-      </Modal>
     </div>
 ); };
 

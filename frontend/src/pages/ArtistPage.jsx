@@ -42,8 +42,8 @@ const ArtistPage = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [showAllSongs, setShowAllSongs] = useState(false);
 
-  const [isAddToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
-  const [selectedSong, setSelectedSong] = useState(null);
+  const [ setAddToPlaylistModalOpen] = useState(false);
+  const [ setSelectedSong] = useState(null);
 
   useEffect(() => {
     const loadArtistData = async () => {
@@ -97,11 +97,6 @@ const ArtistPage = () => {
     setIsFollowing(!isFollowing);
   };
 
-  const handleMenuClick = (song) => {
-    setSelectedSong(song);
-    setAddToPlaylistModalOpen(true);
-  };
-
   if (loading) return <LoadingSpinner />;
   if (!artist) return <div className="artist-page"><div className="error-message">Artist not found.</div></div>;
 
@@ -153,7 +148,7 @@ const ArtistPage = () => {
                 <h2>Popular</h2>
                 {songs.length > 5 && <button className="see-all" onClick={() => setShowAllSongs(!showAllSongs)}>{showAllSongs ? 'Show Less' : `See All (${songs.length})`}</button>}
               </div>
-              {displayedSongs.length > 0 ? <SongList songs={displayedSongs} showCount={false} onMenuClick={handleMenuClick} showNumber={true} /> : <p className="empty-state">No popular songs found for this artist.</p>}
+              {displayedSongs.length > 0 ? <SongList songs={displayedSongs} showCount={false} showNumber={true} /> : <p className="empty-state">No popular songs found for this artist.</p>}
             </section>
 
             {albums.length > 0 && (
@@ -171,7 +166,7 @@ const ArtistPage = () => {
                         <div className={`album-card ${isThisAlbumPlaying && isPlaying ? 'is-playing' : ''}`}>
                           <div className="album-cover-container">
                             <img src={album.coverImage || fallbackImage} alt={album.title || 'Album cover'} className="album-cover" loading="lazy" onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }} />
-                            {/* NOVO: Adiciona a onda sonora quando o álbum está tocando */}
+
                             {isThisAlbumPlaying && isPlaying && <SoundWave />}
                             <button
                               type="button"
@@ -272,8 +267,6 @@ const ArtistPage = () => {
           </aside>
         </div>
       </div>
-      
-      {selectedSong && (<Modal isOpen={isAddToPlaylistModalOpen} onClose={() => setAddToPlaylistModalOpen(false)} title="Add to Playlist"><AddToPlaylistModal song={selectedSong} onClose={() => setAddToPlaylistModalOpen(false)} /></Modal>)}
     </div>
 ); };
 

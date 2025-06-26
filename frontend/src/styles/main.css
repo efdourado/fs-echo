@@ -19,8 +19,7 @@
 @import url("./pages/HomePage/components/Collection.css");
 @import url("./pages/HomePage/components/CollectionPage.css");
 
-@import url("./pages/LibraryPage/LibraryPage.css");
-@import url("./pages/LibraryPage/components/CreatorCard.css");
+@import url("./pages/LibraryPage.css");
 
 @import url("./pages/Auth.css");
 @import url("./pages/ArtistPage.css");

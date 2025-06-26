@@ -1,13 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
+import { useSongMenu } from "../../context/SongMenuContext";
 import { usePlayer } from "../../hooks/usePlayer";
 import fallbackImage from '/images/fb.jpeg';
 
 const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
   const player = usePlayer();
+  const { openMenu } = useSongMenu();
 
   if (!song || !song.artist) {
     return null;
@@ -27,7 +30,7 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onMenuClick?.(song);
+    openMenu(song);
   };
 
   return (
@@ -93,7 +96,6 @@ SongItem.propTypes = {
     plays: PropTypes.number,
     duration: PropTypes.number,
   }).isRequired,
-  onMenuClick: PropTypes.func,
   showNumber: PropTypes.bool,
   index: PropTypes.number,
 };

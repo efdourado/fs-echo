@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 import { AuthProvider } from './context/AuthContext';
+import { SongMenuProvider } from './context/SongMenuContext';
 
 import './styles/main.css';
 
@@ -15,7 +16,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <SongMenuProvider>
+          <App />
+        </SongMenuProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

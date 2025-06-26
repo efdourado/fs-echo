@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminRoute from './components/auth/AdminRoute';
+
 import Player from './components/layout/Player';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Sidebar from './components/layout/Sidebar';
 
+import SongMenu from './components/songs/SongMenu';
+
 import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
 
-import Home from './pages/HomePage/HomePage';
-import Artist from './pages/ArtistPage';
-import Song from './pages/SongPage';
-import LoginPage from './pages/Auth/LoginPage';
-import RegisterPage from './pages/Auth/RegisterPage';
 
-import LibraryPage from './pages/LibraryPage/LibraryPage';
-import CollectionPage from './pages/HomePage/components/CollectionPage';
-
-
-import ComingSoonPage from './pages/ComingSoonPage';
-
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import AdminRoute from './components/auth/AdminRoute';
 import AdminPage from './pages/Admin/AdminPage';
-
-
 import ArtistForm from './pages/Admin/ArtistForm';
 import SongForm from './pages/Admin/SongForm';
 import AlbumForm from './pages/Admin/AlbumForm';
 import UserForm from './pages/Admin/UserForm';
+
+import LoginPage from './pages/Auth/LoginPage';
+import RegisterPage from './pages/Auth/RegisterPage';
+
+import Home from './pages/HomePage/HomePage';
+import CollectionPage from './pages/HomePage/components/CollectionPage';
+
+import Artist from './pages/ArtistPage';
+import ComingSoonPage from './pages/ComingSoonPage';
+import LibraryPage from './pages/LibraryPage';
+import Song from './pages/SongPage';
+
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
@@ -138,6 +140,7 @@ const App = () => {
               </Routes>
             </main>
             <Footer companyName={'Echo'} />
+            <SongMenu />
           </div>
         </div>
         <Player isSidebarOpen={isSidebarOpen} />
