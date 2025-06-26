@@ -17,31 +17,32 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Um sub-componente para o formulário de criação
 const CreatePlaylistView = ({ song, onPlaylistCreated }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!name.trim()) {
-      setError("Playlist name is required.");
-      return;
-    }
-    setLoading(true);
-    setError("");
-    try {
-      const newPlaylist = await createPlaylist({ name, description });
-      await addSongToPlaylist(newPlaylist._id, song._id);
-      onPlaylistCreated(newPlaylist);
-    } catch (err) {
-      setError("Failed to create playlist.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!name.trim()) {
+    setError("Playlist name is required.");
+    return;
+  }
+  setLoading(true);
+  setError("");
+  try {
+    const response = await createPlaylist({ name, description });
+    const newPlaylistData = response.data;
+
+    await addSongToPlaylist(newPlaylistData._id, song._id);
+    onPlaylistCreated(newPlaylistData);
+  } catch (err) {
+    const errorMessage = err.response?.data?.message || "Failed to create playlist.";
+    setError(errorMessage);
+  } finally {
+    setLoading(false);
+} };
 
   return (
     <form onSubmit={handleSubmit} className="auth-form">
@@ -70,22 +71,20 @@ const CreatePlaylistView = ({ song, onPlaylistCreated }) => {
         {loading ? "Creating..." : `Create and Add Song`}
       </button>
     </form>
-  );
-};
+); };
 
-// O componente principal do menu
 const SongMenu = () => {
   const { isMenuOpen, song, closeMenu } = useSongMenu();
-  const [view, setView] = useState("list"); // 'list' ou 'create'
+  const [view, setView] = useState("list");
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [feedback, setFeedback] = useState(""); // Para mensagens de erro ou sucesso
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     if (isMenuOpen) {
       setLoading(true);
       setFeedback("");
-      setView("list"); // Sempre reseta para a visão inicial ao abrir
+      setView("list");
       getMyPlaylists()
         .then((response) => setPlaylists(response.data))
         .catch(() => setFeedback("Could not load your playlists."))
@@ -101,8 +100,7 @@ const SongMenu = () => {
       setTimeout(closeMenu, 1500);
     } catch (err) {
       setFeedback(err.response?.data?.message || "Failed to add song.");
-    }
-  };
+} };
 
   const handlePlaylistCreated = (newPlaylist) => {
     setFeedback(`Added to "${newPlaylist.name}"!`);
