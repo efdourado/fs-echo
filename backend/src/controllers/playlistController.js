@@ -50,7 +50,8 @@ export class PlaylistController {
       if (!playlist) {
         return res.status(404).json({ message: 'Playlist not found' });
       }
-      if (playlist.owner._id.toString() !== req.user._id.toString()) {
+
+      if (!playlist.owner || playlist.owner._id.toString() !== req.user._id.toString()) {
         return res.status(403).json({ message: 'User not authorized to update this playlist' });
       }
       const updatedPlaylist = await this.model.updateById(id, req.body);

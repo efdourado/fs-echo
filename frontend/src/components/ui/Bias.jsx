@@ -5,14 +5,20 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faEllipsis, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+import { fetchAlbumById, fetchPlaylistById } from '../../api/api';
+
+import { useSongMenu } from "../../context/SongMenuContext";
+
 import { usePlayer } from '../../hooks/usePlayer';
-import fallbackImage from '/images/fb.jpeg';
+
 import SoundWave from './SoundWave';
 
-import { fetchAlbumById, fetchPlaylistById } from '../../api/api'; 
+import fallbackImage from '/images/fb.jpeg';
 
 const Bias = ({ item, type }) => {
   const player = usePlayer();
+  const { openMenu } = useSongMenu();
+  
   
   const [isLoading, setIsLoading] = useState(false);
 
@@ -75,6 +81,12 @@ const Bias = ({ item, type }) => {
     if (type === 'album') return item.artist?.name || "Unknown Artist";
     return "";
   };
+
+  const handleMenuClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openMenu(song);
+  };
   
   return (
     <Link to={detailPath} className="bias-card-link-wrapper">
@@ -111,11 +123,8 @@ const Bias = ({ item, type }) => {
 
             <button
               className="action-btn menu"
+              onClick={handleMenuClick}
               aria-label="More options"
-              onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-              }}
             >
               <FontAwesomeIcon icon={faEllipsis} />
             </button>

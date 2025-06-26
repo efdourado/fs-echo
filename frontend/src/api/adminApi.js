@@ -22,6 +22,7 @@ adminApi.interceptors.request.use(
 export const getMyPlaylists = () => adminApi.get('/me/playlists');
 export const createPlaylist = (playlistData) => adminApi.post('/playlists', playlistData);
 export const deletePlaylist = (id) => adminApi.delete(`/playlist/${id}`);
+export const updatePlaylist = (id, playlistData) => adminApi.put(`/playlist/${id}`, playlistData);
 
 export const addSongToPlaylist = (playlistId, songId) => adminApi.post(`/playlist/${playlistId}/song/${songId}`);
 
