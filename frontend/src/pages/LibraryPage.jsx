@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { getMyPlaylists, deletePlaylist } from "../api/adminApi";
+import { getMyPlaylists } from "../api/adminApi";
 
 import Card from "../components/ui/Card";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
@@ -28,16 +26,6 @@ const LibraryPage = () => {
     fetchPlaylists();
   }, []);
 
-  const handleDelete = async (playlistId, playlistName) => {
-    if (window.confirm(`Are you sure you want to delete the playlist "${playlistName}"?`)) {
-      try {
-        await deletePlaylist(playlistId);
-        // Atualize o estado para remover a playlist da UI sem recarregar a página
-        setPlaylists(prevPlaylists => prevPlaylists.filter(p => p._id !== playlistId));
-      } catch (err) {
-        alert(err.response?.data?.message || 'Failed to delete playlist.');
-  } } };
-
   return (
     <div className="library-page">
       <div className="carousel__header">
@@ -51,25 +39,8 @@ const LibraryPage = () => {
       ) : (
         <div className="playlists-grid">
           {playlists.map((playlist) => (
-            <div key={playlist._id} className="playlist-card-container" style={{ position: 'relative' }}>
+            <div key={playlist._id} className="playlist-card-container">
               <Card item={playlist} type="playlist" />
-              <button
-                onClick={() => handleDelete(playlist._id, playlist.name)}
-                className="admin-button-delete"
-                style={{
-                  position: 'absolute',
-                  top: '16px',
-                  right: '16px',
-                  zIndex: 2,
-                  width: '32px',
-                  height: '32px',
-                  padding: 0,
-                  fontSize: '14px'
-                }}
-                aria-label={`Delete playlist ${playlist.name}`}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
             </div>
           ))}
         </div>

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlayCircle, faPauseCircle, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchPlaylistById, fetchAlbumById } from "../../../api/api";
 import { deletePlaylist } from "../../../api/adminApi";
@@ -12,6 +12,7 @@ import { deletePlaylist } from "../../../api/adminApi";
 import { useAuth } from "../../../context/AuthContext";
 import { usePlayer } from "../../../hooks/usePlayer";
 
+import EditPlaylistModal from '../../../components/playlists/EditPlaylistModal';
 import SongList from "../../../components/songs/SongList";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
