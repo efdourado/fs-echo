@@ -44,3 +44,4 @@ export const deleteAlbum = (id) => adminApi.delete(`/album/${id}`);
 
 export const fetchUserById = (id) => adminApi.get(`/user/${id}`);
 export const updateUser = (id, userData) => adminApi.put(`/user/${id}`, userData);
+export const deleteUser = (id) => adminApi.delete(`/user/${id}`);
