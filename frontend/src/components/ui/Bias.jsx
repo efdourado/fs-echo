@@ -85,8 +85,10 @@ const Bias = ({ item, type }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    openMenu(song);
-  };
+
+    if (isSong) {
+      openMenu(item);
+  } };
   
   return (
     <Link to={detailPath} className="bias-card-link-wrapper">
@@ -128,6 +130,7 @@ const Bias = ({ item, type }) => {
             >
               <FontAwesomeIcon icon={faEllipsis} />
             </button>
+
           </div>
         </div>
       </div>

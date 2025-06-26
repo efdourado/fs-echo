@@ -44,7 +44,7 @@ const Home = () => {
         }
         
         if (playlistsData.length > 0) {
-          setFeaturedPlaylistId(playlistsData[4]._id);
+          setFeaturedPlaylistId(playlistsData[0]._id);
         }
 
         if (songsData.length > 0) {
