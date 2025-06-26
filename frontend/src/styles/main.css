@@ -2,6 +2,7 @@
 
 @import url("./components/ui/Bias.css");
 @import url("./components/ui/Card.css");
+@import url("./components/ui/Hero.css");
 @import url("./components/ui/LoadingSpinner.css");
 @import url("./components/ui/Modal.css");
 
@@ -11,7 +12,6 @@
 @import url("./components/layout/Sidebar.css");
 
 @import url("./components/songs.css");
-@import url("./components/heroes.css");
 
 @import url("./pages/HomePage/HomePage.css");
 @import url("./pages/HomePage/components/Carousel.css");

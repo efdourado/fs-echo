@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Player from './components/layout/Player';
@@ -48,7 +48,23 @@ const UserProfilePage = () => {
 ); };
 
 const App = () => {
+  const { currentUser, loadingAuth } = useAuth();
+  
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (!loadingAuth && currentUser) {
+      const savedState = localStorage.getItem(`sidebarState_${currentUser._id}`);
+      setSidebarOpen(savedState ? JSON.parse(savedState) : false);
+    }
+  }, [currentUser, loadingAuth]);
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem(`sidebarState_${currentUser._id}`, JSON.stringify(isSidebarOpen));
+    }
+  }, [isSidebarOpen, currentUser]);
+
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);

@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 
 import SongList from "../../../components/songs/SongList";
+
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+
 import { usePlayer } from "../../../hooks/usePlayer";
 
 import fallbackImage from "/images/fb.jpeg";
 
 import { Link } from "react-router-dom";
-
-const SoundWave = () => (
-  <div className="sound-wave">
-    <div className="sound-wave__bar"></div>
-    <div className="sound-wave__bar"></div>
-    <div className="sound-wave__bar"></div>
-    <div className="sound-wave__bar"></div>
-  </div>
-);
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
@@ -110,7 +104,6 @@ const Collection = ({ collectionId, type = "album" }) => {
             <div className="collection-view__details">
               <h1 className="collection-view__title">
                 {collectionName}
-                {isCollectionCurrentlyPlaying && <SoundWave />}
               </h1>
               <p className="collection-view__owner">By {ownerName}</p>
               <div className="collection-view__meta">

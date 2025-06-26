@@ -41,7 +41,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         key={link.to}
         to={link.to}
         end={link.end}
-        onClick={toggleSidebar}
         className={({ isActive }) => (isActive ? "nav-link selected" : "nav-link")}
       >
         {link.icon && <FontAwesomeIcon icon={link.icon} className="nav-icon" />}

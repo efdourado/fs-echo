@@ -4,8 +4,8 @@ import { fetchArtists, fetchSongs, fetchAlbums, fetchPlaylists } from "../../api
 
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
-import Hero from "../../components/heroes/Hero.jsx";
 
+import Hero from "../../components/ui/Hero.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
 
 const Home = () => {

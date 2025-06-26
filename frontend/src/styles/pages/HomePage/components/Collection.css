@@ -53,10 +53,13 @@
 
 
 .collection-view__title {
+  display: flex;
+  align-items: center;
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-xs);
+  gap: var(--spacing-md);
 }
 
 .collection-view__owner {
@@ -107,11 +110,7 @@
   display: none;
 }
 
-.collection-view__title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
+
 
 .collection-view__content.is-playing .collection-view__title {
   color: var(--color-primary);

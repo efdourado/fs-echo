@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCheckCircle,
+  faCheckDouble,
   faPlay,
   faPause,
   faEllipsis,
@@ -118,7 +119,7 @@ const ArtistPage = () => {
               <img src={artistImage || fallbackImage} alt={`${name}'s profile`} className="artist-header__image" onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }} />
             </div>
             <div className="artist-info">
-              {verified && <span className="verified-badge"><FontAwesomeIcon icon={faCheckCircle} /> Verified Artist</span>}
+              {verified && <span className="verified-badge"><FontAwesomeIcon icon={faCheckDouble} /> Verified Artist</span>}
               <h1 className="artist-name">{name}</h1>
               <p className="artist-description">{description}</p>
               <div className="artist-stats">

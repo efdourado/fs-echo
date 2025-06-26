@@ -307,3 +307,10 @@ body.light-mode ::-webkit-scrollbar-thumb:hover {
 .content-pusher > main {
   flex-grow: 1;
 }
+
+.verified-badge-icon {
+  color: var(--color-primary-accent);
+  font-size: 0.8em;
+  margin-left: var(--spacing-sm);
+  vertical-align: middle;
+}
