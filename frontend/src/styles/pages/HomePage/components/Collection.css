@@ -111,11 +111,6 @@
 }
 
 
-
-.collection-view__content.is-playing .collection-view__title {
-  color: var(--color-primary);
-}
-
 .collection-view__actions {
   display: flex;
   align-items: center;
@@ -159,4 +154,13 @@
 .action-btn.play:hover {
   opacity: 0.8;
   transform: scale(1.03);
+}
+
+
+.collection-view__content.is-playing {
+  background-color: var(--color-surface);
+}
+
+.collection-view__content.is-playing .collection-view__title {
+  color: var(--color-primary);
 }

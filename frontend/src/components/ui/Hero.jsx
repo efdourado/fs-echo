@@ -65,7 +65,7 @@ const Hero = ({
 
 
              <div className="feature-bias">  
-              {allPlaylists.slice(0,2).map((playlist) => (
+              {allPlaylists.slice(3,5).map((playlist) => (
                 <Bias key={playlist._id} item={playlist} type="playlist" />
               ))}
             </div>

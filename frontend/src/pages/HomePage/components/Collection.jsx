@@ -16,6 +16,8 @@ import fallbackImage from "/images/fb.jpeg";
 
 import { Link } from "react-router-dom";
 
+import SoundWave from "../../../components/ui/SoundWave";
+
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
@@ -104,6 +106,7 @@ const Collection = ({ collectionId, type = "album" }) => {
             <div className="collection-view__details">
               <h1 className="collection-view__title">
                 {collectionName}
+                {isCollectionCurrentlyPlaying && <SoundWave />}
               </h1>
               <p className="collection-view__owner">By {ownerName}</p>
               <div className="collection-view__meta">
@@ -121,9 +124,13 @@ const Collection = ({ collectionId, type = "album" }) => {
 
               <div
                 className={`collection-view__actions ${
-                  isHovered ? "visible" : ""
+                  isHovered || isCollectionCurrentlyPlaying ? "visible" : ""
                 }`}
               >
+                 <button className="action-btn menu" aria-label="More options">
+                  <FontAwesomeIcon icon={faEllipsis} />
+                </button>
+
                 <button
                   className="action-btn play"
                   onClick={handlePlayCollection}
@@ -132,9 +139,6 @@ const Collection = ({ collectionId, type = "album" }) => {
                   <FontAwesomeIcon
                     icon={isCollectionCurrentlyPlaying ? faPause : faPlay}
                   />
-                </button>
-                <button className="action-btn menu" aria-label="More options">
-                  <FontAwesomeIcon icon={faEllipsis} />
                 </button>
               </div>
             </div>

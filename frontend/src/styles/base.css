@@ -85,7 +85,7 @@
 
   --transition-duration-short: 200ms;
   --transition-duration-medium: 400ms;
-  --transition-duration-long: 600ms;
+  --transition-duration-long: 800ms;
   --transition-timing-function-ease: ease;
   --transition-timing-function-ease-in-out: ease-in-out;
   --transition-timing-function-smooth: cubic-bezier(0.3, 0, 0.1, 1);
@@ -186,7 +186,7 @@ a {
   transition: color var(--transition-duration-long) var(--transition-timing-function-ease);
 }
 a:hover {
-  transform: scale(1.01);
+  transform: scale(1.003);
 }
 
 img, video, svg {
