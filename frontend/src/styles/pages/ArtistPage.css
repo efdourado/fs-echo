@@ -438,14 +438,6 @@
   to { transform: rotate(360deg); }
 }
 
-.error-message {
-  padding: var(--spacing-xl);
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-lg);
-  min-height: 20vh;
-}
-
 @media (min-width: 768px) {
   .artist-header__main-info {
     flex-direction: row;

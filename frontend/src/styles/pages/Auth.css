@@ -97,13 +97,13 @@
 
 
 .auth-form-section {
-  padding: 4rem 0;
   background-color: var(--color-surface);
   border-radius: var(--border-radius-xl);
 }
 
 
 .auth-form {
+  padding: 4rem 0;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -144,7 +144,7 @@
   width: 100%;
   padding: 14px 16px;
 
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--color-surface);
   border: 1px solid rgba(255, 255, 255, 0.1);
 
   border-radius: var(--border-radius-md);
@@ -166,7 +166,7 @@
 
 .form-group input:focus + label, .form-group input:not(:placeholder-shown) + label {
   transform: translateY(-24px) scale(0.85);
-  background: var(--color-surface);
+  background-color: var(--color-surface);
   padding: 0 3px;
   left: 12px;
   color: var(--color-primary);
@@ -234,17 +234,25 @@
 
 
 
+
+
+
+
+
 .error-message {
-  color: white;
-  font-size: 0.85rem;
-  background-color: rgba(239, 68, 68, 0.2);
-  padding: 12px;
-  border-radius: 8px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-error);
+
+  border-radius: 8px 8px 0 0;
   border: 1px solid rgba(239, 68, 68, 0.3);
-  margin-bottom: var(--spacing-md);
   text-align: center;
   backdrop-filter: blur(5px);
 }
+
+
+
+
 
 
 

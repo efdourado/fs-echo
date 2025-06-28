@@ -182,7 +182,7 @@
     height: 320px;
 } }
 
-.song-page .loading-message, .song-page .error-message {
+.song-page .loading-message, .song-page {
   padding: var(--spacing-xl);
   text-align: center;
   font-size: var(--font-size-lg);
