@@ -16,17 +16,10 @@ Music, reimagined — Echo is a web application designed to provide a seamless, 
 
 ---
 
-**Stack**
+**Stack & Structure**
 
-- **Backend:** Node.js, Express, MongoDB, Mongoose, Dotenv, CORS, JWT, Bcryptjs;
-- **Frontend:** React, Vite, React Router DOM, Axios, FontAwesome.
-
----
-
-**Structure**
-
-- `/backend`: API with routes, controllers, models, middleware;
-- `/frontend`: React app with components, contexts, hooks, and pages.
+- **Backend (Routes, Controllers, Models, Middlewares):** Node.js, Express, MongoDB, Mongoose, Dotenv, CORS, JWT, Bcryptjs;
+- **Frontend (React app with Components, Contexts, Hooks, Pages):** React, Vite, React Router DOM, Axios, FontAwesome.
 
 ---
 
