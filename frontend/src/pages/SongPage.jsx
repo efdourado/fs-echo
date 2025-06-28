@@ -4,7 +4,7 @@ import { usePlayer } from "../hooks/usePlayer";
 
 import { fetchSongById } from "../api/api";
 
-import fallbackImage from "/images/fb.jpeg";
+import fallbackImage from "/fb.jpeg";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const SongPage = () => {

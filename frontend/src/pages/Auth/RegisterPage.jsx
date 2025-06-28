@@ -1,11 +1,10 @@
-// frontend/src/pages/Auth/RegisterPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faMusic } from '@fortawesome/free-solid-svg-icons';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -38,57 +37,48 @@ const RegisterPage = () => {
       setError(err.message || 'Failed to register. Please try again.');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   return (
     <div className="auth-page">
-      {/* Decorative music notes */}
-      <div className="music-note">
-        <FontAwesomeIcon icon={faMusic} />
-      </div>
-      <div className="music-note">
-        <FontAwesomeIcon icon={faMusic} />
-      </div>
-      <div className="music-note">
-        <FontAwesomeIcon icon={faMusic} />
-      </div>
-      <div className="music-note">
-        <FontAwesomeIcon icon={faMusic} />
-      </div>
-
       <div className="auth-container">
         <div className="auth-content-wrapper">
-          {/* Social Section */}
           <div className="auth-social-section">
-            <h2>Join Our Community</h2>
+            <h2>
+              Sign up to a new music experience
+            </h2>
             <p className="auth-subtitle">
-              Create your account and start exploring thousands of music tracks, 
-              connect with artists, and build your perfect playlists.
+              Music, reimagined — Echo is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists,
+              and align new perspectives through sound.
             </p>
+
             <div className="social-login-container">
-              <button type="button" className="social-login-btn">
-                <FontAwesomeIcon icon={faGoogle} />
-                <span className="social-btn-text">Continue with Google</span>
+              <button type="button" className="cta-button primary-cta create-btn">
+                <FontAwesomeIcon icon={faGoogle} style={{marginRight:"16px"}} />
+                Continue with Google
               </button>
-              <button type="button" className="social-login-btn">
-                <FontAwesomeIcon icon={faSpotify} />
-                <span className="social-btn-text">Continue with Spotify</span>
+              <button type="button" className="cta-button primary-cta create-btn">
+                <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
+                Continue with Spotify
               </button>
             </div>
             
-            <div style={{ marginTop: '2rem', color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem' }}>
-              By signing up, you agree to our <a href="#" style={{ color: 'rgba(255,255,255,0.7)' }}>Terms</a> and <a href="#" style={{ color: 'rgba(255,255,255,0.7)' }}>Privacy Policy</a>
+            <div className="auth-subtitle">
+              By signing up, you agree to our<a href="#"> Terms</a> and<a href="#"> Privacy Policy</a>
             </div>
           </div>
 
-          {/* Separator */}
           <div className="auth-separator">OR</div>
 
-          {/* Form Section */}
           <div className="auth-form-section">
             {error && <div className="error-message">{error}</div>}
+
             <form onSubmit={handleSubmit} className="auth-form">
+              <h2>
+                Create<br />
+                new account
+              </h2>
+
               <div className="form-group">
                 <input
                   type="text"
@@ -148,19 +138,19 @@ const RegisterPage = () => {
                 </div>
               </div>
               
-              <button type="submit" disabled={loading} className="auth-button">
+              <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button">
                 {loading ? 'Creating Account...' : 'Sign Up'}
               </button>
-            </form>
+              
+              <p className="auth-subtitle">
+                Already a member? <a href="/login">Sign In</a>
+              </p>
             
-            <p className="auth-link">
-              Already have an account? <Link to="/login">Sign In</Link>
-            </p>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+); };
 
 export default RegisterPage;

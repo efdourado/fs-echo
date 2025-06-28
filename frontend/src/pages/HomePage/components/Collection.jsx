@@ -12,7 +12,7 @@ import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
 import { usePlayer } from "../../../hooks/usePlayer";
 
-import fallbackImage from "/images/fb.jpeg";
+import fallbackImage from "/fb.jpeg";
 
 import { Link } from "react-router-dom";
 

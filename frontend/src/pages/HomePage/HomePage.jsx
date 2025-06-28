@@ -62,7 +62,7 @@ const Home = () => {
            setHeroHighlight({
             type: 'info',
             title: 'Discover New Music',
-            coverImage: '/images/fb.jpeg',
+            coverImage: '/fb.jpeg',
             artist: 'Various Artists',
             plays: 0,
             isTrending: false,
@@ -73,7 +73,7 @@ const Home = () => {
         setHeroHighlight({
           type: 'info',
           title: 'Error Loading Music',
-          coverImage: '/images/fb.jpeg',
+          coverImage: '/fb.jpeg',
           artist: 'N/A',
           plays: 0,
           isTrending: false,
@@ -93,7 +93,7 @@ const Home = () => {
             subtitle="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
             highlight={heroHighlight}
             talents={artists.slice(0, 4)}
-            bgImage="/images/bg.jpeg"
+            bgImage="/bg.jpeg"
             allSongs={songs}
             allArtists={artists}
             allAlbums={albums}

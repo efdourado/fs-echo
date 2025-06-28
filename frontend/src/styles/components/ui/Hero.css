@@ -86,9 +86,9 @@
 
 .music-hero .title {
   font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-black);
   color: var(--hero-text-primary);
   margin-bottom: var(--spacing-md);
-  font-weight: var(--font-weight-black);
   letter-spacing: -0.05em;
 }
 

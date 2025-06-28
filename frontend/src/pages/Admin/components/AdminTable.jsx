@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatDuration } from '../../../utils/duration';
-import fallbackImage from '/images/fb.jpeg';
+import fallbackImage from '/fb.jpeg';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";

@@ -1,11 +1,9 @@
-// frontend/src/pages/Auth/LoginPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faSpotify } from '@fortawesome/free-brands-svg-icons';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -42,31 +40,42 @@ const LoginPage = () => {
   return (
     <div className="auth-page">
       <div className="auth-container">
-        {/* This new wrapper will handle the two-section layout on desktop */}
         <div className="auth-content-wrapper">
-          
-          {/* Social Section (Left side on desktop) */}
           <div className="auth-social-section">
-            <h2>Sign In</h2>
-            <p className="auth-subtitle">Welcome back! Sign in using your social account or email.</p>
+            <h2>
+              Hi again! Welcome back to your space
+            </h2>
+            <p className="auth-subtitle">
+              Music, reimagined — Echo is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists,
+              and align new perspectives through sound.
+            </p>
+
             <div className="social-login-container">
-              <button type="button" className="social-login-btn">
-                <FontAwesomeIcon icon={faGoogle} />
-                <span className="social-btn-text">Sign in with Google</span>
+              <button type="button" className="cta-button primary-cta create-btn">
+                <FontAwesomeIcon icon={faGoogle} style={{marginRight:"16px"}} />
+                Continue with Google
               </button>
-              
+              <button type="button" className="cta-button primary-cta create-btn">
+                <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
+                Continue with Spotify
+              </button>
             </div>
+            
+            
           </div>
 
-          {/* Separator (Only visible on desktop) */}
           <div className="auth-separator">OR</div>
 
-          {/* Form Section (Right side on desktop) */}
           <div className="auth-form-section">
-            {error && <p className="error-message">{error}</p>}
+            {error && <div className="error-message">{error}</div>}
+
             <form onSubmit={handleSubmit} className="auth-form">
+              <h2>
+                Sign in<br />
+                to your account
+              </h2>
+
               <div className="form-group">
-                <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -74,10 +83,12 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
+                  placeholder=" "
                 />
+                <label htmlFor="email">Email</label>
               </div>
+              
               <div className="form-group">
-                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   id="password"
@@ -85,9 +96,11 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
+                  placeholder=" "
                 />
+                <label htmlFor="password">Password</label>
               </div>
-
+              
               <div className="form-options">
                 <div className="checkbox-group">
                   <input 
@@ -98,21 +111,22 @@ const LoginPage = () => {
                   />
                   <label htmlFor="rememberMe">Remember me</label>
                 </div>
-                <Link to="/forgot-password" className="form-link">Forgot password?</Link>
+                <Link to="/forgot-password">Forgot password?</Link>
               </div>
-
-              <button type="submit" disabled={loading} className="auth-button">
-                {loading ? 'Signing in...' : 'Sign In'}
+              
+              <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button">
+                {loading ? 'Signing In...' : 'Sign In'}
               </button>
+              
+              <p className="auth-subtitle">
+                Not a member yet? <a href="/register">Sign Up</a>
+              </p>
+            
             </form>
-            <p className="auth-link">
-              Don't have an account? <Link to="/register">Sign up</Link>
-            </p>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+); };
 
 export default LoginPage;

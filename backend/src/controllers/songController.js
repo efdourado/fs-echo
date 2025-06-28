@@ -25,10 +25,8 @@ export class SongController {
    
   async createSong(req, res) {
     try {
-      // Todos os dados, incluindo audioUrl e duration, vêm do body
       const songData = { ...req.body };
       
-      // Validação simples
       if (!songData.audioUrl || !songData.duration) {
           return res.status(400).json({ error: 'Audio URL and duration are required.' });
       }
@@ -38,8 +36,7 @@ export class SongController {
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: error.message });
-    }
-  }
+  } }
 
   async updateSong(req, res) {
     const { id } = req.params;
@@ -54,8 +51,7 @@ export class SongController {
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: error.message });
-    }
-  }
+  } }
 
   async deleteSong(req, res) {
     const { id } = req.params;

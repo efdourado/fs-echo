@@ -13,7 +13,7 @@ import { usePlayer } from '../../hooks/usePlayer';
 
 import SoundWave from './SoundWave';
 
-import fallbackImage from '/images/fb.jpeg';
+import fallbackImage from '/fb.jpeg';
 
 const Bias = ({ item, type }) => {
   const player = usePlayer();

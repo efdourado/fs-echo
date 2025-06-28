@@ -7,7 +7,7 @@ import { faFire, faMagnet, faFlask, faFireFlameCurved } from '@fortawesome/free-
 
 import Bias from '../ui/Bias';
 import { useAuth } from '../../context/AuthContext';
-import fallbackImage from '/images/fb.jpeg';
+import fallbackImage from '/fb.jpeg';
 
 const Hero = ({
   title,

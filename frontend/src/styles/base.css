@@ -1,6 +1,6 @@
 :root {
-  --color-primary-accent: #3b82f6;
-  --color-primary-accent-hover: #d6e9e7;
+  --color-primary-accent: #946b2d; /* options: 3b82f6; 946b2d */
+  --color-primary-accent-hover: #6699cc;
   --color-primary-accent-h: 227;
   --color-primary-accent-s: 60%;
   --color-primary-accent-l: 65%;

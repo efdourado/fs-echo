@@ -20,7 +20,7 @@ import AddToPlaylistModal from "../components/songs/AddToPlaylistModal";
 
 import SongList from "../components/songs/SongList";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-import fallbackImage from '/images/fb.jpeg';
+import fallbackImage from '/fb.jpeg';
 
 const SoundWave = () => (
   <div className="sound-wave-overlay">

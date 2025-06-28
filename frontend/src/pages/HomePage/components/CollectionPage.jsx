@@ -16,7 +16,7 @@ import EditPlaylistModal from '../../../components/playlists/EditPlaylistModal';
 import SongList from "../../../components/songs/SongList";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
-import fallbackImage from "/images/fb.jpeg";
+import fallbackImage from "/fb.jpeg";
 
 const CollectionPage = ({ type }) => {
   const { id } = useParams();

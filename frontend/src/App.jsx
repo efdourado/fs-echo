@@ -24,6 +24,9 @@ import UserForm from './pages/Admin/UserForm';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 
+import AuthContainer from './pages/Auth/AuthContainer';
+
+
 import Home from './pages/HomePage/HomePage';
 import CollectionPage from './pages/HomePage/components/CollectionPage';
 
