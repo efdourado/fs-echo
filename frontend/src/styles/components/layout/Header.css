@@ -49,13 +49,13 @@ body.light-mode .header {
 }
 
 .logo-img {
-  height: 28px;
-  width: 28px;
+  height: 26px;
+  width: 26px;
   opacity: 0.9;
 }
 
 .logo-name {
- font-size: var(--font-size-lg);
+ font-size: var(--font-size-md);
  font-weight: var(--font-weight-black);
  color: var(--color-text-primary);
  opacity: 0.8;
