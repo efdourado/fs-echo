@@ -9,12 +9,11 @@ const ComingSoonPage = () => {
       <div className="coming-soon-container">
         <FontAwesomeIcon icon={faPersonDigging} className="coming-soon-icon" />
         <h1 className="coming-soon-title">
-          Work in Progress...
+          Coming soon...
         </h1>
         <p className="coming-soon-text">
           This page is currently under construction.
-          We're working hard to bring you this feature.
-          Please check back later!
+          Updates will appear soon.
         </p>
       </div>
     </div>

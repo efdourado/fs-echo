@@ -318,6 +318,19 @@ body.light-mode ::-webkit-scrollbar-thumb:hover {
 
 
 
+@media (max-width: 768px) {
+  :root {
+    --container-padding-x: var(--spacing-lg);
+    --header-height: 64px;
+} }
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding-x: var(--spacing-md);
+} }
+
+
+
 
 .error-message {
   color: var(--color-text-primary);

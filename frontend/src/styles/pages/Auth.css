@@ -112,7 +112,7 @@
   width: 100%;
 }
 
-.auth-form h2, p {
+.auth-form h2, .auth-form p {
   text-align: left;
   margin-bottom: var(--spacing-sm);
 }
@@ -227,7 +227,7 @@
 
 .auth-button:disabled {
   background-color: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.3);
   cursor: not-allowed;
   box-shadow: none;
 }

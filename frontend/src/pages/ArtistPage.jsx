@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,11 +15,9 @@ import { fetchArtistById, fetchSongs, fetchAlbums } from "../api/api";
 
 import { usePlayer } from "../hooks/usePlayer";
 
-import Modal from "../components/ui/Modal";
-import AddToPlaylistModal from "../components/songs/AddToPlaylistModal";
-
 import SongList from "../components/songs/SongList";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
+
 import fallbackImage from '/fb.jpeg';
 
 const SoundWave = () => (
@@ -33,7 +31,7 @@ const SoundWave = () => (
 const ArtistPage = () => {
   const { id } = useParams();
 
-  const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } = usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
 
   const [artist, setArtist] = useState(null);
   const [songs, setSongs] = useState([]);
@@ -41,9 +39,6 @@ const ArtistPage = () => {
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const [showAllSongs, setShowAllSongs] = useState(false);
-
-  const [ setAddToPlaylistModalOpen] = useState(false);
-  const [ setSelectedSong] = useState(null);
 
   useEffect(() => {
     const loadArtistData = async () => {

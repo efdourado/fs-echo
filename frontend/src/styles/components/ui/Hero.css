@@ -309,7 +309,6 @@
 
 @media (max-width: 768px) {
   .music-hero {
-    min-height: 500px;
     padding: var(--spacing-lg) var(--spacing-md);
   }
   
@@ -336,7 +335,7 @@
 
 @media (max-width: 576px) {
   .music-hero {
-    min-height: 450px;
+    padding: var(--spacing-md) var(--spacing-sm);
   }
   
   .music-hero .title {
@@ -356,7 +355,7 @@
 
 @media (max-width: 400px) {
   .music-hero {
-    min-height: 400px;
+    padding: var(--spacing-sm) var(--spacing-xs);
   }
   
   .hero-content {

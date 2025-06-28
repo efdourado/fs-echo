@@ -164,3 +164,30 @@
 .collection-view__content.is-playing .collection-view__title {
   color: var(--color-primary);
 }
+
+
+
+@media (max-width: 992px) {
+  .collection-view__content {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .collection-view__info-panel {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .collection-view__tracks-panel {
+    max-height: none;
+    margin-left: 0;
+} }
+
+@media (max-width: 480px) {
+  .collection-view__title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .collection-view__owner {
+    font-size: var(--font-size-sm);
+} }
