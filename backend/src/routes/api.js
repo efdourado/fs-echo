@@ -77,8 +77,6 @@ router.delete('/user/:id', protect, admin, userController.deleteUser.bind(userCo
 
 router.get('/albums', albumController.getAllAlbums.bind(albumController));
 router.get('/album/:id', albumController.getAlbumById.bind(albumController));
-router.post('/albums', protect, admin, albumController.createAlbum.bind(albumController));
-router.put('/album/:id', protect, admin, albumController.updateAlbum.bind(albumController));
 router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 router.get('/artist/:artistId/albums', albumController.getAlbumsByArtist.bind(albumController));
 

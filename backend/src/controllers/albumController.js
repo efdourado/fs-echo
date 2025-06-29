@@ -1,3 +1,5 @@
+import Artist from '../models/artistModel.js';
+
 export class AlbumController {
   constructor(albumModel) {
     this.model = albumModel;
@@ -26,10 +28,13 @@ export class AlbumController {
   async createAlbum(req, res) {
     try {
       const albumData = { ...req.body };
-      if (req.files?.coverImage) {
-        albumData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
-      }
       const album = await this.model.create(albumData);
+
+      if (album.artist) {
+        await Artist.findByIdAndUpdate(album.artist, {
+          $addToSet: { albums: album._id }
+      }); }
+      
       res.status(201).json(album);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -39,14 +44,26 @@ export class AlbumController {
     const { id } = req.params;
     try {
       const updateData = { ...req.body };
-      if (req.files?.coverImage) {
-        updateData.coverImage = `/uploads/images/${req.files.coverImage[0].filename}`;
-      }
-      const album = await this.model.updateById(id, updateData);
-      if (!album) {
+      
+      const originalAlbum = await this.model.findById(id);
+      
+      const updatedAlbum = await this.model.updateById(id, updateData);
+      if (!updatedAlbum) {
         return res.status(404).json({ error: 'Album not found' });
       }
-      res.json(album);
+
+      const originalArtistId = originalAlbum.artist.toString();
+      const newArtistId = updatedAlbum.artist.toString();
+
+      if (originalArtistId !== newArtistId) {
+        await Artist.findByIdAndUpdate(originalArtistId, {
+          $pull: { albums: updatedAlbum._id }
+        });
+        await Artist.findByIdAndUpdate(newArtistId, {
+          $addToSet: { albums: updatedAlbum._id }
+      }); }
+
+      res.json(updatedAlbum);
     } catch (error) {
       res.status(400).json({ error: error.message });
   } }

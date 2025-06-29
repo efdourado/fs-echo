@@ -1,8 +1,8 @@
+// frontend/src/pages/Admin/AlbumForm.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
 import { fetchAlbumById, fetchArtists, fetchSongs } from '../../api/api';
-
 import { createAlbum, updateAlbum } from '../../api/adminApi';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
@@ -11,7 +11,8 @@ const AlbumForm = () => {
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
-  const [album, setAlbum] = useState({
+  // Estado unificado para o formulário
+  const [formData, setFormData] = useState({
     title: '', 
     artist: '', 
     songs: [], 
@@ -21,57 +22,69 @@ const AlbumForm = () => {
     coverImage: ''
   });
   
+  // Estados para listas e controlo
   const [artists, setArtists] = useState([]);
-  const [songs, setSongs] = useState([]);
-
-  const [loading, setLoading] = useState(false);
+  const [allSongs, setAllSongs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchArtists().then(setArtists).catch(() => setError('Could not load artists.'));
-    fetchSongs().then(setSongs).catch(() => setError('Could not load songs.'));
-
-    if (isEditing) {
+    const loadFormData = async () => {
       setLoading(true);
-      fetchAlbumById(id)
-        .then(data => {
-          setAlbum({
-            ...data,
-            artist: data.artist?._id || '',
-            songs: data.songs?.map(s => s._id) || [],
-            genre: data.genre?.join(', ') || '',
-            releaseDate: data.releaseDate ? data.releaseDate.split('T')[0] : ''
+      setError('');
+      try {
+        // Carrega artistas e músicas em paralelo
+        const [artistsData, songsData] = await Promise.all([
+          fetchArtists(),
+          fetchSongs()
+        ]);
+        setArtists(artistsData);
+        setAllSongs(songsData);
+
+        // Se estiver a editar, carrega os dados do álbum
+        if (isEditing) {
+          const albumData = await fetchAlbumById(id);
+          setFormData({
+            ...albumData,
+            artist: albumData.artist?._id || '',
+            songs: albumData.songs?.map(s => s._id) || [],
+            genre: albumData.genre?.join(', ') || '',
+            releaseDate: albumData.releaseDate ? albumData.releaseDate.split('T')[0] : ''
           });
-        })
-        .catch(err => setError('Failed to fetch album details.'))
-        .finally(() => setLoading(false));
-    }
+        }
+      } catch (err) {
+        setError('Failed to load required data. Please try again.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadFormData();
   }, [id, isEditing]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAlbum(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleMultiSelectChange = (e) => {
-    const { name, options } = e.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setAlbum(prev => ({ ...prev, [name]: value }));
+  // Função melhorada para a seleção múltipla de músicas
+  const handleSongSelection = (e) => {
+    const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
+    setFormData(prev => ({ ...prev, songs: selectedIds }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (saving) return; // Previne submissão dupla
+
+    setSaving(true);
     setError('');
 
     const submissionData = {
-        ...album,
-        genre: album.genre.split(',').map(g => g.trim()).filter(g => g),
+        ...formData,
+        genre: formData.genre.split(',').map(g => g.trim()).filter(g => g),
     };
 
     try {
@@ -84,11 +97,11 @@ const AlbumForm = () => {
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to save the album.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  if (loading && isEditing) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner message="Loading album data..." />;
 
   return (
     <div className="admin-page">
@@ -100,12 +113,12 @@ const AlbumForm = () => {
           <div className="form-grid">
             <div className="form-group span-2">
               <label htmlFor="title">Title</label>
-              <input type="text" id="title" name="title" value={album.title} onChange={handleChange} required />
+              <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required disabled={saving} />
             </div>
 
             <div className="form-group">
               <label htmlFor="artist">Artist</label>
-              <select id="artist" name="artist" value={album.artist} onChange={handleChange} required>
+              <select id="artist" name="artist" value={formData.artist} onChange={handleChange} required disabled={saving}>
                 <option value="" disabled>Select an artist</option>
                 {artists.map(artist => <option key={artist._id} value={artist._id}>{artist.name}</option>)}
               </select>
@@ -113,7 +126,7 @@ const AlbumForm = () => {
 
             <div className="form-group">
               <label htmlFor="type">Type</label>
-              <select id="type" name="type" value={album.type} onChange={handleChange}>
+              <select id="type" name="type" value={formData.type} onChange={handleChange} disabled={saving}>
                 <option value="album">Album</option>
                 <option value="single">Single</option>
                 <option value="ep">EP</option>
@@ -123,19 +136,18 @@ const AlbumForm = () => {
             
             <div className="form-group">
               <label htmlFor="releaseDate">Release Date</label>
-              <input type="date" id="releaseDate" name="releaseDate" value={album.releaseDate} onChange={handleChange} required />
+              <input type="date" id="releaseDate" name="releaseDate" value={formData.releaseDate} onChange={handleChange} required disabled={saving} />
             </div>
             
             <div className="form-group">
               <label htmlFor="genre">Genres (comma-separated)</label>
-              <input type="text" id="genre" name="genre" value={album.genre} onChange={handleChange} />
+              <input type="text" id="genre" name="genre" value={formData.genre} onChange={handleChange} disabled={saving} />
             </div>
 
             <div className="form-group span-2">
               <label htmlFor="songs">Songs (Hold Ctrl/Cmd to select multiple)</label>
-              <select id="songs" name="songs" value={album.songs} onChange={handleMultiSelectChange} multiple className="form-multiselect">
-                {/* This is the line that has been fixed */}
-                {songs.map(song => (
+              <select id="songs" name="songs" value={formData.songs} onChange={handleSongSelection} multiple className="form-multiselect" disabled={saving} style={{ height: '200px' }}>
+                {allSongs.map(song => (
                   <option key={song._id} value={song._id}>
                     {song.title} - {song.artist?.name || 'Unknown Artist'}
                   </option>
@@ -145,13 +157,13 @@ const AlbumForm = () => {
 
             <div className="form-group span-2">
               <label>Cover Image URL</label>
-              <input type="url" name="coverImage" value={album.coverImage} onChange={handleChange} accept="image/*" />
-              {album.coverImage && <img src={album.coverImage} alt="Preview" className="form-preview-image" />}
+              <input type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} disabled={saving} placeholder="https://example.com/image.jpg"/>
+              {formData.coverImage && <img src={formData.coverImage} alt="Preview" className="form-preview-image" />}
             </div>
           </div>
         </div>
-        <button type="submit" className="admin-button-save" disabled={loading}>
-          {loading ? 'Saving...' : 'Save Album'}
+        <button type="submit" className="admin-button-save" disabled={loading || saving}>
+          {saving ? 'Saving...' : (isEditing ? 'Update Album' : 'Create Album')}
         </button>
       </form>
     </div>

@@ -1,6 +1,9 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAudio } from '../hooks/useAudio';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 export const PlayerContext = createContext();
 
@@ -14,15 +17,23 @@ export const PlayerProvider = ({ children }) => {
     playContext: null,
   });
 
+  const handlePlayCount = (trackId) => {
+    axios.post(`${API_URL}/song/${trackId}/play`)
+      .catch(err => console.error("Failed to update play count", err));
+  };
+
   const startPlayback = useCallback((newSongs, newContext) => {
     if (newSongs && newSongs.length > 0) {
+      const firstTrack = newSongs[0];
       setSongs(newSongs);
       setState(prev => ({
         ...prev,
-        currentTrack: newSongs[0],
+        currentTrack: firstTrack,
         playContext: newContext,
         isPlaying: true,
-  })); } }, []);
+      })); 
+      handlePlayCount(firstTrack._id);
+  } }, []);
 
   const skipTrack = useCallback((direction) => {
     if (!state.currentTrack || !songs.length) return;
@@ -92,6 +103,11 @@ export const PlayerProvider = ({ children }) => {
     setSongs,
   }), [state, audio, playTrack, startPlayback, togglePlayPause, toggleMute, setVolume, skipTrack, songs]);
 
+  useEffect(() => {
+    if (state.isPlaying && state.currentTrack) {
+      handlePlayCount(state.currentTrack._id);
+    }
+  }, [state.currentTrack?._id, state.isPlaying]);
 
   return (
     <PlayerContext.Provider value={value}>
