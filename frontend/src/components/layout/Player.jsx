@@ -6,8 +6,6 @@ import {
   faPlay,
   faForwardStep,
   faPause,
-  faVolumeUp,
-  faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { PlayerContext } from '../../context/PlayerContext';
@@ -18,15 +16,11 @@ const Player = ({ isSidebarOpen }) => {
   const {
     currentTrack,
     isPlaying,
-    volume,
-    isMuted,
     currentTime,
     duration,
     togglePlayPause,
     skipTrack,
     seek,
-    setVolume,
-    toggleMute,
   } = useContext(PlayerContext);
 
   const progressBarRef = useRef(null);
@@ -46,16 +40,11 @@ const Player = ({ isSidebarOpen }) => {
       progressBarRef.current.style.setProperty("--progress", `${progressPercent}%`);
     }
   }, [currentTime, effectiveDuration]);
-  
-  const handleVolumeChange = (e) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-  };
 
   if (!currentTrack) return null;
 
   return (
-    <div className={`player ${isPlaying ? 'player--active' : ''} ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+    <div className={`player ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="player__content">
         {/* Left Side: Song Info */}
         <div className="player__song-info">
@@ -103,29 +92,9 @@ const Player = ({ isSidebarOpen }) => {
             <span className="player__time">{formatDuration(effectiveDuration)}</span>
           </div>
         </div>
-
-        {/* Right Side: Extra Controls (Volume) */}
-        <div className="player__extra-controls">
-          <button className="player__control-btn" onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
-            <FontAwesomeIcon icon={isMuted || volume === 0 ? faVolumeMute : faVolumeUp} />
-          </button>
-          <div className="player__volume-slider-container">
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="player__volume-slider"
-              aria-label="Volume"
-            />
-          </div>
-        </div>
       </div>
     </div>
-  );
-};
+); };
 
 Player.propTypes = {
   isSidebarOpen: PropTypes.bool,

@@ -56,7 +56,7 @@ export const normalizeDataForPage = (type, data) => {
           type: 'songs',
           items: data.songs || [],
         },
-        // Albums don't have secondary content in this view
+
         subContent: null,
 
         stats: [
@@ -77,7 +77,7 @@ export const normalizeDataForPage = (type, data) => {
         mainContent: {
           title: 'Tracklist',
           type: 'songs',
-          // Note: Playlist songs are nested under item.song
+
           items: data.songs ? data.songs.map(item => item.song).filter(Boolean) : [],
         },
         subContent: null,
@@ -86,7 +86,7 @@ export const normalizeDataForPage = (type, data) => {
           { label: 'Songs', value: data.songs?.length || 0 },
           { label: 'Created by', value: data.owner?.username || 'Anonymous' },
         ],
-        isVerified: false, // Playlists aren't "verified" in the same way as artists
+        isVerified: false,
       };
       
     case 'song':

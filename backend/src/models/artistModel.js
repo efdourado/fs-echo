@@ -1,3 +1,4 @@
+// backend/src/models/artistModel.js
 import mongoose from 'mongoose';
 
 const artistSchema = new mongoose.Schema({
@@ -23,25 +24,37 @@ const Artist = mongoose.model("Artist", artistSchema);
 
 export class ArtistModel {
   async findAll() {
+    // Both populate calls are now here to ensure consistency
     return await Artist.find().populate('albums').populate('topSongs');
   }
 
   async findById(id) {
+    // This is the key change: We are now populating the nested data
     return await Artist.findById(id)
       .populate({
         path: 'topSongs',
         populate: {
           path: 'artist',
           model: 'Artist'
-      } })
+        }
+      })
       .populate({
         path: 'albums',
-        populate: {
-          path: 'songs',
-          populate: {
+        populate: [
+          {
             path: 'artist',
             model: 'Artist'
-  } } }); }
+          },
+          {
+            path: 'songs',
+            populate: {
+              path: 'artist',
+              model: 'Artist'
+            }
+          }
+        ]
+      });
+  }
 
   async create(artistData) {
     const artist = new Artist(artistData);
