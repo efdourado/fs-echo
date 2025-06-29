@@ -80,51 +80,51 @@ const ArtistForm = () => {
       {error && <p className="error-message">{error}</p>}
       
       <form onSubmit={handleSubmit}>
-        <div className="admin-form">
-            <div className="form-grid">
-                <div className="form-group span-2">
+        <div className="admin-form-container">
+            <div className="admin-form__grid">
+                <div className="admin-form__group span-2">
                     <label htmlFor="name">Name</label>
                     <input type="text" id="name" name="name" value={artist.name} onChange={handleTextChange} required />
                 </div>
-                <div className="form-group span-2">
+                <div className="admin-form__group span-2">
                     <label htmlFor="description">Description</label>
                     <textarea id="description" name="description" value={artist.description} onChange={handleTextChange} rows="4"></textarea>
                 </div>
                 
-                <div className="form-group">
+                <div className="admin-form__group">
                     <label>Artist Image URL</label>
                     <input type="url" name="image" value={artist.image} onChange={handleTextChange} placeholder="https://..." />
-                    {artist.image && <img src={artist.image} alt="Preview" className="form-preview-image" />}
+                    {artist.image && <img src={artist.image} alt="Preview" className="admin-form__preview-image" />}
                 </div>
-                <div className="form-group">
+                <div className="admin-form__group">
                     <label>Banner Image URL</label>
                     <input type="url" name="banner" value={artist.banner} onChange={handleTextChange} placeholder="https://..." />
-                    {artist.banner && <img src={artist.banner} alt="Preview" className="form-preview-image" />}
+                    {artist.banner && <img src={artist.banner} alt="Preview" className="admin-form__preview-image" />}
                 </div>
                 
-                 <div className="form-group span-2">
+                 <div className="admin-form__group span-2">
                     <label htmlFor="genre">Genres (comma-separated)</label>
                     <input type="text" id="genre" name="genre" value={artist.genre} onChange={handleTextChange} placeholder="Hip-Hop, Pop, R&B" />
                 </div>
 
-                 <div className="form-group span-2 form-group-checkbox">
+                 <div className="admin-form__group span-2 admin-form__checkbox-group">
                     <input type="checkbox" id="verified" name="verified" checked={artist.verified} onChange={handleTextChange} />
                     <label htmlFor="verified">Verified Artist</label>
                 </div>
                  <h2 className="span-2">Social Links</h2>
-                 <div className="form-group">
+                 <div className="admin-form__group">
                     <label htmlFor="socials.instagram">Instagram</label>
                     <input type="text" id="socials.instagram" name="socials.instagram" value={artist.socials.instagram} onChange={handleTextChange} placeholder="https://instagram.com/..." />
                 </div>
-                 <div className="form-group">
+                 <div className="admin-form__group">
                     <label htmlFor="socials.x">X (Twitter)</label>
                     <input type="text" id="socials.x" name="socials.x" value={artist.socials.x} onChange={handleTextChange} placeholder="https://x.com/..." />
                 </div>
-                 <div className="form-group">
+                 <div className="admin-form__group">
                     <label htmlFor="socials.youtube">YouTube</label>
                     <input type="text" id="socials.youtube" name="socials.youtube" value={artist.socials.youtube} onChange={handleTextChange} placeholder="https://youtube.com/..." />
                 </div>
-                 <div className="form-group">
+                 <div className="admin-form__group">
                     <label htmlFor="socials.tiktok">TikTok</label>
                     <input type="text" id="socials.tiktok" name="socials.tiktok" value={artist.socials.tiktok} onChange={handleTextChange} placeholder="https://tiktok.com/..." />
                 </div>

@@ -75,19 +75,19 @@ const UserForm = () => {
       <h1>{isEditing ? `Edit User: ${user.username}` : 'Create New User'}</h1>
       {error && <p className="error-message">{error}</p>}
       
-      <form onSubmit={handleSubmit} className="admin-form">
-        <div className="form-grid">
-          <div className="form-group">
+      <form onSubmit={handleSubmit} className="admin-form-container">
+        <div className="admin-form__grid">
+          <div className="admin-form__group">
             <label htmlFor="username">Username</label>
             <input type="text" id="username" name="username" value={user.username} onChange={handleChange} required />
           </div>
 
-          <div className="form-group">
+          <div className="admin-form__group">
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" value={user.email} onChange={handleChange} required />
           </div>
 
-          <div className="form-group span-2">
+          <div className="admin-form__group span-2">
             <label htmlFor="profilePic">Profile Picture URL</label>
             <input
               type="url"
@@ -101,18 +101,18 @@ const UserForm = () => {
               <img
                 src={user.profilePic}
                 alt="Profile Preview"
-                className="form-preview-image"
+                className="admin-form__preview-image"
                 style={{ marginTop: '15px', maxHeight: '150px', borderRadius: '8px' }}
               />
             )}
           </div>
 
-          <div className="form-group span-2">
+          <div className="admin-form__group span-2">
             <label htmlFor="bio">Bio</label>
             <textarea id="bio" name="bio" value={user.bio || ''} onChange={handleChange} rows="4"></textarea>
           </div>
 
-          <div className="form-group span-2 form-group-checkbox">
+          <div className="admin-form__group span-2 admin-form__checkbox-group">
             <input type="checkbox" id="isAdmin" name="isAdmin" checked={user.isAdmin} onChange={handleChange} />
             <label htmlFor="isAdmin">Administrator Privileges</label>
           </div>

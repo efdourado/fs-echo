@@ -1,6 +1,6 @@
 // frontend/src/pages/CollectionPage.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +23,6 @@ const fetchers = {
   playlist: api.fetchPlaylistById,
   song: api.fetchSongById,
 };
-
 
 const CollectionPage = ({ type }) => {
   const { id } = useParams();
@@ -85,71 +84,66 @@ const CollectionPage = ({ type }) => {
 
   return (
     <div className="collection-page">
-      <div className="collection-page__background" style={{ backgroundImage: `url(${backgroundImage || fallbackImage})` }} />
-      <div className="collection-page__overlay" />
-      
-      <div className="collection-page__content">
-
-        <aside className="collection-page__left-column">
-          <div className="collection-page__metadata">
-            <div className="collection-page__image-container">
-              <img src={primaryImage || fallbackImage} alt={title} className="collection-page__image" />
-            </div>
-            {isVerified && (
-              <p className="collection-page__verified-badge">
-                <FontAwesomeIcon icon={faCheckDouble} /> Verified {pageType}
-              </p>
-            )}
-            <h1 className="collection-page__title">{title}</h1>
-            {stats && (
-              <div className="collection-page__stats">
-                {stats.map(stat => `${stat.value} ${stat.label}`).join(' • ')}
-              </div>
-            )}
-            <p className="collection-page__description">{description}</p>
-
-            <div className="collection-page__actions">
-              <button className="action-button primary" onClick={handlePlayMainContent}>
-                <FontAwesomeIcon icon={isMainContentPlaying && isPlaying ? faPause : faPlay} />
-                <span>{isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}</span>
-              </button>
-              <button className="action-button secondary" onClick={() => setIsFollowing(!isFollowing)}>
-                <FontAwesomeIcon icon={isFollowing ? faSolidHeart : faRegularHeart} />
-                <span>{isFollowing ? 'Following' : 'Follow'}</span>
-              </button>
-            </div>
+      <aside className="collection-page__left-column" style={{ backgroundImage: `url(${backgroundImage || fallbackImage})` }}>
+        <div className="collection-page__metadata">
+          <div className="collection-page__image-container">
+            <img src={primaryImage || fallbackImage} alt={title} className="collection-page__image" />
           </div>
-        </aside>
+          {isVerified && (
+            <p className="collection-page__verified-badge">
+              <FontAwesomeIcon icon={faCheckDouble} /> Verified {pageType}
+            </p>
+          )}
+          <h1 className="collection-page__title">{title}</h1>
+          {stats && (
+            <div className="collection-page__stats">
+              {stats.map(stat => `${stat.value} ${stat.label}`).join(' • ')}
+            </div>
+          )}
+          <p className="collection-page__description">{description}</p>
 
-        <main className="collection-page__right-column">
-          {mainContent && mainContent.type === 'songs' && (
-            <section className="entity-content-section">
-              <h2 className="entity-content-section__title">{mainContent.title}</h2>
-              <SongList songs={mainContent.items} showHeader={false} displayAll={true} showNumber={true} />
-            </section>
-          )}
+          <div className="collection-page__actions">
+            <button className="action-button primary" onClick={handlePlayMainContent}>
+              <FontAwesomeIcon icon={isMainContentPlaying && isPlaying ? faPause : faPlay} />
+              <span>{isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}</span>
+            </button>
+            <button className="action-button secondary" onClick={() => setIsFollowing(!isFollowing)}>
+              <FontAwesomeIcon icon={isFollowing ? faSolidHeart : faRegularHeart} />
+              <span>{isFollowing ? 'Following' : 'Follow'}</span>
+            </button>
+          </div>
+        </div>
+      </aside>
 
-          {mainContent && mainContent.type === 'lyrics' && (
-            <section className="entity-content-section">
-              <h2 className="entity-content-section__title">{mainContent.title}</h2>
-              <pre className="lyrics-text">{mainContent.items}</pre>
-            </section>
-          )}
-          
-          {subContent && subContent.type === 'albums' && (
-             <section className="entity-content-section">
-                <h2 className="entity-content-section__title">{subContent.title}</h2>
-                <div className="albums-grid">
-                    {subContent.items.map(album => (
-                        <Card key={album._id} item={album} type="album" />
-                    ))}
-                </div>
-            </section>
-          )}
-        </main>
-      </div>
+      <main className="collection-page__right-column">
+        {mainContent && mainContent.type === 'songs' && (
+          <section className="entity-content-section">
+            <h2 className="entity-content-section__title">{mainContent.title}</h2>
+            <SongList songs={mainContent.items} showHeader={false} displayAll={true} showNumber={true} />
+          </section>
+        )}
+
+        {mainContent && mainContent.type === 'lyrics' && (
+          <section className="entity-content-section">
+            <h2 className="entity-content-section__title">{mainContent.title}</h2>
+            <pre className="lyrics-text">{mainContent.items}</pre>
+          </section>
+        )}
+        
+        {subContent && subContent.type === 'albums' && (
+           <section className="entity-content-section">
+              <h2 className="entity-content-section__title">{subContent.title}</h2>
+              <div className="albums-grid">
+                  {subContent.items.map(album => (
+                      <Card key={album._id} item={album} type="album" />
+                  ))}
+              </div>
+          </section>
+        )}
+      </main>
     </div>
-); };
+  );
+};
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(['artist', 'album', 'playlist', 'song']).isRequired,

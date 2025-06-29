@@ -11,7 +11,6 @@ const AlbumForm = () => {
   const navigate = useNavigate();
   const isEditing = Boolean(id);
 
-  // Estado unificado para o formulário
   const [formData, setFormData] = useState({
     title: '', 
     artist: '', 
@@ -22,7 +21,6 @@ const AlbumForm = () => {
     coverImage: ''
   });
   
-  // Estados para listas e controlo
   const [artists, setArtists] = useState([]);
   const [allSongs, setAllSongs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +32,6 @@ const AlbumForm = () => {
       setLoading(true);
       setError('');
       try {
-        // Carrega artistas e músicas em paralelo
         const [artistsData, songsData] = await Promise.all([
           fetchArtists(),
           fetchSongs()
@@ -42,7 +39,6 @@ const AlbumForm = () => {
         setArtists(artistsData);
         setAllSongs(songsData);
 
-        // Se estiver a editar, carrega os dados do álbum
         if (isEditing) {
           const albumData = await fetchAlbumById(id);
           setFormData({
@@ -69,7 +65,6 @@ const AlbumForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Função melhorada para a seleção múltipla de músicas
   const handleSongSelection = (e) => {
     const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
     setFormData(prev => ({ ...prev, songs: selectedIds }));
@@ -77,7 +72,7 @@ const AlbumForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (saving) return; // Previne submissão dupla
+    if (saving) return;
 
     setSaving(true);
     setError('');
@@ -109,14 +104,14 @@ const AlbumForm = () => {
       {error && <p className="error-message">{error}</p>}
       
       <form onSubmit={handleSubmit}>
-        <div className="admin-form">
-          <div className="form-grid">
-            <div className="form-group span-2">
+        <div className="admin-form-container">
+          <div className="admin-form__grid">
+            <div className="admin-form__group span-2">
               <label htmlFor="title">Title</label>
               <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required disabled={saving} />
             </div>
 
-            <div className="form-group">
+            <div className="admin-form__group">
               <label htmlFor="artist">Artist</label>
               <select id="artist" name="artist" value={formData.artist} onChange={handleChange} required disabled={saving}>
                 <option value="" disabled>Select an artist</option>
@@ -124,7 +119,7 @@ const AlbumForm = () => {
               </select>
             </div>
 
-            <div className="form-group">
+            <div className="admin-form__group">
               <label htmlFor="type">Type</label>
               <select id="type" name="type" value={formData.type} onChange={handleChange} disabled={saving}>
                 <option value="album">Album</option>
@@ -134,19 +129,19 @@ const AlbumForm = () => {
               </select>
             </div>
             
-            <div className="form-group">
+            <div className="admin-form__group">
               <label htmlFor="releaseDate">Release Date</label>
               <input type="date" id="releaseDate" name="releaseDate" value={formData.releaseDate} onChange={handleChange} required disabled={saving} />
             </div>
             
-            <div className="form-group">
+            <div className="admin-form__group">
               <label htmlFor="genre">Genres (comma-separated)</label>
               <input type="text" id="genre" name="genre" value={formData.genre} onChange={handleChange} disabled={saving} />
             </div>
 
-            <div className="form-group span-2">
+            <div className="admin-form__group span-2">
               <label htmlFor="songs">Songs (Hold Ctrl/Cmd to select multiple)</label>
-              <select id="songs" name="songs" value={formData.songs} onChange={handleSongSelection} multiple className="form-multiselect" disabled={saving} style={{ height: '200px' }}>
+              <select id="songs" name="songs" value={formData.songs} onChange={handleSongSelection} multiple className="admin-form__multiselect" disabled={saving} style={{ height: '200px' }}>
                 {allSongs.map(song => (
                   <option key={song._id} value={song._id}>
                     {song.title} - {song.artist?.name || 'Unknown Artist'}
@@ -155,10 +150,10 @@ const AlbumForm = () => {
               </select>
             </div>
 
-            <div className="form-group span-2">
+            <div className="admin-form__group span-2">
               <label>Cover Image URL</label>
               <input type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} disabled={saving} placeholder="https://example.com/image.jpg"/>
-              {formData.coverImage && <img src={formData.coverImage} alt="Preview" className="form-preview-image" />}
+              {formData.coverImage && <img src={formData.coverImage} alt="Preview" className="admin-form__preview-image" />}
             </div>
           </div>
         </div>

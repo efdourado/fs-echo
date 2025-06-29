@@ -84,6 +84,7 @@ const LoginPage = () => {
                   required
                   autoComplete="email"
                   placeholder=" "
+                  spellCheck="false"
                 />
                 <label htmlFor="email">Email</label>
               </div>

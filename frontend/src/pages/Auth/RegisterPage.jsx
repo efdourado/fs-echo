@@ -88,6 +88,7 @@ const RegisterPage = () => {
                   required
                   autoComplete="username"
                   placeholder=" "
+                  spellCheck="false"
                 />
                 <label htmlFor="username">Username</label>
               </div>
@@ -101,6 +102,7 @@ const RegisterPage = () => {
                   required
                   autoComplete="email"
                   placeholder=" "
+                  spellCheck="false"
                 />
                 <label htmlFor="email">Email</label>
               </div>

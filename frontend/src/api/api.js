@@ -40,9 +40,3 @@ export async function fetchPlaylistById(id) {
   const response = await axios.get(`${URL}/playlist/${id}`);
   return response.data;
 }
-
-
-export async function fetchUsers() {
-  const response = await axios.get(`${URL}/users`);
-  return response.data;
-}

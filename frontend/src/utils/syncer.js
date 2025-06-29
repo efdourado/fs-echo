@@ -1,29 +1,22 @@
-// frontend/src/utils/Syncer.js
-
-// Uma função auxiliar para formatar números grandes
 const formatNumber = (num) => {
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
   if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
   return num?.toString() || '0';
 };
 
-// A função principal do adaptador
 export const normalizeDataForPage = (type, data) => {
   if (!data) return null;
 
   switch (type) {
     case 'artist':
       return {
-        // Informações Principais
         pageType: 'Artist',
         title: data.name,
         description: data.description,
         
-        // Imagens
         primaryImage: data.image,
         backgroundImage: data.banner || data.image,
         
-        // Conteúdo para a coluna da direita
         mainContent: {
           title: 'Popular Songs',
           type: 'songs',
@@ -35,7 +28,6 @@ export const normalizeDataForPage = (type, data) => {
           items: data.albums || [],
         },
 
-        // Estatísticas para a coluna da esquerda
         stats: [
           { label: 'Followers', value: formatNumber(data.followers) },
           { label: 'Monthly Listeners', value: formatNumber(data.monthlyListeners) },
@@ -111,5 +103,4 @@ export const normalizeDataForPage = (type, data) => {
 
     default:
       return null;
-  }
-};
+} };

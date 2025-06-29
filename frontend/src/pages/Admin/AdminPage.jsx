@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import * as api from '../../api/api';
+// A importação de 'api' permanece para as outras abas
+import * as api from '../../api/api'; 
+// A importação de 'adminApi' agora inclui a função 'fetchUsers'
 import * as adminApi from '../../api/adminApi';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,11 +12,12 @@ import { faPlus, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AdminTable from './components/AdminTable';
 
+// A configuração da aba de usuários agora aponta para a função correta
 const TABS = {
   artists: { label: 'Artists', fetch: api.fetchArtists, delete: adminApi.deleteArtist },
   albums: { label: 'Albums', fetch: api.fetchAlbums, delete: adminApi.deleteAlbum },
   songs: { label: 'Songs', fetch: api.fetchSongs, delete: adminApi.deleteSong },
-  users: { label: 'Users', fetch: api.fetchUsers, delete: adminApi.deleteUser },
+  users: { label: 'Users', fetch: adminApi.fetchUsers, delete: adminApi.deleteUser },
 };
 
 const AdminPage = () => {
@@ -23,8 +26,7 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -32,8 +34,10 @@ const AdminPage = () => {
     try {
       const fetchData = TABS[activeTab].fetch;
       if (fetchData) {
+        // Agora, para a aba 'users', ele chamará adminApi.fetchUsers, que envia o token
         const result = await fetchData();
-        setData(result);
+        // O adminApi retorna a resposta completa do axios, então pegamos result.data
+        setData(result.data || result);
       } else {
         setData([]);
       }
@@ -64,11 +68,12 @@ const AdminPage = () => {
         console.error(err);
   } } };
 
-    const handleTabSelect = (tabKey) => {
+  const handleTabSelect = (tabKey) => {
     setActiveTab(tabKey);
     setIsMenuOpen(false);
   };
 
+  // O resto do componente permanece o mesmo...
   return (
     <div className="admin-page-unified">
       <div className="admin-header">
