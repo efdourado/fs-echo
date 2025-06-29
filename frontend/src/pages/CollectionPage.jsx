@@ -7,7 +7,7 @@ import { faCheckDouble, faPlay, faPause, faHeart as faSolidHeart } from "@fortaw
 import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 
 import * as api from '../api/api';
-import { normalizeDataForPage } from '../utils/Syncer';
+import { normalizeDataForPage } from '../utils/syncer';
 
 import { usePlayer } from '../hooks/usePlayer';
 
@@ -31,7 +31,7 @@ const CollectionPage = ({ type }) => {
   const [error, setError] = useState('');
   
   const [isFollowing, setIsFollowing] = useState(false);
-  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } = usePlayer();
 
   useEffect(() => {
     const loadData = async () => {
@@ -69,11 +69,18 @@ const CollectionPage = ({ type }) => {
   const isMainContentPlaying = playContext?.type === `${type}-main` && playContext?.id === id;
 
   const handlePlayMainContent = () => {
-    if (isMainContentPlaying) {
-      togglePlayPause();
-    } else if (mainContent?.items?.length > 0) {
-      startPlayback(mainContent.items, { type: `${type}-main`, id });
-  } };
+    if (type === 'song') {
+      if (isPlaying && playContext?.id === id) {
+        togglePlayPause();
+      } else {
+        api.fetchSongById(id).then(songData => playTrack(songData));
+      }
+    } else {
+      if (isMainContentPlaying) {
+        togglePlayPause();
+      } else if (mainContent?.items?.length > 0) {
+        startPlayback(mainContent.items, { type: `${type}-main`, id });
+  } } };
 
   return (
     <div className="collection-page">
@@ -81,7 +88,7 @@ const CollectionPage = ({ type }) => {
       <div className="collection-page__overlay" />
       
       <div className="collection-page__content">
-        {/* Left Column */}
+
         <aside className="collection-page__left-column">
           <div className="collection-page__metadata">
             <div className="collection-page__image-container">
@@ -114,10 +121,17 @@ const CollectionPage = ({ type }) => {
         </aside>
 
         <main className="collection-page__right-column">
-          {mainContent && (
+          {mainContent && mainContent.type === 'songs' && (
             <section className="entity-content-section">
               <h2 className="entity-content-section__title">{mainContent.title}</h2>
               <SongList songs={mainContent.items} showHeader={false} displayAll={true} showNumber={true} />
+            </section>
+          )}
+
+          {mainContent && mainContent.type === 'lyrics' && (
+            <section className="entity-content-section">
+              <h2 className="entity-content-section__title">{mainContent.title}</h2>
+              <pre className="lyrics-text">{mainContent.items}</pre>
             </section>
           )}
           

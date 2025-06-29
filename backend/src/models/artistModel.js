@@ -27,8 +27,21 @@ export class ArtistModel {
   }
 
   async findById(id) {
-    return await Artist.findById(id).populate('albums').populate('topSongs');
-  }
+    return await Artist.findById(id)
+      .populate({
+        path: 'topSongs',
+        populate: {
+          path: 'artist',
+          model: 'Artist'
+      } })
+      .populate({
+        path: 'albums',
+        populate: {
+          path: 'songs',
+          populate: {
+            path: 'artist',
+            model: 'Artist'
+  } } }); }
 
   async create(artistData) {
     const artist = new Artist(artistData);
