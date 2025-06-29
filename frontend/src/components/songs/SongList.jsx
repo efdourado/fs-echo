@@ -15,11 +15,13 @@ const SongList = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
 
-  if (loading) return <div className="song-list-loading">Loading songs...</div>;
-  if (!songs || songs.length === 0) return <div className="song-list-empty">No songs available</div>;
+  const safeSongs = Array.isArray(songs) ? songs : [];
 
-  const displayedSongs = displayAll || showAll ? songs : songs.slice(0, initialItems);
-  const showToggleButton = !displayAll && songs.length > initialItems;
+  if (loading) return <div className="song-list-loading">Loading songs...</div>;
+  if (safeSongs.length === 0) return <div className="song-list-empty">No songs available</div>;
+
+  const displayedSongs = displayAll || showAll ? safeSongs : safeSongs.slice(0, initialItems);
+  const showToggleButton = !displayAll && safeSongs.length > initialItems;
 
   return (
     <section className="song-list">
@@ -34,7 +36,7 @@ const SongList = ({
       <div className="song-list__container">
         {displayedSongs.map((song, index) => (
           <SongItem
-            key={song._id || index}
+            key={song?._id || index}
             song={song}
             onMenuClick={onMenuClick}
             showNumber={showNumber}
@@ -49,7 +51,7 @@ const SongList = ({
             className="song-list__toggle-btn"
             onClick={() => setShowAll(!showAll)}
           >
-            {showAll ? 'Show Less' : `Show All ${songs.length} Songs`}
+            {showAll ? 'Show Less' : `Show All ${safeSongs.length} Songs`}
           </button>
         </div>
       )}

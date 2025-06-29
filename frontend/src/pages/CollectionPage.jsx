@@ -1,5 +1,3 @@
-// frontend/src/pages/CollectionPage.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -8,20 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckDouble, faPlay, faPause, faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
 
-// API and Adapter
-import * as api from '../../api/api';
-import { normalizeDataForPage } from '../utils/dataAdapter';
+import * as api from '../api/api';
+import { normalizeDataForPage } from '../utils/Syncer';
 
-// Hooks and Contexts
 import { usePlayer } from '../hooks/usePlayer';
 
-// Components
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 import SongList from '../components/songs/SongList';
 import Card from '../components/ui/Card';
 import fallbackImage from '/fb.jpeg';
 
-// Mapping of types to their API fetch functions
 const fetchers = {
   artist: api.fetchArtistById,
   album: api.fetchAlbumById,
@@ -36,7 +30,6 @@ const CollectionPage = ({ type }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // States for interactive elements
   const [isFollowing, setIsFollowing] = useState(false);
   const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
 
@@ -58,8 +51,7 @@ const CollectionPage = ({ type }) => {
         console.error(`Failed to load ${type} data:`, err);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
 
     if (id && type) {
       loadData();
@@ -81,35 +73,34 @@ const CollectionPage = ({ type }) => {
       togglePlayPause();
     } else if (mainContent?.items?.length > 0) {
       startPlayback(mainContent.items, { type: `${type}-main`, id });
-    }
-  };
+  } };
 
   return (
-    <div className="entity-page">
-      <div className="entity-page__background" style={{ backgroundImage: `url(${backgroundImage || fallbackImage})` }} />
-      <div className="entity-page__overlay" />
+    <div className="collection-page">
+      <div className="collection-page__background" style={{ backgroundImage: `url(${backgroundImage || fallbackImage})` }} />
+      <div className="collection-page__overlay" />
       
-      <div className="entity-page__content">
+      <div className="collection-page__content">
         {/* Left Column */}
-        <aside className="entity-page__left-column">
-          <div className="entity-page__metadata">
-            <div className="entity-page__image-container">
-              <img src={primaryImage || fallbackImage} alt={title} className="entity-page__image" />
+        <aside className="collection-page__left-column">
+          <div className="collection-page__metadata">
+            <div className="collection-page__image-container">
+              <img src={primaryImage || fallbackImage} alt={title} className="collection-page__image" />
             </div>
             {isVerified && (
-              <p className="entity-page__verified-badge">
+              <p className="collection-page__verified-badge">
                 <FontAwesomeIcon icon={faCheckDouble} /> Verified {pageType}
               </p>
             )}
-            <h1 className="entity-page__title">{title}</h1>
+            <h1 className="collection-page__title">{title}</h1>
             {stats && (
-              <div className="entity-page__stats">
+              <div className="collection-page__stats">
                 {stats.map(stat => `${stat.value} ${stat.label}`).join(' • ')}
               </div>
             )}
-            <p className="entity-page__description">{description}</p>
+            <p className="collection-page__description">{description}</p>
 
-            <div className="entity-page__actions">
+            <div className="collection-page__actions">
               <button className="action-button primary" onClick={handlePlayMainContent}>
                 <FontAwesomeIcon icon={isMainContentPlaying && isPlaying ? faPause : faPlay} />
                 <span>{isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}</span>
@@ -122,8 +113,7 @@ const CollectionPage = ({ type }) => {
           </div>
         </aside>
 
-        {/* Right Column */}
-        <main className="entity-page__right-column">
+        <main className="collection-page__right-column">
           {mainContent && (
             <section className="entity-content-section">
               <h2 className="entity-content-section__title">{mainContent.title}</h2>
@@ -144,8 +134,7 @@ const CollectionPage = ({ type }) => {
         </main>
       </div>
     </div>
-  );
-};
+); };
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(['artist', 'album', 'playlist', 'song']).isRequired,

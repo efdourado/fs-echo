@@ -14,19 +14,15 @@ import SongMenu from './components/songs/SongMenu';
 import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
 
-
 import AdminPage from './pages/Admin/AdminPage';
 import ArtistForm from './pages/Admin/ArtistForm';
 import SongForm from './pages/Admin/SongForm';
 import AlbumForm from './pages/Admin/AlbumForm';
 import UserForm from './pages/Admin/UserForm';
-
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
-
 import Home from './pages/HomePage/HomePage';
 import CollectionPage from './pages/CollectionPage';
-
 import ComingSoonPage from './pages/ComingSoonPage';
 import LibraryPage from './pages/LibraryPage';
 
@@ -83,12 +79,10 @@ const App = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 
-
                 <Route path="/artist/:id" element={<CollectionPage type="artist" />} />
                 <Route path="/song/:id" element={<CollectionPage type="song" />} />
                 <Route path="/playlist/:id" element={<CollectionPage type="playlist" />} />
                 <Route path="/album/:id" element={<CollectionPage type="album" />} />
-
 
                 <Route path="/artists" element={<ComingSoonPage />} />
                 <Route path="/discover" element={<ComingSoonPage />} />
@@ -97,44 +91,20 @@ const App = () => {
                 <Route path="/settings" element={<ComingSoonPage />} />
                 <Route path="/feedback" element={<ComingSoonPage />} />
 
-
+                <Route path="/library" element={<ProtectedRoute><LibraryPage /></ProtectedRoute>} />
                 <Route path="/library/songs" element={<ComingSoonPage />} />
                 <Route path="/library/playlists" element={<ComingSoonPage />} />
 
-                <Route
-                  path="/library"
-                  element={
-                    <ProtectedRoute>
-                      <LibraryPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <UserProfilePage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin"
-                  element={
-                    <AdminRoute>
-                      <AdminPage />
-                    </AdminRoute>
-                  }
-                />
+                <Route path="/profile" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+
+                <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
                 <Route path="/admin/new/artist" element={<AdminRoute><ArtistForm /></AdminRoute>} />
                 <Route path="/admin/new/song" element={<AdminRoute><SongForm /></AdminRoute>} />
                 <Route path="/admin/new/album" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-
                 <Route path="/admin/edit/artist/:id" element={<AdminRoute><ArtistForm /></AdminRoute>} />
                 <Route path="/admin/edit/song/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
                 <Route path="/admin/edit/album/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
                 <Route path="/admin/edit/user/:id" element={<AdminRoute><UserForm /></AdminRoute>} />
-
-                <Route path="/admin/users" element={<AdminRoute><ComingSoonPage /></AdminRoute>} />
               </Routes>
             </main>
             <Footer companyName={'Echo'} />
