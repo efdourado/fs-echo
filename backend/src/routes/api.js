@@ -66,6 +66,8 @@ router.post('/songs', protect, admin, songController.createSong.bind(songControl
 router.put('/song/:id', protect, admin, songController.updateSong.bind(songController));
 router.delete('/song/:id', protect, admin, songController.deleteSong.bind(songController));
 
+router.post('/song/:id/play', songController.incrementPlay.bind(songController));
+
 
 router.get('/users', protect, admin, userController.getAllUsers.bind(userController));
 router.get('/user/:id', protect, admin, userController.getUserById.bind(userController));

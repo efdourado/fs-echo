@@ -1,6 +1,9 @@
+import { ArtistModel } from '../models/artistModel.js';
+
 export class SongController {
   constructor(songModel) {
     this.model = songModel;
+    this.artistModel = new ArtistModel();
   }
 
   async getAllSongs(req, res) {
@@ -8,6 +11,24 @@ export class SongController {
       const songs = await this.model.findAll();
       res.json(songs);
     } catch (error) {
+      res.status(500).json({ error: error.message });
+  } }
+
+  async incrementPlay(req, res) {
+    const { id } = req.params;
+    try {
+      const song = await this.model.incrementPlayCount(id);
+      if (!song) {
+        return res.status(404).json({ error: 'song not found' });
+      }
+
+      if (song.artist) {
+        await this.artistModel.updateTopSongs(song.artist);
+      }
+
+      res.status(200).json({ message: 'Play count updated successfully' });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({ error: error.message });
   } }
   

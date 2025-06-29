@@ -23,6 +23,10 @@ export class SongModel {
 
   async findById(id) {
     return await Song.findById(id).populate('artist');
+  }
+
+  async incrementPlayCount(id) {
+    return await Song.findByIdAndUpdate(id, { $inc: { plays: 1 } }, { new: true });
 } }
 
 export default Song;
