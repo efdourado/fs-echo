@@ -25,12 +25,10 @@ import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 
 import Home from './pages/HomePage/HomePage';
-import CollectionPage from './pages/HomePage/components/CollectionPage';
+import CollectionPage from './pages/CollectionPage';
 
-import Artist from './pages/ArtistPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import LibraryPage from './pages/LibraryPage';
-import Song from './pages/SongPage';
 
 
 const UserProfilePage = () => {
@@ -86,8 +84,8 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
 
 
-                <Route path="/artist/:id" element={<Artist />} />
-                <Route path="/song/:id" element={<Song />} />
+                <Route path="/artist/:id" element={<CollectionPage type="artist" />} />
+                <Route path="/song/:id" element={<CollectionPage type="song" />} />
                 <Route path="/playlist/:id" element={<CollectionPage type="playlist" />} />
                 <Route path="/album/:id" element={<CollectionPage type="album" />} />
 

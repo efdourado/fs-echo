@@ -1,194 +1,217 @@
+/* frontend/src/styles/pages/SongPage.css */
+
 .song-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(-45deg,
-    var(--color-background),
-    hsl(from var(--color-background) h s calc(l + 5%)),
-    hsl(from var(--color-background) h s calc(l + 10%)),
-    var(--color-background)
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
   padding-bottom: var(--player-height);
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  background-color: var(--color-background);
 }
 
 .song-hero {
   position: relative;
-  padding: var(--spacing-3xl) var(--container-padding-x) var(--spacing-xl);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-xl);
-  text-align: center;
+  align-items: flex-end;
+  min-height: 40vh;
+  padding: var(--spacing-2xl) var(--container-padding-x);
+  background-size: cover;
+  background-position: center;
+  color: var(--color-white);
+  text-shadow: 0 2px 12px hsla(0, 0%, 0%, 0.6);
 }
 
-.song-hero__gradient-overlay {
+.song-hero__overlay {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom,
-    hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), var(--color-primary-accent-l), 0.2) 0%,
-    hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), calc(var(--color-primary-accent-l) - 20%), 0.9) 100%
-  );
-  z-index: 1;
-  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to top, hsla(0, 0%, 0%, 0.8) 10%, hsla(0, 0%, 0%, 0.5) 50%, hsla(0, 0%, 0%, 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.song-hero__image-container {
-  width: 250px;
-  height: 250px;
+.song-hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+.song-hero__cover-art {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-xl);
   overflow: hidden;
-  position: relative;
-  z-index: 2;
-  transition: transform var(--transition-duration-medium) var(--transition-timing-function-ease);
   background-color: var(--color-surface-hover);
 }
 
-.song-hero__image-container:hover {
-  transform: scale(1.05) translateY(-5px);
-}
-
-.song-hero__image-container img {
+.song-hero__cover-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 .song-hero__info {
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-sm);
-  color: var(--color-text-primary); 
 }
 
-.song-title {
-  margin: 0;
+.song-hero__type {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.song-hero__title {
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-black);
-  line-height: var(--line-height-tight);
-  color: var(--color-text-primary);
-  text-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.5);
+  margin: 0;
+  color: var(--color-white);
 }
 
-.song-artist-info {
+.song-hero__meta {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
   margin-top: var(--spacing-sm);
 }
 
-.song-artist-info__image-link {
-  display: block;
+.song-hero__artist {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+  transition: opacity 0.2s ease;
 }
 
-.song-artist-info__image {
-  width: 60px;
-  height: 60px;
+.song-hero__artist:hover {
+  opacity: 0.8;
+}
+
+.song-hero__artist-avatar {
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--color-white);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-duration-short) var(--transition-timing-function-ease);
-  background-color: var(--color-surface-hover);
 }
 
-.song-artist-info__image-link:hover .song-artist-info__image {
-  transform: scale(1.1);
+.song-hero__meta-dot {
+  opacity: 0.5;
 }
 
-.song-artist-info .artist-name {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-medium);
+.song-page__main-content {
+  padding: var(--spacing-xl) var(--container-padding-x);
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.song-page__actions {
+  margin-bottom: var(--spacing-xl);
+}
+
+.song-page__actions .play-button-large {
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
+    border: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: var(--font-size-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-lg);
+}
+
+.song-page__actions .play-button-large:hover {
+    transform: scale(1.05);
+    background-color: var(--color-primary-hover);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    background-color: var(--color-surface);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+}
+
+.detail-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.song-page__lyrics-section {
+    margin-top: var(--spacing-xl);
+}
+
+.lyrics-text {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-lg);
   color: var(--color-text-secondary);
-  text-decoration: none;
-  transition: color var(--transition-duration-short) var(--transition-timing-function-ease);
+  line-height: var(--line-height-relaxed);
+  white-space: pre-wrap;
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
 }
-.song-artist-info .artist-name:hover {
-  color: var(--color-primary-accent);
-  text-decoration: underline;
-}
-
-
-/*
-  The .song-player class from your original CSS seems to have been intended for a player UI
-  that might have been part of this page. Since the global player is now fixed at the bottom,
-  this class might not be needed here unless you plan to add specific playback controls
-  directly on the SongPage (e.g., a large play button).
-  If .song-player was for layout of .song-info-bar__details vs artist image,
-  the new flex layout in .song-hero achieves this.
-*/
-/*
-.song-player {
-  flex: 2; // If it was for layout balancing
-  min-width: 0;
-}
-*/
-
 
 @media (min-width: 768px) {
   .song-hero {
+    min-height: 50vh;
+  }
+  .song-hero__content {
     flex-direction: row;
     text-align: left;
-    align-items: flex-end;
-    padding-top: var(--spacing-4xl);
-    padding-bottom: var(--spacing-2xl);
   }
-
-  .song-hero__image-container {
-    width: 280px;
-    height: 280px;
-    flex-shrink: 0;
-  }
-
   .song-hero__info {
     align-items: flex-start;
-    gap: var(--spacing-md);
   }
-
-  .song-title {
+  .song-hero__title {
     font-size: var(--font-size-5xl);
   }
-
-  .song-artist-info {
-    margin-top: var(--spacing-md);
+  .song-hero__cover-art {
+    width: 250px;
+    height: 250px;
   }
-
-  .song-artist-info__image {
-    width: 70px;
-    height: 70px;
-  }
-
-  .song-artist-info .artist-name {
-    font-size: var(--font-size-2xl);
-} }
-
-@media (min-width: 1024px) {
-  .song-hero__image-container {
-    width: 320px;
-    height: 320px;
-} }
-
-.song-page .loading-message, .song-page {
-  padding: var(--spacing-xl);
-  text-align: center;
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
