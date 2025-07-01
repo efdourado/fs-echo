@@ -1,5 +1,3 @@
-// frontend/src/App.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -17,10 +15,7 @@ import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
 
 import AdminPage from './pages/Admin/AdminPage';
-import ArtistForm from './pages/Admin/ArtistForm';
-import SongForm from './pages/Admin/SongForm';
-import AlbumForm from './pages/Admin/AlbumForm';
-import UserForm from './pages/Admin/UserForm';
+
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import Home from './pages/HomePage/HomePage';
@@ -100,10 +95,6 @@ const App = () => {
                 <Route path="/profile" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
 
                 <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-                <Route path="/admin/new/artist" element={<AdminRoute><ArtistForm /></AdminRoute>} />
-                <Route path="/admin/new/song" element={<AdminRoute><SongForm /></AdminRoute>} />
-                <Route path="/admin/new/album" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-                {/* As rotas de edição foram removidas daqui */}
               </Routes>
             </main>
             <Footer companyName={'Echo'} />

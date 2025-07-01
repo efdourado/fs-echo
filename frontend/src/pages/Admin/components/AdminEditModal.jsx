@@ -1,5 +1,7 @@
 import React from 'react';
+
 import Modal from '../../../components/ui/Modal';
+
 import ArtistForm from '../ArtistForm';
 import AlbumForm from '../AlbumForm';
 import SongForm from '../SongForm';
@@ -13,8 +15,9 @@ const formComponents = {
 };
 
 const AdminEditModal = ({ isOpen, onClose, item, type, onSaved }) => {
-  if (!isOpen || !item || !type) return null;
+  if (!isOpen || !type) return null;
 
+  const isEditing = !!item;
   const FormComponent = formComponents[type];
 
   if (!FormComponent) {
@@ -22,18 +25,17 @@ const AdminEditModal = ({ isOpen, onClose, item, type, onSaved }) => {
     return null;
   }
 
-  const title = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+  const title = `${isEditing ? 'Edit' : 'Create New'} ${type.charAt(0).toUpperCase() + type.slice(1)}`;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
       <FormComponent
-        id={item._id}
-        isModal={true} // Passamos uma prop para indicar que está num modal
-        onClose={onClose} // Para que o form possa se fechar
-        onSaved={onSaved} // Para recarregar os dados após salvar
+        id={isEditing ? item._id : null}
+        isModal={true}
+        onClose={onClose}
+        onSaved={onSaved}
       />
     </Modal>
-  );
-};
+); };
 
 export default AdminEditModal;

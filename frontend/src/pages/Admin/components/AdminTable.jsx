@@ -1,7 +1,7 @@
-// efdourado/fs-echo/fs-echo-b27b6811cb30558251ffa6744b71422c489076a8/frontend/src/pages/Admin/components/AdminTable.jsx
-
 import React from "react";
+
 import { formatDuration } from "../../../utils/duration";
+
 import fallbackImage from "/fb.jpeg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -105,7 +105,14 @@ const tableConfig = {
     ],
     renderRow: (item) => (
       <>
-        <td className="first-column-background">
+        <td
+          className="item-cell-background"
+          style={{
+            backgroundImage: `url(${
+              item.artist?.banner || item.artist?.image || fallbackImage
+            })`,
+          }}
+        >
            <div className="item-cell">
               <img
                 src={item.coverImage || fallbackImage}
@@ -116,7 +123,7 @@ const tableConfig = {
                 <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.title}</div>
                 <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {item.artist?.name || "N/A"}
-                  {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" style={{ width: '10px' }}/>}
+                  {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
                 </div>
               </div>
             </div>
@@ -137,7 +144,14 @@ const tableConfig = {
     ],
     renderRow: (item) => (
       <>
-        <td className="first-column-background">
+        <td
+          className="item-cell-background"
+          style={{
+            backgroundImage: `url(${
+              item.artist?.banner || item.artist?.image || fallbackImage
+            })`,
+          }}
+        >
           <div className="item-cell">
             <img
               src={item.coverImage || fallbackImage}
@@ -164,6 +178,7 @@ const tableConfig = {
   users: {
     columns: [
       "User",
+      "Bio",
       "Admin",
       "Created At",
       "Updated At",
@@ -185,6 +200,9 @@ const tableConfig = {
               </div>
             </div>
           </div>
+        </td>
+        <td data-label="Bio">
+          <div className="artist-description">{item.bio || "No bio yet"}</div>
         </td>
         <td data-label="Admin" style={{ textAlign: 'center' }}>
             <span

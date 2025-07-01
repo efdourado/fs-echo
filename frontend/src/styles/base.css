@@ -91,7 +91,7 @@
   --transition-timing-function-smooth: cubic-bezier(0.3, 0, 0.1, 1);
   --transition-default: all var(--transition-duration-short) var(--transition-timing-function-smooth);
 
-  --header-height: 68px;
+  --header-height: 63px;
   --player-height: 80px;
   --container-padding-x: var(--spacing-4xl);
   --container-max-width: 1600px;

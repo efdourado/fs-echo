@@ -14,6 +14,24 @@ const songSchema = new mongoose.Schema({
   lyrics: { type: String, default: "" },
 }, { timestamps: true });
 
+
+songSchema.post('findOneAndDelete', async function(doc) {
+  if (doc) {
+    const songId = doc._id;
+    const Album = mongoose.model('Album');
+    const Playlist = mongoose.model('Playlist');
+    const User = mongoose.model('User');
+    const Artist = mongoose.model('Artist');
+
+    await Album.updateMany({ songs: songId }, { $pull: { songs: songId } });
+
+    await Playlist.updateMany({ 'songs.song': songId }, { $pull: { songs: { song: songId } } });
+
+    await User.updateMany({ likedSongs: songId }, { $pull: { likedSongs: songId } });
+    await Artist.updateMany({ topSongs: songId }, { $pull: { topSongs: songId } });
+} });
+
+
 const Song = mongoose.model("Song", songSchema);
 
 export class SongModel {
@@ -27,6 +45,19 @@ export class SongModel {
 
   async incrementPlayCount(id) {
     return await Song.findByIdAndUpdate(id, { $inc: { plays: 1 } }, { new: true });
+  }
+
+  async create(songData) {
+    const song = new Song(songData);
+    return await song.save();
+  }
+
+  async updateById(id, updateData) {
+    return await Song.findByIdAndUpdate(id, updateData, { new: true });
+  }
+
+  async deleteById(id) {
+    return await Song.findOneAndDelete({ _id: id });
 } }
 
 export default Song;

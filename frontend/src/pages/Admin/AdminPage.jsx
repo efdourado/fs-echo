@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-
-import * as api from '../../api/api'; 
-
-import * as adminApi from '../../api/adminApi';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+
+import * as api from '../../api/api';
+import * as adminApi from '../../api/adminApi';
 
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AdminTable from './components/AdminTable';
@@ -25,25 +23,15 @@ const AdminPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-
-  const [editingItem, setEditingItem] = useState(null);
+  const [modalState, setModalState] = useState({ isOpen: false, item: null });
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const fetchData = TABS[activeTab].fetch;
-      if (fetchData) {
-
-        const result = await fetchData();
-
-        setData(result.data || result);
-      } else {
-        setData([]);
-      }
+      const result = await fetchData();
+      setData(result.data || result);
     } catch (err) {
       setError(`Failed to fetch ${activeTab}.`);
       console.error(err);
@@ -55,16 +43,17 @@ const AdminPage = () => {
     loadData();
   }, [loadData]);
 
-  const handleEdit = (item) => {
-    setEditingItem(item);
+  const handleOpenModal = (item = null) => {
+    setModalState({ isOpen: true, item: item });
   };
 
   const handleCloseModal = () => {
-    setEditingItem(null);
+    setModalState({ isOpen: false, item: null });
   };
   
   const handleSaveAndReload = () => {
-      loadData(); // Recarrega os dados da tabela
+      loadData();
+      handleCloseModal();
   }
 
   const handleDelete = async (id) => {
@@ -72,20 +61,19 @@ const AdminPage = () => {
     if (confirmDelete) {
       try {
         const deleteFn = TABS[activeTab].delete;
-        if (deleteFn) {
-          await deleteFn(id);
-          loadData();
-        } else {
-          throw new Error(`Delete function not available for ${activeTab}`);
-        }
+        await deleteFn(id);
+        loadData();
       } catch (err) {
         setError(`Failed to delete ${activeTab.slice(0, -1)}.`);
         console.error(err);
   } } };
 
-  const handleTabSelect = (tabKey) => {
-    setActiveTab(tabKey);
-    setIsMenuOpen(false);
+  const handleDashboardCycle = () => {
+    const tabKeys = Object.keys(TABS);
+    const currentIndex = tabKeys.indexOf(activeTab);
+    const nextIndex = (currentIndex + 1) % tabKeys.length;
+    const nextTab = tabKeys[nextIndex];
+    setActiveTab(nextTab);
   };
 
   const currentType = activeTab.slice(0, -1);
@@ -93,31 +81,16 @@ const AdminPage = () => {
   return (
     <div className="admin-page-unified">
       <div className="admin-header">
-
-         <div className="dashboard-menu-container">
-          <button className="login-btn create-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {TABS[activeTab].label} Dashboard
-            <FontAwesomeIcon icon={isMenuOpen ? faChevronUp : faChevronDown} className="btn-icon-graphic" />
-          </button>
-          {isMenuOpen && (
-            <div className="dashboard-menu">
-              {Object.keys(TABS).map(tabKey => (
-                <button
-                  key={tabKey}
-                  className="dashboard-menu-item"
-                  onClick={() => handleTabSelect(tabKey)}
-                >
-                  {TABS[tabKey].label}
-                </button>
-              ))}
-            </div>
-          )}
-          </div>
         
-        <Link to={`/admin/new/${currentType}`} className="login-btn create-btn">
+        <button className="login-btn create-btn" onClick={handleDashboardCycle}>
+          {TABS[activeTab].label} Dashboard
+          <FontAwesomeIcon icon={faSyncAlt} className="btn-icon-graphic" style={{ marginLeft: '8px' }}/>
+        </button>
+        
+        <button onClick={() => handleOpenModal()} className="login-btn create-btn">
           <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
           <span className="btn-label"> Add New {currentType}</span>
-        </Link>
+        </button>
       </div>
 
       <div className="admin-content-area">
@@ -130,15 +103,15 @@ const AdminPage = () => {
             type={activeTab}
             data={data}
             handleDelete={handleDelete}
-            handleEdit={handleEdit}
+            handleEdit={handleOpenModal}
           />
         )}
       </div>
 
        <AdminEditModal
-        isOpen={!!editingItem}
+        isOpen={modalState.isOpen}
         onClose={handleCloseModal}
-        item={editingItem}
+        item={modalState.item}
         type={currentType}
         onSaved={handleSaveAndReload}
       />
