@@ -389,4 +389,6 @@
 }
 
 
-
+.first-column-background {
+  background-color: var(--color-border-subtle);
+}

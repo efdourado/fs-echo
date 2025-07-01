@@ -1,3 +1,5 @@
+// efdourado/fs-echo/fs-echo-b27b6811cb30558251ffa6744b71422c489076a8/frontend/src/pages/Admin/components/AdminTable.jsx
+
 import React from "react";
 import { formatDuration } from "../../../utils/duration";
 import fallbackImage from "/fb.jpeg";
@@ -79,7 +81,7 @@ const tableConfig = {
                 e.target.src = fallbackImage;
               }}
             />
-            <span>{item.name}</span>
+            <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.name}</div>
           </div>
         </td>
         <td data-label="Description">
@@ -88,16 +90,14 @@ const tableConfig = {
         <td data-label="Genre">
           <div className="genre-cell">{item.genre?.join(', ') || 'N/A'}</div>
         </td>
-        <td data-label="Verified">{renderers.verified(item)}</td>
+        <td data-label="Verified" style={{ textAlign: 'center' }}>{renderers.verified(item)}</td>
         {renderers.timestamps(item)}
       </>
   ), },
 
   albums: {
     columns: [
-      "Cover",
-      "Title",
-      "Artist",
+      "Album",
       "Songs",
       "Created At",
       "Updated At",
@@ -105,25 +105,31 @@ const tableConfig = {
     ],
     renderRow: (item) => (
       <>
-        <td>
-          <img
-            src={item.coverImage || fallbackImage}
-            alt={item.title}
-            className="admin-table-image"
-          />
+        <td className="first-column-background">
+           <div className="item-cell">
+              <img
+                src={item.coverImage || fallbackImage}
+                alt={item.title}
+                className="admin-table-image"
+              />
+              <div>
+                <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.title}</div>
+                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {item.artist?.name || "N/A"}
+                  {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" style={{ width: '10px' }}/>}
+                </div>
+              </div>
+            </div>
         </td>
-        <td data-label="Title">{item.title}</td>
-        <td data-label="Artist">{item.artist?.name || "N/A"}</td>
-        <td data-label="Songs">{item.songs?.length || 0}</td>
+        <td data-label="Songs" style={{ textAlign: 'center' }}>{item.songs?.length || 0}</td>
         {renderers.timestamps(item)}
       </>
   ), },
   
   songs: {
     columns: [
-      "Cover",
-      "Title",
-      "Artist",
+      "Song",
+      "Lyrics",
       "Duration",
       "Created At",
       "Updated At",
@@ -131,25 +137,33 @@ const tableConfig = {
     ],
     renderRow: (item) => (
       <>
-        <td>
-          <img
-            src={item.coverImage || fallbackImage}
-            alt={item.title}
-            className="admin-table-image"
-          />
+        <td className="first-column-background">
+          <div className="item-cell">
+            <img
+              src={item.coverImage || fallbackImage}
+              alt={item.title}
+              className="admin-table-image"
+            />
+            <div>
+              <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.title}</div>
+              <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {item.artist?.name || "N/A"}
+                {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
+              </div>
+            </div>
+          </div>
         </td>
-        <td data-label="Title">{item.title}</td>
-        <td data-label="Artist">{item.artist?.name || "N/A"}</td>
-        <td data-label="Duration">{renderers.duration(item)}</td>
+        <td data-label="Lyrics">
+          <div className="artist-description">{item.lyrics}</div>
+        </td>
+        <td data-label="Duration" style={{ textAlign: 'center' }}>{renderers.duration(item)}</td>
         {renderers.timestamps(item)}
       </>
   ), },
   
   users: {
     columns: [
-      "Avatar",
-      "Username",
-      "Email",
+      "User",
       "Admin",
       "Created At",
       "Updated At",
@@ -157,16 +171,30 @@ const tableConfig = {
     ],
     renderRow: (item) => (
       <>
-        <td>
-          <img
-            src={item.profilePic || fallbackImage}
-            alt={item.username}
-            className="admin-table-image"
-          />
+        <td className="first-column-background">
+          <div className="item-cell">
+            <img
+              src={item.profilePic || fallbackImage}
+              alt={item.username}
+              className="admin-table-image"
+            />
+            <div>
+              <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.username}</div>
+              <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
+                {item.email}
+              </div>
+            </div>
+          </div>
         </td>
-        <td data-label="Username">{item.username}</td>
-        <td data-label="Email">{item.email}</td>
-        <td data-label="Admin">{item.isAdmin ? "Yes" : "No"}</td>
+        <td data-label="Admin" style={{ textAlign: 'center' }}>
+            <span
+              className={`verified-badge ${
+                item.isAdmin ? "verified" : "not-verified"
+              }`}
+            >
+              {item.isAdmin ? <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" /> : "Not"}
+            </span>
+        </td>
         {renderers.timestamps(item)}
       </>
 ), }, };
