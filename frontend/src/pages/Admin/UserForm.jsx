@@ -7,10 +7,12 @@ import { fetchUserById, updateUser } from '../../api/adminApi';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { useAuth } from '../../context/AuthContext';
 
-const UserForm = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
+  const params = useParams();
+  const navigate = isModal ? null : useNavigate();
   const { updateCurrentUser, currentUser } = useAuth();
+  
+  const id = isModal ? modalId : params.id;
   const isEditing = Boolean(id);
 
   const [user, setUser] = useState({
@@ -60,68 +62,81 @@ const UserForm = () => {
         updateCurrentUser(response.data);
       }
       
-      navigate('/admin/users');
+      if (isModal) {
+        onSaved(); // Chama a função para recarregar dados na página admin
+        onClose(); // Fecha o modal
+      } else {
+        navigate('/admin/users');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save user.');
       console.error(err);
     } finally {
       setLoading(false);
-  } };
+    }
+  };
+  
+  const formContent = (
+    <form onSubmit={handleSubmit} className="admin-form-container">
+      <div className="admin-form__grid">
+        <div className="admin-form__group">
+          <label htmlFor="username">Username</label>
+          <input type="text" id="username" name="username" value={user.username} onChange={handleChange} required />
+        </div>
 
-  if (loading) return <LoadingSpinner />;
+        <div className="admin-form__group">
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" name="email" value={user.email} onChange={handleChange} required />
+        </div>
+
+        <div className="admin-form__group span-2">
+          <label htmlFor="profilePic">Profile Picture URL</label>
+          <input
+            type="url"
+            id="profilePic"
+            name="profilePic"
+            value={user.profilePic || ''}
+            onChange={handleChange}
+            placeholder="https://example.com/image.png"
+          />
+          {user.profilePic && (
+            <img
+              src={user.profilePic}
+              alt="Profile Preview"
+              className="admin-form__preview-image"
+              style={{ marginTop: '15px', maxHeight: '150px', borderRadius: '8px' }}
+            />
+          )}
+        </div>
+
+        <div className="admin-form__group span-2">
+          <label htmlFor="bio">Bio</label>
+          <textarea id="bio" name="bio" value={user.bio || ''} onChange={handleChange} rows="4"></textarea>
+        </div>
+
+        <div className="admin-form__group span-2 admin-form__checkbox-group">
+          <input type="checkbox" id="isAdmin" name="isAdmin" checked={user.isAdmin} onChange={handleChange} />
+          <label htmlFor="isAdmin">Administrator Privileges</label>
+        </div>
+      </div>
+
+      <button type="submit" className="admin-button-save" disabled={loading}>
+        {loading ? 'Saving...' : 'Save User'}
+      </button>
+    </form>
+  );
+
+  if (loading && !isModal) return <LoadingSpinner />;
+
+  if (isModal) {
+    return formContent;
+  }
 
   return (
     <div className="admin-page">
       <h1>{isEditing ? `Edit User: ${user.username}` : 'Create New User'}</h1>
       {error && <p className="error-message">{error}</p>}
-      
-      <form onSubmit={handleSubmit} className="admin-form-container">
-        <div className="admin-form__grid">
-          <div className="admin-form__group">
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" name="username" value={user.username} onChange={handleChange} required />
-          </div>
-
-          <div className="admin-form__group">
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" value={user.email} onChange={handleChange} required />
-          </div>
-
-          <div className="admin-form__group span-2">
-            <label htmlFor="profilePic">Profile Picture URL</label>
-            <input
-              type="url"
-              id="profilePic"
-              name="profilePic"
-              value={user.profilePic || ''}
-              onChange={handleChange}
-              placeholder="https://example.com/image.png"
-            />
-            {user.profilePic && (
-              <img
-                src={user.profilePic}
-                alt="Profile Preview"
-                className="admin-form__preview-image"
-                style={{ marginTop: '15px', maxHeight: '150px', borderRadius: '8px' }}
-              />
-            )}
-          </div>
-
-          <div className="admin-form__group span-2">
-            <label htmlFor="bio">Bio</label>
-            <textarea id="bio" name="bio" value={user.bio || ''} onChange={handleChange} rows="4"></textarea>
-          </div>
-
-          <div className="admin-form__group span-2 admin-form__checkbox-group">
-            <input type="checkbox" id="isAdmin" name="isAdmin" checked={user.isAdmin} onChange={handleChange} />
-            <label htmlFor="isAdmin">Administrator Privileges</label>
-          </div>
-        </div>
-
-        <button type="submit" className="admin-button-save" disabled={loading}>
-          {loading ? 'Saving...' : 'Save User'}
-        </button>
-      </form>
+      {formContent}
     </div>
   );
 };

@@ -1,146 +1,4 @@
-/*
-  CSS Refatorado e Aprimorado para: frontend/src/styles/pages/Admin.css
-  Classes de formulário renomeadas para evitar conflitos.
-*/
 
-.admin-page-unified {
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: var(--spacing-xl) var(--container-padding-x);
-  min-height: calc(100vh - var(--header-height) - 150px);
-}
-
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-2xl);
-  padding-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--color-border);
-}
-
-/* --- Estilos do Menu Dropdown (mantidos) --- */
-.dashboard-menu-container {
-  position: relative;
-}
-
-.dashboard-menu {
-  position: absolute;
-  top: calc(100% + var(--spacing-sm));
-  left: 0;
-  width: 220px;
-  background-color: var(--color-surface);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-lg);
-  padding: var(--spacing-xs);
-  z-index: var(--z-index-dropdown);
-  border: 1px solid var(--color-border);
-  animation: dropdownFadeIn 0.2s ease-out;
-}
-
-@keyframes dropdownFadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.dashboard-menu-item {
-  width: 100%;
-  padding: var(--spacing-sm);
-  text-align: left;
-  font-size: var(--font-size-sm);
-  color: var(--color-text-on-surface);
-  border-radius: var(--border-radius-sm);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.dashboard-menu-item:hover {
-  background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
-}
-
-/* --- Estilos da Tabela (mantidos) --- */
-.admin-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: var(--color-surface);
-  border-radius: var(--border-radius-lg);
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-}
-
-.admin-table th, .admin-table td {
-  padding: var(--spacing-md) var(--spacing-lg);
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
-  vertical-align: middle;
-}
-
-.admin-table thead th {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: hsla(0, 0%, 100%, 0.03);
-}
-
-.admin-table tbody tr:hover {
-  background-color: var(--color-surface-hover);
-}
-
-.admin-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.admin-table-image {
-  width: 44px;
-  height: 44px;
-  object-fit: cover;
-  border-radius: var(--border-radius-sm);
-  vertical-align: middle;
-  box-shadow: var(--shadow-sm);
-}
-
-.admin-table-actions {
-  display: flex;
-  gap: var(--spacing-sm);
-  justify-content: flex-end;
-}
-
-.admin-button-edit, .admin-button-delete {
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--border-radius-full);
-  font-weight: var(--font-weight-semibold);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease-out;
-  font-size: var(--font-size-xs);
-}
-
-.admin-button-edit {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-secondary);
-}
-
-.admin-button-edit:hover {
-  background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-button-hover);
-}
-
-.admin-button-delete {
-  background-color: hsla(0, 72%, 59%, 0.1);
-  color: var(--color-error);
-}
-
-.admin-button-delete:hover {
-  background-color: var(--color-error);
-  color: var(--color-text-on-primary);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-button-hover);
-}
 
 /* --- Formulários do Admin com classes renomeadas --- */
 
@@ -280,3 +138,198 @@
     gap: var(--spacing-md);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* frontend/src/styles/pages/Admin.css */
+
+.admin-page-unified {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--container-padding-x);
+  min-height: calc(100vh - var(--header-height) - 150px);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* --- Estilos do Menu Dropdown --- */
+.dashboard-menu-container {
+  position: relative;
+}
+
+.dashboard-menu {
+  position: absolute;
+  top: calc(100% + var(--spacing-sm));
+  left: 0;
+  width: 220px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-xs);
+  z-index: var(--z-index-dropdown);
+  border: 1px solid var(--color-border);
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-menu-item {
+  width: 100%;
+  padding: var(--spacing-sm);
+  text-align: left;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-on-surface);
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dashboard-menu-item:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+}
+
+/* --- Novos Estilos da Tabela --- */
+.admin-table {
+  width: 100%;
+  border-collapse: separate; /* Essencial para o espaçamento */
+  border-spacing: 0 var(--spacing-sm); /* Espaçamento vertical entre as linhas */
+}
+
+.admin-table thead th {
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: left;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: transparent; /* Remove o fundo do header */
+}
+
+.admin-table tbody tr {
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius-md);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.admin-table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.admin-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  vertical-align: middle;
+  border: none; /* Remove bordas internas */
+  border-bottom: 1px solid var(--color-border-subtle); /* Borda sutil apenas no fundo */
+}
+
+.admin-table td:first-child {
+  border-top-left-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
+}
+
+.admin-table td:last-child {
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
+
+.admin-table tbody tr td {
+    border-bottom: none;
+}
+
+/* Célula especial para Artista */
+.item-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.item-cell-background {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  border:none;
+}
+
+.item-cell-background::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Overlay escuro */
+  z-index: 1;
+}
+
+.item-cell-background .item-cell {
+  position: relative;
+  z-index: 2;
+}
+
+.admin-table-image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: var(--border-radius-sm);
+  vertical-align: middle;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: var(--spacing-md); /* Aumenta o espaço entre ícones */
+  justify-content: flex-end;
+}
+
+/* Estilo para os botões de ícone */
+.admin-action-button {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-out;
+}
+
+.admin-action-button.edit:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-on-primary);
+}
+
+.admin-action-button.delete:hover {
+    background-color: var(--color-error);
+    color: var(--color-text-on-primary);
+}
+
+
+/* ... (Resto do CSS da página Admin, como formulários) ... */

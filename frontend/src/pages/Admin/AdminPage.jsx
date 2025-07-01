@@ -1,3 +1,5 @@
+// frontend/src/pages/Admin/AdminPage.jsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +13,7 @@ import { faPlus, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-
 
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AdminTable from './components/AdminTable';
+import AdminEditModal from './components/AdminEditModal'; // Importe o novo modal
 
 // A configuração da aba de usuários agora aponta para a função correta
 const TABS = {
@@ -27,6 +30,9 @@ const AdminPage = () => {
   const [error, setError] = useState('');
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Estado para controlar o modal
+  const [editingItem, setEditingItem] = useState(null);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -52,6 +58,18 @@ const AdminPage = () => {
     loadData();
   }, [loadData]);
 
+  const handleEdit = (item) => {
+    setEditingItem(item);
+  };
+
+  const handleCloseModal = () => {
+    setEditingItem(null);
+  };
+  
+  const handleSaveAndReload = () => {
+      loadData(); // Recarrega os dados da tabela
+  }
+
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete this ${activeTab.slice(0, -1)}?`);
     if (confirmDelete) {
@@ -72,6 +90,8 @@ const AdminPage = () => {
     setActiveTab(tabKey);
     setIsMenuOpen(false);
   };
+
+  const currentType = activeTab.slice(0, -1);
 
   // O resto do componente permanece o mesmo...
   return (
@@ -98,9 +118,9 @@ const AdminPage = () => {
           )}
           </div>
         
-        <Link to={`/admin/new/${activeTab.slice(0, -1)}`} className="login-btn create-btn">
+        <Link to={`/admin/new/${currentType}`} className="login-btn create-btn">
           <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
-          <span className="btn-label"> Add New {activeTab.slice(0, -1)}</span>
+          <span className="btn-label"> Add New {currentType}</span>
         </Link>
       </div>
 
@@ -114,9 +134,19 @@ const AdminPage = () => {
             type={activeTab}
             data={data}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
           />
         )}
       </div>
+
+       {/* Renderiza o modal quando um item está sendo editado */}
+       <AdminEditModal
+        isOpen={!!editingItem}
+        onClose={handleCloseModal}
+        item={editingItem}
+        type={currentType}
+        onSaved={handleSaveAndReload}
+      />
     </div>
 ); };
 

@@ -1,3 +1,5 @@
+// frontend/src/App.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -101,10 +103,7 @@ const App = () => {
                 <Route path="/admin/new/artist" element={<AdminRoute><ArtistForm /></AdminRoute>} />
                 <Route path="/admin/new/song" element={<AdminRoute><SongForm /></AdminRoute>} />
                 <Route path="/admin/new/album" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-                <Route path="/admin/edit/artist/:id" element={<AdminRoute><ArtistForm /></AdminRoute>} />
-                <Route path="/admin/edit/song/:id" element={<AdminRoute><SongForm /></AdminRoute>} />
-                <Route path="/admin/edit/album/:id" element={<AdminRoute><AlbumForm /></AdminRoute>} />
-                <Route path="/admin/edit/user/:id" element={<AdminRoute><UserForm /></AdminRoute>} />
+                {/* As rotas de edição foram removidas daqui */}
               </Routes>
             </main>
             <Footer companyName={'Echo'} />
