@@ -36,10 +36,6 @@ const Home = () => {
         setSongs(songsData);
         setArtists(artistsData);
         setPlaylists(playlistsData);
-
-        if (properAlbums.length > 0) {
-          setFeaturedAlbumId(properAlbums.length > 1 ? properAlbums[0]._id : properAlbums[0]._id);
-        }
         
         if (playlistsData.length > 0) {
           setFeaturedPlaylistId(playlistsData[0]._id);
@@ -99,7 +95,7 @@ const Home = () => {
           />
 
           <Carousel
-            title="Recommended Playlists"
+            title="Playlists"
             items={playlists}
             type="playlist"
           />
@@ -116,12 +112,13 @@ const Home = () => {
         
 
           <Carousel
-            title="Your Favourite Artists"
+            title="Artists"
             items={artists}
             type="artist"
           />
+
           <Carousel
-            title="Popular Albums"
+            title="Albums & Singles"
             items={albums}
             type="album"
           />

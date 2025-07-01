@@ -22,8 +22,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { startPlayback, playContext, isPlaying, togglePlayPause } =
-    usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const Collection = ({ collectionId, type = "album" }) => {
     <section className="carousel">
       <div className="carousel__header">
         <h2 className="carousel__title">
-          Featured {type === "album" ? "Album" : "Playlist"}
+          One {type === "album" ? "Album" : "Playlist"}
         </h2>
       </div>
 
