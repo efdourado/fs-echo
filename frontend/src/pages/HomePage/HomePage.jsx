@@ -32,9 +32,7 @@ const Home = () => {
         const singleSongs = songsData.filter(song => song.album && song.album.type === 'single');
         setSingles(singleSongs);
 
-        const properAlbums = albumsData.filter(album => album.type !== 'single');
-        setAlbums(properAlbums);
-
+        setAlbums(albumsData);
         setSongs(songsData);
         setArtists(artistsData);
         setPlaylists(playlistsData);
