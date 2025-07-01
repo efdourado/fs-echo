@@ -1,93 +1,183 @@
-
-
-import React from 'react';
-import { formatDuration } from '../../../utils/duration';
-import fallbackImage from '/fb.jpeg';
+import React from "react";
+import { formatDuration } from "../../../utils/duration";
+import fallbackImage from "/fb.jpeg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons"; // Adicionado ícone de edição
+import {
+  faTrash,
+  faEdit,
+  faCheckDouble,
+} from "@fortawesome/free-solid-svg-icons";
 
+const formatDateTime = (isoString) => {
+  if (!isoString) return "N/A";
+  const date = new Date(isoString);
+  const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
+  const timeOptions = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
+
+  const formattedDate = date.toLocaleDateString("pt-BR", dateOptions);
+  const formattedTime = date.toLocaleTimeString("pt-BR", timeOptions);
+
+  return (
+    <>
+      {formattedDate}
+      <br />
+      {formattedTime}
+    </>
+); };
 
 const renderers = {
-  image: (item) => (
-    <img
-      src={item.image || item.coverImage || fallbackImage}
-      alt={item.name || item.title}
-      className="admin-table-image"
-      onError={(e) => { e.target.src = fallbackImage; }}
-    />
+  verified: (item) => (
+    <span
+      className={`verified-badge ${
+        item.verified ? "verified" : "not-verified"
+      }`}
+    >
+      {item.verified ?  <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" /> : "Not"}
+    </span>
   ),
-  genres: (item) => item.genre?.join(', ') || 'N/A',
-  verified: (item) => (item.verified ? 'Yes' : 'No'),
-  artistName: (item) => item.artist?.name || 'N/A',
-  albumSongs: (item) => item.songs?.length || 0,
   duration: (item) => formatDuration(item.duration),
-};
+
+  timestamps: (item) => (
+    <>
+      <td data-label="Created At" className="date-cell-background">
+        <div className="date-cell">{formatDateTime(item.createdAt)}</div>
+      </td>
+      <td data-label="Updated At" className="date-cell-background">
+        <div className="date-cell">{formatDateTime(item.updatedAt)}</div>
+      </td>
+    </>
+), };
 
 const tableConfig = {
   artists: {
-    columns: ['Item', 'Genres', 'Verified', 'Actions'], // Coluna 'Item' substitui 'Image' e 'Name'
+    columns: [
+      "Artist",
+      "Description",
+      "Genres",
+      "Verified?",
+      "Created At",
+      "Updated At",
+      "Actions",
+    ],
     renderRow: (item) => (
       <>
-        {/* Nova célula com imagem de fundo */}
         <td
           className="item-cell-background"
-          style={{ backgroundImage: `url(${item.banner || item.image || fallbackImage})` }}
+          style={{
+            backgroundImage: `url(${
+              item.banner || item.image || fallbackImage
+            })`,
+          }}
         >
           <div className="item-cell">
             <img
               src={item.image || fallbackImage}
               alt={item.name}
               className="admin-table-image"
-              onError={(e) => { e.target.src = fallbackImage; }}
+              onError={(e) => {
+                e.target.src = fallbackImage;
+              }}
             />
             <span>{item.name}</span>
           </div>
         </td>
-        <td data-label="Genres">{item.genre?.join(', ') || 'N/A'}</td>
-        <td data-label="Verified">{item.verified ? 'Yes' : 'No'}</td>
+        <td data-label="Description">
+          <div className="artist-description">{item.description}</div>
+        </td>
+        <td data-label="Genre">
+          <div className="genre-cell">{item.genre?.join(', ') || 'N/A'}</div>
+        </td>
+        <td data-label="Verified">{renderers.verified(item)}</td>
+        {renderers.timestamps(item)}
       </>
-    ),
-  },
-   albums: {
-    columns: ['Cover', 'Title', 'Artist', 'Songs', 'Actions'],
+  ), },
+
+  albums: {
+    columns: [
+      "Cover",
+      "Title",
+      "Artist",
+      "Songs",
+      "Created At",
+      "Updated At",
+      "Actions",
+    ],
     renderRow: (item) => (
       <>
-        <td><img src={item.coverImage || fallbackImage} alt={item.title} className="admin-table-image" /></td>
+        <td>
+          <img
+            src={item.coverImage || fallbackImage}
+            alt={item.title}
+            className="admin-table-image"
+          />
+        </td>
         <td data-label="Title">{item.title}</td>
-        <td data-label="Artist">{item.artist?.name || 'N/A'}</td>
+        <td data-label="Artist">{item.artist?.name || "N/A"}</td>
         <td data-label="Songs">{item.songs?.length || 0}</td>
+        {renderers.timestamps(item)}
       </>
   ), },
+  
   songs: {
-    columns: ['Cover', 'Title', 'Artist', 'Duration', 'Actions'],
+    columns: [
+      "Cover",
+      "Title",
+      "Artist",
+      "Duration",
+      "Created At",
+      "Updated At",
+      "Actions",
+    ],
     renderRow: (item) => (
       <>
-        <td><img src={item.coverImage || fallbackImage} alt={item.title} className="admin-table-image" /></td>
+        <td>
+          <img
+            src={item.coverImage || fallbackImage}
+            alt={item.title}
+            className="admin-table-image"
+          />
+        </td>
         <td data-label="Title">{item.title}</td>
-        <td data-label="Artist">{item.artist?.name || 'N/A'}</td>
-        <td data-label="Duration">{formatDuration(item.duration)}</td>
+        <td data-label="Artist">{item.artist?.name || "N/A"}</td>
+        <td data-label="Duration">{renderers.duration(item)}</td>
+        {renderers.timestamps(item)}
       </>
   ), },
+  
   users: {
-    columns: ['Avatar', 'Username', 'Email', 'Admin', 'Actions'],
+    columns: [
+      "Avatar",
+      "Username",
+      "Email",
+      "Admin",
+      "Created At",
+      "Updated At",
+      "Actions",
+    ],
     renderRow: (item) => (
       <>
-        <td><img src={item.profilePic || fallbackImage} alt={item.username} className="admin-table-image" /></td>
+        <td>
+          <img
+            src={item.profilePic || fallbackImage}
+            alt={item.username}
+            className="admin-table-image"
+          />
+        </td>
         <td data-label="Username">{item.username}</td>
         <td data-label="Email">{item.email}</td>
-        <td data-label="Admin">{item.isAdmin ? 'Yes' : 'No'}</td>
+        <td data-label="Admin">{item.isAdmin ? "Yes" : "No"}</td>
+        {renderers.timestamps(item)}
       </>
-), },
-};
+), }, };
 
-const AdminTable = ({ type, data, handleDelete, handleEdit }) => { // Adicionado handleEdit
+const AdminTable = ({ type, data, handleDelete, handleEdit }) => {
   const config = tableConfig[type];
 
   if (!config) {
     return <p>Configuration for '{type}' not found.</p>;
   }
-  
+
   if (data.length === 0) {
     return <p className="empty-state">No {type} found.</p>;
   }
@@ -96,23 +186,32 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => { // Adicionado
     <table className="admin-table">
       <thead>
         <tr>
-          {config.columns.map(col => <th key={col}>{col}</th>)}
+          {config.columns.map((col) => (
+            <th key={col}>{col}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {data.map(item => (
+        {data.map((item) => (
           <tr key={item._id}>
             {config.renderRow(item)}
+            
             <td data-label="Actions">
               <div className="admin-table-actions">
-                {/* Botão de Edição com Ícone */}
-                <button onClick={() => handleEdit(item)} className="admin-action-button edit" aria-label="Edit">
-                  <FontAwesomeIcon icon={faPencilAlt} />
+                <button
+                  onClick={() => handleEdit(item)}
+                  className="admin-action-button edit"
+                  aria-label="Edit"
+                >
+                  <FontAwesomeIcon icon={faEdit} />
                 </button>
-                
-                {/* Botão de Deletar com Ícone */}
+
                 {handleDelete && (
-                  <button onClick={() => handleDelete(item._id)} className="admin-action-button delete" aria-label="Delete">
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="admin-action-button delete"
+                    aria-label="Delete"
+                  >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 )}
@@ -122,7 +221,6 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => { // Adicionado
         ))}
       </tbody>
     </table>
-  );
-};
+); };
 
 export default AdminTable;

@@ -1,11 +1,8 @@
-// frontend/src/pages/Admin/AdminPage.jsx
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-// A importação de 'api' permanece para as outras abas
 import * as api from '../../api/api'; 
-// A importação de 'adminApi' agora inclui a função 'fetchUsers'
+
 import * as adminApi from '../../api/adminApi';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,9 +10,9 @@ import { faPlus, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-
 
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AdminTable from './components/AdminTable';
-import AdminEditModal from './components/AdminEditModal'; // Importe o novo modal
+import AdminEditModal from './components/AdminEditModal';
 
-// A configuração da aba de usuários agora aponta para a função correta
+
 const TABS = {
   artists: { label: 'Artists', fetch: api.fetchArtists, delete: adminApi.deleteArtist },
   albums: { label: 'Albums', fetch: api.fetchAlbums, delete: adminApi.deleteAlbum },
@@ -31,7 +28,7 @@ const AdminPage = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Estado para controlar o modal
+
   const [editingItem, setEditingItem] = useState(null);
 
   const loadData = useCallback(async () => {
@@ -40,9 +37,9 @@ const AdminPage = () => {
     try {
       const fetchData = TABS[activeTab].fetch;
       if (fetchData) {
-        // Agora, para a aba 'users', ele chamará adminApi.fetchUsers, que envia o token
+
         const result = await fetchData();
-        // O adminApi retorna a resposta completa do axios, então pegamos result.data
+
         setData(result.data || result);
       } else {
         setData([]);
@@ -93,7 +90,6 @@ const AdminPage = () => {
 
   const currentType = activeTab.slice(0, -1);
 
-  // O resto do componente permanece o mesmo...
   return (
     <div className="admin-page-unified">
       <div className="admin-header">
@@ -139,7 +135,6 @@ const AdminPage = () => {
         )}
       </div>
 
-       {/* Renderiza o modal quando um item está sendo editado */}
        <AdminEditModal
         isOpen={!!editingItem}
         onClose={handleCloseModal}
