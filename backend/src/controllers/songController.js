@@ -53,6 +53,11 @@ export class SongController {
       }
 
       const song = await this.model.create(songData);
+      
+      if (song.artist) {
+        await this.artistModel.updateTopSongs(song.artist);
+      }
+
       res.status(201).json(song);
     } catch (error) {
       console.error(error);
@@ -64,11 +69,23 @@ export class SongController {
     try {
       const updateData = { ...req.body };
       
-      const song = await this.model.updateById(id, updateData);
-      if (!song) {
+      const originalSong = await this.model.findById(id);
+      if (!originalSong) {
         return res.status(404).json({ error: 'Song not found' });
       }
-      res.json(song);
+      const oldArtistId = originalSong.artist?._id.toString();
+
+      const updatedSong = await this.model.updateById(id, updateData);
+      const newArtistId = updatedSong.artist?._id.toString();
+
+      if (oldArtistId && oldArtistId !== newArtistId) {
+        await this.artistModel.updateTopSongs(oldArtistId);
+      }
+      if (newArtistId) {
+        await this.artistModel.updateTopSongs(newArtistId);
+      }
+
+      res.json(updatedSong);
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: error.message });

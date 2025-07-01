@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import Artist from './artistModel.js';
+import Album from './albumModel.js';
+import Playlist from './playlistModel.js';
+import User from './userModel.js';
 
 const songSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -14,23 +18,17 @@ const songSchema = new mongoose.Schema({
   lyrics: { type: String, default: "" },
 }, { timestamps: true });
 
-
 songSchema.post('findOneAndDelete', async function(doc) {
   if (doc) {
     const songId = doc._id;
-    const Album = mongoose.model('Album');
-    const Playlist = mongoose.model('Playlist');
-    const User = mongoose.model('User');
-    const Artist = mongoose.model('Artist');
-
     await Album.updateMany({ songs: songId }, { $pull: { songs: songId } });
-
     await Playlist.updateMany({ 'songs.song': songId }, { $pull: { songs: { song: songId } } });
-
     await User.updateMany({ likedSongs: songId }, { $pull: { likedSongs: songId } });
     await Artist.updateMany({ topSongs: songId }, { $pull: { topSongs: songId } });
-} });
-
+    if (doc.artist) {
+        const artistModel = new Artist.ArtistModel();
+        await artistModel.updateTopSongs(doc.artist);
+} } });
 
 const Song = mongoose.model("Song", songSchema);
 
