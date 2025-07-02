@@ -30,8 +30,12 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
   const handleMenuClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    openMenu(song);
-  };
+    
+    if (onMenuClick) {
+      onMenuClick();
+    } else {
+      openMenu(song);
+  } };
 
   return (
     <div

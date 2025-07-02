@@ -15,6 +15,7 @@ import {
   faMusic,
   faCheckCircle,
   faPlus,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 const CreatePlaylistView = ({ song, onPlaylistCreated }) => {
@@ -23,26 +24,27 @@ const CreatePlaylistView = ({ song, onPlaylistCreated }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!name.trim()) {
-    setError("Playlist name is required.");
-    return;
-  }
-  setLoading(true);
-  setError("");
-  try {
-    const response = await createPlaylist({ name, description });
-    const newPlaylistData = response.data;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      setError("Playlist name is required.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+    try {
+      const response = await createPlaylist({ name, description });
+      const newPlaylistData = response.data;
 
-    await addSongToPlaylist(newPlaylistData._id, song._id);
-    onPlaylistCreated(newPlaylistData);
-  } catch (err) {
-    const errorMessage = err.response?.data?.message || "Failed to create playlist.";
-    setError(errorMessage);
-  } finally {
-    setLoading(false);
-} };
+      await addSongToPlaylist(newPlaylistData._id, song._id);
+      onPlaylistCreated(newPlaylistData);
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "Failed to create playlist.";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+  } };
 
   return (
     <form onSubmit={handleSubmit} className="auth-form">
@@ -74,21 +76,26 @@ const handleSubmit = async (e) => {
 ); };
 
 const SongMenu = () => {
-  const { isMenuOpen, song, closeMenu } = useSongMenu();
+  const { isMenuOpen, song, closeMenu, menuContext } = useSongMenu();
   const [view, setView] = useState("list");
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    if (isMenuOpen) {
+    if (isMenuOpen && view === "list") {
       setLoading(true);
       setFeedback("");
-      setView("list");
       getMyPlaylists()
         .then((response) => setPlaylists(response.data))
         .catch(() => setFeedback("Could not load your playlists."))
         .finally(() => setLoading(false));
+    }
+  }, [isMenuOpen, view]);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      setView("list");
     }
   }, [isMenuOpen]);
 
@@ -100,12 +107,20 @@ const SongMenu = () => {
       setTimeout(closeMenu, 1500);
     } catch (err) {
       setFeedback(err.response?.data?.message || "Failed to add song.");
-} };
+    }
+  };
 
   const handlePlaylistCreated = (newPlaylist) => {
     setFeedback(`Added to "${newPlaylist.name}"!`);
     setTimeout(closeMenu, 1500);
   };
+
+  const handleRemoveClick = () => {
+    if (menuContext?.onRemove) {
+      menuContext.onRemove();
+      setFeedback("Song removed!");
+      setTimeout(closeMenu, 1500);
+  } };
 
   if (!isMenuOpen || !song) {
     return null;
@@ -115,7 +130,13 @@ const SongMenu = () => {
     <Modal
       isOpen={isMenuOpen}
       onClose={closeMenu}
-      title={feedback ? "" : `Song Options`}
+      title={
+        feedback
+          ? ""
+          : view === "create"
+          ? "Create New Playlist"
+          : "Song Options"
+      }
     >
       {feedback ? (
         <div
@@ -136,12 +157,25 @@ const SongMenu = () => {
       ) : view === "list" ? (
         <>
           <ul className="playlist-selection-list">
+            {menuContext?.source === "playlist" && (
+              <li>
+                <button
+                  onClick={handleRemoveClick}
+                  style={{ color: "var(--color-error)" }}
+                >
+                  <FontAwesomeIcon icon={faTrash} className="playlist-icon" />
+                  <span>Remove from this Playlist</span>
+                </button>
+              </li>
+            )}
+
             <li>
               <button onClick={() => setView("create")}>
                 <FontAwesomeIcon icon={faPlus} className="playlist-icon" />
-                <span>Create New Playlist</span>
+                <span>Add to new playlist</span>
               </button>
             </li>
+
             {playlists.map((playlist) => (
               <li key={playlist._id}>
                 <button onClick={() => handleAddToPlaylist(playlist._id)}>
