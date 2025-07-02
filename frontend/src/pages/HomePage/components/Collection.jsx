@@ -79,12 +79,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const detailPath = `/${type}/${collection._id}`;
 
   return (
-    <section className="carousel">
-      <div className="carousel__header">
-        <h2 className="carousel__title">
-          One {type === "album" ? "Album" : "Playlist"}
-        </h2>
-      </div>
+      
 
       <Link
         to={detailPath}
@@ -153,7 +148,6 @@ const Collection = ({ collectionId, type = "album" }) => {
           </div>
         </div>
       </Link>
-    </section>
 ); };
 
 Collection.propTypes = {

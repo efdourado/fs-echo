@@ -41,6 +41,10 @@ const Home = () => {
           setFeaturedPlaylistId(playlistsData[0]._id);
         }
 
+        if (albumsData.length > 0) {
+          setFeaturedAlbumId(albumsData[0]._id);
+        }
+
         if (songsData.length > 0) {
           const mainHighlightSong = songsData[0];
           
@@ -95,7 +99,7 @@ const Home = () => {
           />
 
           <Carousel
-            title="Playlists"
+            title="Recommended Playlists"
             items={playlists}
             type="playlist"
           />
@@ -112,16 +116,25 @@ const Home = () => {
         
 
           <Carousel
-            title="Artists"
+            title="Selected Artists"
             items={artists}
             type="artist"
           />
 
           <Carousel
-            title="Albums & Singles"
+            title="Popular Albums & Singles"
             items={albums}
             type="album"
           />
+
+          <div className="home-featured-collection">
+            {featuredAlbumId && (
+              <Collection
+                collectionId={featuredAlbumId}
+                type="album"
+              />
+            )}
+          </div>
         </>
       )}
     </div>
