@@ -28,6 +28,8 @@
   --color-border: hsl(210, 7%, 20%);
   --color-border-subtle: hsl(210, 7%, 12%);
 
+  --color-carousel-fade: hsla(0, 0%, 5.5%, 0.6);
+
   --color-error: #b03e3e;
   --color-error-hover: #c0392b;
   --color-success: #54ecc4;
@@ -130,6 +132,8 @@ body.light-mode {
 
   --color-border: hsl(220, 15%, 88%);
   --color-border-subtle: hsl(220, 15%, 94%);
+
+  --color-carousel-fade: hsla(0, 0%, 98%, 0.6);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);

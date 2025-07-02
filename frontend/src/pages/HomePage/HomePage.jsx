@@ -8,6 +8,8 @@ import Collection from "./components/Collection.jsx";
 import Hero from "../../components/ui/Hero.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
 
+import { useAuth } from "../../context/AuthContext.jsx";
+
 const Home = () => {
   const [songs, setSongs] = useState([]);
   const [singles, setSingles] = useState([]);
@@ -18,6 +20,7 @@ const Home = () => {
   const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
   const [featuredPlaylistId, setFeaturedPlaylistId] = useState(null);
   const [heroHighlight, setHeroHighlight] = useState(null);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const loadData = async () => {
@@ -42,7 +45,7 @@ const Home = () => {
         }
 
         if (albumsData.length > 0) {
-          setFeaturedAlbumId(albumsData[0]._id);
+          setFeaturedAlbumId(albumsData[3]._id);
         }
 
         if (songsData.length > 0) {
@@ -87,7 +90,7 @@ const Home = () => {
       {loading || !heroHighlight ? ( <LoadingSpinner /> ) : (
         <>
           <Hero
-            title="Join Us in your Echoes"
+            title={isAuthenticated ? "You're home" : "Join Us in your Echoes"}
             subtitle="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
             highlight={heroHighlight}
             talents={artists.slice(0, 4)}

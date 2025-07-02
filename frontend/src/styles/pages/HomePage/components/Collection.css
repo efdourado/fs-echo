@@ -173,11 +173,6 @@
     gap: var(--spacing-lg);
   }
 
-  .collection-view__info-panel {
-    flex-direction: column;
-    text-align: center;
-  }
-
   .collection-view__tracks-panel {
     max-height: none;
     margin-left: 0;
