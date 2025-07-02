@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../ui/Modal';
 import { updatePlaylist } from '../../api/adminApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated }) => {
+const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [coverImage, setCoverImage] = useState('');
@@ -35,7 +37,8 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated }) => 
       setError(err.response?.data?.message || 'Failed to update playlist.');
     } finally {
       setLoading(false);
-  } };
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -75,18 +78,30 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated }) => 
             placeholder=" "
           />
         </div>
-        <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button">
-          {loading ? 'Saving...' : 'Save Changes'}
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
+            <button
+                type="button"
+                onClick={onDelete}
+                className="admin-action-button delete"
+                aria-label="Delete Playlist"
+            >
+                <FontAwesomeIcon icon={faTrash} />
+            </button>
+            <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button" style={{width: 'auto'}}>
+                {loading ? 'Saving...' : 'Save Changes'}
+            </button>
+        </div>
       </form>
     </Modal>
-); };
+  );
+};
 
 EditPlaylistModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   playlist: PropTypes.object,
   onPlaylistUpdated: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default EditPlaylistModal;

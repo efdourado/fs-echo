@@ -186,7 +186,12 @@ const CollectionPage = ({ type }) => {
 
             {stats && (
               <div className="collection-page__stats">
-                {stats.map((stat) => `${stat.value} ${stat.label}`).join(' • ')}
+                {stats.map((stat, index) => (
+                  <React.Fragment key={index}>
+                    {`${stat.value} ${stat.label}`}
+                    {index < stats.length - 1 && <span className="stat-separator" style={{margin: '0 8px'}}> • </span>}
+                  </React.Fragment>
+                ))}  
               </div>
             )}
 
@@ -206,16 +211,11 @@ const CollectionPage = ({ type }) => {
               {isOwner && (
                 <>
                   <button
-                    className="action-btn play"
+                    className="action-btn menu"
+                    style={{backgroundColor: 'transparent'}}
                     onClick={() => setEditModalOpen(true)}
                   >
                     <FontAwesomeIcon icon={faEllipsis} />
-                  </button>
-                  <button
-                    className="action-button error"
-                    onClick={handleDelete}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </>
               )}
@@ -258,6 +258,7 @@ const CollectionPage = ({ type }) => {
           onClose={() => setEditModalOpen(false)}
           playlist={rawData}
           onPlaylistUpdated={handlePlaylistUpdated}
+          onDelete={handleDelete} 
         />
       )}
     </>
