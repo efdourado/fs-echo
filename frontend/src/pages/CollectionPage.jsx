@@ -25,7 +25,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import SongList from "../components/songs/SongList";
 import Card from "../components/ui/Card";
 import EditPlaylistModal from "../components/playlists/EditPlaylistModal";
-import fallbackImage from "/fb.jpeg";
+import fallbackImage from "/fb.svg";
 
 const fetchers = {
   artist: api.fetchArtistById,
@@ -192,7 +192,7 @@ const CollectionPage = ({ type }) => {
             </div>
             <h1 className="collection-page__title">{title}</h1>
             <p className="collection-page__description">{description}</p>
-            
+
             {stats && (
               <div className="collection-page__stats">
                 {stats.map((stat) => `${stat.value} ${stat.label}`).join(" • ")}

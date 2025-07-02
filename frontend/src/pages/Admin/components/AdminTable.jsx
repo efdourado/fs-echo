@@ -2,7 +2,7 @@ import React from "react";
 
 import { formatDuration } from "../../../utils/duration";
 
-import fallbackImage from "/fb.jpeg";
+import fallbackImage from "/fb.svg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

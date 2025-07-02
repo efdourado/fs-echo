@@ -6,7 +6,7 @@ import {
   faChevronDown, faRightFromBracket, faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
-import fallbackImage from '/fb.jpeg';
+import fallbackImage from '/fb.svg';
 
 const Header = ({ toggleSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);

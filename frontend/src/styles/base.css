@@ -1,5 +1,5 @@
 :root {
-  --color-primary-accent: #946b2d; /* options: 3b82f6; 946b2d */
+  --color-primary-accent: #946b2d;
   --color-primary-accent-hover: #6699cc;
   --color-primary-accent-h: 227;
   --color-primary-accent-s: 60%;
@@ -118,32 +118,32 @@
 }
 
 body.light-mode {
-  --color-background: var(--color-white);
-  --color-surface: hsl(220, 25%, 96%);
-  --color-surface-hover: hsl(220, 25%, 92%);
+  --color-background: hsl(210, 30%, 12%);
+  --color-surface: hsl(210, 30%, 15%);
+  --color-surface-hover: hsl(210, 30%, 20%);
 
-  --color-text-primary: var(--color-almost-black);
-  --color-text-secondary: var(--color-dark-grey);
-  --color-text-tertiary: var(--color-greyple);
-  --color-text-disabled: hsl(206, 10%, 75%);
+  --color-text-primary: hsl(210, 15%, 95%);
+  --color-text-secondary: hsl(210, 15%, 65%);
+  --color-text-tertiary: hsl(210, 15%, 50%);
+  --color-text-disabled: hsl(210, 15%, 40%);
 
   --color-text-on-surface: var(--color-text-primary);
 
-  --color-border: hsl(220, 15%, 88%);
-  --color-border-subtle: hsl(220, 15%, 94%);
+  --color-border: hsl(210, 30%, 22%);
+  --color-border-subtle: hsl(210, 30%, 18%);
 
-  --color-carousel-fade: hsla(0, 0%, 98%, 0.6);
+  --color-carousel-fade: hsla(210, 30%, 12%, 0.6);
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.05);
-  --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.04);
-  --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.08);
+  --shadow-xs: 0 1px 2px hsla(0, 0%, 0%, 0.1);
+  --shadow-sm: 0 2px 4px hsla(0, 0%, 0%, 0.15);
+  --shadow-md: 0 4px 8px hsla(0, 0%, 0%, 0.15);
+  --shadow-lg: 0 8px 16px hsla(0, 0%, 0%, 0.2);
+  --shadow-xl: 0 12px 24px hsla(0, 0%, 0%, 0.2);
+  --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.1);
+  --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.15);
 
-  --hero-gradient-start: hsla(0, 0%, 8%, 0.9);
-  --hero-gradient-end: hsla(0, 0%, 26%, 0.6);
+  --hero-gradient-start: hsla(210, 30%, 8%, 0.9);
+  --hero-gradient-end: hsla(210, 30%, 10%, 0.6);
 }
 
 *, *::before, *::after {
