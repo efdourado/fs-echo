@@ -10,22 +10,25 @@ import {
   faHeart as faSolidHeart,
   faPen,
   faTrash,
+  faEllipsis,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 
+import fallbackImage from "/fb.jpg";
+
 import * as api from "../api/api";
 import { deletePlaylist, removeSongFromPlaylist } from "../api/adminApi";
-import { normalizeDataForPage } from "../utils/syncer";
 
-import { usePlayer } from "../hooks/usePlayer";
 import { useAuth } from "../context/AuthContext";
 import { useSongMenu } from "../context/SongMenuContext";
+import { usePlayer } from "../hooks/usePlayer";
 
-import LoadingSpinner from "../components/ui/LoadingSpinner";
 import SongList from "../components/songs/SongList";
-import Card from "../components/ui/Card";
 import EditPlaylistModal from "../components/playlists/EditPlaylistModal";
-import fallbackImage from "/fb.svg";
+import Card from "../components/ui/Card";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+
+import { normalizeDataForPage } from "../utils/syncer";
 
 const fetchers = {
   artist: api.fetchArtistById,
@@ -73,8 +76,7 @@ const CollectionPage = ({ type }) => {
       console.error(`Failed to load ${type} data:`, err);
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   useEffect(() => {
     if (id && type) {
@@ -96,9 +98,7 @@ const CollectionPage = ({ type }) => {
       } catch (err) {
         setError("Failed to delete playlist.");
         console.error("Failed to delete playlist:", err);
-      }
-    }
-  };
+  } } };
 
   const handlePlaylistUpdated = (updatedPlaylistData) => {
     const updatedRawData = { ...rawData, ...updatedPlaylistData };
@@ -113,8 +113,7 @@ const CollectionPage = ({ type }) => {
     } catch (error) {
       console.error("Failed to remove song:", error);
       setError("Failed to remove song from playlist.");
-    }
-  };
+  } };
 
   const handleOpenMenuForSong = (song) => {
     const menuContext = isOwner
@@ -158,9 +157,7 @@ const CollectionPage = ({ type }) => {
         togglePlayPause();
       } else if (mainContent?.items?.length > 0) {
         startPlayback(mainContent.items, { type: `${type}-main`, id });
-      }
-    }
-  };
+  } } };
 
   return (
     <>
@@ -183,19 +180,13 @@ const CollectionPage = ({ type }) => {
 
         <main className="collection-page__right-column">
           <div className="collection-page__metadata">
-            <div className="collection-page__image-container">
-              <img
-                src={primaryImage || fallbackImage}
-                alt={title}
-                className="collection-page__image"
-              />
-            </div>
+        
             <h1 className="collection-page__title">{title}</h1>
             <p className="collection-page__description">{description}</p>
 
             {stats && (
               <div className="collection-page__stats">
-                {stats.map((stat) => `${stat.value} ${stat.label}`).join(" • ")}
+                {stats.map((stat) => `${stat.value} ${stat.label}`).join(' • ')}
               </div>
             )}
 
@@ -208,33 +199,23 @@ const CollectionPage = ({ type }) => {
                   icon={isMainContentPlaying && isPlaying ? faPause : faPlay}
                 />
                 <span>
-                  {isMainContentPlaying && isPlaying ? "Pause" : "Play"}
+                  {isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}
                 </span>
               </button>
-              <button
-                className="action-button secondary"
-                onClick={() => setIsFollowing(!isFollowing)}
-              >
-                <FontAwesomeIcon
-                  icon={isFollowing ? faSolidHeart : faRegularHeart}
-                />
-                <span>{isFollowing ? "Following" : "Follow"}</span>
-              </button>
+             
               {isOwner && (
                 <>
                   <button
-                    className="action-button secondary"
+                    className="action-btn play"
                     onClick={() => setEditModalOpen(true)}
                   >
-                    <FontAwesomeIcon icon={faPen} />
-                    <span>Edit</span>
+                    <FontAwesomeIcon icon={faEllipsis} />
                   </button>
                   <button
                     className="action-button error"
                     onClick={handleDelete}
                   >
                     <FontAwesomeIcon icon={faTrash} />
-                    <span>Delete</span>
                   </button>
                 </>
               )}
@@ -280,8 +261,7 @@ const CollectionPage = ({ type }) => {
         />
       )}
     </>
-  );
-};
+); };
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(["artist", "album", "playlist", "song"]).isRequired,

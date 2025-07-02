@@ -44,7 +44,7 @@ export const normalizeDataForPage = (type, data) => {
         backgroundImage: data.coverImage,
         
         mainContent: {
-          title: 'Tracklist',
+          title: 'Songs',
           type: 'songs',
           items: data.songs || [],
         },
@@ -52,8 +52,8 @@ export const normalizeDataForPage = (type, data) => {
         subContent: null,
 
         stats: [
-          { label: 'Songs', value: data.songs?.length || 0 },
           { label: 'Released', value: new Date(data.releaseDate).getFullYear() },
+          { label: 'Songs', value: data.songs?.length || 0 },
         ],
         isVerified: data.artist?.verified,
       };
@@ -67,7 +67,7 @@ export const normalizeDataForPage = (type, data) => {
         backgroundImage: data.coverImage,
         
         mainContent: {
-          title: 'Tracklist',
+          title: 'Songs',
           type: 'songs',
 
           items: data.songs ? data.songs.map(item => item.song).filter(Boolean) : [],
@@ -75,8 +75,8 @@ export const normalizeDataForPage = (type, data) => {
         subContent: null,
 
         stats: [
+          { value: 'Created by', label: data.owner?.username || 'Anonymous' },
           { label: 'Songs', value: data.songs?.length || 0 },
-          { label: 'Created by', value: data.owner?.username || 'Anonymous' },
         ],
         isVerified: false,
       };

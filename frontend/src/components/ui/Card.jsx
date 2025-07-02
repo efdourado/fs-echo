@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import fallbackImage from '/fb.svg';
+import fallbackImage from '/fb.jpg';
 
 const Card = ({ item, type }) => {
   const {

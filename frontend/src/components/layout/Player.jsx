@@ -10,7 +10,7 @@ import {
 
 import { PlayerContext } from '../../context/PlayerContext';
 import { formatDuration } from '../../utils/duration';
-import fallbackImage from '/fb.svg';
+import fallbackImage from '/fb.jpg';
 
 const Player = ({ isSidebarOpen }) => {
   const {

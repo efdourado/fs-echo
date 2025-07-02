@@ -197,10 +197,12 @@
   grid-column: 1 / 2;
   display: flex;
   align-items: center;
-  justify-content: center;
   color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-  padding-right: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  padding-right: var(--spacing-md);
+
+  width: 2em;
+  justify-content: flex-end;
 }
 
 .song-item.has-number .song-item__track {

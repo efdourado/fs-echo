@@ -6,7 +6,7 @@ import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import { useSongMenu } from "../../context/SongMenuContext";
 import { usePlayer } from "../../hooks/usePlayer";
-import fallbackImage from '/fb.svg';
+import fallbackImage from '/fb.jpg';
 
 const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
   const player = usePlayer();

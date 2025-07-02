@@ -12,7 +12,7 @@ import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 
 import { usePlayer } from "../../../hooks/usePlayer";
 
-import fallbackImage from "/fb.svg";
+import fallbackImage from "/fb.jpg";
 
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,8 @@ const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } =
+    usePlayer();
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -47,8 +48,7 @@ const Collection = ({ collectionId, type = "album" }) => {
 
     if (collectionId) {
       loadCollectionData();
-    }
-  }, [collectionId, type]);
+  } }, [collectionId, type]);
 
   const isCollectionCurrentlyPlaying =
     playContext?.type === type && playContext?.id === collectionId && isPlaying;
@@ -79,75 +79,70 @@ const Collection = ({ collectionId, type = "album" }) => {
   const detailPath = `/${type}/${collection._id}`;
 
   return (
-      
-
-      <Link
-        to={detailPath}
-        style={{ textDecoration: "none", color: "inherit" }}
+    <Link to={detailPath} style={{ textDecoration: "none", color: "inherit" }}>
+      <div
+        className={`collection-view__content ${
+          isCollectionCurrentlyPlaying ? "is-playing" : ""
+        }`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        <div
-          className={`collection-view__content ${
-            isCollectionCurrentlyPlaying ? "is-playing" : ""
-          }`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="collection-view__info-panel">
-            <div className="collection-view__cover-art">
-              <img src={coverImageUrl} alt={collectionName} />
-            </div>
-
-            <div className="collection-view__details">
-              <h1 className="collection-view__title">
-                {collectionName}
-                {isCollectionCurrentlyPlaying && <SoundWave />}
-              </h1>
-              <p className="collection-view__owner">By {ownerName}</p>
-              <div className="collection-view__meta">
-                {type === "album" && collection.releaseDate && (
-                  <span>{new Date(collection.releaseDate).getFullYear()}</span>
-                )}
-                {songs.length > 0 && <span className="meta-divider">•</span>}
-                {songs.length > 0 && <span>{songs.length} songs</span>}
-              </div>
-              {collection.description && (
-                <p className="collection-view__description">
-                  {collection.description}
-                </p>
-              )}
-
-              <div
-                className={`collection-view__actions ${
-                  isHovered || isCollectionCurrentlyPlaying ? "visible" : ""
-                }`}
-              >
-                 <button className="action-btn menu" aria-label="More options">
-                  <FontAwesomeIcon icon={faEllipsis} />
-                </button>
-
-                <button
-                  className="action-btn play"
-                  onClick={handlePlayCollection}
-                  aria-label={`Play ${collectionName}`}
-                >
-                  <FontAwesomeIcon
-                    icon={isCollectionCurrentlyPlaying ? faPause : faPlay}
-                  />
-                </button>
-              </div>
-            </div>
+        <div className="collection-view__info-panel">
+          <div className="collection-view__cover-art">
+            <img src={coverImageUrl} alt={collectionName} />
           </div>
 
-          <div className="collection-view__tracks-panel">
-            <SongList
-              songs={songs}
-              showHeader={false}
-              displayAll={true}
-              showNumber={true}
-            />
+          <div className="collection-view__details">
+            <h1 className="collection-view__title">
+              {collectionName}
+              {isCollectionCurrentlyPlaying && <SoundWave />}
+            </h1>
+            <p className="collection-view__owner">By {ownerName}</p>
+            <div className="collection-view__meta">
+              {type === "album" && collection.releaseDate && (
+                <span>{new Date(collection.releaseDate).getFullYear()}</span>
+              )}
+              {songs.length > 0 && <span className="meta-divider">•</span>}
+              {songs.length > 0 && <span>{songs.length} songs</span>}
+            </div>
+            {collection.description && (
+              <p className="collection-view__description">
+                {collection.description}
+              </p>
+            )}
+
+            <div
+              className={`collection-view__actions ${
+                isHovered || isCollectionCurrentlyPlaying ? "visible" : ""
+              }`}
+            >
+              <button className="action-btn menu" aria-label="More options">
+                <FontAwesomeIcon icon={faEllipsis} />
+              </button>
+
+              <button
+                className="action-btn play"
+                onClick={handlePlayCollection}
+                aria-label={`Play ${collectionName}`}
+              >
+                <FontAwesomeIcon
+                  icon={isCollectionCurrentlyPlaying ? faPause : faPlay}
+                />
+              </button>
+            </div>
           </div>
         </div>
-      </Link>
+
+        <div className="collection-view__tracks-panel">
+          <SongList
+            songs={songs}
+            showHeader={false}
+            displayAll={true}
+            showNumber={true}
+          />
+        </div>
+      </div>
+    </Link>
 ); };
 
 Collection.propTypes = {

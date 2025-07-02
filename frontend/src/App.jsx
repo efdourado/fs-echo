@@ -70,7 +70,7 @@ const App = () => {
 
           <div className={`content-pusher ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Header toggleSidebar={toggleSidebar} />
-            <main style={{ flex: 1, paddingTop: '72px' }}>
+            <main style={{ flex: 1 }}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginPage />} />
