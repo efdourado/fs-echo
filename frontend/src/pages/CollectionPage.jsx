@@ -73,7 +73,8 @@ const CollectionPage = ({ type }) => {
       console.error(`Failed to load ${type} data:`, err);
     } finally {
       setLoading(false);
-  } };
+    }
+  };
 
   useEffect(() => {
     if (id && type) {
@@ -95,7 +96,9 @@ const CollectionPage = ({ type }) => {
       } catch (err) {
         setError("Failed to delete playlist.");
         console.error("Failed to delete playlist:", err);
-  } } };
+      }
+    }
+  };
 
   const handlePlaylistUpdated = (updatedPlaylistData) => {
     const updatedRawData = { ...rawData, ...updatedPlaylistData };
@@ -110,7 +113,8 @@ const CollectionPage = ({ type }) => {
     } catch (error) {
       console.error("Failed to remove song:", error);
       setError("Failed to remove song from playlist.");
-  } };
+    }
+  };
 
   const handleOpenMenuForSong = (song) => {
     const menuContext = isOwner
@@ -154,7 +158,9 @@ const CollectionPage = ({ type }) => {
         togglePlayPause();
       } else if (mainContent?.items?.length > 0) {
         startPlayback(mainContent.items, { type: `${type}-main`, id });
-  } } };
+      }
+    }
+  };
 
   return (
     <>
@@ -165,6 +171,17 @@ const CollectionPage = ({ type }) => {
             backgroundImage: `url(${backgroundImage || fallbackImage})`,
           }}
         >
+          {mainContent && mainContent.type === "lyrics" && (
+            <section className="entity-content-section">
+              <h2 className="entity-content-section__title">
+                {mainContent.title}
+              </h2>
+              <pre className="lyrics-text">{mainContent.items}</pre>
+            </section>
+          )}
+        </aside>
+
+        <main className="collection-page__right-column">
           <div className="collection-page__metadata">
             <div className="collection-page__image-container">
               <img
@@ -173,18 +190,14 @@ const CollectionPage = ({ type }) => {
                 className="collection-page__image"
               />
             </div>
-            {isVerified && (
-              <p className="collection-page__verified-badge">
-                <FontAwesomeIcon icon={faCheckDouble} /> Verified {pageType}
-              </p>
-            )}
             <h1 className="collection-page__title">{title}</h1>
+            <p className="collection-page__description">{description}</p>
+            
             {stats && (
               <div className="collection-page__stats">
                 {stats.map((stat) => `${stat.value} ${stat.label}`).join(" • ")}
               </div>
             )}
-            <p className="collection-page__description">{description}</p>
 
             <div className="collection-page__actions">
               <button
@@ -227,9 +240,6 @@ const CollectionPage = ({ type }) => {
               )}
             </div>
           </div>
-        </aside>
-
-        <main className="collection-page__right-column">
           {mainContent && mainContent.type === "songs" && (
             <section className="entity-content-section">
               <h2 className="entity-content-section__title">
@@ -243,15 +253,6 @@ const CollectionPage = ({ type }) => {
                 showNumber={true}
                 onMenuClick={handleOpenMenuForSong}
               />
-            </section>
-          )}
-
-          {mainContent && mainContent.type === "lyrics" && (
-            <section className="entity-content-section">
-              <h2 className="entity-content-section__title">
-                {mainContent.title}
-              </h2>
-              <pre className="lyrics-text">{mainContent.items}</pre>
             </section>
           )}
 
@@ -279,7 +280,8 @@ const CollectionPage = ({ type }) => {
         />
       )}
     </>
-); };
+  );
+};
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(["artist", "album", "playlist", "song"]).isRequired,

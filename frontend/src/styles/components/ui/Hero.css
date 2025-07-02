@@ -45,7 +45,7 @@
   color: var(--hero-text-secondary);
   margin: 0;
   padding: var(--spacing-sm) 0;
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   opacity: 0.6;
 }
 
@@ -259,25 +259,8 @@
 }
 
 
-@media (max-width: 1200px) {
-  .hero-content {
-    grid-template-columns: 80px 1fr 300px;
-    gap: var(--spacing-xl);
-  }
-  
-  .hero-feature-section {
-    padding-top: var(--spacing-2xl);
-  }
-  
-  .music-hero .title {
-    font-size: var(--font-size-4xl);
-  }
-  
-  .music-hero .subtitle {
-    font-size: var(--font-size-lg);
-} }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .hero-content {
     grid-template-columns: 1fr;
     padding: var(--spacing-xl) var(--spacing-lg);

@@ -35,12 +35,11 @@
   --color-success: #54ecc4;
   --color-warning: #f39c12;
 
-  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-family-sans: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
+  --font-weight-regular: 500;
   --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-weight-bold: 800;
   --font-weight-black: 900;
 
   --font-size-xxs: 0.625rem;
@@ -201,7 +200,7 @@ img, video, svg {
 
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-sm);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
 }

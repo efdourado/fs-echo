@@ -1,7 +1,7 @@
 .collection-page {
   display: grid;
-  grid-template-columns: 50vw 1fr;
-  height: calc(100vh - var(--header-height) );
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - var(--header-height));
   width: 100%;
   overflow: hidden;
 }
@@ -26,14 +26,22 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to left, var(--color-background) 5%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent 100%);
   z-index: 1;
+}
+
+.collection-page__right-column {
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  background-color: var(--color-background);
 }
 
 .collection-page__metadata {
   position: relative;
   z-index: 2;
   max-width: 500px;
+  margin-bottom: var(--spacing-2xl);
 }
 
 .collection-page__image-container {
@@ -54,7 +62,7 @@
 
 .collection-page__verified-badge {
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
@@ -90,7 +98,7 @@
 .action-button {
   border-radius: var(--border-radius-full);
   padding: var(--spacing-sm) var(--spacing-xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -113,14 +121,6 @@
 }
 .action-button.secondary:hover {
   background-color: hsla(0,0%,100%,0.2);
-}
-
-/* --- Painel da Direita (Conteúdo Rolável) --- */
-.collection-page__right-column {
-  height: 100%;
-  overflow-y: auto;
-  padding: var(--spacing-xl);
-  background-color: var(--color-background);
 }
 
 .entity-content-section {
@@ -149,12 +149,11 @@
     color: var(--color-text-secondary);
 }
 
-/* --- Design Responsivo --- */
 @media (max-width: 992px) {
   .collection-page {
-    grid-template-columns: 1fr; /* Colunas empilhadas em telas menores */
+    grid-template-columns: 1fr;
     height: auto;
-    overflow-y: auto; /* Página inteira rola */
+    overflow-y: auto;
   }
 
   .collection-page__left-column {
@@ -164,7 +163,7 @@
 
   .collection-page__right-column {
     height: auto;
-    overflow-y: visible; /* Desativa a rolagem interna */
+    overflow-y: visible;
   }
 }
 

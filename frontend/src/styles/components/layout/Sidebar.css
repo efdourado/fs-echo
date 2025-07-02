@@ -60,7 +60,7 @@
   padding: 0 var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
   font-size: var(--font-size-xxs);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -79,7 +79,7 @@
   color: var(--color-text-secondary);
   text-decoration: none;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-light);
   transition: background-color 0.25s ease-out, color 0.25s ease-out;
   border-radius: var(--border-radius-md);
   position: relative;

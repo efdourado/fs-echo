@@ -48,6 +48,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  font-weight: var(--font-weight-light);
 }
 
 
@@ -186,3 +187,7 @@
   .collection-view__owner {
     font-size: var(--font-size-sm);
 } }
+
+
+
+

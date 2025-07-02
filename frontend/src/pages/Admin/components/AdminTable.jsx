@@ -81,7 +81,7 @@ const tableConfig = {
                 e.target.src = fallbackImage;
               }}
             />
-            <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.name}</div>
+            <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.name}</div>
           </div>
         </td>
         <td data-label="Description">
@@ -120,7 +120,7 @@ const tableConfig = {
                 className="admin-table-image"
               />
               <div>
-                <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.title}</div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
                 <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {item.artist?.name || "N/A"}
                   {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
@@ -159,7 +159,7 @@ const tableConfig = {
               className="admin-table-image"
             />
             <div>
-              <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.title}</div>
+              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
               <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 {item.artist?.name || "N/A"}
                 {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
@@ -194,7 +194,7 @@ const tableConfig = {
               className="admin-table-image"
             />
             <div>
-              <div style={{ fontWeight: 'var(--font-weight-bold)' }}>{item.username}</div>
+              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.username}</div>
               <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
                 {item.email}
               </div>

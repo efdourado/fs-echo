@@ -18,7 +18,7 @@
 
 .coming-soon-title {
   font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-black);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-md);
 }

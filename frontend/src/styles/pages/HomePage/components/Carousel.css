@@ -31,7 +31,7 @@
   background: linear-gradient(to right, transparent 30%, var(--color-carousel-fade) 100%);
   z-index: 2;
   pointer-events: none;
-  transition: opacity 0.6s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
   opacity: 1;
 }
 

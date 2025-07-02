@@ -50,7 +50,7 @@
 
 .bias-card__title {
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-regular);
   color: #fff;
   margin: 0;
   white-space: nowrap;
@@ -65,7 +65,7 @@
 .bias-card__subtitle {
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.7);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-light);
   margin: 4px 0 0;
   white-space: nowrap;
   overflow: hidden;

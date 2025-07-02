@@ -36,7 +36,7 @@
 
 .auth-container h2 {
   font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-black);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-xs);
 }
@@ -129,7 +129,7 @@
   left: var(--spacing-md);
   top: var(--spacing-md);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-tertiary);
 
   transition: all 0.2s ease;
