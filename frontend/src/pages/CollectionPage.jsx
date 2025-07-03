@@ -4,15 +4,10 @@ import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCheckDouble,
   faPlay,
   faPause,
-  faHeart as faSolidHeart,
-  faPen,
-  faTrash,
-  faEllipsis,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 
 import fallbackImage from "/fb.jpg";
 
@@ -48,7 +43,6 @@ const CollectionPage = ({ type }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [isFollowing, setIsFollowing] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } =
     usePlayer();
@@ -211,11 +205,13 @@ const CollectionPage = ({ type }) => {
               {isOwner && (
                 <>
                   <button
-                    className="action-btn menu"
-                    style={{backgroundColor: 'transparent'}}
+                    className="action-button primary"
                     onClick={() => setEditModalOpen(true)}
                   >
-                    <FontAwesomeIcon icon={faEllipsis} />
+                    <FontAwesomeIcon icon={faEdit} />
+                    <span>
+                      Edit or Delete
+                    </span>
                   </button>
                 </>
               )}

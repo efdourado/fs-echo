@@ -120,7 +120,7 @@ const Header = ({ toggleSidebar }) => {
               onClick={toggleDarkMode}
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
-              <FontAwesomeIcon icon={darkMode ? faMoon : faSun} className="btn-icon-graphic" />
+              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="btn-icon-graphic" />
             </button>
           </div>
         </div>
@@ -206,7 +206,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={toggleDarkMode}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            <FontAwesomeIcon icon={darkMode ? faMoon : faSun} className="btn-icon-graphic" />
+            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="btn-icon-graphic" />
           </button>
 
           {isAuthenticated && currentUser ? (
