@@ -41,16 +41,16 @@ const Home = () => {
         ]);
 
         if (isAuthenticated) {
-          const spotifyPlaylistsResponse = await fetchSpotifyFeaturedPlaylists();
-
-          finalPlaylists = spotifyPlaylistsResponse.data.map((p) => ({
-            _id: p.id,
-            name: p.name,
-            description: p.description,
-            coverImage: p.images[0]?.url,
-            type: "playlist",
-            owner: { username: p.owner.display_name },
-          }));
+            const spotifyPlaylistsResponse = await fetchSpotifyFeaturedPlaylists();
+            
+            finalPlaylists = spotifyPlaylistsResponse.data.items.map((p) => ({
+              _id: p.id,
+              name: p.name,
+              description: p.description,
+              coverImage: p.images[0]?.url,
+              type: "playlist",
+              owner: { username: p.owner.display_name },
+            }));
         } else {
           finalPlaylists = await fetchPlaylists();
         }
