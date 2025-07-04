@@ -41,6 +41,7 @@ const CollectionPage = ({ type }) => {
   const [normalizedData, setNormalizedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false); // Add this line
 
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } =
@@ -163,7 +164,24 @@ const CollectionPage = ({ type }) => {
         >
           <div className="collection-page__metadata">
             <h1 className="collection-page__title">{title}</h1>
-            <p className="collection-page__description">{description}</p>
+            
+            <div className="description-container">
+              <p className="collection-page__description">
+                {isDescriptionExpanded || (description && description.length <= 120)
+                  ? description
+                  : `${description.substring(0, 120)}`}
+                {!isDescriptionExpanded && description && description.length > 120 && (
+                  <button onClick={() => setIsDescriptionExpanded(true)} className="read-more-button">
+                    ... Read more
+                  </button>
+                )}
+              </p>
+              {isDescriptionExpanded && description && description.length > 120 && (
+                <button onClick={() => setIsDescriptionExpanded(false)} className="read-more-button read-less">
+                  Read less
+                </button>
+              )}
+            </div>
 
             {stats && (
               <div className="collection-page__stats">
@@ -172,7 +190,7 @@ const CollectionPage = ({ type }) => {
                     {`${stat.value} ${stat.label}`}
                     {index < stats.length - 1 && <span className="stat-separator" style={{margin: '0 8px'}}> • </span>}
                   </React.Fragment>
-                ))}  
+                ))}
               </div>
             )}
 
@@ -188,7 +206,7 @@ const CollectionPage = ({ type }) => {
                   {isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}
                 </span>
               </button>
-             
+
               {isOwner && (
                 <>
                   <button
@@ -215,7 +233,7 @@ const CollectionPage = ({ type }) => {
                   {mainContent.title}
                 </h2>
               </div>
-              
+
               <SongList
                 songs={mainContent.items}
                 showHeader={false}
@@ -233,7 +251,7 @@ const CollectionPage = ({ type }) => {
                   {subContent.title}
                 </h2>
               </div>
-              
+
               <div className="playlists-grid playlist-card-container">
                 {subContent.items.map((album) => (
                   <Card key={album._id} item={album} type="album" />
@@ -250,7 +268,7 @@ const CollectionPage = ({ type }) => {
           onClose={() => setEditModalOpen(false)}
           playlist={rawData}
           onPlaylistUpdated={handlePlaylistUpdated}
-          onDelete={handleDelete} 
+          onDelete={handleDelete}
         />
       )}
     </>
