@@ -34,7 +34,7 @@ const Song = mongoose.model("Song", songSchema);
 
 export class SongModel {
   async findAll() {
-    return await Song.find().populate('artist');
+    return await Song.find().populate('artist').populate('album');
   }
 
   async findById(id) {

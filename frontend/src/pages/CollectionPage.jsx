@@ -29,7 +29,6 @@ const fetchers = {
   artist: api.fetchArtistById,
   album: api.fetchAlbumById,
   playlist: api.fetchPlaylistById,
-  song: api.fetchSongById,
 };
 
 const CollectionPage = ({ type }) => {
@@ -261,7 +260,7 @@ const CollectionPage = ({ type }) => {
 ); };
 
 CollectionPage.propTypes = {
-  type: PropTypes.oneOf(["artist", "album", "playlist", "song"]).isRequired,
+  type: PropTypes.oneOf(["artist", "album", "playlist"]).isRequired,
 };
 
 export default CollectionPage;

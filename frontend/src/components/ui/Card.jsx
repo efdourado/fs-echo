@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+
 import fallbackImage from '/fb.jpg';
 
 const Card = ({ item, type }) => {
@@ -15,12 +14,13 @@ const Card = ({ item, type }) => {
     image,
     artist,
     owner,
+    album,
   } = item;
   
   const isArtist = type === 'artist';
   const displayTitle = title || name;
   const imageUrl = coverImage || image || fallbackImage;
-  const detailPath = `/${type}/${_id}`;
+  const detailPath = type === 'song' && album?._id ? `/album/${album._id}` : `/${type}/${_id}`;
 
   let subtitle = '';
   switch (type) {

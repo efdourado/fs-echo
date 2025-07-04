@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,16 +9,13 @@ import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
 
 import SongList from "../../../components/songs/SongList";
-
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import SoundWave from "../../../components/ui/SoundWave";
 
+import { useSongMenu } from "../../../context/SongMenuContext";
 import { usePlayer } from "../../../hooks/usePlayer";
 
 import fallbackImage from "/fb.jpg";
-
-import { Link } from "react-router-dom";
-
-import SoundWave from "../../../components/ui/SoundWave";
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
@@ -25,6 +24,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const { startPlayback, playContext, isPlaying, togglePlayPause } =
     usePlayer();
   const [isHovered, setIsHovered] = useState(false);
+  const { openMenu } = useSongMenu();
 
   useEffect(() => {
     const loadCollectionData = async () => {
@@ -68,6 +68,10 @@ const Collection = ({ collectionId, type = "album" }) => {
     } else if (songs && songs.length > 0) {
       startPlayback(songs, { type, id: collectionId });
   } };
+
+  const handleMenuClick = (song) => {
+    openMenu(song);
+  };
 
   const collectionName =
     type === "playlist" ? collection.name : collection.title;
@@ -139,6 +143,7 @@ const Collection = ({ collectionId, type = "album" }) => {
             showHeader={false}
             displayAll={true}
             showNumber={true}
+            onMenuClick={handleMenuClick}
           />
         </div>
       </div>

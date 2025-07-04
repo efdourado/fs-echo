@@ -81,7 +81,6 @@ const App = () => {
                 <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
                 <Route path="/artist/:id" element={<CollectionPage type="artist" />} />
-                <Route path="/song/:id" element={<CollectionPage type="song" />} />
                 <Route path="/playlist/:id" element={<CollectionPage type="playlist" />} />
                 <Route path="/album/:id" element={<CollectionPage type="album" />} />
 

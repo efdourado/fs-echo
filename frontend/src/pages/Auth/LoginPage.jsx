@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faSpotify } from '@fortawesome/free-brands-svg-icons';
+import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -53,11 +53,6 @@ const LoginPage = () => {
             </p>
 
             <div className="social-login-container">
-              <button type="button" className="cta-button primary-cta create-btn">
-                <FontAwesomeIcon icon={faGoogle} style={{marginRight:"16px"}} />
-                Continue with Google
-              </button>
-
               <a href="/api/auth/spotify" className="cta-button primary-cta create-btn">
                 <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
                 Continue with Spotify

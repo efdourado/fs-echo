@@ -80,26 +80,6 @@ export const normalizeDataForPage = (type, data) => {
         ],
         isVerified: false,
       };
-      
-    case 'song':
-      return {
-        pageType: 'Song',
-        title: data.title,
-        description: `From the album ${data.album?.title || 'Single'}`,
-        primaryImage: data.coverImage,
-        backgroundImage: data.coverImage || data.artist?.image,
-        mainContent: {
-          title: 'Lyrics',
-          type: 'lyrics',
-          items: data.lyrics,
-        },
-        subContent: null,
-        stats: [
-          { label: 'Plays', value: formatNumber(data.plays) },
-          { label: 'Released', value: new Date(data.releaseDate).getFullYear() },
-        ],
-        isVerified: data.artist?.verified,
-      };
 
     default:
       return null;

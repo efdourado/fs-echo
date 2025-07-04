@@ -27,7 +27,7 @@ const Bias = ({ item, type }) => {
   const isSong = type === 'song';
   const title = item.title || item.name;
   const imageUrl = item.coverImage || item.image || fallbackImage;
-  const detailPath = `/${type}/${item._id}`;
+  const detailPath = isSong && item.album?._id ? `/album/${item.album._id}` : `/${type}/${item._id}`;
 
   const getIsPlaying = () => {
     if (!player.isPlaying) return false;
