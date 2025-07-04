@@ -23,6 +23,8 @@ import CollectionPage from './pages/CollectionPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import LibraryPage from './pages/LibraryPage';
 
+import AuthCallbackPage from './pages/Auth/AuthCallbackPage';
+
 
 const UserProfilePage = () => {
   const { currentUser } = useAuth();
@@ -76,6 +78,8 @@ const App = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 
+                <Route path="/auth/callback" element={<AuthCallbackPage />} />
+
                 <Route path="/artist/:id" element={<CollectionPage type="artist" />} />
                 <Route path="/song/:id" element={<CollectionPage type="song" />} />
                 <Route path="/playlist/:id" element={<CollectionPage type="playlist" />} />
@@ -97,7 +101,7 @@ const App = () => {
                 <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
               </Routes>
             </main>
-            <Footer companyName={'Echo'} />
+            <Footer companyName={'Memphis'} />
             <SongMenu />
           </div>
         </div>

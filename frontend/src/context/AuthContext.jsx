@@ -75,6 +75,13 @@ export const AuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+
+  const loginWithToken = (token) => {
+    localStorage.setItem('authToken', token);
+    setToken(token);
+  };
+
+
   const value = {
     currentUser,
     token,
@@ -84,6 +91,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     loadingAuth: loading,
     updateCurrentUser,
+    loginWithToken,
   };
 
   return (

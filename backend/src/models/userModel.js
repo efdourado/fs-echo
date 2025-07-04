@@ -21,10 +21,16 @@ const userSchema = new mongoose.Schema({
   artistProfile: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist' },
   socials: {
     instagram: { type: String, default: '' },
-} }, { timestamps: true });
+  },
+
+
+  spotifyId: { type: String, unique: true, sparse: true },
+  spotifyAccessToken: { type: String },
+  spotifyRefreshToken: { type: String },
+}, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+  if (!this.isModified('password') || this.password.startsWith('spotify:')) {
     return next();
   }
   this.password = await bcrypt.hash(this.password, 10);
@@ -32,6 +38,7 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.methods.comparePassword = async function (enteredPassword) {
+  if (this.password.startsWith('spotify:')) return false;
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

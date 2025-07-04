@@ -109,7 +109,7 @@ const Header = ({ toggleSidebar }) => {
             <Link to="/" className="header-logo">
               <img src="/echo-logo-grey.png" alt="Echo Logo" className="logo-img" />
               <span className="logo-name">
-                Echo
+                Memphis
               </span>
             </Link>
           </div>
@@ -145,7 +145,7 @@ const Header = ({ toggleSidebar }) => {
           <Link to="/" className="header-logo">
             <img src="/echo-logo-grey.png" alt="Echo Logo" className="logo-img" />
             <span className="logo-name">
-              Echo
+              Memphis
             </span>
           </Link>
         </div>
