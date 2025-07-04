@@ -59,7 +59,7 @@ const RegisterPage = () => {
                 <FontAwesomeIcon icon={faGoogle} style={{marginRight:"16px"}} />
                 Continue with Google
               </button>
-              <a href={`${API_URL}/api/auth/spotify`} className="cta-button primary-cta create-btn">
+              <a href={`${API_URL}/auth/spotify`} className="cta-button primary-cta create-btn">
                 <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
                 Continue with Spotify
               </a>
