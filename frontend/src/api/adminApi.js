@@ -43,4 +43,6 @@ export const fetchUserById = (id) => adminApi.get(`/user/${id}`);
 export const updateUser = (id, userData) => adminApi.put(`/user/${id}`, userData);
 export const deleteUser = (id) => adminApi.delete(`/user/${id}`);
 
+export const fetchSpotifyFeaturedPlaylists = () => adminApi.get('/spotify/featured-playlists');
+
 export default adminApi;

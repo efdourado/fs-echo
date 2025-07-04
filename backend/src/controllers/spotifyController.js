@@ -3,6 +3,8 @@ import querystring from "querystring";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
+import { getSpotifyApi } from '../services/spotifyService.js';
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1h",
@@ -89,4 +91,28 @@ export const spotifyCallback = async (req, res) => {
       error.response ? error.response.data : error.message
     );
     res.redirect("/login?error=spotify_auth_failed");
+} };
+
+
+export const getFeaturedPlaylists = async (req, res) => {
+    try {
+        const { _id, spotifyAccessToken, spotifyRefreshToken } = req.user;
+
+        if (!spotifyAccessToken) {
+            return res.status(400).json({ message: 'User not connected to Spotify.' });
+        }
+
+        const spotifyApi = getSpotifyApi(_id, spotifyAccessToken, spotifyRefreshToken);
+
+        const response = await spotifyApi.get('/browse/featured-playlists', {
+            params: {
+                limit: 20,
+                country: 'BR'
+        } });
+
+        res.json(response.data.playlists.items);
+
+    } catch (error) {
+        console.error('Error fetching featured playlists:', error.response ? error.response.data : error.message);
+        res.status(500).json({ message: 'Failed to fetch featured playlists from Spotify.' });
 } };

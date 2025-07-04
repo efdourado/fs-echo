@@ -18,6 +18,8 @@ import { protect, admin } from '../middlewares/authMiddleware.js';
 
 import { isArtistOwner } from '../middlewares/artistAuthMiddleware.js'; 
 
+import { getFeaturedPlaylists } from '../controllers/spotifyController.js';
+
 const router = express.Router();
 
 await connectToDatabase();
@@ -87,5 +89,7 @@ router.put('/playlist/:id', protect, playlistController.updatePlaylist.bind(play
 router.delete('/playlist/:id', protect, playlistController.deletePlaylist.bind(playlistController));
 router.post('/playlist/:id/song/:songId', protect, playlistController.addSongToPlaylist.bind(playlistController));
 router.delete('/playlist/:id/song/:songId', protect, playlistController.removeSongFromPlaylist.bind(playlistController));
+
+router.get('/spotify/featured-playlists', protect, getFeaturedPlaylists);
 
 export default router;

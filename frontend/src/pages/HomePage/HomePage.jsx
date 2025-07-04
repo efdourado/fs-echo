@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-import { fetchArtists, fetchSongs, fetchAlbums, fetchPlaylists } from "../../api/api.js";
+import {
+  fetchArtists,
+  fetchSongs,
+  fetchAlbums,
+  fetchPlaylists,
+} from "../../api/api.js";
+import { fetchSpotifyFeaturedPlaylists } from "../../api/adminApi.js";
 
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
@@ -24,70 +30,96 @@ const Home = () => {
 
   useEffect(() => {
     const loadData = async () => {
+      setLoading(true);
       try {
-        const [songsData, artistsData, albumsData, playlistsData] = await Promise.all([
+        let finalPlaylists = [];
+
+        const [songsData, artistsData, albumsData] = await Promise.all([
           fetchSongs(),
           fetchArtists(),
           fetchAlbums(),
-          fetchPlaylists(),
         ]);
 
-        const singleSongs = songsData.filter(song => song.album && song.album.type === 'single');
+        if (isAuthenticated) {
+          const spotifyPlaylistsResponse = await fetchSpotifyFeaturedPlaylists();
+
+          finalPlaylists = spotifyPlaylistsResponse.data.map((p) => ({
+            _id: p.id,
+            name: p.name,
+            description: p.description,
+            coverImage: p.images[0]?.url,
+            type: "playlist",
+            owner: { username: p.owner.display_name },
+          }));
+        } else {
+          finalPlaylists = await fetchPlaylists();
+        }
+
+        setPlaylists(finalPlaylists);
+
+        const singleSongs = songsData.filter(
+          (song) => song.album && song.album.type === "single"
+        );
         setSingles(singleSongs);
 
         setAlbums(albumsData);
         setSongs(songsData);
         setArtists(artistsData);
-        setPlaylists(playlistsData);
-        
-        if (playlistsData.length > 0) {
-          setFeaturedPlaylistId(playlistsData[0]._id);
+
+        if (finalPlaylists.length > 0) {
+          setFeaturedPlaylistId(finalPlaylists[0]._id);
         }
 
-        if (albumsData.length > 0) {
+        if (albumsData.length > 3) {
           setFeaturedAlbumId(albumsData[3]._id);
+        } else if (albumsData.length > 0) {
+          setFeaturedAlbumId(albumsData[0]._id);
         }
 
         if (songsData.length > 0) {
           const mainHighlightSong = songsData[0];
-          
           setHeroHighlight({
             ...mainHighlightSong,
-            type: 'song',
+            type: "song",
             artist: mainHighlightSong.artist?.name || "Unknown Artist",
             isTrending: true,
             releaseDate: mainHighlightSong.releaseDate,
             genre: mainHighlightSong.genre,
           });
         } else {
-           setHeroHighlight({
-            type: 'info',
-            title: 'Discover New Music',
-            coverImage: '/fb.jpg',
-            artist: 'Various Artists',
+          setHeroHighlight({
+            type: "info",
+            title: "Discover New Music",
+            coverImage: "/fb.jpg",
+            artist: "Various Artists",
             plays: 0,
             isTrending: false,
             trendingNow: [],
-        }); }
+          });
+        }
       } catch (error) {
         console.error("Error loading data:", error);
         setHeroHighlight({
-          type: 'info',
-          title: 'Error Loading Music',
-          coverImage: '/fb.jpg',
-          artist: 'N/A',
+          type: "info",
+          title: "Error Loading Music",
+          coverImage: "/fb.jpg",
+          artist: "N/A",
           plays: 0,
           isTrending: false,
           trendingNow: [],
         });
       } finally {
         setLoading(false);
-        
-  } }; loadData(); }, []);
+    } };
+
+    loadData();
+  }, [isAuthenticated]);
 
   return (
     <div className="home-content">
-      {loading || !heroHighlight ? ( <LoadingSpinner /> ) : (
+      {loading || !heroHighlight ? (
+        <LoadingSpinner />
+      ) : (
         <>
           <Hero
             title={isAuthenticated ? "You're home" : "Join Us in your Echoes"}
@@ -102,27 +134,20 @@ const Home = () => {
           />
 
           <Carousel
-            title="Recommended Playlists"
+            title={
+              isAuthenticated ? "Featured on Spotify" : "Recommended Playlists"
+            }
             items={playlists}
             type="playlist"
           />
-        
 
           <div className="home-featured-collection">
             {featuredPlaylistId && (
-              <Collection
-                collectionId={featuredPlaylistId}
-                type="playlist"
-              />
+              <Collection collectionId={featuredPlaylistId} type="playlist" />
             )}
           </div>
-        
 
-          <Carousel
-            title="Selected Artists"
-            items={artists}
-            type="artist"
-          />
+          <Carousel title="Selected Artists" items={artists} type="artist" />
 
           <Carousel
             title="Popular Albums & Singles"
@@ -132,10 +157,7 @@ const Home = () => {
 
           <div className="home-featured-collection">
             {featuredAlbumId && (
-              <Collection
-                collectionId={featuredAlbumId}
-                type="album"
-              />
+              <Collection collectionId={featuredAlbumId} type="album" />
             )}
           </div>
         </>
