@@ -17,6 +17,8 @@ const LoginPage = () => {
 
   const from = location.state?.from?.pathname || "/";
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
@@ -56,7 +58,7 @@ const LoginPage = () => {
                 Continue with Google
               </button>
 
-              <a href="http://localhost:3000/api/auth/spotify" className="cta-button primary-cta create-btn">
+              <a href={`${API_URL}/api/auth/spotify`} className="cta-button primary-cta create-btn">
                 <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
                 Continue with Spotify
               </a>
