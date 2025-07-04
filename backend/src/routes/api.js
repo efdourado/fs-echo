@@ -32,7 +32,6 @@ const userController = new UserController(new UserModel());
 const albumController = new AlbumController(new AlbumModel());
 const playlistController = new PlaylistController(new PlaylistModel());
 
-
 const authRouter = createAuthRouter(userController);
 
 router.use('/auth', authRouter);

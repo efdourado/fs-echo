@@ -37,7 +37,7 @@ const getNewAccessToken = async (refreshToken) => {
 
 export const getSpotifyApi = (userId, accessToken, refreshToken) => {
   const spotifyApi = axios.create({
-    baseURL: "https://api.spotify.com/v1/me",
+        baseURL: 'https://api.spotify.com/v1', 
   });
 
   spotifyApi.interceptors.request.use(
@@ -48,7 +48,6 @@ export const getSpotifyApi = (userId, accessToken, refreshToken) => {
     (error) => Promise.reject(error)
   );
 
-  // ****** CORREÇÃO APLICADA AQUI ******
   spotifyApi.interceptors.response.use(
     (response) => response,
     async (error) => {
