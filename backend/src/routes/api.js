@@ -18,8 +18,6 @@ import { protect, admin } from '../middlewares/authMiddleware.js';
 
 import { isArtistOwner } from '../middlewares/artistAuthMiddleware.js'; 
 
-import spotifyRouter from './spotifyRoutes.js'; 
-
 const router = express.Router();
 
 await connectToDatabase();
@@ -33,8 +31,6 @@ const playlistController = new PlaylistController(new PlaylistModel());
 const authRouter = createAuthRouter(userController);
 
 router.use('/auth', authRouter);
-
-router.use('/spotify', spotifyRouter);
 
 router.get('/', (req, res) => {
   res.json({
