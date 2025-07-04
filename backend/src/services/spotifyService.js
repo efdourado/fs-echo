@@ -1,3 +1,5 @@
+// backend/src/services/spotifyService.js
+
 import axios from "axios";
 import querystring from "querystring";
 import User from "../models/userModel.js";
@@ -9,6 +11,7 @@ const getNewAccessToken = async (refreshToken) => {
   try {
     const response = await axios({
       method: "post",
+      // URL CORRETA para autenticação
       url: "https://accounts.spotify.com/api/token",
       data: querystring.stringify({
         grant_type: "refresh_token",
@@ -37,7 +40,8 @@ const getNewAccessToken = async (refreshToken) => {
 
 export const getSpotifyApi = (userId, accessToken, refreshToken) => {
   const spotifyApi = axios.create({
-        baseURL: 'https://api.spotify.com/v1', 
+    // URL BASE CORRETA para a API do Spotify
+    baseURL: 'https://api.spotify.com/v1',
   });
 
   spotifyApi.interceptors.request.use(

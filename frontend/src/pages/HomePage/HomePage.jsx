@@ -6,19 +6,15 @@ import {
   fetchAlbums,
   fetchPlaylists,
 } from "../../api/api.js";
-import { fetchSpotifyFeaturedPlaylists } from "../../api/adminApi.js";
 
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
-
 import Hero from "../../components/ui/Hero.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
-
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const Home = () => {
   const [songs, setSongs] = useState([]);
-  const [singles, setSingles] = useState([]);
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [playlists, setPlaylists] = useState([]);
@@ -32,42 +28,25 @@ const Home = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        let finalPlaylists = [];
-
-        const [songsData, artistsData, albumsData] = await Promise.all([
+        const [
+          songsData,
+          artistsData,
+          albumsData,
+          playlistsData,
+        ] = await Promise.all([
           fetchSongs(),
           fetchArtists(),
           fetchAlbums(),
+          fetchPlaylists(),
         ]);
 
-        if (isAuthenticated) {
-            const spotifyPlaylistsResponse = await fetchSpotifyFeaturedPlaylists();
-            
-            finalPlaylists = spotifyPlaylistsResponse.data.items.map((p) => ({
-              _id: p.id,
-              name: p.name,
-              description: p.description,
-              coverImage: p.images[0]?.url,
-              type: "playlist",
-              owner: { username: p.owner.display_name },
-            }));
-        } else {
-          finalPlaylists = await fetchPlaylists();
-        }
-
-        setPlaylists(finalPlaylists);
-
-        const singleSongs = songsData.filter(
-          (song) => song.album && song.album.type === "single"
-        );
-        setSingles(singleSongs);
-
+        setPlaylists(playlistsData);
         setAlbums(albumsData);
         setSongs(songsData);
         setArtists(artistsData);
 
-        if (finalPlaylists.length > 0) {
-          setFeaturedPlaylistId(finalPlaylists[0]._id);
+        if (playlistsData.length > 0) {
+          setFeaturedPlaylistId(playlistsData[0]._id);
         }
 
         if (albumsData.length > 3) {
@@ -92,9 +71,6 @@ const Home = () => {
             title: "Discover New Music",
             coverImage: "/fb.jpg",
             artist: "Various Artists",
-            plays: 0,
-            isTrending: false,
-            trendingNow: [],
           });
         }
       } catch (error) {
@@ -104,9 +80,6 @@ const Home = () => {
           title: "Error Loading Music",
           coverImage: "/fb.jpg",
           artist: "N/A",
-          plays: 0,
-          isTrending: false,
-          trendingNow: [],
         });
       } finally {
         setLoading(false);
@@ -122,7 +95,7 @@ const Home = () => {
       ) : (
         <>
           <Hero
-            title={isAuthenticated ? "You're home" : "Join Us in your Echoes"}
+            title={isAuthenticated ? "You're home" : "Join Us"}
             subtitle="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
             highlight={heroHighlight}
             talents={artists.slice(0, 4)}
@@ -134,9 +107,7 @@ const Home = () => {
           />
 
           <Carousel
-            title={
-              isAuthenticated ? "Featured on Spotify" : "Recommended Playlists"
-            }
+            title="Recommended Playlists"
             items={playlists}
             type="playlist"
           />

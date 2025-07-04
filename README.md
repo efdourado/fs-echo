@@ -62,7 +62,7 @@ npm run build --prefix frontend
 
 **Roadmap**
 
-Here is a roadmap of features planned for future versions of Echo:
+Here is a roadmap of features planned for future versions of Memphis:
 
 - **Search**: Implement a search to find songs and artists, including contextual search (e.g., search by lyrics within a specific playlist);
 - **Filtering & Recommendations**: Introduce filters and a recommendation system based on play counts and user activity.

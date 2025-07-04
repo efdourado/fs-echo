@@ -1,3 +1,5 @@
+// backend/src/controllers/spotifyController.js
+
 import axios from "axios";
 import querystring from "querystring";
 import jwt from "jsonwebtoken";
@@ -7,25 +9,30 @@ import { getSpotifyApi } from "../services/spotifyService.js";
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1h",
-}); };
+  });
+};
 
 export const spotifyLogin = (req, res) => {
   const scope =
     "user-read-private user-read-email playlist-read-private user-library-read";
   res.redirect(
+    // URL CORRETA de autorização
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
         client_id: process.env.SPOTIFY_CLIENT_ID,
         scope: scope,
         redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-}) ); };
+      })
+  );
+};
 
 export const spotifyCallback = async (req, res) => {
   const code = req.query.code || null;
 
   try {
     const authOptions = {
+      // URL CORRETA para pegar o token
       url: "https://accounts.spotify.com/api/token",
       method: "post",
       data: querystring.stringify({
@@ -50,10 +57,12 @@ export const spotifyCallback = async (req, res) => {
     const { access_token, refresh_token } = tokenResponse.data;
 
     const userProfileResponse = await axios.get(
+      // URL CORRETA para pegar o perfil do usuário
       "https://api.spotify.com/v1/me",
       {
         headers: { Authorization: "Bearer " + access_token },
-    } );
+      }
+    );
 
     const {
       id: spotifyId,
@@ -90,7 +99,8 @@ export const spotifyCallback = async (req, res) => {
       error.response ? error.response.data : error.message
     );
     res.redirect("/login?error=spotify_auth_failed");
-} };
+  }
+};
 
 export const getFeaturedPlaylists = async (req, res) => {
   try {
@@ -101,7 +111,8 @@ export const getFeaturedPlaylists = async (req, res) => {
         .status(401)
         .json({
           message: "User is not fully connected to Spotify. Please re-login.",
-    }); }
+        });
+    }
 
     const spotifyApi = getSpotifyApi(
       _id,
@@ -113,9 +124,11 @@ export const getFeaturedPlaylists = async (req, res) => {
       params: {
         limit: 20,
         country: "BR",
-    }, });
+      },
+    });
 
-    res.json(response.data.playlists);
+    // Retornamos o objeto de dados completo que o Spotify envia
+    res.json(response.data);
   } catch (error) {
     console.error(
       "DETAILED SPOTIFY API ERROR:",
@@ -130,4 +143,5 @@ export const getFeaturedPlaylists = async (req, res) => {
       : "A server error occurred while contacting Spotify.";
 
     res.status(status).json({ message: message });
-} };
+  }
+};

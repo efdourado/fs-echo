@@ -48,7 +48,7 @@ const LoginPage = () => {
               Hi again! Welcome back to your space
             </h2>
             <p className="auth-subtitle">
-              Music, reimagined — Echo is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists,
+              Music, reimagined — Memphis is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists,
               and align new perspectives through sound.
             </p>
 

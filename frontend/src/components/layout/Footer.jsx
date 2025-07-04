@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { usePlayer } from '../../hooks/usePlayer';
-import logo from '/echo-logo-grey.png';
+import logo from '/memphis-logo-grey.png';
 
 const mainNavLinks = ["About Us", "Help Center", "Community", "Contact Us"];
 const legalLinks = ["Privacy", "Cookies", "Terms"];
 
-const Footer = ({ companyName = "Echo", year = new Date().getFullYear() }) => {
+const Footer = ({ companyName = "Memphis", year = new Date().getFullYear() }) => {
   const { currentTrack } = usePlayer();
   const footerClassName = `footer ${currentTrack ? 'with-player' : ''}`;
 
