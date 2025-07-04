@@ -107,8 +107,8 @@
   --z-index-sticky: 996;
   --z-index-modal-backdrop: 998;
   --z-index-header: 999;
-  --z-index-modal: 1001;
-  --z-index-player: 1009;
+  --z-index-player: 1001;
+  --z-index-modal: 1009;
   --z-index-toast: 1303;
 
   --hero-gradient-start: rgba(0, 0, 0, 0.8);

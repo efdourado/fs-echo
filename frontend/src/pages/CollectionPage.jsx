@@ -161,19 +161,7 @@ const CollectionPage = ({ type }) => {
             backgroundImage: `url(${backgroundImage || fallbackImage})`,
           }}
         >
-          {mainContent && mainContent.type === "lyrics" && (
-            <section className="entity-content-section">
-              <h2 className="entity-content-section__title">
-                {mainContent.title}
-              </h2>
-              <pre className="lyrics-text">{mainContent.items}</pre>
-            </section>
-          )}
-        </aside>
-
-        <main className="collection-page__right-column">
           <div className="collection-page__metadata">
-        
             <h1 className="collection-page__title">{title}</h1>
             <p className="collection-page__description">{description}</p>
 
@@ -216,12 +204,18 @@ const CollectionPage = ({ type }) => {
               )}
             </div>
           </div>
+        </aside>
+
+        <main className="collection-page__right-column">
+
           {mainContent && mainContent.type === "songs" && (
             <section className="entity-content-section">
-              <h2 className="entity-content-section__title">
-                {mainContent.title}
-              </h2>
-
+              <div className="carousel__header">
+                <h2 className="carousel__title">
+                  {mainContent.title}
+                </h2>
+              </div>
+              
               <SongList
                 songs={mainContent.items}
                 showHeader={false}
@@ -234,10 +228,13 @@ const CollectionPage = ({ type }) => {
 
           {subContent && subContent.type === "albums" && (
             <section className="entity-content-section">
-              <h2 className="entity-content-section__title">
-                {subContent.title}
-              </h2>
-              <div className="albums-grid">
+              <div className="carousel__header">
+                <h2 className="carousel__title">
+                  {subContent.title}
+                </h2>
+              </div>
+              
+              <div className="playlists-grid playlist-card-container">
                 {subContent.items.map((album) => (
                   <Card key={album._id} item={album} type="album" />
                 ))}
