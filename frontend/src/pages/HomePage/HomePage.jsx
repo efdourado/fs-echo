@@ -96,7 +96,7 @@ const Home = () => {
         <>
           <Hero
             title={isAuthenticated ? "You're home" : "Join Us"}
-            subtitle="A model designed to inspire and support music enthusiasts. Get samples, tips, and organize your ideas effortlessly"
+            subtitle="Music, reimagined — Memphis is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists, and align new perspectives through sound."
             highlight={heroHighlight}
             talents={artists.slice(0, 4)}
             bgImage="/hero-bg.jpg"

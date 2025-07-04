@@ -1,4 +1,4 @@
-# Memphis - Minimal Music Web App
+# Memphis
 
 **Overview**
 
