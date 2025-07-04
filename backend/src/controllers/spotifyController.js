@@ -94,12 +94,13 @@ export const spotifyCallback = async (req, res) => {
 } };
 
 
+
 export const getFeaturedPlaylists = async (req, res) => {
     try {
         const { _id, spotifyAccessToken, spotifyRefreshToken } = req.user;
 
-        if (!spotifyAccessToken) {
-            return res.status(400).json({ message: 'User not connected to Spotify.' });
+        if (!spotifyAccessToken || !spotifyRefreshToken) {
+            return res.status(401).json({ message: 'User is not fully connected to Spotify. Please re-login.' });
         }
 
         const spotifyApi = getSpotifyApi(_id, spotifyAccessToken, spotifyRefreshToken);
@@ -108,11 +109,17 @@ export const getFeaturedPlaylists = async (req, res) => {
             params: {
                 limit: 20,
                 country: 'BR'
-        } });
+            }
+        });
 
         res.json(response.data.playlists.items);
 
     } catch (error) {
-        console.error('Error fetching featured playlists:', error.response ? error.response.data : error.message);
-        res.status(500).json({ message: 'Failed to fetch featured playlists from Spotify.' });
-} };
+        console.error('DETAILED SPOTIFY API ERROR:', error.response ? JSON.stringify(error.response.data, null, 2) : error.message);
+
+        const status = error.response ? error.response.status : 500;
+        const message = error.response ? error.response.data.error.message : 'A server error occurred while contacting Spotify.';
+
+        res.status(status).json({ message: message });
+    }
+};

@@ -3,6 +3,9 @@ import querystring from "querystring";
 import User from "../models/userModel.js";
 
 const getNewAccessToken = async (refreshToken) => {
+  if (!refreshToken) {
+    throw new Error("Spotify refresh token is missing.");
+  }
   try {
     const response = await axios({
       method: "post",
@@ -20,7 +23,8 @@ const getNewAccessToken = async (refreshToken) => {
               process.env.SPOTIFY_CLIENT_SECRET
           ).toString("base64"),
         "Content-Type": "application/x-www-form-urlencoded",
-    }, });
+      },
+    });
     return response.data.access_token;
   } catch (error) {
     console.error(
@@ -28,7 +32,8 @@ const getNewAccessToken = async (refreshToken) => {
       error.response ? error.response.data : error.message
     );
     throw new Error("Failed to refresh Spotify token.");
-} };
+  }
+};
 
 export const getSpotifyApi = (userId, accessToken, refreshToken) => {
   const spotifyApi = axios.create({
@@ -43,11 +48,17 @@ export const getSpotifyApi = (userId, accessToken, refreshToken) => {
     (error) => Promise.reject(error)
   );
 
+  // ****** CORREÇÃO APLICADA AQUI ******
   spotifyApi.interceptors.response.use(
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
-      if (error.response.status === 401 && !originalRequest._retry) {
+
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        !originalRequest._retry
+      ) {
         originalRequest._retry = true;
 
         try {
@@ -62,9 +73,11 @@ export const getSpotifyApi = (userId, accessToken, refreshToken) => {
           return spotifyApi(originalRequest);
         } catch (refreshError) {
           return Promise.reject(refreshError);
-      } }
+        }
+      }
       return Promise.reject(error);
-  } );
+    }
+  );
 
   return spotifyApi;
 };
