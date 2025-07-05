@@ -37,8 +37,7 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
       setError(err.response?.data?.message || 'Failed to update playlist.');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   if (!isOpen) return null;
 
@@ -93,8 +92,7 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
         </div>
       </form>
     </Modal>
-  );
-};
+); };
 
 EditPlaylistModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,

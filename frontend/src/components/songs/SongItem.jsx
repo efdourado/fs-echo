@@ -8,7 +8,7 @@ import { useSongMenu } from "../../context/SongMenuContext";
 import { usePlayer } from "../../hooks/usePlayer";
 import fallbackImage from '/fb.jpg';
 
-const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
+const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }) => {
   const player = usePlayer();
   const { openMenu } = useSongMenu();
 
@@ -25,7 +25,8 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
     e.stopPropagation();
     if (hasAudio) {
       isCurrent ? player.togglePlayPause() : player.playTrack(song);
-  } };
+    }
+  };
 
   const handleMenuClick = (e) => {
     e.preventDefault();
@@ -48,22 +49,24 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index }) => {
         </div>
       )}
       <div className="song-item__track">
-        <div className="song-item__cover-art-container">
-          <img
-            src={song.coverImage || fallbackImage}
-            alt={song.title}
-            className="song-item__cover-art"
-            onError={(e) => { e.target.src = fallbackImage; }}
-          />
-          <button
-            className="song-item__play-pause-btn"
-            onClick={handlePlayClick}
-            aria-label={isPlaying ? "Pause" : "Play"}
-            disabled={!hasAudio}
-          >
-            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
-          </button>
-        </div>
+        {showImage && (
+          <div className="song-item__cover-art-container">
+            <img
+              src={song.coverImage || fallbackImage}
+              alt={song.title}
+              className="song-item__cover-art"
+              onError={(e) => { e.target.src = fallbackImage; }}
+            />
+            <button
+              className="song-item__play-pause-btn"
+              onClick={handlePlayClick}
+              aria-label={isPlaying ? "Pause" : "Play"}
+              disabled={!hasAudio}
+            >
+              <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+            </button>
+          </div>
+        )}
         <div className="song-item__info">
           <p className="song-item__title">{song.title}</p>
           <p className="song-item__artist">{song.artist.name}</p>
@@ -102,6 +105,7 @@ SongItem.propTypes = {
   }).isRequired,
   showNumber: PropTypes.bool,
   index: PropTypes.number,
+  showImage: PropTypes.bool,
 };
 
 export default SongItem;

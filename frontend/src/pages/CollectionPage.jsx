@@ -41,7 +41,7 @@ const CollectionPage = ({ type }) => {
   const [normalizedData, setNormalizedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false); // Add this line
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } =
@@ -239,6 +239,7 @@ const CollectionPage = ({ type }) => {
                 showHeader={false}
                 displayAll={true}
                 showNumber={true}
+                showImage={false}
                 onMenuClick={handleOpenMenuForSong}
               />
             </section>

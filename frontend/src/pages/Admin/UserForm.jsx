@@ -1,5 +1,3 @@
-// Em frontend/src/pages/Admin/UserForm.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -46,8 +44,7 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
     setUser(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+  })); };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,8 +60,8 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
       }
       
       if (isModal) {
-        onSaved(); // Chama a função para recarregar dados na página admin
-        onClose(); // Fecha o modal
+        onSaved();
+        onClose();
       } else {
         navigate('/admin/users');
       }
@@ -73,8 +70,7 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
+  } };
   
   const formContent = (
     <form onSubmit={handleSubmit} className="admin-form-container">
@@ -99,14 +95,6 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
             onChange={handleChange}
             placeholder="https://example.com/image.png"
           />
-          {user.profilePic && (
-            <img
-              src={user.profilePic}
-              alt="Profile Preview"
-              className="admin-form__preview-image"
-              style={{ marginTop: '15px', maxHeight: '150px', borderRadius: '8px' }}
-            />
-          )}
         </div>
 
         <div className="admin-form__group span-2">
@@ -138,7 +126,6 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
       {error && <p className="error-message">{error}</p>}
       {formContent}
     </div>
-  );
-};
+); };
 
 export default UserForm;

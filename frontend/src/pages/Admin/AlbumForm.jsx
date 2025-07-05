@@ -34,8 +34,8 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
         setAllSongs(songsData);
         if (isEditing) {
           return fetchAlbumById(id);
-        }
-      })
+      } })
+      
       .then(albumData => {
         if (albumData) {
           setFormData({
@@ -44,9 +44,8 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
             songs: albumData.songs?.map(s => s._id) || [],
             genre: albumData.genre?.join(', ') || '',
             releaseDate: albumData.releaseDate ? albumData.releaseDate.split('T')[0] : ''
-          });
-        }
-      })
+      }); } })
+      
       .catch(err => setError('Failed to load required data. Please try again.'))
       .finally(() => setLoading(false));
   }, [id, isEditing]);
@@ -89,8 +88,7 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       setError(err.response?.data?.error || 'Failed to save the album.');
     } finally {
       setSaving(false);
-    }
-  };
+  } };
   
   const formContent = (
     <form onSubmit={handleSubmit}>
@@ -137,7 +135,6 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
           <div className="admin-form__group span-2">
             <label>Cover Image URL</label>
             <input type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} disabled={saving} placeholder="https://example.com/image.jpg" />
-            {formData.coverImage && <img src={formData.coverImage} alt="Preview" className="admin-form__preview-image" />}
           </div>
         </div>
       </div>
@@ -157,7 +154,6 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       {error && <p className="error-message">{error}</p>}
       {loading ? <LoadingSpinner message="Loading album data..." /> : formContent}
     </div>
-  );
-};
+); };
 
 export default AlbumForm;

@@ -43,8 +43,7 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       setArtist(prev => ({ ...prev, socials: { ...prev.socials, [socialPlatform]: value } }));
     } else {
       setArtist(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-    }
-  };
+  } };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,8 +71,7 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       setError(err.response?.data?.message || 'Failed to save artist.');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   const formContent = (
     <form onSubmit={handleSubmit}>
@@ -90,12 +88,10 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
           <div className="admin-form__group">
             <label>Artist Image URL</label>
             <input type="url" name="image" value={artist.image} onChange={handleTextChange} placeholder="https://..." />
-            {artist.image && <img src={artist.image} alt="Preview" className="admin-form__preview-image" />}
           </div>
           <div className="admin-form__group">
             <label>Banner Image URL</label>
             <input type="url" name="banner" value={artist.banner} onChange={handleTextChange} placeholder="https://..." />
-            {artist.banner && <img src={artist.banner} alt="Preview" className="admin-form__preview-image" />}
           </div>
           <div className="admin-form__group span-2">
             <label htmlFor="genre">Genres (comma-separated)</label>
@@ -140,7 +136,6 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       {error && <p className="error-message">{error}</p>}
       {loading && !artist.name ? <LoadingSpinner /> : formContent}
     </div>
-  );
-};
+); };
 
 export default ArtistForm;

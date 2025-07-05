@@ -36,8 +36,8 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
         setAlbums(albumsData);
         if (isEditing) {
           return fetchSongById(id);
-        }
-      })
+      } })
+      
       .then(songData => {
         if (songData) {
           setSong({
@@ -46,9 +46,8 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
             album: songData.album?._id || '',
             genre: songData.genre?.join(', ') || '',
             releaseDate: songData.releaseDate ? songData.releaseDate.split('T')[0] : ''
-          });
-        }
-      })
+      }); } })
+
       .catch(err => setError('Failed to load form data.'))
       .finally(() => setLoading(false));
   }, [id, isEditing]);
@@ -84,8 +83,7 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       setError(err.response?.data?.error || 'Failed to save the song.');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   const formContent = (
     <form onSubmit={handleSubmit}>
@@ -112,7 +110,6 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
           <div className="admin-form__group">
             <label>Cover Image URL</label>
             <input type="url" name="coverImage" value={song.coverImage} onChange={handleChange} accept="image/*" />
-            {song.coverImage && <img src={song.coverImage} alt="Preview" className="admin-form__preview-image" />}
           </div>
           <div className="admin-form__group">
             <label>Audio File URL</label>
@@ -156,7 +153,6 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
       {error && <p className="error-message">{error}</p>}
       {loading && isEditing ? <LoadingSpinner /> : formContent}
     </div>
-  );
-};
+); };
 
 export default SongForm;

@@ -12,6 +12,7 @@ const SongList = ({
   showHeader = true,
   displayAll = false,
   showNumber = false,
+  showImage = true,
 }) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -45,6 +46,7 @@ const SongList = ({
             onMenuClick={() => onMenuClick && onMenuClick(song)}
             showNumber={showNumber}
             index={index}
+            showImage={showImage}
           />
         ))}
       </div>
@@ -71,6 +73,7 @@ SongList.propTypes = {
   showHeader: PropTypes.bool,
   displayAll: PropTypes.bool,
   showNumber: PropTypes.bool,
+  showImage: PropTypes.bool,
 };
 
 export default SongList;

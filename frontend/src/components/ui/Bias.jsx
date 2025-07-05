@@ -6,21 +6,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faEllipsis, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { fetchAlbumById, fetchPlaylistById } from '../../api/api';
+import { deletePlaylist } from '../../api/adminApi';
 
 import { useSongMenu } from "../../context/SongMenuContext";
-
 import { usePlayer } from '../../hooks/usePlayer';
+import { useAuth } from '../../context/AuthContext';
 
 import SoundWave from './SoundWave';
+
+import EditPlaylistModal from '../../components/playlists/EditPlaylistModal';
 
 import fallbackImage from '/fb.jpg';
 
 const Bias = ({ item, type }) => {
   const player = usePlayer();
   const { openMenu } = useSongMenu();
-  
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   if (!item) return null;
 
@@ -28,6 +33,12 @@ const Bias = ({ item, type }) => {
   const title = item.title || item.name;
   const imageUrl = item.coverImage || item.image || fallbackImage;
   const detailPath = isSong && item.album?._id ? `/album/${item.album._id}` : `/${type}/${item._id}`;
+
+  const isOwner =
+    currentUser &&
+    item &&
+    type === "playlist" &&
+    currentUser._id === item.owner?._id;
 
   const getIsPlaying = () => {
     if (!player.isPlaying) return false;
@@ -86,55 +97,91 @@ const Bias = ({ item, type }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isSong) {
+    if (type === 'playlist' && isOwner) {
+      setEditModalOpen(true);
+    } else if (isSong) {
       openMenu(item);
   } };
+
+  const handleCloseEditModal = () => {
+    setEditModalOpen(false);
+  };
+
+  const handlePlaylistUpdated = (updatedPlaylistData) => {    
+    handleCloseEditModal();
+  };
+
+  const handleDeletePlaylist = async () => {
+    if (!item || type !== 'playlist') return;
+    if (window.confirm('Are you sure you want to delete this playlist? This action cannot be undone.')) {
+      try {
+        await deletePlaylist(item._id);
+        handleCloseEditModal();
+        navigate('/library');
+      } catch (err) {
+        console.error('Failed to delete playlist:', err);
+        alert('Failed to delete playlist.');
+      }
+    }
+  };
   
   return (
-    <Link to={detailPath} className="bias-card-link-wrapper">
-      <div className={`bias-card ${isPlaying ? 'is-playing' : ''}`}>
-        <div className="bias-card__cover">
-          <img
-            src={imageUrl}
-            alt={`Cover for ${title}`}
-            onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
-          />
-        </div>
-        
-        <div className="bias-card__content">
-          <div className="bias-card__text">
-            <h3 className="bias-card__title">
-              {title}
-              {isPlaying && <SoundWave />}
-            </h3>
-            <p className="bias-card__subtitle">{getSubtitle()}</p>
+    <>
+      <Link to={detailPath} className="bias-card-link-wrapper">
+        <div className={`bias-card ${isPlaying ? 'is-playing' : ''}`}>
+          <div className="bias-card__cover">
+            <img
+              src={imageUrl}
+              alt={`Cover for ${title}`}
+              onError={(e) => { e.target.src = fallbackImage; e.target.onerror = null; }}
+            />
           </div>
+          
+          <div className="bias-card__content">
+            <div className="bias-card__text">
+              <h3 className="bias-card__title">
+                {title}
+                {isPlaying && <SoundWave />}
+              </h3>
+              <p className="bias-card__subtitle">{getSubtitle()}</p>
+            </div>
 
-          <div className="bias-card__actions">
-            <button 
-              className="action-btn play" 
-              onClick={handlePlayClick} 
-              aria-label={isPlaying ? "Pause" : "Play"}
-              disabled={isLoading || (isSong && !item.audioUrl)}
-            >
-              {isLoading 
-                ? <FontAwesomeIcon icon={faSpinner} spin /> 
-                : <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
-              }
-            </button>
+            <div className="bias-card__actions">
+              <button 
+                className="action-btn play" 
+                onClick={handlePlayClick} 
+                aria-label={isPlaying ? "Pause" : "Play"}
+                disabled={isLoading || (isSong && !item.audioUrl)}
+              >
+                {isLoading 
+                  ? <FontAwesomeIcon icon={faSpinner} spin /> 
+                  : <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
+                }
+              </button>
 
-            <button
-              className="action-btn menu"
-              onClick={handleMenuClick}
-              aria-label="More options"
-            >
-              <FontAwesomeIcon icon={faEllipsis} />
-            </button>
+              <button
+                className="action-btn menu"
+                onClick={handleMenuClick}
+                aria-label="More options"
+              >
+                <FontAwesomeIcon icon={faEllipsis} />
+              </button>
 
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+
+      {type === 'playlist' && isOwner && item && (
+        <EditPlaylistModal
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          playlist={item}
+          onPlaylistUpdated={handlePlaylistUpdated}
+          onDelete={handleDeletePlaylist}
+        />
+      )}
+    </>
 ); };
 
 Bias.propTypes = {
