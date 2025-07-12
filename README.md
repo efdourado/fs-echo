@@ -28,7 +28,7 @@ Music, reimagined — Memphis is a web application designed to provide a seamles
 - **JSX (React) and CSS Files:** Use `PascalCase`. This ensures the file name matches the component's name and its associated style file.
   - *e.g.:* `HomePage.jsx`, `Collection.jsx`, `HomePage.css`, `Collection.css`
 
-- **JS Files (`.js`):** Use `camelCase`. This applies to hooks, services, utils, and backend files.
+- **JS Files:** Use `camelCase`. This applies to hooks, services, utils, and backend files.
   - *e.g.:* `usePlayer.js`, `collectionService.js`, `songController.js`
 
 ---
