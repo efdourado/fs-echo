@@ -106,7 +106,7 @@
 
 .player__play-button {
   background-color: var(--color-primary);
-  color: var(--color-text-on-primary);
+  color: var(--color-text-primary);
   width: 40px;
   height: 40px;
   border-radius: 50%;

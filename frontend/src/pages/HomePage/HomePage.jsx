@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-
 import {
   fetchArtists,
   fetchSongs,
   fetchAlbums,
   fetchPlaylists,
-} from "../../api/api.js";
-
+} from "../../services/collectionService.js";
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
 import Hero from "../../components/ui/Hero.jsx";
@@ -29,10 +27,10 @@ const Home = () => {
       setLoading(true);
       try {
         const [
-          songsData,
-          artistsData,
-          albumsData,
-          playlistsData,
+          { data: songsData },
+          { data: artistsData },
+          { data: albumsData },
+          { data: playlistsData },
         ] = await Promise.all([
           fetchSongs(),
           fetchArtists(),

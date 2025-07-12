@@ -4,36 +4,37 @@
   --color-primary-accent-h: 227;
   --color-primary-accent-s: 60%;
   --color-primary-accent-l: 65%;
-
   --color-white: #ffffff;
   --color-greyple: #99aab5;
   --color-dark-grey: #2c2f33;
   --color-almost-black: #1a1a1a;
   --color-deep-black: #0e0e0e;
-
-  --color-background: var(--color-deep-black);
-  --color-surface: var(--color-almost-black);
-  --color-surface-hover: var(--color-dark-grey);
-
   --color-primary: var(--color-primary-accent);
   --color-primary-hover: var(--color-primary-accent-hover);
-
-  --color-text-primary: var(--color-white);
-  --color-text-secondary: var(--color-greyple);
-  --color-text-tertiary: hsl(206, 10%, 65%);
-  --color-text-disabled: hsl(210, 9%, 45%);
-  --color-text-on-primary: var(--color-white);
-  --color-text-on-surface: var(--color-text-primary);
-
-  --color-border: hsl(210, 7%, 20%);
-  --color-border-subtle: hsl(210, 7%, 12%);
-
-  --color-carousel-fade: hsla(0, 0%, 5.5%, 0.6);
-
   --color-error: #b03e3e;
   --color-error-hover: #c0392b;
   --color-success: #54ecc4;
   --color-warning: #f39c12;
+  
+  --color-background: var(--color-deep-black);
+  --color-background-header: hsla(var(--color-primary-accent-h), 13%, 10%, 0.65);
+  --color-surface: var(--color-almost-black);
+  --color-surface-hover: var(--color-dark-grey);
+  --color-text-primary: var(--color-white);
+  --color-text-secondary: var(--color-greyple);
+  --color-text-tertiary: hsl(206, 10%, 65%);
+  --color-text-disabled: hsl(210, 9%, 45%);
+  --color-border: hsl(210, 7%, 20%);
+  --color-border-subtle: hsl(210, 7%, 12%);
+  --color-carousel-fade: hsla(0, 0%, 5.5%, 0.6);
+
+  --color-background-h: 0;
+  --color-background-s: 0%;
+  --color-background-l: 5.5%;
+
+  --hero-gradient-start: hsla(var(--color-background-h), var(--color-background-s), var(--color-background-l), 0.89);
+  --hero-gradient-end: hsla(var(--color-background-h), var(--color-background-s), var(--color-background-l), 0.68);
+  
 
   --font-family-sans: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-weight-light: 300;
@@ -110,40 +111,19 @@
   --z-index-player: 1001;
   --z-index-modal: 1009;
   --z-index-toast: 1303;
-
-  --hero-gradient-start: rgba(0, 0, 0, 0.8);
-  --hero-gradient-end: rgba(0, 0, 0, 0.6);
-  --hero-text-primary: var(--color-white);
-  --hero-text-secondary: var(--color-text-secondary);
 }
 
-body.light-mode {
+.theme-ocean {
   --color-background: hsl(210, 30%, 12%);
+  --color-background-header: hsla(210, 30%, 18%, 0.85);
   --color-surface: hsl(210, 30%, 15%);
   --color-surface-hover: hsl(210, 30%, 20%);
-
-  --color-text-primary: hsl(210, 15%, 95%);
-  --color-text-secondary: hsl(210, 15%, 65%);
-  --color-text-tertiary: hsl(210, 15%, 50%);
-  --color-text-disabled: hsl(210, 15%, 40%);
-
-  --color-text-on-surface: var(--color-text-primary);
-
   --color-border: hsl(210, 30%, 22%);
   --color-border-subtle: hsl(210, 30%, 18%);
-
   --color-carousel-fade: hsla(210, 30%, 12%, 0.6);
 
-  --shadow-xs: 0 1px 2px hsla(0, 0%, 0%, 0.1);
-  --shadow-sm: 0 2px 4px hsla(0, 0%, 0%, 0.15);
-  --shadow-md: 0 4px 8px hsla(0, 0%, 0%, 0.15);
-  --shadow-lg: 0 8px 16px hsla(0, 0%, 0%, 0.2);
-  --shadow-xl: 0 12px 24px hsla(0, 0%, 0%, 0.2);
-  --shadow-button: 0 2px 4px hsla(0, 0%, 0%, 0.1);
-  --shadow-button-hover: 0 4px 8px hsla(0, 0%, 0%, 0.15);
-
-  --hero-gradient-start: hsla(210, 30%, 8%, 0.9);
-  --hero-gradient-end: hsla(210, 30%, 10%, 0.6);
+  --hero-gradient-start: hsla(210, 30%, 12%, 0.8);
+  --hero-gradient-end: hsla(210, 30%, 12%, 0.6);
 }
 
 *, *::before, *::after {

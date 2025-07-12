@@ -3,7 +3,7 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  color: var(--hero-text-primary);
+  color: var(--color-text-primary);
   position: relative;
   min-height: 600px;
   display: flex;
@@ -42,7 +42,7 @@
   font-size: var(--font-size-xxs);
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--hero-text-secondary);
+  color: var(--color-text-secondary);
   margin: 0;
   padding: var(--spacing-sm) 0;
   font-weight: var(--font-weight-black);
@@ -87,14 +87,14 @@
 .music-hero .title {
   font-size: var(--font-size-5xl);
   font-weight: var(--font-weight-black);
-  color: var(--hero-text-primary);
+  color: var(--color-text-primary);
   margin-bottom: var(--spacing-md);
   letter-spacing: -0.05em;
 }
 
 .music-hero .subtitle {
   font-size: var(--font-size-xl);
-  color: var(--hero-text-secondary);
+  color: var(--color-text-secondary);
   line-height: var(--line-height-relaxed);
   max-width: 90%;
   opacity: 0.9;
@@ -110,7 +110,7 @@
 .hero-tab-button {
   background: transparent;
   border: none;
-  color: var(--hero-text-secondary);
+  color: var(--color-text-secondary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -175,7 +175,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-black);
   letter-spacing: 2px;
-  color: var(--hero-text-primary);
+  color: var(--color-text-primary);
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -198,14 +198,14 @@
 }
 
 .feature-description {
-  color: var(--hero-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 
 
 .cta-button {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-text-on-primary);
+  color: var(--color-text-primary);
   padding: var(--spacing-sm) var(--spacing-xl);
   border-radius: var(--border-radius-full);
   font-weight: var(--font-weight-bold);
@@ -241,7 +241,7 @@
 
 .secondary-cta {
   background: var(--color-primary);
-  color: var(--hero-text-primary);
+  color: var(--color-text-primary);
 }
 
 .hero-quick-links {

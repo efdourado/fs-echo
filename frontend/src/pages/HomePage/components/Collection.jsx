@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faPause, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
-import { fetchAlbumById, fetchPlaylistById } from "../../../api/api";
-import { deletePlaylist } from "../../../api/adminApi";
+import { fetchAlbumById, fetchPlaylistById } from '../../../services/collectionService';
+import { deletePlaylist } from '../../../services/userService';
 
-import SongList from "../../../components/songs/SongList";
-import LoadingSpinner from "../../../components/ui/LoadingSpinner";
-import SoundWave from "../../../components/ui/SoundWave";
-import EditPlaylistModal from "../../../components/playlists/EditPlaylistModal";
+import SongList from '../../../components/songs/SongList';
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import SoundWave from '../../../components/ui/SoundWave';
+import EditPlaylistModal from '../../../components/playlists/EditPlaylistModal';
 
-import { useSongMenu } from "../../../context/SongMenuContext";
-import { usePlayer } from "../../../hooks/usePlayer";
-import { useAuth } from "../../../context/AuthContext";
+import { useSongMenu } from '../../../context/SongMenuContext';
+import { usePlayer } from '../../../hooks/usePlayer';
+import { useAuth } from '../../../context/AuthContext';
 
-import fallbackImage from "/fb.jpg";
+import fallbackImage from '/fb.jpg';
 
 const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
@@ -37,15 +37,16 @@ const Collection = ({ collectionId, type = "album" }) => {
       try {
         setLoading(true);
         const fetcher = type === "album" ? fetchAlbumById : fetchPlaylistById;
-        const collectionData = await fetcher(collectionId);
+        const { data: collectionData } = await fetcher(collectionId);
 
-        setCollection(collectionData);
-
-        const tracks =
-          type === "playlist"
-            ? collectionData.songs.map((item) => item.song).filter(Boolean)
-            : collectionData.songs || [];
-        setSongs(tracks);
+        if (collectionData) {
+          setCollection(collectionData);
+          const tracks =
+            type === "playlist"
+              ? collectionData.songs.map((item) => item.song).filter(Boolean)
+              : collectionData.songs || [];
+          setSongs(tracks);
+        }
       } catch (error) {
         console.error(`Error loading ${type} data:`, error);
       } finally {

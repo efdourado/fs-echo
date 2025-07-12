@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchSongById, fetchArtists, fetchAlbums } from '../../api/api';
-import { createSong, updateSong } from '../../api/adminApi';
+
+import { fetchSongById, fetchArtists, fetchAlbums } from '../../services/collectionService';
+import { createSong, updateSong } from '../../services/adminService';
+
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {

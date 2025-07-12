@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faEllipsis, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-import { fetchAlbumById, fetchPlaylistById } from '../../api/api';
-import { deletePlaylist } from '../../api/adminApi';
+import { fetchAlbumById, fetchPlaylistById } from '../../services/collectionService';
+import { deletePlaylist } from "../../services/userService";
 
 import { useSongMenu } from "../../context/SongMenuContext";
 import { usePlayer } from '../../hooks/usePlayer';

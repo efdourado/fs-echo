@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchArtistById } from '../../api/api';
-import { createArtist, updateArtist } from '../../api/adminApi';
+
+import { fetchArtistById } from '../../services/collectionService';
+import { createArtist, updateArtist } from '../../services/adminService';
+
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
@@ -27,7 +29,7 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
     if (isEditing) {
       setLoading(true);
       fetchArtistById(id)
-        .then(data => {
+        .then(({ data }) => {
           const socials = data.socials || { instagram: '', x: '', youtube: '', tiktok: '' };
           setArtist({ ...data, genre: data.genre.join(', '), socials });
         })

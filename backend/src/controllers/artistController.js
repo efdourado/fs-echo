@@ -1,11 +1,13 @@
+import { ArtistService } from '../services/artistService.js';
+
 export class ArtistController {
-  constructor(artistModel) {
-    this.model = artistModel;
+  constructor() {
+    this.artistService = new ArtistService();
   }
 
   async getAllArtists(req, res) {
     try {
-      const artists = await this.model.findAll();
+      const artists = await this.artistService.getAllArtists();
       res.json(artists);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -14,7 +16,7 @@ export class ArtistController {
   async getArtistById(req, res) {
     const { id } = req.params;
     try {
-      const artist = await this.model.findById(id);
+      const artist = await this.artistService.getArtistById(id);
       if (!artist) {
         return res.status(404).json({ error: 'artist not found' });
       }
@@ -35,7 +37,7 @@ export class ArtistController {
         artistData.genre = artistData.genre.split(',').map(g => g.trim()).filter(g => g);
       }
       
-      const artist = await this.model.create(artistData);
+      const artist = await this.artistService.createArtist(artistData);
       res.status(201).json(artist);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -54,7 +56,7 @@ export class ArtistController {
         updateData.genre = updateData.genre.split(',').map(g => g.trim()).filter(g => g);
       }
 
-      const artist = await this.model.updateById(id, updateData);
+      const artist = await this.artistService.updateArtist(id, updateData);
       if (!artist) {
         return res.status(404).json({ error: 'Artist not found' });
       }
@@ -66,7 +68,7 @@ export class ArtistController {
   async deleteArtist(req, res) {
     const { id } = req.params;
     try {
-      const artist = await this.model.deleteById(id);
+      const artist = await this.artistService.deleteArtist(id);
       if (!artist) {
         return res.status(404).json({ error: 'Artist not found' });
       }

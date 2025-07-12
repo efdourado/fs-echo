@@ -5,50 +5,45 @@ import { SongController } from '../controllers/songController.js';
 import { UserController } from '../controllers/userController.js';
 import { AlbumController } from '../controllers/albumController.js';
 import { PlaylistController } from '../controllers/playlistController.js';
-
-import { ArtistModel } from '../models/artistModel.js';
-import { SongModel } from '../models/songModel.js';
-import { UserModel } from '../models/userModel.js';
-import { AlbumModel } from '../models/albumModel.js';
-import { PlaylistModel } from '../models/playlistModel.js';
 import { connectToDatabase } from '../config/db.js';
 
 import { createAuthRouter } from './authRoutes.js';
 import { protect, admin } from '../middlewares/authMiddleware.js';
-
-import { isArtistOwner } from '../middlewares/artistAuthMiddleware.js'; 
+import { isArtistOwner } from '../middlewares/artistAuthMiddleware.js';
 
 const router = express.Router();
 
 await connectToDatabase();
 
-const artistController = new ArtistController(new ArtistModel());
-const songController = new SongController(new SongModel());
-const userController = new UserController(new UserModel());
-const albumController = new AlbumController(new AlbumModel());
-const playlistController = new PlaylistController(new PlaylistModel());
+const artistController = new ArtistController();
+const songController = new SongController();
+const userController = new UserController();
+const albumController = new AlbumController();
+const playlistController = new PlaylistController();
 
 const authRouter = createAuthRouter(userController);
-
 router.use('/auth', authRouter);
 
 router.get('/', (req, res) => {
   res.json({
-    endpoints: [
-      '/auth/register',
-      '/auth/login',
-      '/auth/me',
-      '/artists',
-      '/artist/:id',
-      '/songs',
-      '/song/:id',
-      '/users',
-      '/user/:id',
-      '/albums',
-      '/album/:id',
-      '/playlists',
-      '/playlist/:id'
-] }); });
+    exampleEndpoints: {
+      artists: [
+        'GET /artists',
+        'GET /artist/:id',
+        '...'
+      ],
+      users: [
+        'GET /user/:ownerId/playlists',
+        '...'
+      ],
+      albums: [
+        'GET /artist/:artistId/albums',
+        '...'
+      ],
+      playlists: [
+        'GET /me/playlists',
+        '...'
+] } }); });
 
 router.get('/artists', artistController.getAllArtists.bind(artistController));
 router.get('/artist/:id', artistController.getArtistById.bind(artistController));
@@ -74,9 +69,9 @@ router.delete('/user/:id', protect, admin, userController.deleteUser.bind(userCo
 router.get('/albums', albumController.getAllAlbums.bind(albumController));
 router.get('/album/:id', albumController.getAlbumById.bind(albumController));
 router.get('/artist/:artistId/albums', albumController.getAlbumsByArtist.bind(albumController));
-router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 router.post('/albums', protect, admin, albumController.createAlbum.bind(albumController));
 router.put('/album/:id', protect, admin, albumController.updateAlbum.bind(albumController));
+router.delete('/album/:id', protect, admin, albumController.deleteAlbum.bind(albumController));
 
 router.get('/playlists', playlistController.getAllPlaylists.bind(playlistController));
 router.get('/playlist/:id', playlistController.getPlaylistById.bind(playlistController));

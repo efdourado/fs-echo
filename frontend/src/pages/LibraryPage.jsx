@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getMyPlaylists } from "../api/adminApi";
+import { getMyPlaylists } from "../services/userService";
 
 import Card from "../components/ui/Card";
 import LoadingSpinner from "../components/ui/LoadingSpinner";

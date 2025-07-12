@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { fetchUserById, updateUser } from '../../api/adminApi';
+import { fetchUserById, updateUser } from '../../services/userService';
+
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import { useAuth } from '../../context/AuthContext';
 

@@ -2,18 +2,26 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBell, faSun, faMoon, faBars, faPlus, faSearch, faTimes,
-  faChevronDown, faRightFromBracket, faUserCircle,
+  faBell, faBars, faPlus, faSearch, faTimes,
+  faChevronDown, faRightFromBracket, faUserCircle, faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../context/AuthContext";
 import fallbackImage from '/fb.jpg';
 
+const themes = [
+  { name: 'dark', icon: faMoon, className: 'theme-dark' },
+  { name: 'ocean', icon: faMoon, className: 'theme-ocean' },
+];
+
 const Header = ({ toggleSidebar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    return savedMode ? JSON.parse(savedMode) : true;
+  
+  const [themeIndex, setThemeIndex] = useState(() => {
+    const savedThemeName = localStorage.getItem("themeName") || 'dark';
+    const savedIndex = themes.findIndex(t => t.name === savedThemeName);
+    return savedIndex !== -1 ? savedIndex : 0;
   });
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchActive, setSearchActive] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -26,9 +34,12 @@ const Header = ({ toggleSidebar }) => {
   const { isAuthenticated, currentUser, logout, loadingAuth } = useAuth();
 
   useEffect(() => {
-    document.body.classList.toggle("light-mode", !darkMode);
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
+    const currentTheme = themes[themeIndex];
+
+    document.body.className = '';
+    document.body.classList.add(currentTheme.className);
+    localStorage.setItem("themeName", currentTheme.name);
+  }, [themeIndex]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -67,7 +78,9 @@ const Header = ({ toggleSidebar }) => {
     return () => document.removeEventListener("mousedown", handleClickOutsideSearch);
   }, [searchActive]);
 
-  const toggleDarkMode = () => setDarkMode(prevMode => !prevMode);
+  const cycleTheme = () => {
+    setThemeIndex(prevIndex => (prevIndex + 1) % themes.length);
+  };
 
   const handleSearchToggle = () => {
     setSearchActive(prev => {
@@ -117,10 +130,10 @@ const Header = ({ toggleSidebar }) => {
           <div className="header-right">
             <button
               className="btn-icon-only btn-ghost theme-toggle"
-              onClick={toggleDarkMode}
-              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+              onClick={cycleTheme}
+              aria-label="Change theme"
             >
-              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="btn-icon-graphic" />
+              <FontAwesomeIcon icon={themes[themeIndex].icon} className="btn-icon-graphic" />
             </button>
           </div>
         </div>
@@ -203,10 +216,10 @@ const Header = ({ toggleSidebar }) => {
 
           <button
             className="btn-icon-only btn-ghost theme-toggle"
-            onClick={toggleDarkMode}
-            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={cycleTheme}
+            aria-label="Change theme"
           >
-            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="btn-icon-graphic" />
+            <FontAwesomeIcon icon={themes[themeIndex].icon} className="btn-icon-graphic" />
           </button>
 
           {isAuthenticated && currentUser ? (

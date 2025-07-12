@@ -6,7 +6,7 @@ import {
   getMyPlaylists,
   addSongToPlaylist,
   createPlaylist,
-} from "../../api/adminApi";
+} from "../../services/userService";
 
 import Modal from "../ui/Modal";
 import LoadingSpinner from "../ui/LoadingSpinner";

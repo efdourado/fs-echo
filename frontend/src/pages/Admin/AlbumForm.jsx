@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchAlbumById, fetchArtists, fetchSongs } from '../../api/api';
-import { createAlbum, updateAlbum } from '../../api/adminApi';
+
+import { fetchAlbumById, fetchArtists, fetchSongs } from '../../services/collectionService';
+import { createAlbum, updateAlbum } from '../../services/adminService';
+
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
@@ -27,27 +29,31 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([fetchArtists(), fetchSongs()])
-      .then(([artistsData, songsData]) => {
-        setArtists(artistsData);
-        setAllSongs(songsData);
+    const loadFormData = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const [artistsRes, songsRes] = await Promise.all([fetchArtists(), fetchSongs()]);
+        setArtists(artistsRes.data);
+        setAllSongs(songsRes.data);
+
         if (isEditing) {
-          return fetchAlbumById(id);
-      } })
-      
-      .then(albumData => {
-        if (albumData) {
+          const { data: albumData } = await fetchAlbumById(id);
           setFormData({
             ...albumData,
             artist: albumData.artist?._id || '',
             songs: albumData.songs?.map(s => s._id) || [],
             genre: albumData.genre?.join(', ') || '',
             releaseDate: albumData.releaseDate ? albumData.releaseDate.split('T')[0] : ''
-      }); } })
-      
-      .catch(err => setError('Failed to load required data. Please try again.'))
-      .finally(() => setLoading(false));
+        }); }
+      } catch (err) {
+        setError('Failed to load required data. Please try again.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+    } };
+
+    loadFormData();
   }, [id, isEditing]);
 
   const handleChange = (e) => {

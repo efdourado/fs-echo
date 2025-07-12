@@ -11,8 +11,8 @@ import {
 
 import fallbackImage from "/fb.jpg";
 
-import * as api from "../api/api";
-import { deletePlaylist, removeSongFromPlaylist } from "../api/adminApi";
+import * as collectionService from "../services/collectionService";
+import { deletePlaylist, removeSongFromPlaylist } from "../services/userService";
 
 import { useAuth } from "../context/AuthContext";
 import { useSongMenu } from "../context/SongMenuContext";
@@ -26,9 +26,9 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { normalizeDataForPage } from "../utils/syncer";
 
 const fetchers = {
-  artist: api.fetchArtistById,
-  album: api.fetchAlbumById,
-  playlist: api.fetchPlaylistById,
+  artist: collectionService.fetchArtistById,
+  album: collectionService.fetchAlbumById,
+  playlist: collectionService.fetchPlaylistById,
 };
 
 const CollectionPage = ({ type }) => {
@@ -60,7 +60,7 @@ const CollectionPage = ({ type }) => {
       const fetcher = fetchers[type];
       if (!fetcher) throw new Error(`Invalid page type: ${type}`);
 
-      const data = await fetcher(id);
+      const { data } = await fetcher(id);
       if (!data) throw new Error("Could not load data for this page.");
 
       setRawData(data);
@@ -144,7 +144,7 @@ const CollectionPage = ({ type }) => {
       if (isPlaying && playContext?.id === id) {
         togglePlayPause();
       } else {
-        api.fetchSongById(id).then((songData) => playTrack(songData));
+        collectionService.fetchSongById(id).then((songData) => playTrack(songData));
       }
     } else {
       if (isMainContentPlaying) {

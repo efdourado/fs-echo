@@ -96,7 +96,7 @@
   padding: var(--spacing-md) var(--spacing-xl);
   width: 100%;
   background: var(--color-primary);
-  color: var(--color-text-on-primary);
+  color: var(--color-text-primary);
   border-radius: var(--border-radius-md);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-md);

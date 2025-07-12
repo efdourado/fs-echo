@@ -1,13 +1,15 @@
-import Artist from '../models/artistModel.js';
+import { AlbumService } from '../services/albumService.js';
+import { ArtistService } from '../services/artistService.js';
 
 export class AlbumController {
-  constructor(albumModel) {
-    this.model = albumModel;
+  constructor() {
+    this.albumService = new AlbumService();
+    this.artistService = new ArtistService();
   }
 
   async getAllAlbums(req, res) {
     try {
-      const albums = await this.model.findAll();
+      const albums = await this.albumService.getAllAlbums();
       res.json(albums);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -16,7 +18,7 @@ export class AlbumController {
   async getAlbumById(req, res) {
     const { id } = req.params;
     try {
-      const album = await this.model.findById(id);
+      const album = await this.albumService.getAlbumById(id);
       if (!album) {
         return res.status(404).json({ error: 'Album not found' });
       }
@@ -27,14 +29,10 @@ export class AlbumController {
 
   async createAlbum(req, res) {
     try {
-      const albumData = { ...req.body };
-      const album = await this.model.create(albumData);
-
+      const album = await this.albumService.createAlbum(req.body);
       if (album.artist) {
-        await Artist.findByIdAndUpdate(album.artist, {
-          $addToSet: { albums: album._id }
-      }); }
-      
+        await this.artistService.addAlbumToArtist(album.artist, album._id);
+      }
       res.status(201).json(album);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -43,11 +41,8 @@ export class AlbumController {
   async updateAlbum(req, res) {
     const { id } = req.params;
     try {
-      const updateData = { ...req.body };
-      
-      const originalAlbum = await this.model.findById(id);
-      
-      const updatedAlbum = await this.model.updateById(id, updateData);
+      const originalAlbum = await this.albumService.getAlbumById(id);
+      const updatedAlbum = await this.albumService.updateAlbum(id, req.body);
       if (!updatedAlbum) {
         return res.status(404).json({ error: 'Album not found' });
       }
@@ -56,12 +51,11 @@ export class AlbumController {
       const newArtistId = updatedAlbum.artist.toString();
 
       if (originalArtistId !== newArtistId) {
-        await Artist.findByIdAndUpdate(originalArtistId, {
+        await this.artistService.updateArtist(originalArtistId, {
           $pull: { albums: updatedAlbum._id }
         });
-        await Artist.findByIdAndUpdate(newArtistId, {
-          $addToSet: { albums: updatedAlbum._id }
-      }); }
+        await this.artistService.addAlbumToArtist(newArtistId, updatedAlbum._id);
+      }
 
       res.json(updatedAlbum);
     } catch (error) {
@@ -71,7 +65,7 @@ export class AlbumController {
   async deleteAlbum(req, res) {
     const { id } = req.params;
     try {
-      const album = await this.model.deleteById(id);
+      const album = await this.albumService.deleteAlbum(id);
       if (!album) {
         return res.status(404).json({ error: 'Album not found' });
       }
@@ -83,7 +77,7 @@ export class AlbumController {
   async getAlbumsByArtist(req, res) {
     const { artistId } = req.params;
     try {
-      const albums = await this.model.findByArtist(artistId);
+      const albums = await this.albumService.getAlbumsByArtist(artistId);
       res.json(albums);
     } catch (error) {
       res.status(500).json({ error: error.message });

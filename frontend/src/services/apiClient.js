@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-const API_URL = "/api";
-
-const authApi = axios.create({
-  baseURL: API_URL,
+const apiClient = axios.create({
+  baseURL: '/api',
 });
 
-authApi.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -18,4 +16,4 @@ authApi.interceptors.request.use(
     return Promise.reject(error);
 } );
 
-export default authApi;
+export default apiClient;

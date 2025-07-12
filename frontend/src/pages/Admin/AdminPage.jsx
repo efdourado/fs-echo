@@ -3,19 +3,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
-import * as api from '../../api/api';
-import * as adminApi from '../../api/adminApi';
+import * as collectionService from '../../services/collectionService';
+import * as adminService from '../../services/adminService';
 
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import AdminTable from './components/AdminTable';
 import AdminEditModal from './components/AdminEditModal';
 
-
 const TABS = {
-  artists: { label: 'Artists', fetch: api.fetchArtists, delete: adminApi.deleteArtist },
-  albums: { label: 'Albums', fetch: api.fetchAlbums, delete: adminApi.deleteAlbum },
-  songs: { label: 'Songs', fetch: api.fetchSongs, delete: adminApi.deleteSong },
-  users: { label: 'Users', fetch: adminApi.fetchUsers, delete: adminApi.deleteUser },
+  artists: { label: 'Artists', fetch: collectionService.fetchArtists, delete: adminService.deleteArtist },
+  albums: { label: 'Albums', fetch: collectionService.fetchAlbums, delete: adminService.deleteAlbum },
+  songs: { label: 'Songs', fetch: collectionService.fetchSongs, delete: adminService.deleteSong },
+  users: { label: 'Users', fetch: adminService.fetchUsers, delete: adminService.deleteUser },
 };
 
 const AdminPage = () => {
@@ -30,8 +29,8 @@ const AdminPage = () => {
     setError('');
     try {
       const fetchData = TABS[activeTab].fetch;
-      const result = await fetchData();
-      setData(result.data || result);
+      const { data } = await fetchData();
+      setData(data || []);
     } catch (err) {
       setError(`Failed to fetch ${activeTab}.`);
       console.error(err);

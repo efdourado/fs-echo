@@ -1,104 +1,60 @@
-import { ArtistModel } from '../models/artistModel.js';
+import { SongService } from '../services/songService.js';
 
 export class SongController {
-  constructor(songModel) {
-    this.model = songModel;
-    this.artistModel = new ArtistModel();
+  constructor() {
+    this.songService = new SongService();
   }
 
   async getAllSongs(req, res) {
     try {
-      const songs = await this.model.findAll();
+      const songs = await this.songService.getAllSongs();
       res.json(songs);
     } catch (error) {
       res.status(500).json({ error: error.message });
   } }
 
-  async incrementPlay(req, res) {
-    const { id } = req.params;
-    try {
-      const song = await this.model.incrementPlayCount(id);
-      if (!song) {
-        return res.status(404).json({ error: 'song not found' });
-      }
-
-      if (song.artist) {
-        await this.artistModel.updateTopSongs(song.artist);
-      }
-
-      res.status(200).json({ message: 'Play count updated successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
-  } }
-  
   async getSongById(req, res) {
-    const { id } = req.params;
     try {
-      const song = await this.model.findById(id);
+      const song = await this.songService.getSongById(req.params.id);
       if (!song) {
-        return res.status(404).json({ error: 'song not found' });
+        return res.status(404).json({ error: 'Song not found' });
       }
       res.json(song);
     } catch (error) {
       res.status(500).json({ error: error.message });
   } }
-   
+
   async createSong(req, res) {
     try {
-      const songData = { ...req.body };
-      
-      if (!songData.audioUrl || !songData.duration) {
-          return res.status(400).json({ error: 'Audio URL and duration are required.' });
-      }
-
-      const song = await this.model.create(songData);
-      
-      if (song.artist) {
-        await this.artistModel.updateTopSongs(song.artist);
-      }
-
+      const song = await this.songService.createSong(req.body);
       res.status(201).json(song);
     } catch (error) {
-      console.error(error);
-      res.status(400).json({ error: error.message });
+      res.status(error.statusCode || 400).json({ error: error.message });
   } }
-
+  
   async updateSong(req, res) {
-    const { id } = req.params;
     try {
-      const updateData = { ...req.body };
-      
-      const originalSong = await this.model.findById(id);
-      if (!originalSong) {
-        return res.status(404).json({ error: 'Song not found' });
-      }
-      const oldArtistId = originalSong.artist?._id.toString();
-
-      const updatedSong = await this.model.updateById(id, updateData);
-      const newArtistId = updatedSong.artist?._id.toString();
-
-      if (oldArtistId && oldArtistId !== newArtistId) {
-        await this.artistModel.updateTopSongs(oldArtistId);
-      }
-      if (newArtistId) {
-        await this.artistModel.updateTopSongs(newArtistId);
-      }
-
+      const updatedSong = await this.songService.updateSong(req.params.id, req.body);
       res.json(updatedSong);
     } catch (error) {
-      console.error(error);
-      res.status(400).json({ error: error.message });
+      res.status(error.statusCode || 400).json({ error: error.message });
   } }
 
-  async deleteSong(req, res) {
-    const { id } = req.params;
+  async incrementPlay(req, res) {
     try {
-      const song = await this.model.deleteById(id);
+      const song = await this.songService.incrementPlayCount(req.params.id);
       if (!song) {
         return res.status(404).json({ error: 'Song not found' });
       }
-      res.status(204).end();
+      res.status(200).json({ message: 'Play count updated successfully' });
     } catch (error) {
       res.status(500).json({ error: error.message });
+  } }
+
+  async deleteSong(req, res) {
+    try {
+      await this.songService.deleteSong(req.params.id);
+      res.status(204).end();
+    } catch (error) {
+      res.status(error.statusCode || 500).json({ error: error.message });
 } } }
