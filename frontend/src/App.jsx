@@ -9,7 +9,7 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Sidebar from './components/layout/Sidebar';
 
-import SongMenu from './components/songs/SongMenu';
+import SongModal from './components/songs/SongModal';
 
 import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
@@ -101,7 +101,7 @@ const App = () => {
               </Routes>
             </main>
             <Footer companyName={'Memphis'} />
-            <SongMenu />
+            <SongModal />
           </div>
         </div>
         <Player isSidebarOpen={isSidebarOpen} />

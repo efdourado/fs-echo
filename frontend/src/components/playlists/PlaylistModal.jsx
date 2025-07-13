@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FormModal from '../ui/FormModal';
 import PlaylistForm from './PlaylistForm';
 
-const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {
+const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {
   if (!isOpen) return null;
 
   const formProps = {
@@ -25,7 +25,7 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
     />
 ); };
 
-EditPlaylistModal.propTypes = {
+PlaylistModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   playlist: PropTypes.object,
@@ -33,4 +33,4 @@ EditPlaylistModal.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-export default EditPlaylistModal;
+export default PlaylistModal;

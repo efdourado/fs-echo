@@ -14,7 +14,7 @@ const formComponents = {
   user: UserForm,
 };
 
-const AdminEditModal = ({ isOpen, onClose, item, type, onSaved }) => {
+const AdminModal = ({ isOpen, onClose, item, type, onSaved }) => {
   if (!isOpen || !type) return null;
 
   const isEditing = !!item;
@@ -38,4 +38,4 @@ const AdminEditModal = ({ isOpen, onClose, item, type, onSaved }) => {
     </Modal>
 ); };
 
-export default AdminEditModal;
+export default AdminModal;

@@ -15,11 +15,11 @@ import * as collectionService from "../services/collectionService";
 import { deletePlaylist, removeSongFromPlaylist } from "../services/userService";
 
 import { useAuth } from "../context/AuthContext";
-import { useSongMenu } from "../context/SongMenuContext";
+import { useSongModal } from "../context/SongModalContext";
 import { usePlayer } from "../hooks/usePlayer";
 
 import SongList from "../components/songs/SongList";
-import EditPlaylistModal from "../components/playlists/EditPlaylistModal";
+import PlaylistModal from "../components/playlists/PlaylistModal";
 import Card from "../components/ui/Card";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
@@ -35,7 +35,7 @@ const CollectionPage = ({ type }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const { openMenu } = useSongMenu();
+  const { openMenu } = useSongModal();
 
   const [rawData, setRawData] = useState(null);
   const [normalizedData, setNormalizedData] = useState(null);
@@ -264,7 +264,7 @@ const CollectionPage = ({ type }) => {
       </div>
 
       {isOwner && rawData && (
-        <EditPlaylistModal
+        <PlaylistModal
           isOpen={isEditModalOpen}
           onClose={() => setEditModalOpen(false)}
           playlist={rawData}

@@ -1,10 +1,10 @@
 import React, { createContext, useState, useContext } from 'react';
 
-const SongMenuContext = createContext();
+const SongModalContext = createContext();
 
-export const useSongMenu = () => useContext(SongMenuContext);
+export const useSongModal = () => useContext(SongModalContext);
 
-export const SongMenuProvider = ({ children }) => {
+export const SongModalProvider = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [song, setSong] = useState(null);
   const [menuContext, setMenuContext] = useState(null);
@@ -30,7 +30,7 @@ export const SongMenuProvider = ({ children }) => {
   };
 
   return (
-    <SongMenuContext.Provider value={value}>
+    <SongModalContext.Provider value={value}>
       {children}
-    </SongMenuContext.Provider>
+    </SongModalContext.Provider>
 ); };

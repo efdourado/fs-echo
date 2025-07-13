@@ -3,7 +3,7 @@
 @import url("./components/ui/Bias.css");
 @import url("./components/ui/Card.css");
 @import url("./components/ui/ErrorMessage.css");
-@import url("./components/ui/FormModal.css");
+@import url("./components/ui/Form.css");
 @import url("./components/ui/Hero.css");
 @import url("./components/ui/LoadingSpinner.css");
 @import url("./components/ui/Modal.css");
@@ -16,7 +16,7 @@
 
 @import url("./components/songs/SongItem.css");
 @import url("./components/songs/SongList.css");
-@import url("./components/songs/SongMenu.css");
+@import url("./components/songs/SongModal.css");
 
 @import url("./pages/HomePage/HomePage.css");
 @import url("./pages/HomePage/components/Carousel.css");

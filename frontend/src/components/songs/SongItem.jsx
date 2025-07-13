@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-import { useSongMenu } from "../../context/SongMenuContext";
+import { useSongModal } from "../../context/SongModalContext";
 import { usePlayer } from "../../hooks/usePlayer";
 import fallbackImage from '/fb.jpg';
 
 const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }) => {
   const player = usePlayer();
-  const { openMenu } = useSongMenu();
+  const { openMenu } = useSongModal();
 
   if (!song || !song.artist) {
     return null;

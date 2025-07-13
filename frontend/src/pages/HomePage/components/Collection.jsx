@@ -12,9 +12,9 @@ import { deletePlaylist } from '../../../services/userService';
 import SongList from '../../../components/songs/SongList';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import SoundWave from '../../../components/ui/SoundWave';
-import EditPlaylistModal from '../../../components/playlists/EditPlaylistModal';
+import PlaylistModal from '../../../components/playlists/PlaylistModal';
 
-import { useSongMenu } from '../../../context/SongMenuContext';
+import { useSongModal } from '../../../context/SongModalContext';
 import { usePlayer } from '../../../hooks/usePlayer';
 import { useAuth } from '../../../context/AuthContext';
 
@@ -27,7 +27,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const { startPlayback, playContext, isPlaying, togglePlayPause } =
     usePlayer();
   const [isHovered, setIsHovered] = useState(false);
-  const { openMenu } = useSongMenu();
+  const { openMenu } = useSongModal();
   const { currentUser } = useAuth();
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -196,7 +196,7 @@ const Collection = ({ collectionId, type = "album" }) => {
       </Link>
 
       {type === 'playlist' && isOwner && collection && (
-        <EditPlaylistModal
+        <PlaylistModal
           isOpen={isEditModalOpen}
           onClose={handleCloseEditModal}
           playlist={collection}

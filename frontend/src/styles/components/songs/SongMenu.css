@@ -24,3 +24,16 @@
 .playlist-icon {
   color: var(--color-text-tertiary);
 }
+
+.playlist-selection-list li button.delete-option {
+  color: var(--color-error);
+}
+
+.playlist-selection-list li button.delete-option:hover {
+  background-color: hsla(0, 79%, 63%, 0.1);
+  color: var(--color-error-hover);
+}
+
+.playlist-selection-list li button.delete-option .playlist-icon {
+  color: var(--color-error);
+}

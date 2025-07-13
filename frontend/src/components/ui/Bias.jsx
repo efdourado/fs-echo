@@ -8,19 +8,19 @@ import { faPlay, faPause, faEllipsis, faSpinner } from '@fortawesome/free-solid-
 import { fetchAlbumById, fetchPlaylistById } from '../../services/collectionService';
 import { deletePlaylist } from "../../services/userService";
 
-import { useSongMenu } from "../../context/SongMenuContext";
+import { useSongModal } from "../../context/SongModalContext";
 import { usePlayer } from '../../hooks/usePlayer';
 import { useAuth } from '../../context/AuthContext';
 
 import SoundWave from './SoundWave';
 
-import EditPlaylistModal from '../../components/playlists/EditPlaylistModal';
+import PlaylistModal from '../../components/playlists/PlaylistModal';
 
 import fallbackImage from '/fb.jpg';
 
 const Bias = ({ item, type }) => {
   const player = usePlayer();
-  const { openMenu } = useSongMenu();
+  const { openMenu } = useSongModal();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   
@@ -173,7 +173,7 @@ const Bias = ({ item, type }) => {
       </Link>
 
       {type === 'playlist' && isOwner && item && (
-        <EditPlaylistModal
+        <PlaylistModal
           isOpen={isEditModalOpen}
           onClose={handleCloseEditModal}
           playlist={item}
