@@ -59,7 +59,6 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
       if (currentUser && currentUser._id === id) {
         updateCurrentUser(response.data);
       }
-      
       if (isModal) {
         onSaved();
         onClose();
@@ -87,7 +86,7 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
         </div>
 
         <div className="admin-form__group span-2">
-          <label htmlFor="profilePic">Profile Picture URL</label>
+          <label htmlFor="profilePic">Profile picture (URL)</label>
           <input
             type="url"
             id="profilePic"
@@ -99,8 +98,8 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
         </div>
 
         <div className="admin-form__group span-2">
-          <label htmlFor="bio">Bio</label>
-          <textarea id="bio" name="bio" value={user.bio || ''} onChange={handleChange} rows="4"></textarea>
+          <label htmlFor="bio"></label>
+          <textarea id="bio" name="bio" value={user.bio || ''} onChange={handleChange} rows="2" placeholder='Bio...'></textarea>
         </div>
 
         <div className="admin-form__group span-2 admin-form__checkbox-group">

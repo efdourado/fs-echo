@@ -13,7 +13,9 @@
 @import url("./components/layout/Player.css");
 @import url("./components/layout/Sidebar.css");
 
-@import url("./components/songs.css");
+@import url("./components/songs/SongItem.css");
+@import url("./components/songs/SongList.css");
+@import url("./components/songs/SongMenu.css");
 
 @import url("./pages/HomePage/HomePage.css");
 @import url("./pages/HomePage/components/Carousel.css");

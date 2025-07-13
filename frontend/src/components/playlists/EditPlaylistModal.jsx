@@ -44,43 +44,49 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
   if (!isOpen) return null;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={`Edit "${playlist.name}"`}>
+    <Modal isOpen={isOpen} onClose={onClose} title={`Edit '${playlist.name}'`}>
       <form onSubmit={handleSubmit} className="auth-form" style={{padding: '0', maxWidth: 'none'}}>
         <ErrorMessage message={error} />
 
         <div className="form-group">
-          <label htmlFor="playlist-name">Name</label>
+          <label htmlFor="playlist-name"></label>
           <input
             id="playlist-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            placeholder=" "
+            placeholder="Name"
+            spellCheck="false"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="playlist-description">Description</label>
-          <textarea
+          <label htmlFor="playlist-description"></label>
+          <input
             id="playlist-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows="3"
-            placeholder=" "
+            placeholder="Description"
+            spellCheck="false"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="playlist-coverImage">Cover Image URL</label>
+          <label htmlFor="playlist-coverImage"></label>
           <input
             id="playlist-coverImage"
             type="url"
             value={coverImage}
             onChange={(e) => setCoverImage(e.target.value)}
-            placeholder=" "
+            placeholder="Cover image (URL)"
+            spellCheck="false"
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
+        <div className="edit-playlist-modal-footer">
+            <button type="submit" disabled={loading} className="login-btn">
+                {loading ? 'Saving...' : 'Save Changes'}
+            </button>
             <button
                 type="button"
                 onClick={onDelete}
@@ -88,9 +94,6 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
                 aria-label="Delete Playlist"
             >
                 <FontAwesomeIcon icon={faTrash} />
-            </button>
-            <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button" style={{width: 'auto'}}>
-                {loading ? 'Saving...' : 'Save Changes'}
             </button>
         </div>
       </form>

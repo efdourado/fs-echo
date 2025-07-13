@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import PropTypes from 'prop-types';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -24,11 +23,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title">{title}</h2>
-          <button onClick={onClose} className="modal-close-btn" aria-label="Close modal">
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
+        <div className="carousel__header">
+          <h2 className="carousel__title">{title}</h2>
+
         </div>
         <div className="modal-body">
           {children}

@@ -79,31 +79,40 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
     <form onSubmit={handleSubmit}>
       <div className="admin-form-container">
         <div className="admin-form__grid">
-          <div className="admin-form__group span-2">
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" value={artist.name} onChange={handleTextChange} required />
+            <div className="admin-form__group--compound">
+            <div className="admin-form__group">
+              <label htmlFor="name">Artist Name</label>
+              <input type="text" id="name" name="name" value={artist.name} onChange={handleTextChange} required />
+            </div>
+
+            <div className="admin-form__checkbox-group">
+              <input type="checkbox" id="verified" name="verified" checked={artist.verified} onChange={handleTextChange} />
+              <label htmlFor="verified">Verified</label>
+            </div>
           </div>
+
           <div className="admin-form__group span-2">
             <label htmlFor="description">Description</label>
-            <textarea id="description" name="description" value={artist.description} onChange={handleTextChange} rows="4"></textarea>
+            <textarea id="description" name="description" value={artist.description} onChange={handleTextChange} rows="2"></textarea>
           </div>
+
+          <hr className="admin-form__divider" />
+          
           <div className="admin-form__group">
-            <label>Artist Image URL</label>
+            <label>Artist image (URL)</label>
             <input type="url" name="image" value={artist.image} onChange={handleTextChange} placeholder="https://..." />
           </div>
           <div className="admin-form__group">
-            <label>Banner Image URL</label>
+            <label>Banner (URL)</label>
             <input type="url" name="banner" value={artist.banner} onChange={handleTextChange} placeholder="https://..." />
           </div>
           <div className="admin-form__group span-2">
-            <label htmlFor="genre">Genres (comma-separated)</label>
+            <label htmlFor="genre">Genres</label>
             <input type="text" id="genre" name="genre" value={artist.genre} onChange={handleTextChange} placeholder="Hip-Hop, Pop, R&B" />
           </div>
-          <div className="admin-form__group span-2 admin-form__checkbox-group">
-            <input type="checkbox" id="verified" name="verified" checked={artist.verified} onChange={handleTextChange} />
-            <label htmlFor="verified">Verified Artist</label>
-          </div>
-          <h2 className="span-2">Social Links</h2>
+
+          <hr className="admin-form__divider" />
+
           <div className="admin-form__group">
             <label htmlFor="socials.instagram">Instagram</label>
             <input type="text" id="socials.instagram" name="socials.instagram" value={artist.socials.instagram} onChange={handleTextChange} placeholder="https://instagram.com/..." />
