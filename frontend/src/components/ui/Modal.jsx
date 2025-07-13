@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,10 +35,9 @@ const Modal = ({ isOpen, onClose, title, children, onDelete }) => {
             <button
               type="button"
               onClick={onDelete}
-              className="form-modal__delete-btn"
+              className="cta-button primary-cta"
               aria-label="Delete"
             >
-              <FontAwesomeIcon icon={faTrash} />
               <span>Delete</span>
             </button>
           </div>

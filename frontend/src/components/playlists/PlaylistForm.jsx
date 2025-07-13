@@ -24,7 +24,7 @@ const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
-      setError('Playlist name is required.');
+      setError('Playlist name is required');
       return;
     }
     setError('');
@@ -33,7 +33,7 @@ const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
       const response = await updatePlaylist(playlist._id, formData);
       onSaved(response.data);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update playlist.');
+      setError(err.response?.data?.message || 'Failed to update playlist');
   } };
 
   return (
@@ -45,13 +45,13 @@ const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
       </div>
       <div className="form-group">
         <label htmlFor="playlist-description">Description</label>
-        <textarea id="playlist-description" name="description" value={formData.description} onChange={handleChange} rows="3" placeholder=" " />
+        <textarea id="playlist-description" name="description" value={formData.description} onChange={handleChange} rows="2" placeholder=" " />
       </div>
       <div className="form-group">
         <label htmlFor="playlist-coverImage">Cover Image URL</label>
-        <input id="playlist-coverImage" type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} placeholder=" " />
+        <input id="playlist-coverImage" type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} placeholder="https:// ..." />
       </div>
-      <div className="admin-form__actions">
+      <div className="form-actions">
         <button type="button" onClick={onCancel} className="cta-button cancel" disabled={isSaving}>
           Cancel
         </button>

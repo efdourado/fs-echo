@@ -89,13 +89,13 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <ErrorMessage message={error} />
-      <div className="admin-form__grid">
+      <div className="form-grid">
         {config.fields.map(field => {
           const { name, label, type, component = 'input', optionsKey, ...rest } = field;
           
           if (component === 'input') {
             return (
-              <div key={name} className={`admin-form__group ${field.span || ''}`}>
+              <div key={name} className={`form-group ${field.span || ''}`}>
                 <label htmlFor={name}>{label}</label>
                 <input id={name} name={name} type={type} value={formData[name] || ''} onChange={handleChange} {...rest} />
               </div>
@@ -103,7 +103,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           }
           if (component === 'textarea') {
             return (
-              <div key={name} className={`admin-form__group ${field.span || ''}`}>
+              <div key={name} className={`form-group ${field.span || ''}`}>
                 <label htmlFor={name}>{label}</label>
                 <textarea id={name} name={name} value={formData[name] || ''} onChange={handleChange} {...rest} />
               </div>
@@ -112,7 +112,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           if (component === 'select') {
             const options = optionsKey ? relatedData[optionsKey] || [] : [];
             return (
-              <div key={name} className={`admin-form__group ${field.span || ''}`}>
+              <div key={name} className={`form-group ${field.span || ''}`}>
                 <label htmlFor={name}>{label}</label>
                 <select id={name} name={name} value={formData[name] || ''} onChange={handleChange} {...rest}>
                   <option value="" disabled>Select {label}</option>
@@ -126,7 +126,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           }
            if (component === 'checkbox') {
             return (
-              <div key={name} className={`admin-form__group admin-form__checkbox-group ${field.span || ''}`}>
+              <div key={name} className={`form-group form-checkbox-group ${field.span || ''}`}>
                 <input id={name} name={name} type="checkbox" checked={formData[name] || false} onChange={handleChange} />
                 <label htmlFor={name}>{label}</label>
               </div>
@@ -135,7 +135,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           return null;
         })}
       </div>
-      <div className="admin-form__actions">
+      <div className="form-actions">
         <button type="button" onClick={onCancel} className="cta-button cancel" disabled={saving}>
           Cancel
         </button>

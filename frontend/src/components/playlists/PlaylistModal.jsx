@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import PropTypes from 'prop-types';
 
 import Modal from '../ui/Modal';
@@ -18,7 +17,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete 
       await onPlaylistUpdated(updatedData);
       onClose();
     } catch (error) {
-      console.error("Failed to save playlist from modal:", error);
+      console.error("Failed to save playlist from modal", error);
     } finally {
       setIsSaving(false);
   } };

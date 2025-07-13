@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMusic, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faHeadphones, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import ErrorMessage from "../ui/ErrorMessage";
 import Modal from "../ui/Modal";
@@ -150,7 +150,7 @@ const SongModal = () => {
       {playlists.map((playlist) => (
         <li key={playlist._id}>
           <button onClick={() => handleAddToPlaylist(playlist._id)}>
-            <FontAwesomeIcon icon={faMusic} className="playlist-icon" />
+            <FontAwesomeIcon icon={faHeadphones} className="playlist-icon" />
             <span>{playlist.name}</span>
           </button>
         </li>
