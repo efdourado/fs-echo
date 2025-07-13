@@ -46,16 +46,3 @@
 @keyframes slideIn {
   from { transform: translateY(-30px) scale(0.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; }
 }
-
-
-.edit-playlist-modal-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-md);
-  margin-top: 12px;
-}
-
-.edit-playlist-modal-footer button {
-  max-width: 300px;
-}

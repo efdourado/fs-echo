@@ -4,8 +4,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 
-import ErrorMessage from '../../components/ui/ErrorMessage';
 import { useAuth } from '../../context/AuthContext';
+import AuthForm from './components/AuthForm';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -37,19 +37,18 @@ const LoginPage = () => {
       setLoading(false);
   } };
 
+  const title = `<h2>Sign in<br />to your account</h2>`;
+
   return (
     <div className="auth-page">
       <div className="auth-container">
         <div className="auth-content-wrapper">
           <div className="auth-social-section">
-            <h2>
-              Hi again! Welcome back to your space
-            </h2>
+            <h2>Hi again! Welcome back to your space</h2>
             <p className="auth-subtitle">
               Music, reimagined — Memphis is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists,
               and align new perspectives through sound.
             </p>
-
             <div className="social-login-container">
               <a href="/api/auth/spotify" className="cta-button primary-cta create-btn">
                 <FontAwesomeIcon icon={faSpotify} style={{marginRight:"16px"}} />
@@ -60,65 +59,55 @@ const LoginPage = () => {
 
           <div className="auth-separator">OR</div>
 
-          <div className="auth-form-section">
-            <form onSubmit={handleSubmit} className="auth-form">
-              <h2>
-                Sign in<br />
-                to your account
-              </h2>
-
-              <ErrorMessage message={error} />
-
-              <div className="form-group">
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  placeholder=" "
-                  spellCheck="false"
-                />
-                <label htmlFor="email">Email</label>
-              </div>
-              
-              <div className="form-group">
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  placeholder=" "
-                />
-                <label htmlFor="password">Password</label>
-              </div>
-              
-              <div className="form-options">
-                <div className="checkbox-group">
-                  <input 
-                    type="checkbox" 
-                    id="rememberMe" 
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                  />
-                  <label htmlFor="rememberMe">Remember me</label>
-                </div>
-                <Link to="/forgot-password">Forgot password?</Link>
-              </div>
-              
-              <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button">
-                {loading ? 'Signing In...' : 'Sign In'}
-              </button>
-              
-              <p className="auth-subtitle">
-                Not a member yet? <a href="/register">Sign Up</a>
-              </p>
+          <AuthForm title={title} error={error} onSubmit={handleSubmit}>
+            <div className="auth-form__group">
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                placeholder=" "
+                spellCheck="false"
+              />
+              <label htmlFor="email">Email</label>
+            </div>
             
-            </form>
-          </div>
+            <div className="auth-form__group">
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                placeholder=" "
+              />
+              <label htmlFor="password">Password</label>
+            </div>
+            
+            <div className="auth-form__options">
+              <div className="auth-form__checkbox-group">
+                <input 
+                  type="checkbox" 
+                  id="rememberMe" 
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="rememberMe">Remember me</label>
+              </div>
+              <Link to="/forgot-password">Forgot password?</Link>
+            </div>
+            
+            <button type="submit" disabled={loading} className="cta-button secondary-cta auth-button">
+              {loading ? 'Signing In...' : 'Sign In'}
+            </button>
+            
+            <p className="auth-subtitle">
+              Not a member yet? <Link to="/register">Sign Up</Link>
+            </p>
+          </AuthForm>
         </div>
       </div>
     </div>

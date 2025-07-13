@@ -1,7 +1,8 @@
-// frontend/src/components/ui/Modal.jsx
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+
 import PropTypes from 'prop-types';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 

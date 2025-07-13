@@ -1,28 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
 
-import FormModal from '../ui/Form';
+import Modal from '../ui/Modal';
 import PlaylistForm from './PlaylistForm';
 
 const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {
-  if (!isOpen) return null;
+  const [isSaving, setIsSaving] = useState(false);
 
-  const formProps = {
-    playlist: playlist,
-    onSaved: (updatedData) => {
-      onPlaylistUpdated(updatedData);
+  if (!isOpen) {
+    return null;
+  }
+
+  const handleSave = async (updatedData) => {
+    setIsSaving(true);
+    try {
+      await onPlaylistUpdated(updatedData);
       onClose();
-  }, };
+    } catch (error) {
+      console.error("Failed to save playlist from modal:", error);
+    } finally {
+      setIsSaving(false);
+  } };
 
   return (
-    <FormModal
+    <Modal
       isOpen={isOpen}
       onClose={onClose}
-      FormComponent={PlaylistForm}
-      formProps={formProps}
       title={`Edit "${playlist.name}"`}
       onDelete={onDelete}
-    />
+    >
+      <PlaylistForm
+        playlist={playlist}
+        onSaved={handleSave}
+        onCancel={onClose}
+        isSaving={isSaving}
+      />
+    </Modal>
 ); };
 
 PlaylistModal.propTypes = {

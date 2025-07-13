@@ -14,7 +14,7 @@ import SongModal from './components/songs/SongModal';
 import { PlayerProvider } from './context/PlayerContext';
 import { useAuth } from './context/AuthContext';
 
-import AdminPage from './pages/Admin/AdminPage';
+import AdminPage from './pages/AdminPage/AdminPage';
 
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';

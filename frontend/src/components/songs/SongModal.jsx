@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSongModal } from "../../context/SongModalContext";
-import { getMyPlaylists, addSongToPlaylist, createPlaylist } from "../../services/userService";
-import Modal from "../ui/Modal";
-import LoadingSpinner from "../ui/LoadingSpinner";
-import ErrorMessage from "../ui/ErrorMessage";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-// --- Sub-component for Creating a New Playlist ---
+import ErrorMessage from "../ui/ErrorMessage";
+import Modal from "../ui/Modal";
+import LoadingSpinner from "../ui/LoadingSpinner";
+import { useSongModal } from "../../context/SongModalContext";
+import { getMyPlaylists, addSongToPlaylist, createPlaylist } from "../../services/userService";
+
 const CreatePlaylistView = ({ song, onPlaylistCreated, onCancel }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -17,7 +18,7 @@ const CreatePlaylistView = ({ song, onPlaylistCreated, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Playlist name is required.");
+      setError("Playlist name is required");
       return;
     }
     setLoading(true);
@@ -27,11 +28,10 @@ const CreatePlaylistView = ({ song, onPlaylistCreated, onCancel }) => {
       await addSongToPlaylist(newPlaylistData._id, song._id);
       onPlaylistCreated(newPlaylistData);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to create playlist.");
+      setError(err.response?.data?.message || "Failed to create playlist");
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   return (
     <form onSubmit={handleSubmit} className="form-container" style={{ gap: 'var(--spacing-lg)'}}>
@@ -70,11 +70,9 @@ const CreatePlaylistView = ({ song, onPlaylistCreated, onCancel }) => {
         </button>
       </div>
     </form>
-  );
-};
+); };
 
 
-// --- Main SongModal Component ---
 const SongModal = () => {
   const { isMenuOpen, song, closeMenu, menuContext } = useSongModal();
   const [view, setView] = useState("list"); // 'list' or 'create'
@@ -83,18 +81,16 @@ const SongModal = () => {
   const [feedback, setFeedback] = useState({ message: "", isError: false });
 
   useEffect(() => {
-    // Fetch playlists only when menu opens and is in the list view
     if (isMenuOpen && view === "list") {
       setLoading(true);
-      setFeedback({ message: "", isError: false }); // Reset feedback
+      setFeedback({ message: "", isError: false });
       getMyPlaylists()
         .then((response) => setPlaylists(response.data))
-        .catch(() => setFeedback({ message: "Could not load your playlists.", isError: true }))
+        .catch(() => setFeedback({ message: "Could not load your playlists", isError: true }))
         .finally(() => setLoading(false));
     }
   }, [isMenuOpen, view]);
 
-  // Reset to the default view when the menu is opened for a new song
   useEffect(() => {
     if (isMenuOpen) {
       setView("list");
@@ -109,10 +105,9 @@ const SongModal = () => {
       setFeedback({ message: `Added to "${playlist.name}"!` });
       setTimeout(closeMenu, 1500);
     } catch (err) {
-      const message = err.response?.data?.message || "Failed to add song.";
+      const message = err.response?.data?.message || "Failed to add song";
       setFeedback({ message, isError: true });
-    }
-  };
+  } };
 
   const handlePlaylistCreated = (newPlaylist) => {
     setFeedback({ message: `Added to "${newPlaylist.name}"!` });
@@ -124,8 +119,7 @@ const SongModal = () => {
       menuContext.onRemove();
       setFeedback({ message: "Song removed!" });
       setTimeout(closeMenu, 1500);
-    }
-  };
+  } };
   
   const renderFeedback = () => (
     <div
@@ -187,7 +181,6 @@ const SongModal = () => {
         />
       ) : null}
     </Modal>
-  );
-};
+); };
 
 export default SongModal;

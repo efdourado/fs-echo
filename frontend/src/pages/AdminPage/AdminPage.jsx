@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 import * as adminService from '../../services/adminService';
 import * as collectionService from '../../services/collectionService';
 
+import AdminForm from './components/AdminForm';
+import AdminModal from './components/AdminModal';
+import AdminTable from './components/AdminTable';
 import { artistFormConfig } from './components/formConfigs/artistFormConfig';
 import { albumFormConfig } from './components/formConfigs/albumFormConfig';
 import { songFormConfig } from './components/formConfigs/songFormConfig';
 import { userFormConfig } from './components/formConfigs/userFormConfig';
-
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import AdminTable from './components/AdminTable';
-import AdminForm from './components/AdminForm';
-import AdminModal from './components/modals/AdminModal';
 
 const TABS = {
   artists: { label: 'Artists', fetch: collectionService.fetchArtists, delete: adminService.deleteArtist, config: artistFormConfig },

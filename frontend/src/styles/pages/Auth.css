@@ -87,7 +87,6 @@
 }
 
 
-
 .auth-social-section {
   text-align: left;
   position: relative;
@@ -118,13 +117,12 @@
 }
 
 
-
-.form-group {
+.auth-form__group {
   text-align: left;
   position: relative;
 }
 
-.form-group label {
+.auth-form__group label {
   position: absolute;
   left: var(--spacing-md);
   top: var(--spacing-md);
@@ -140,7 +138,7 @@
   margin-bottom: 8px;
 }
 
-.form-group input {
+.auth-form__group input {
   width: 100%;
   padding: 14px 16px;
 
@@ -153,18 +151,18 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.form-group input::placeholder {
+.auth-form__group input::placeholder {
   color: var(--color-text-tertiary);
 }
 
-.form-group input:focus {
+.auth-form__group input:focus {
   outline: none;
   border-color: var(--color-primary);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-xs);
 }
 
-.form-group input:focus + label, .form-group input:not(:placeholder-shown) + label {
+.auth-form__group input:focus + label, .auth-form__group input:not(:placeholder-shown) + label {
   transform: translateY(-24px) scale(0.85);
   background-color: var(--color-surface);
   padding: 0 3px;
@@ -174,7 +172,7 @@
 
 
 
-.form-options {
+.auth-form__options {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -182,13 +180,13 @@
   font-size: var(--font-size-xs);
 }
 
-.checkbox-group {
+.auth-form__checkbox-group {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 }
 
-.checkbox-group input[type="checkbox"] {
+.auth-form__checkbox-group input[type="checkbox"] {
   appearance: none;
   width: 16px;
   height: 16px;
@@ -202,12 +200,12 @@
   transition: all 0.2s ease;
 }
 
-.checkbox-group input[type="checkbox"]:checked {
+.auth-form__checkbox-group input[type="checkbox"]:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.checkbox-group input[type="checkbox"]:checked::after {
+.auth-form__checkbox-group input[type="checkbox"]:checked::after {
   content: '✓';
   position: absolute;
   color: var(--color-white);
@@ -217,12 +215,11 @@
   transform: translate(-50%, -50%);
 }
 
-.checkbox-group label {
+.auth-form__checkbox-group label {
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
   cursor: pointer;
 }
-
 
 .auth-button:disabled {
   background-color: rgba(255, 255, 255, 0.1);
@@ -230,7 +227,6 @@
   cursor: not-allowed;
   box-shadow: none;
 }
-
 
 input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--color-text-primary) !important;
