@@ -35,7 +35,7 @@ const LibraryPage = () => {
       {loading ? (
         <LoadingSpinner />
       ) : error ? (
-        <div className="error-message">{error}</div>
+        <ErrorMessage message={error} />
       ) : (
         <div className="playlists-grid">
           {playlists.map((playlist) => (

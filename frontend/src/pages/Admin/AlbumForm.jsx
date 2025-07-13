@@ -157,7 +157,7 @@ const AlbumForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
   return (
     <div className="admin-page">
       <h1>{isEditing ? 'Edit Album' : 'Create New Album'}</h1>
-      {error && <p className="error-message">{error}</p>}
+      <ErrorMessage message={error} />
       {loading ? <LoadingSpinner message="Loading album data..." /> : formContent}
     </div>
 ); };

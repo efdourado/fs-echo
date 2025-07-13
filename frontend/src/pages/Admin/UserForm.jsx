@@ -124,7 +124,7 @@ const UserForm = ({ id: modalId, isModal = false, onClose, onSaved }) => {
   return (
     <div className="admin-page">
       <h1>{isEditing ? `Edit User: ${user.username}` : 'Create New User'}</h1>
-      {error && <p className="error-message">{error}</p>}
+      <ErrorMessage message={error} />
       {formContent}
     </div>
 ); };

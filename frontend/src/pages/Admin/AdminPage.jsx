@@ -96,7 +96,7 @@ const AdminPage = () => {
         {loading ? (
           <LoadingSpinner />
         ) : error ? (
-          <p className="error-message">{error}</p>
+          <ErrorMessage message={error} />
         ) : (
           <AdminTable
             type={activeTab}

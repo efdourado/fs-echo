@@ -121,7 +121,7 @@ const CollectionPage = ({ type }) => {
   };
 
   if (loading) return <LoadingSpinner fullScreen />;
-  if (error) return <div className="error-message">{error}</div>;
+  if (error) return <ErrorMessage message={error} />;
   if (!normalizedData) return null;
 
   const {

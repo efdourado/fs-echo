@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { updatePlaylist } from '../../services/userService';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
+import { updatePlaylist } from '../../services/userService';
+import ErrorMessage from '../ui/ErrorMessage';
 import Modal from '../ui/Modal';
 
 const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {
@@ -20,13 +20,12 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
       setName(playlist.name || '');
       setDescription(playlist.description || '');
       setCoverImage(playlist.coverImage || '');
-    }
-  }, [playlist]);
+  } }, [playlist]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Playlist name is required.');
+      setError('Playlist name is required');
       return;
     }
     setLoading(true);
@@ -37,7 +36,7 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
       onPlaylistUpdated(updatedPlaylist);
       onClose();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update playlist.');
+      setError(err.response?.data?.message || 'Failed to update this playlist');
     } finally {
       setLoading(false);
   } };
@@ -47,7 +46,8 @@ const EditPlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDel
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`Edit "${playlist.name}"`}>
       <form onSubmit={handleSubmit} className="auth-form" style={{padding: '0', maxWidth: 'none'}}>
-        {error && <p className="error-message">{error}</p>}
+        <ErrorMessage message={error} />
+
         <div className="form-group">
           <label htmlFor="playlist-name">Name</label>
           <input

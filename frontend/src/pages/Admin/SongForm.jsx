@@ -152,7 +152,7 @@ const SongForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
   return (
     <div className="admin-page">
       <h1>{isEditing ? 'Edit Song' : 'Create New Song'}</h1>
-      {error && <p className="error-message">{error}</p>}
+      <ErrorMessage message={error} />
       {loading && isEditing ? <LoadingSpinner /> : formContent}
     </div>
 ); };

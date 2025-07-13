@@ -69,7 +69,7 @@ const RegisterPage = () => {
           <div className="auth-separator">OR</div>
 
           <div className="auth-form-section">
-            {error && <div className="error-message">{error}</div>}
+            <ErrorMessage message={error} />
 
             <form onSubmit={handleSubmit} className="auth-form">
               <h2>

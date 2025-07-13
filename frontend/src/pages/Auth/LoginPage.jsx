@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
+
+import ErrorMessage from '../../components/ui/ErrorMessage';
+import { useAuth } from '../../context/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,10 +16,7 @@ const LoginPage = () => {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
   const from = location.state?.from?.pathname || "/";
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,11 +32,10 @@ const LoginPage = () => {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || 'Failed to login. Please check your credentials.');
+      setError(err.message || 'Failed to login. Please check your credentials');
     } finally {
       setLoading(false);
-    }
-  };
+  } };
 
   return (
     <div className="auth-page">
@@ -58,20 +56,18 @@ const LoginPage = () => {
                 Continue with Spotify
               </a>
             </div>
-            
-            
           </div>
 
           <div className="auth-separator">OR</div>
 
           <div className="auth-form-section">
-            {error && <div className="error-message">{error}</div>}
-
             <form onSubmit={handleSubmit} className="auth-form">
               <h2>
                 Sign in<br />
                 to your account
               </h2>
+
+              <ErrorMessage message={error} />
 
               <div className="form-group">
                 <input

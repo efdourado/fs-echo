@@ -48,7 +48,8 @@ const CreatePlaylistView = ({ song, onPlaylistCreated }) => {
 
   return (
     <form onSubmit={handleSubmit} className="auth-form">
-      {error && <p className="error-message">{error}</p>}
+      <ErrorMessage message={error} />
+
       <div className="form-group">
         <label htmlFor="playlist-name">Name</label>
         <input

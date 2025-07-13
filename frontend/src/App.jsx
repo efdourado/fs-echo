@@ -18,7 +18,7 @@ import AdminPage from './pages/Admin/AdminPage';
 
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
-import Home from './pages/HomePage/HomePage';
+import HomePage from './pages/HomePage/HomePage';
 import CollectionPage from './pages/CollectionPage';
 import ComingSoonPage from './pages/ComingSoonPage';
 import LibraryPage from './pages/LibraryPage';
@@ -74,7 +74,7 @@ const App = () => {
             <Header toggleSidebar={toggleSidebar} />
             <main style={{ flex: 1 }}>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 

@@ -221,7 +221,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   margin: 0;
 }
 input[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
+  -webkit-appearance: none;
 }
 
 .sr-only {
@@ -310,17 +312,3 @@ body.light-mode ::-webkit-scrollbar-thumb:hover {
   :root {
     --container-padding-x: var(--spacing-md);
 } }
-
-
-
-
-.error-message {
-  color: var(--color-text-primary);
-  font-size: var(--font-size-sm);
-  background-color: var(--color-error);
-
-  border-radius: 8px 8px 0 0;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  text-align: center;
-  backdrop-filter: blur(5px);
-}

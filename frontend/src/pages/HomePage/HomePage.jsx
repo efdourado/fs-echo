@@ -11,7 +11,7 @@ import Hero from "../../components/ui/Hero.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-const Home = () => {
+const HomePage = () => {
   const [songs, setSongs] = useState([]);
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -134,4 +134,4 @@ const Home = () => {
     </div>
 ); };
 
-export default Home;
+export default HomePage;
