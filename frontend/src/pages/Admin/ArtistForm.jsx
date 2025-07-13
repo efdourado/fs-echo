@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchArtistById } from '../../services/collectionService';
 import { createArtist, updateArtist } from '../../services/adminService';
 
+import ErrorMessage from '../../components/ui/ErrorMessage'
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
@@ -130,7 +131,10 @@ const ArtistForm = ({ id: propId, isModal = false, onClose, onSaved }) => {
             <input type="text" id="socials.tiktok" name="socials.tiktok" value={artist.socials.tiktok} onChange={handleTextChange} placeholder="https://tiktok.com/..." />
           </div>
         </div>
-        <button type="submit" className="admin-button-save" disabled={loading}>
+      </div>
+
+      <div className="admin-form__actions">
+        <button type="submit" className="cta-button secondary-cta" disabled={loading}>
           {loading ? 'Saving...' : (isEditing ? 'Update Artist' : 'Create Artist')}
         </button>
       </div>
