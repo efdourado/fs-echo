@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FormModal from '../ui/FormModal';
+import FormModal from '../ui/Form';
 import PlaylistForm from './PlaylistForm';
 
 const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete }) => {

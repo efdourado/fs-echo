@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Form from '../../components/ui/Form';
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
-import ErrorMessage from '../../components/ui/ErrorMessage';
+
+import ErrorMessage from '../../../components/ui/ErrorMessage';
+import Form from '../../../components/ui/Form'; 
+import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 
 const AdminForm = ({ id, config, onSaved, onCancel }) => {
   const [formData, setFormData] = useState(config.initialState);
@@ -18,11 +19,10 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
       try {
         setLoading(true);
         const promises = [];
-        // Fetch the item itself if we are editing
+
         if (isEditing) {
           promises.push(config.api.fetchById(id));
         }
-        // Fetch any related data needed for select dropdowns
         if (config.relations) {
           Object.values(config.relations).forEach(relation => {
             promises.push(relation.fetch());
@@ -36,7 +36,6 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           const processedData = config.processDataForForm(itemData);
           setFormData(processedData);
         }
-
         if (config.relations) {
           const newRelatedData = {};
           Object.keys(config.relations).forEach((key, index) => {
@@ -44,13 +43,12 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           });
           setRelatedData(newRelatedData);
         }
-
       } catch (err) {
         setError('Failed to load form data.');
       } finally {
         setLoading(false);
-      }
-    };
+    } };
+    
     loadData();
   }, [id, isEditing, config]);
 
@@ -62,8 +60,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
       setFormData(prev => ({ ...prev, [name]: values }));
     } else {
       setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-    }
-  };
+  } };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,8 +80,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
       setError(err.response?.data?.message || 'Failed to save item.');
     } finally {
       setSaving(false);
-    }
-  };
+  } };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -123,7 +119,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
                   {options.map(option => (
                     <option key={option._id} value={option._id}>{option.name || option.title}</option>
                   ))}
-                  {/* Add special cases for other select options if needed */}
+
                 </select>
               </div>
             );
@@ -148,8 +144,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
         </button>
       </div>
     </Form>
-  );
-};
+); };
 
 AdminForm.propTypes = {
   id: PropTypes.string,

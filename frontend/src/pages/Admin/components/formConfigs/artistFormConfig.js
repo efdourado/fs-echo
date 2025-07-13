@@ -1,5 +1,5 @@
-import * as adminService from '../../../services/adminService';
-import { fetchArtistById } from '../../../services/collectionService';
+import * as adminService from '../../../../services/adminService';
+import { fetchArtistById } from '../../../../services/collectionService';
 
 export const artistFormConfig = {
   initialState: {
@@ -30,5 +30,4 @@ export const artistFormConfig = {
     { name: 'image', label: 'Artist Image URL', type: 'url', span: 'span-2' },
     { name: 'banner', label: 'Banner URL', type: 'url', span: 'span-2' },
     { name: 'genre', label: 'Genres (comma-separated)', type: 'text', span: 'span-2' },
-  ]
-};
+] };
