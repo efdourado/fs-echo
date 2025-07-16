@@ -1,15 +1,14 @@
 import React from "react";
 
-import { formatDuration } from "../../../utils/duration";
-
-import fallbackImage from "/fb.jpg";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTrash,
+  faTrashCan,
   faEdit,
   faCheckDouble,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { formatDuration } from "../../../utils/duration";
+import fallbackImage from "/fb.jpg";
 
 const formatDateTime = (isoString) => {
   if (!isoString) return "N/A";
@@ -258,7 +257,7 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => {
                     className="admin-action-button delete"
                     aria-label="Delete"
                   >
-                    <FontAwesomeIcon icon={faTrash} />
+                    <FontAwesomeIcon icon={faTrashCan} />
                   </button>
                 )}
               </div>

@@ -45,20 +45,18 @@ npm install
 
 2. **Set up backend environment variables:**
 
-```env
 MONGODB_URI=
 DB_NAME=
 JWT_SECRET=
 
 JWT_EXPIRES_IN=
 PORT=
-```
 
 3. **Start front and backend server:**
 
 ```bash
 npm run dev --prefix frontend
-
+  
 npm start --prefix backend
 ```
 

@@ -26,7 +26,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete 
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={`Edit "${playlist.name}"`}
+      title={`Edit '${playlist.name}'`}
       onDelete={onDelete}
     >
       <PlaylistForm
@@ -34,6 +34,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist, onPlaylistUpdated, onDelete 
         onSaved={handleSave}
         onCancel={onClose}
         isSaving={isSaving}
+        onDelete={onDelete}
       />
     </Modal>
 ); };

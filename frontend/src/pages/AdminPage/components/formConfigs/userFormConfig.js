@@ -20,7 +20,7 @@ export const userFormConfig = {
   fields: [
     { name: 'username', label: 'Username', type: 'text', required: true },
     { name: 'email', label: 'Email', type: 'email', required: true },
-    { name: 'bio', label: 'Bio', component: 'textarea', rows: '3', span: 'span-2' },
+    { name: 'bio', label: 'Bio', component: 'textarea', rows: '2', span: 'span-2' },
     { name: 'profilePic', label: 'Profile Picture URL', type: 'url', span: 'span-2' },
     { name: 'isAdmin', label: 'Administrator', component: 'checkbox' },
     { name: 'isArtist', label: 'Artist', component: 'checkbox' },

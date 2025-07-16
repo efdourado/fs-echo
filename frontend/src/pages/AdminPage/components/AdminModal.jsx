@@ -1,7 +1,5 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
-
 import Modal from '../../../components/ui/Modal';
 
 const AdminModal = ({ isOpen, onClose, title, FormComponent, formProps }) => {

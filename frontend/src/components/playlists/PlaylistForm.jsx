@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrashCan
+} from "@fortawesome/free-solid-svg-icons";
+
 import { updatePlaylist } from '../../services/userService';
 
-const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
+const PlaylistForm = ({ playlist, onSaved, isSaving, onDelete }) => {
   const [formData, setFormData] = useState({ name: '', description: '', coverImage: '' });
   const [error, setError] = useState('');
 
@@ -13,8 +18,7 @@ const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
         description: playlist.description || '',
         coverImage: playlist.coverImage || '',
       });
-    }
-  }, [playlist]);
+  } }, [playlist]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,25 +43,31 @@ const PlaylistForm = ({ playlist, onSaved, onCancel, isSaving }) => {
   return (
     <form onSubmit={handleSubmit} className="auth-form" style={{ padding: '0', maxWidth: 'none' }}>
       {error && <p className="error-message">{error}</p>}
+
       <div className="form-group">
         <label htmlFor="playlist-name">Name</label>
-        <input id="playlist-name" type="text" name="name" value={formData.name} onChange={handleChange} required placeholder=" " />
+        <input id="playlist-name" type="text" name="name" value={formData.name} onChange={handleChange} required spellCheck='false' />
       </div>
+
       <div className="form-group">
         <label htmlFor="playlist-description">Description</label>
-        <textarea id="playlist-description" name="description" value={formData.description} onChange={handleChange} rows="2" placeholder=" " />
+        <textarea id="playlist-description" name="description" value={formData.description} onChange={handleChange} rows="6" spellCheck='false' />
       </div>
+
       <div className="form-group">
-        <label htmlFor="playlist-coverImage">Cover Image URL</label>
-        <input id="playlist-coverImage" type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} placeholder="https:// ..." />
+        <label htmlFor="playlist-coverImage">Cover</label>
+        <input id="playlist-coverImage" type="url" name="coverImage" value={formData.coverImage} onChange={handleChange} spellCheck='false' />
       </div>
       <div className="form-actions">
-        <button type="button" onClick={onCancel} className="cta-button cancel" disabled={isSaving}>
-          Cancel
-        </button>
-        <button type="submit" disabled={isSaving} className="cta-button secondary-cta">
+        <button type="submit" disabled={isSaving} className="modal-btn">
           {isSaving ? 'Saving...' : 'Save Changes'}
         </button>
+
+        {onDelete && (
+           <button type="button" onClick={onDelete} className="admin-action-button delete" disabled={isSaving}>
+            <FontAwesomeIcon icon={faTrashCan} />
+          </button>
+        )}
       </div>
     </form>
 ); };
@@ -67,6 +77,7 @@ PlaylistForm.propTypes = {
   onSaved: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   isSaving: PropTypes.bool,
+  onDelete: PropTypes.func,
 };
 
 export default PlaylistForm;

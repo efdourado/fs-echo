@@ -5,7 +5,7 @@ import ErrorMessage from '../../../components/ui/ErrorMessage';
 import Form from '../../../components/ui/Form'; 
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 
-const AdminForm = ({ id, config, onSaved, onCancel }) => {
+const AdminForm = ({ id, config, onSaved }) => {
   const [formData, setFormData] = useState(config.initialState);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -44,7 +44,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           setRelatedData(newRelatedData);
         }
       } catch (err) {
-        setError('Failed to load form data.');
+        setError('Failed to load form data');
       } finally {
         setLoading(false);
     } };
@@ -77,7 +77,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
       }
       onSaved();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save item.');
+      setError(err.response?.data?.message || 'Failed to save item');
     } finally {
       setSaving(false);
   } };
@@ -96,19 +96,23 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           if (component === 'input') {
             return (
               <div key={name} className={`form-group ${field.span || ''}`}>
+
                 <label htmlFor={name}>{label}</label>
-                <input id={name} name={name} type={type} value={formData[name] || ''} onChange={handleChange} {...rest} />
+                <input type={type} id={name} value={formData[name] || ''} name={name} onChange={handleChange} spellCheck="false" {...rest} />
               </div>
-            );
-          }
+          ); }
+
+          
           if (component === 'textarea') {
             return (
               <div key={name} className={`form-group ${field.span || ''}`}>
                 <label htmlFor={name}>{label}</label>
                 <textarea id={name} name={name} value={formData[name] || ''} onChange={handleChange} {...rest} />
+                
+                <div className="form-divider span-2"></div>
               </div>
-            );
-          }
+          ); }
+          
           if (component === 'select') {
             const options = optionsKey ? relatedData[optionsKey] || [] : [];
             return (
@@ -122,25 +126,22 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
 
                 </select>
               </div>
-            );
-          }
-           if (component === 'checkbox') {
+          ); }
+          
+          if (component === 'checkbox') {
             return (
-              <div key={name} className={`form-group form-checkbox-group ${field.span || ''}`}>
-                <input id={name} name={name} type="checkbox" checked={formData[name] || false} onChange={handleChange} />
+              <div key={name} className={`auth-form__group form-checkbox-group ${field.span || ''}`}>
+                <input id={name} name={name} type="checkbox" checked={formData[name] || false} onChange={handleChange} /> 
                 <label htmlFor={name}>{label}</label>
               </div>
-            );
-          }
+          ); }
+          
           return null;
         })}
       </div>
       <div className="form-actions">
-        <button type="button" onClick={onCancel} className="cta-button cancel" disabled={saving}>
-          Cancel
-        </button>
-        <button type="submit" className="cta-button secondary-cta" disabled={saving}>
-          {saving ? 'Saving...' : (isEditing ? 'Update' : 'Create')}
+        <button type="submit" className="modal-btn" disabled={saving}>
+          {saving ? 'Saving...' : (isEditing ? 'Save Changes' : 'Create')}
         </button>
       </div>
     </Form>

@@ -83,7 +83,7 @@ const AdminPage = () => {
 
   const currentTabConfig = TABS[activeTab];
   const currentTypeName = activeTab.slice(0, -1);
-  const modalTitle = `${editingItem ? 'Edit' : 'Create New'} ${currentTypeName.charAt(0).toUpperCase() + currentTypeName.slice(1)}`;
+  const modalTitle = `${editingItem ? 'Update' : 'Create'} ${ currentTypeName }`;
 
   return (
     <div className="admin-page-unified">

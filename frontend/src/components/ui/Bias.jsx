@@ -121,9 +121,7 @@ const Bias = ({ item, type }) => {
       } catch (err) {
         console.error('Failed to delete playlist:', err);
         alert('Failed to delete playlist.');
-      }
-    }
-  };
+  } } };
   
   return (
     <>

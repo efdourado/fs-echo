@@ -24,10 +24,10 @@ export const artistFormConfig = {
     genre: data.genre.split(',').map(g => g.trim()).filter(Boolean),
   }),
   fields: [
-    { name: 'name', label: 'Artist Name', type: 'text', required: true },
-    { name: 'verified', label: 'Verified', component: 'checkbox' },
-    { name: 'description', label: 'Description', component: 'textarea', rows: '3', span: 'span-2' },
-    { name: 'image', label: 'Artist Image URL', type: 'url', span: 'span-2' },
-    { name: 'banner', label: 'Banner URL', type: 'url', span: 'span-2' },
-    { name: 'genre', label: 'Genres (comma-separated)', type: 'text', span: 'span-2' },
+    { name: 'banner', label: 'Banner', type: 'url'},
+    { name: 'image', label: 'Profile picture', type: 'url'},
+    { name: 'name', label: 'Name', type: 'text', required: true },
+    { name: 'verified', label: '', component: 'checkbox' },
+    { name: 'description', label: 'Description', component: 'textarea', rows: '13', span: 'span-2' },
+    { name: 'genre', label: 'Genres', type: 'text', span: 'span-2' },
 ] };

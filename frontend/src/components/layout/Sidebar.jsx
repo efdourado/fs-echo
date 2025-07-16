@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faFolder, faCompass, faChevronRight, faUsers, faCog, faSignOutAlt, faCircleQuestion, faTrash, faCommentDots
+  faHome, faFolder, faCompass, faChevronRight, faUsers, faCog, faSignOutAlt, faCircleQuestion, faTrashCan, faCommentDots
 } from '@fortawesome/free-solid-svg-icons';
 
 import { useAuth } from '../../context/AuthContext';
@@ -21,7 +21,7 @@ const userLibraryLinks = [
 ];
 
 const otherLinks = [
-  { to: '/archived', label: 'Archived', icon: faTrash, end: true },
+  { to: '/archived', label: 'Archived', icon: faTrashCan, end: true },
   { to: '/help', label: 'Help', icon: faCircleQuestion, end: true },
   { to: '/settings', label: 'Settings', icon: faCog },
 ];

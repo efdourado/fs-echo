@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeadphones, faCheckCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faHeadphones, faCheckCircle, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import ErrorMessage from "../ui/ErrorMessage";
 import Modal from "../ui/Modal";
@@ -75,7 +75,7 @@ const CreatePlaylistView = ({ song, onPlaylistCreated, onCancel }) => {
 
 const SongModal = () => {
   const { isMenuOpen, song, closeMenu, menuContext } = useSongModal();
-  const [view, setView] = useState("list"); // 'list' or 'create'
+  const [view, setView] = useState("list");
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState({ message: "", isError: false });
@@ -136,7 +136,7 @@ const SongModal = () => {
       {menuContext?.source === "playlist" && (
         <li>
           <button onClick={handleRemoveClick} className="delete-option">
-            <FontAwesomeIcon icon={faTrash} className="playlist-icon" />
+            <FontAwesomeIcon icon={faTrashCan} className="playlist-icon" />
             <span>Remove from this Playlist</span>
           </button>
         </li>
