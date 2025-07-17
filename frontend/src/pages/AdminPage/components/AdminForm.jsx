@@ -91,7 +91,7 @@ const AdminForm = ({ id, config, onSaved }) => {
       <ErrorMessage message={error} />
       <div className="form-grid">
         {config.fields.map(field => {
-          const { name, label, type, component = 'input', optionsKey, ...rest } = field;
+          const { name, label, type, component = 'input', optionsKey, description, ...rest } = field;
           
           if (component === 'input') {
             return (
@@ -130,11 +130,23 @@ const AdminForm = ({ id, config, onSaved }) => {
           
           if (component === 'checkbox') {
             return (
-              <div key={name} className={`auth-form__group form-checkbox-group ${field.span || ''}`}>
-                <input id={name} name={name} type="checkbox" checked={formData[name] || false} onChange={handleChange} /> 
-                <label htmlFor={name}>{label}</label>
+              <div key={name} className={`form-group ${field.span || ''}`}>
+                <label htmlFor={name} className="checkbox-label">{label}</label>
+                
+                <div className="checkbox-container">
+                  <input
+                    id={name}
+                    name={name}
+                    type="checkbox"
+                    checked={Boolean(formData[name])}
+                    onChange={handleChange}
+                    className="form-checkbox"
+                  />
+                  <label htmlFor={name} className="checkbox-label"> { description } </label>
+                </div>
               </div>
-          ); }
+            );
+          }
           
           return null;
         })}

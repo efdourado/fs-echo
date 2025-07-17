@@ -41,7 +41,6 @@ const CollectionPage = ({ type }) => {
   const [normalizedData, setNormalizedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } =
@@ -70,7 +69,8 @@ const CollectionPage = ({ type }) => {
       console.error(`Failed to load ${type} data:`, err);
     } finally {
       setLoading(false);
-  } };
+    }
+  };
 
   useEffect(() => {
     if (id && type) {
@@ -92,7 +92,9 @@ const CollectionPage = ({ type }) => {
       } catch (err) {
         setError("Failed to delete playlist.");
         console.error("Failed to delete playlist:", err);
-  } } };
+      }
+    }
+  };
 
   const handlePlaylistUpdated = (updatedPlaylistData) => {
     const updatedRawData = { ...rawData, ...updatedPlaylistData };
@@ -107,7 +109,8 @@ const CollectionPage = ({ type }) => {
     } catch (error) {
       console.error("Failed to remove song:", error);
       setError("Failed to remove song from playlist.");
-  } };
+    }
+  };
 
   const handleOpenMenuForSong = (song) => {
     const menuContext = isOwner
@@ -151,7 +154,9 @@ const CollectionPage = ({ type }) => {
         togglePlayPause();
       } else if (mainContent?.items?.length > 0) {
         startPlayback(mainContent.items, { type: `${type}-main`, id });
-  } } };
+      }
+    }
+  };
 
   return (
     <>
@@ -163,24 +168,19 @@ const CollectionPage = ({ type }) => {
           }}
         >
           <div className="collection-page__metadata">
+            {type === 'artist' && (
+              <img
+                src={primaryImage || fallbackImage}
+                alt={title}
+                className="artist-profile-pic"
+              />
+            )}
             <h1 className="collection-page__title">{title}</h1>
             
             <div className="description-container">
               <p className="collection-page__description">
-                {isDescriptionExpanded || (description && description.length <= 120)
-                  ? description
-                  : `${description.substring(0, 120)}`}
-                {!isDescriptionExpanded && description && description.length > 120 && (
-                  <button onClick={() => setIsDescriptionExpanded(true)} className="read-more-button">
-                    ... Read more
-                  </button>
-                )}
+                {description}
               </p>
-              {isDescriptionExpanded && description && description.length > 120 && (
-                <button onClick={() => setIsDescriptionExpanded(false)} className="read-more-button read-less">
-                  Read less
-                </button>
-              )}
             </div>
 
             {stats && (
@@ -273,7 +273,8 @@ const CollectionPage = ({ type }) => {
         />
       )}
     </>
-); };
+  );
+};
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(["artist", "album", "playlist"]).isRequired,

@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2 className="modal-title">{title}</h2>
-          <button type="button" onClick={onClose} className="admin-action-button edit" style={{fontSize: '23px'}}>
+          <button type="button" onClick={onClose} className="modal-close-btn" style={{fontSize: '23px'}}>
             <FontAwesomeIcon icon={faCircleXmark} />
           </button>
         </div>

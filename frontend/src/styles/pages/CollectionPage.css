@@ -49,6 +49,17 @@
   margin-bottom: var(--spacing-2xl);
 }
 
+.artist-profile-pic {
+  width: 160px;
+  height: 160px;
+  border-radius: var(--border-radius-full);
+  object-fit: cover;
+  margin-bottom: var(--spacing-lg);
+  border: 3px solid var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  margin-left: auto;
+}
+
 .collection-page__verified-badge {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-black);
@@ -72,27 +83,7 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
   line-height: var(--line-height-normal);
-  max-height: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   margin-bottom: 0;
-}
-
-.read-more-button {
-  display: inline;
-  background: none;
-  border: none;
-  color: var(--color-text-tertiary);
-  cursor: pointer;
-  padding: 0;
-}
-
-.read-more-button.read-less {
-  font-size: var(--font-size-sm);
-  display: block;
-  text-align: right;
-  width: 100%;
-  margin-top: var(--spacing-xxs);
 }
 
 .collection-page__stats {
@@ -165,4 +156,10 @@
   .collection-page__right-column {
     height: auto;
     overflow-y: visible;
-} }
+  }
+  
+  .artist-profile-pic {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}

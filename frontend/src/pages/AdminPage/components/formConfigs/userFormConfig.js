@@ -18,10 +18,10 @@ export const userFormConfig = {
   processDataForForm: (data) => data,
   processDataForSubmit: (data) => data,
   fields: [
+    { name: 'profilePic', label: 'Profile Picture URL', type: 'url', span: 'span-2' },
     { name: 'username', label: 'Username', type: 'text', required: true },
     { name: 'email', label: 'Email', type: 'email', required: true },
     { name: 'bio', label: 'Bio', component: 'textarea', rows: '2', span: 'span-2' },
-    { name: 'profilePic', label: 'Profile Picture URL', type: 'url', span: 'span-2' },
-    { name: 'isAdmin', label: 'Administrator', component: 'checkbox' },
-    { name: 'isArtist', label: 'Artist', component: 'checkbox' },
+    { name: 'isAdmin', label: 'Administrator', component: 'checkbox', description: '(System Privileges)' },
+    { name: 'isArtist', label: 'Artist', component: 'checkbox', description: '(Artist-Specific Tools)' },
 ], };

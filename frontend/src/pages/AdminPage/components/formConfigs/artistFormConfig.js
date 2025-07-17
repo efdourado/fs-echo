@@ -27,7 +27,7 @@ export const artistFormConfig = {
     { name: 'banner', label: 'Banner', type: 'url'},
     { name: 'image', label: 'Profile picture', type: 'url'},
     { name: 'name', label: 'Name', type: 'text', required: true },
-    { name: 'verified', label: '', component: 'checkbox' },
-    { name: 'description', label: 'Description', component: 'textarea', rows: '13', span: 'span-2' },
+    { name: 'verified', label: 'Verified', component: 'checkbox', description: '(Artist Status)' },
+    { name: 'description', label: 'Description', component: 'textarea', rows: '6', span: 'span-2' },
     { name: 'genre', label: 'Genres', type: 'text', span: 'span-2' },
 ] };
