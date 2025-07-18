@@ -1,11 +1,6 @@
 import React from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrashCan,
-  faEdit,
-  faCheckDouble,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faEdit, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 
 import { formatDuration } from "../../../utils/duration";
 import fallbackImage from "/fb.jpg";
@@ -15,10 +10,8 @@ const formatDateTime = (isoString) => {
   const date = new Date(isoString);
   const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
   const timeOptions = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
-
   const formattedDate = date.toLocaleDateString("pt-BR", dateOptions);
   const formattedTime = date.toLocaleTimeString("pt-BR", timeOptions);
-
   return (
     <>
       {formattedDate}
@@ -28,17 +21,15 @@ const formatDateTime = (isoString) => {
 ); };
 
 const renderers = {
-  verified: (item) => (
-    <span
-      className={`verified-badge ${
-        item.verified ? "verified" : "not-verified"
-      }`}
-    >
-      {item.verified ?  <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" /> : "Not"}
-    </span>
-  ),
+  verified: (item) => {
+    const isVerified = item.isArtist && item.artistProfile?.verified;
+    return (
+      <span className={`verified-badge ${isVerified ? "verified" : "not-verified"}`}>
+        {isVerified ? <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" /> : "Not"}
+      </span>
+  ); },
+  
   duration: (item) => formatDuration(item.duration),
-
   timestamps: (item) => (
     <>
       <td data-label="Created At" className="date-cell-background">
@@ -51,11 +42,11 @@ const renderers = {
 ), };
 
 const tableConfig = {
-  artists: {
+  users: {
     columns: [
-      "Artist",
+      "User",
       "Description",
-      "Genres",
+      "Admin?",
       "Verified?",
       "Created At",
       "Updated At",
@@ -66,132 +57,11 @@ const tableConfig = {
         <td
           className="item-cell-background"
           style={{
-            backgroundImage: `url(${
-              item.banner || item.image || fallbackImage
-            })`,
+            backgroundImage: `url(${item.artistProfile?.banner || fallbackImage})`,
           }}
         >
           <div className="item-cell">
-            <img
-              src={item.image || fallbackImage}
-              alt={item.name}
-              className="admin-table-image"
-              onError={(e) => {
-                e.target.src = fallbackImage;
-              }}
-            />
-            <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.name}</div>
-          </div>
-        </td>
-        <td data-label="Description">
-          <div className="artist-description">{item.description}</div>
-        </td>
-        <td data-label="Genre">
-          <div className="genre-cell">{item.genre?.join(', ') || 'N/A'}</div>
-        </td>
-        <td data-label="Verified" style={{ textAlign: 'center' }}>{renderers.verified(item)}</td>
-        {renderers.timestamps(item)}
-      </>
-  ), },
-
-  albums: {
-    columns: [
-      "Album",
-      "Songs",
-      "Created At",
-      "Updated At",
-      "Actions",
-    ],
-    renderRow: (item) => (
-      <>
-        <td
-          className="item-cell-background"
-          style={{
-            backgroundImage: `url(${
-              item.artist?.banner || item.artist?.image || fallbackImage
-            })`,
-          }}
-        >
-           <div className="item-cell">
-              <img
-                src={item.coverImage || fallbackImage}
-                alt={item.title}
-                className="admin-table-image"
-              />
-              <div>
-                <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
-                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {item.artist?.name || "N/A"}
-                  {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
-                </div>
-              </div>
-            </div>
-        </td>
-        <td data-label="Songs" style={{ textAlign: 'center' }}>{item.songs?.length || 0}</td>
-        {renderers.timestamps(item)}
-      </>
-  ), },
-  
-  songs: {
-    columns: [
-      "Song",
-      "Lyrics",
-      "Duration",
-      "Created At",
-      "Updated At",
-      "Actions",
-    ],
-    renderRow: (item) => (
-      <>
-        <td
-          className="item-cell-background"
-          style={{
-            backgroundImage: `url(${
-              item.artist?.banner || item.artist?.image || fallbackImage
-            })`,
-          }}
-        >
-          <div className="item-cell">
-            <img
-              src={item.coverImage || fallbackImage}
-              alt={item.title}
-              className="admin-table-image"
-            />
-            <div>
-              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
-              <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {item.artist?.name || "N/A"}
-                {item.artist?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
-              </div>
-            </div>
-          </div>
-        </td>
-        <td data-label="Lyrics">
-          <div className="artist-description">{item.lyrics}</div>
-        </td>
-        <td data-label="Duration" style={{ textAlign: 'center' }}>{renderers.duration(item)}</td>
-        {renderers.timestamps(item)}
-      </>
-  ), },
-  
-  users: {
-    columns: [
-      "User",
-      "Bio",
-      "Admin",
-      "Created At",
-      "Updated At",
-      "Actions",
-    ],
-    renderRow: (item) => (
-      <>
-        <td className="first-column-background">
-          <div className="item-cell">
-            <img
-              src={item.profilePic || fallbackImage}
-              alt={item.username}
-              className="admin-table-image"
-            />
+            <img src={item.profilePic || fallbackImage} alt={item.username} className="admin-table-image" />
             <div>
               <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.username}</div>
               <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
@@ -200,18 +70,70 @@ const tableConfig = {
             </div>
           </div>
         </td>
-        <td data-label="Bio">
-          <div className="artist-description">{item.bio || "No bio yet"}</div>
+        <td data-label="Description">
+          <div className="artist-description">{item.artistProfile?.description || "No description yet."}</div>
         </td>
         <td data-label="Admin" style={{ textAlign: 'center' }}>
-            <span
-              className={`verified-badge ${
-                item.isAdmin ? "verified" : "not-verified"
-              }`}
-            >
+            <span className={`verified-badge ${item.isAdmin ? "verified" : "not-verified"}`}>
               {item.isAdmin ? <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" /> : "Not"}
             </span>
         </td>
+        <td data-label="Verified" style={{ textAlign: 'center' }}>{renderers.verified(item)}</td>
+        {renderers.timestamps(item)}
+      </>
+  ), },
+
+  albums: {
+    columns: ["Album", "Songs", "Created At", "Updated At", "Actions"],
+    renderRow: (item) => (
+      <>
+        <td
+          className="item-cell-background"
+          style={{
+            backgroundImage: `url(${item.artist?.artistProfile?.banner || item.artist?.profilePic || fallbackImage})`,
+          }}
+        >
+           <div className="item-cell">
+              <img src={item.coverImage || fallbackImage} alt={item.title} className="admin-table-image" />
+              <div>
+                <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
+                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {item.artist?.username || "N/A"}
+                  {item.artist?.artistProfile?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
+                </div>
+              </div>
+            </div>
+        </td>
+        <td data-label="Songs" style={{ textAlign: 'center' }}>{item.songs?.length || 0}</td>
+        {renderers.timestamps(item)}
+      </>
+  ), },
+
+  songs: {
+    columns: ["Song", "Lyrics", "Duration", "Created At", "Updated At", "Actions"],
+    renderRow: (item) => (
+      <>
+        <td
+          className="item-cell-background"
+          style={{
+            backgroundImage: `url(${item.artist?.artistProfile?.banner || item.artist?.profilePic || fallbackImage})`,
+          }}
+        >
+          <div className="item-cell">
+            <img src={item.coverImage || fallbackImage} alt={item.title} className="admin-table-image" />
+            <div>
+              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
+              <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {item.artist?.username || "N/A"}
+                {item.artist?.artistProfile?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td data-label="Lyrics">
+          <div className="artist-description">{item.lyrics || "No lyrics yet."}</div>
+        </td>
+        <td data-label="Duration" style={{ textAlign: 'center' }}>{renderers.duration(item)}</td>
         {renderers.timestamps(item)}
       </>
 ), }, };
@@ -223,7 +145,7 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => {
     return <p>Configuration for '{type}' not found.</p>;
   }
 
-  if (data.length === 0) {
+  if (!data || data.length === 0) {
     return <p className="empty-state">No {type} found.</p>;
   }
 
@@ -240,7 +162,6 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => {
         {data.map((item) => (
           <tr key={item._id}>
             {config.renderRow(item)}
-            
             <td data-label="Actions">
               <div className="admin-table-actions">
                 <button
@@ -250,7 +171,6 @@ const AdminTable = ({ type, data, handleDelete, handleEdit }) => {
                 >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
-
                 {handleDelete && (
                   <button
                     onClick={() => handleDelete(item._id)}

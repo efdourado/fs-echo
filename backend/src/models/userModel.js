@@ -1,28 +1,43 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+const artistSchema = new mongoose.Schema({
+  description: { type: String, default: '' },
+  banner: { type: String, default: "" },
+  verified: { type: Boolean, default: false },
+
+  genres: { type: [String], default: [] },
+
+  socials: {
+    instagram: { type: String, default: "" },
+    x: { type: String, default: "" },
+    youtube: { type: String, default: "" },
+    tiktok: { type: String, default: "" },
+}, }, { _id: false });
+
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true, trim: true },
   email: { type: String, required: true, unique: true, trim: true, lowercase: true },
   password: { type: String, required: true },
+
   profilePic: { type: String, default: '' },
-  bio: { type: String, default: '' },
-  favoriteGenres: { type: [String], default: [] },
+  
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  followingArtists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artist' }],
+
   likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
   recentlyPlayed: [{
     song: { type: mongoose.Schema.Types.ObjectId, ref: 'Song' },
     playedAt: { type: Date, default: Date.now }
   }],
+
   isAdmin: { type: Boolean, default: false },
   isArtist: { type: Boolean, default: false },
-  artistProfile: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist' },
-  socials: {
-    instagram: { type: String, default: '' },
-  },
 
+  artistProfile: {
+    type: artistSchema,
+    default: null, 
+  },
 
   spotifyId: { type: String, unique: true, sparse: true },
   spotifyAccessToken: { type: String },
@@ -37,6 +52,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+
 userSchema.methods.comparePassword = async function (enteredPassword) {
   if (this.password.startsWith('spotify:')) return false;
   return await bcrypt.compare(enteredPassword, this.password);
@@ -45,8 +61,8 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 const User = mongoose.model('User', userSchema);
 
 export class UserModel {
-  async findAll() {
-    return await User.find().select('-password');
+  async findAll(filter = {}) {
+    return await User.find(filter).select('-password');
   }
 
   async findById(id) {
@@ -67,7 +83,7 @@ export class UserModel {
   }
 
   async updateById(id, updateData) {
-    return await User.findByIdAndUpdate(id, updateData, { new: true });
+    return await User.findByIdAndUpdate(id, updateData, { new: true }).select('-password');
   }
 
   async deleteById(id) {

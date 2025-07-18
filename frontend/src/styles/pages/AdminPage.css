@@ -1,3 +1,22 @@
+/*
+ * =================================================================
+ * ADMINISTRATION PANEL STYLES
+ * =================================================================
+ * Organized by:
+ * 1. General Page & Header
+ * 2. Form Layout & Fields
+ * 3. Data Table Styles
+ * 4. Responsive Media Queries
+ * =================================================================
+ */
+
+
+/*
+ * -----------------------------
+ * 1. General Page & Header
+ * -----------------------------
+ */
+
 .admin-page-unified {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -14,6 +33,161 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.admin-page h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+
+/*
+ * -----------------------------
+ * 2. Form Layout & Fields
+ * -----------------------------
+ */
+
+.admin-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.admin-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Modifier to make a group span both columns */
+.admin-form__group.span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.admin-form__group label {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  padding-left: var(--spacing-xxs);
+}
+
+/* General styles for all form inputs */
+.admin-form__group input[type="text"],
+.admin-form__group input[type="url"],
+.admin-form__group input[type="date"],
+.admin-form__group input[type="number"],
+.admin-form__group input[type="email"],
+.admin-form__group textarea,
+.admin-form__group select {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-form__group input:focus,
+.admin-form__group textarea:focus,
+.admin-form__group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.admin-form__group textarea {
+  resize: vertical;
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none;     /* Hide scrollbar for Firefox */
+}
+
+.admin-form__group textarea::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+
+/* --- Specific Form Elements --- */
+
+.admin-form__checkbox-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+}
+
+.admin-form__checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+}
+
+.admin-form__checkbox-group label {
+  margin: 0;
+  font-weight: var(--font-weight-light);
+}
+
+.admin-form__divider {
+  grid-column: span 2 / span 2;
+  border: none;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--spacing-sm) 0;
+}
+
+.admin-form__multiselect {
+  height: 150px;
+}
+
+.admin-form__preview-image {
+  margin-top: var(--spacing-sm);
+  max-width: 120px;
+  height: 120px;
+  border-radius: var(--border-radius-md);
+  object-fit: cover;
+  border: 2px solid var(--color-border);
+}
+
+
+/* --- Form Buttons --- */
+
+.admin-button-save {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl);
+  width: 100%;
+  background: var(--color-primary);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-button-save:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px hsla(var(--color-primary-accent-h), var(--color-primary-accent-s), var(--color-primary-accent-l), 0.25);
+}
+
+.admin-button-save:disabled {
+  background-color: var(--color-dark-grey);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+/*
+ * -----------------------------
+ * 3. Data Table Styles
+ * -----------------------------
+ */
 
 .admin-table {
   width: 100%;
@@ -69,6 +243,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* --- Table Cell Variants --- */
 
 .item-cell {
   display: flex;
@@ -112,6 +287,13 @@
   color: var(--color-text-secondary);
 }
 
+.date-cell-background {
+  background-color: var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
 .date-cell {
     font-weight: var(--font-weight-light);
     color: var(--color-text-secondary);
@@ -121,7 +303,6 @@
   display: flex;
   gap: var(--spacing-md);
   justify-content: flex-end;
-  align-items: center;
 }
 
 .admin-action-button {
@@ -136,14 +317,11 @@
   transition: all 0.2s ease-out;
 }
 
-.admin-action-button.edit:hover {
-  color: var(--color-primary);
-}
+.admin-action-button.edit:hover { color: var(--color-primary); }
+.admin-action-button.delete:hover { color: var(--color-error); }
 
-.admin-action-button.delete:hover {
-  color: var(--color-error);
-}
 
+/* --- Badges & Icons --- */
 
 .verified-icon {
   color: var(--color-success);
@@ -170,8 +348,21 @@
 }
 
 
-/* --- Responsive --- */
+/*
+ * -----------------------------
+ * 4. Responsive Media Queries
+ * -----------------------------
+ */
+
 @media (max-width: 768px) {
+  .admin-form__grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-form__group.span-2,
+  .admin-form__divider {
+    grid-column: auto;
+  }
+
   .admin-header {
     flex-direction: column;
     align-items: stretch;

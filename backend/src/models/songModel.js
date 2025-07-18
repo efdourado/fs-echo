@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
-import Artist from './artistModel.js';
 import Album from './albumModel.js';
 import Playlist from './playlistModel.js';
-import User from './userModel.js';
+import User from './userModel.js'; 
 
 const songSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  artist: { type: mongoose.Schema.Types.ObjectId, ref: "Artist", required: true },
+  artist: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
   album: { type: mongoose.Schema.Types.ObjectId, ref: "Album" },
   duration: { type: Number, required: true },
   audioUrl: { type: String },
@@ -18,27 +17,33 @@ const songSchema = new mongoose.Schema({
   lyrics: { type: String, default: "" },
 }, { timestamps: true });
 
+
 songSchema.post('findOneAndDelete', async function(doc) {
   if (doc) {
     const songId = doc._id;
+
     await Album.updateMany({ songs: songId }, { $pull: { songs: songId } });
     await Playlist.updateMany({ 'songs.song': songId }, { $pull: { songs: { song: songId } } });
     await User.updateMany({ likedSongs: songId }, { $pull: { likedSongs: songId } });
-    await Artist.updateMany({ topSongs: songId }, { $pull: { topSongs: songId } });
-    if (doc.artist) {
-        const artistModel = new Artist.ArtistModel();
-        await artistModel.updateTopSongs(doc.artist);
-} } });
+} });
 
 const Song = mongoose.model("Song", songSchema);
 
 export class SongModel {
   async findAll() {
-    return await Song.find().populate('artist').populate('album');
+    return await Song.find().populate({ path: 'artist', model: 'User' }).populate('album');
   }
 
   async findById(id) {
-    return await Song.findById(id).populate('artist');
+    return await Song.findById(id).populate({ path: 'artist', model: 'User' });
+  }
+
+  async findByAlbumId(albumId) {
+    return await Song.find({ album: albumId }).populate({ path: 'artist', model: 'User' });
+  }
+
+  async findById(id) {
+    return await Song.findById(id).populate({ path: 'artist', model: 'User' });
   }
 
   async incrementPlayCount(id) {

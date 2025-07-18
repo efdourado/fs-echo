@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-import { useSongModal } from "../../context/SongModalContext";
 import { usePlayer } from "../../hooks/usePlayer";
+import { useSongModal } from "../../context/SongModalContext";
 import fallbackImage from '/fb.jpg';
 
-const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }) => {
+const SongItem = ({ song, index, showImage, showNumber, onMenuClick }) => {
   const player = usePlayer();
   const { openMenu } = useSongModal();
 
@@ -21,33 +20,35 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }
   const hasAudio = !!song.audioUrl;
 
   const handlePlayClick = (e) => {
-    e.preventDefault();
     e.stopPropagation();
     if (hasAudio) {
       isCurrent ? player.togglePlayPause() : player.playTrack(song);
-    }
-  };
+  } };
 
   const handleMenuClick = (e) => {
-    e.preventDefault();
     e.stopPropagation();
-    
     if (onMenuClick) {
-      onMenuClick();
+      onMenuClick(song);
     } else {
       openMenu(song);
+  } };
+  
+  const handleItemDoubleClick = () => {
+    if(hasAudio) {
+      player.playTrack(song);
   } };
 
   return (
     <div
       className={`song-item ${isCurrent ? "song-item--active" : ""} ${!hasAudio ? "song-item--disabled" : ""} ${showNumber ? "has-number" : ""}`}
-      onDoubleClick={handlePlayClick}
+      onDoubleClick={handleItemDoubleClick}
     >
       {showNumber && (
         <div className="song-item-number">
-            <span className="number-text">{index + 1}</span>
+          <span className="number-text">{index + 1}</span>
         </div>
       )}
+
       <div className="song-item__track">
         {showImage && (
           <div className="song-item__cover-art-container">
@@ -69,7 +70,7 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }
         )}
         <div className="song-item__info">
           <p className="song-item__title">{song.title}</p>
-          <p className="song-item__artist">{song.artist.name}</p>
+          <p className="song-item__artist">{song.artist.username}</p>
         </div>
       </div>
       
@@ -83,7 +84,7 @@ const SongItem = React.memo(({ song, onMenuClick, showNumber, index, showImage }
         </button>
       </div>
     </div>
-); });
+); };
 
 SongItem.propTypes = {
   song: PropTypes.shape({
@@ -91,21 +92,16 @@ SongItem.propTypes = {
     title: PropTypes.string.isRequired,
     artist: PropTypes.shape({
       _id: PropTypes.string,
-      name: PropTypes.string,
-    }),
-    album: PropTypes.shape({
-      _id: PropTypes.string,
-      title: PropTypes.string,
+      username: PropTypes.string,
     }),
     coverImage: PropTypes.string,
     audioUrl: PropTypes.string,
-    isExplicit: PropTypes.bool,
-    plays: PropTypes.number,
-    duration: PropTypes.number,
   }).isRequired,
-  showNumber: PropTypes.bool,
-  index: PropTypes.number,
+  index: PropTypes.number.isRequired,
+
   showImage: PropTypes.bool,
+  showNumber: PropTypes.bool,
+  onMenuClick: PropTypes.func,
 };
 
-export default SongItem;
+export default React.memo(SongItem);

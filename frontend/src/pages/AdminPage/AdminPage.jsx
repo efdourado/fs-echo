@@ -9,21 +9,20 @@ import * as collectionService from '../../services/collectionService';
 import AdminForm from './components/AdminForm';
 import AdminModal from './components/AdminModal';
 import AdminTable from './components/AdminTable';
-import { artistFormConfig } from './components/formConfigs/artistFormConfig';
+
 import { albumFormConfig } from './components/formConfigs/albumFormConfig';
 import { songFormConfig } from './components/formConfigs/songFormConfig';
 import { userFormConfig } from './components/formConfigs/userFormConfig';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const TABS = {
-  artists: { label: 'Artists', fetch: collectionService.fetchArtists, delete: adminService.deleteArtist, config: artistFormConfig },
+  users: { label: 'Users', fetch: adminService.fetchUsers, delete: adminService.deleteUser, config: userFormConfig },
   albums: { label: 'Albums', fetch: collectionService.fetchAlbums, delete: adminService.deleteAlbum, config: albumFormConfig },
   songs: { label: 'Songs', fetch: collectionService.fetchSongs, delete: adminService.deleteSong, config: songFormConfig },
-  users: { label: 'Users', fetch: adminService.fetchUsers, delete: adminService.deleteUser, config: userFormConfig },
 };
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState('artists');
+  const [activeTab, setActiveTab] = useState('users');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -67,7 +66,7 @@ const AdminPage = () => {
     const currentTypeName = activeTab.slice(0, -1);
     if (window.confirm(`Are you sure you want to delete this ${currentTypeName}? This action cannot be undone.`)) {
       try {
-        await TABS[activeTab].delete(id);
+        await TABS[active-tab].delete(id);
         loadData();
       } catch (err) {
         setError(`Failed to delete ${currentTypeName}.`);
@@ -92,6 +91,7 @@ const AdminPage = () => {
           {currentTabConfig.label} Dashboard
           <FontAwesomeIcon icon={faSyncAlt} className="btn-icon-graphic" style={{ marginLeft: '8px' }}/>
         </button>
+
         <button onClick={() => handleOpenModal()} className="login-btn create-btn">
           <FontAwesomeIcon icon={faPlus} className="btn-icon-graphic" />
           <span className="btn-label"> Add New {currentTypeName}</span>

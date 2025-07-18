@@ -24,8 +24,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   const [collection, setCollection] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { startPlayback, playContext, isPlaying, togglePlayPause } =
-    usePlayer();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
   const [isHovered, setIsHovered] = useState(false);
   const { openMenu } = useSongModal();
   const { currentUser } = useAuth();
@@ -51,21 +50,17 @@ const Collection = ({ collectionId, type = "album" }) => {
         console.error(`Error loading ${type} data:`, error);
       } finally {
         setLoading(false);
-    } };
+      }
+    };
 
     if (collectionId) {
       loadCollectionData();
     }
   }, [collectionId, type]);
 
-  const isCollectionCurrentlyPlaying =
-    playContext?.type === type && playContext?.id === collectionId && isPlaying;
+  const isCollectionCurrentlyPlaying = playContext?.type === type && playContext?.id === collectionId && isPlaying;
 
-  const isOwner =
-    currentUser &&
-    collection &&
-    type === "playlist" &&
-    currentUser._id === collection.owner?._id;
+  const isOwner = currentUser && collection && type === "playlist" && currentUser._id === collection.owner?._id;
 
   const handlePlayCollection = (e) => {
     e.preventDefault();
@@ -75,7 +70,8 @@ const Collection = ({ collectionId, type = "album" }) => {
       togglePlayPause();
     } else if (songs && songs.length > 0) {
       startPlayback(songs, { type, id: collectionId });
-  } };
+    }
+  };
 
   const handleMenuClick = (e, song = null) => {
     e.preventDefault();
@@ -85,11 +81,10 @@ const Collection = ({ collectionId, type = "album" }) => {
       setEditModalOpen(true);
     } else if (song) {
       openMenu(song);
-  } };
-
-  const handleCloseEditModal = () => {
-    setEditModalOpen(false);
+    }
   };
+  
+  const handleCloseEditModal = () => setEditModalOpen(false);
 
   const handlePlaylistUpdated = (updatedPlaylistData) => {
     setCollection(prev => ({ ...prev, ...updatedPlaylistData }));
@@ -101,25 +96,23 @@ const Collection = ({ collectionId, type = "album" }) => {
       try {
         await deletePlaylist(collection._id);
         handleCloseEditModal();
-
         navigate('/library');
       } catch (err) {
         console.error('Failed to delete playlist:', err);
         alert('Failed to delete playlist.');
-  } } };
+      }
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
-  if (!collection)
-    return (
-      <div className="collection-view error">Failed to load collection.</div>
-    );
+  if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
-  const collectionName =
-    type === "playlist" ? collection.name : collection.title;
-  const ownerName =
-    type === "playlist"
-      ? collection.owner?.username || collection.owner?.name
-      : collection.artist?.name;
+  // --- LOGIC CORRECTIONS START HERE ---
+  const collectionName = type === "playlist" ? collection.name : collection.title;
+  // Use 'username' for both artist and playlist owner, as they are both User documents
+  const ownerName = type === "playlist" ? collection.owner?.username : collection.artist?.username;
+  // --- LOGIC CORRECTIONS END HERE ---
+  
   const coverImageUrl = collection.coverImage || fallbackImage;
   const detailPath = `/${type}/${collection._id}`;
 
@@ -127,9 +120,7 @@ const Collection = ({ collectionId, type = "album" }) => {
     <>
       <Link to={detailPath} style={{ textDecoration: "none", color: "inherit" }}>
         <div
-          className={`collection-view__content ${
-            isCollectionCurrentlyPlaying ? "is-playing" : ""
-          }`}
+          className={`collection-view__content ${isCollectionCurrentlyPlaying ? "is-playing" : ""}`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -137,7 +128,6 @@ const Collection = ({ collectionId, type = "album" }) => {
             <div className="collection-view__cover-art">
               <img src={coverImageUrl} alt={collectionName} />
             </div>
-
             <div className="collection-view__details">
               <h1 className="collection-view__title">
                 {collectionName}
@@ -156,12 +146,7 @@ const Collection = ({ collectionId, type = "album" }) => {
                   {collection.description}
                 </p>
               )}
-
-              <div
-                className={`collection-view__actions ${
-                  isHovered || isCollectionCurrentlyPlaying ? "visible" : ""
-                }`}
-              >
+              <div className={`collection-view__actions ${isHovered || isCollectionCurrentlyPlaying ? "visible" : ""}`}>
                 <button
                   className="action-btn menu"
                   onClick={handleMenuClick}
@@ -169,20 +154,16 @@ const Collection = ({ collectionId, type = "album" }) => {
                 >
                   <FontAwesomeIcon icon={faEllipsis} />
                 </button>
-
                 <button
                   className="action-btn play"
                   onClick={handlePlayCollection}
                   aria-label={`Play ${collectionName}`}
                 >
-                  <FontAwesomeIcon
-                    icon={isCollectionCurrentlyPlaying ? faPause : faPlay}
-                  />
+                  <FontAwesomeIcon icon={isCollectionCurrentlyPlaying ? faPause : faPlay} />
                 </button>
               </div>
             </div>
           </div>
-
           <div className="collection-view__tracks-panel">
             <SongList
               songs={songs}
@@ -205,7 +186,8 @@ const Collection = ({ collectionId, type = "album" }) => {
         />
       )}
     </>
-); };
+  );
+};
 
 Collection.propTypes = {
   collectionId: PropTypes.string.isRequired,

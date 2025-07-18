@@ -31,7 +31,6 @@ const Carousel = ({ title, items, type }) => {
         window.removeEventListener('resize', handleScroll);
   }; } }, [items]);
 
-
   return (
     <section className="carousel">
       <div className="carousel__header">

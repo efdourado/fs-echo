@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import SongItem from "./SongItem";
 
 const SongList = ({
@@ -16,11 +15,12 @@ const SongList = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
 
-  const safeSongs = Array.isArray(songs) ? songs : [];
-
   if (loading) {
     return <div className="song-list-loading">Loading songs...</div>;
   }
+  
+  const safeSongs = Array.isArray(songs) ? songs : [];
+
   if (safeSongs.length === 0) {
     return <div className="song-list-empty">No songs available in this list.</div>;
   }
@@ -32,9 +32,7 @@ const SongList = ({
     <section className="song-list">
       {showHeader && title && (
         <div className="song-list__header">
-          <div className="song-list__header-main">
-            <h2 className="song-list__title">{title}</h2>
-          </div>
+          <h2 className="song-list__title">{title}</h2>
         </div>
       )}
 
@@ -43,10 +41,10 @@ const SongList = ({
           <SongItem
             key={song?._id || index}
             song={song}
-            onMenuClick={() => onMenuClick && onMenuClick(song)}
-            showNumber={showNumber}
             index={index}
             showImage={showImage}
+            showNumber={showNumber}
+            onMenuClick={onMenuClick}
           />
         ))}
       </div>

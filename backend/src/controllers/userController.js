@@ -10,7 +10,15 @@ export class UserController {
       const users = await this.userService.getAllUsers();
       res.json(users);
     } catch (error) {
-      res.status(error.statusCode || 500).json({ error: error.message });
+       res.status(500).json({ error: error.message });
+  } }
+
+  async getAllArtists(req, res) {
+    try {
+      const artists = await this.userService.getAllArtists();
+      res.json(artists);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
   } }
 
   async getUserById(req, res) {
@@ -22,6 +30,14 @@ export class UserController {
       res.json(user);
     } catch (error) {
       res.status(error.statusCode || 500).json({ error: error.message });
+  } }
+
+  async getArtistProfileById(req, res) {
+    try {
+      const artist = await this.userService.getArtistProfileById(req.params.id);
+      res.json(artist);
+    } catch (error) {
+      res.status(error.statusCode || 500).json({ message: error.message });
   } }
 
   async updateUser(req, res) {
@@ -67,4 +83,15 @@ export class UserController {
       res.json(req.user);
     } else {
       res.status(404).json({ message: 'User not found' });
-} } }
+  } }
+
+
+  async createUser(req, res) {
+    try {
+      const user = await this.userService.createUser(req.body);
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(error.statusCode || 500).json({ message: error.message });
+    }
+  }
+}

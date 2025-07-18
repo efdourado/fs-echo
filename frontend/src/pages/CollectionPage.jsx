@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faPause,
-  faEdit,
-} from "@fortawesome/free-solid-svg-icons";
-
-import fallbackImage from "/fb.jpg";
+import { faPlay, faPause, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import * as collectionService from "../services/collectionService";
 import { deletePlaylist, removeSongFromPlaylist } from "../services/userService";
-
 import { useAuth } from "../context/AuthContext";
 import { useSongModal } from "../context/SongModalContext";
 import { usePlayer } from "../hooks/usePlayer";
+import { normalizeDataForPage } from "../utils/syncer";
 
 import SongList from "../components/songs/SongList";
 import PlaylistModal from "../components/playlists/PlaylistModal";
 import Card from "../components/ui/Card";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-
-import { normalizeDataForPage } from "../utils/syncer";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import fallbackImage from "/fb.jpg";
 
 const fetchers = {
   artist: collectionService.fetchArtistById,
@@ -36,23 +29,17 @@ const CollectionPage = ({ type }) => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const { openMenu } = useSongModal();
+  const { startPlayback, playContext, isPlaying, togglePlayPause } = usePlayer();
 
   const [rawData, setRawData] = useState(null);
   const [normalizedData, setNormalizedData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const { startPlayback, playContext, isPlaying, togglePlayPause, playTrack } =
-    usePlayer();
 
-  const isOwner =
-    currentUser &&
-    rawData &&
-    type === "playlist" &&
-    currentUser._id === rawData.owner?._id;
+  const isOwner = currentUser && rawData && type === "playlist" && currentUser._id === rawData.owner?._id;
 
-  const loadPageData = async () => {
+  const loadPageData = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
@@ -61,74 +48,67 @@ const CollectionPage = ({ type }) => {
 
       const { data } = await fetcher(id);
       if (!data) throw new Error("Could not load data for this page.");
-
+      
       setRawData(data);
       setNormalizedData(normalizeDataForPage(type, data));
     } catch (err) {
-      setError(err.message);
+      setError(err.message || `Failed to load ${type} data.`);
       console.error(`Failed to load ${type} data:`, err);
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    if (id && type) {
-      loadPageData();
-    }
   }, [id, type]);
 
-  const handleDelete = async () => {
-    if (!isOwner) return;
+  useEffect(() => {
+    loadPageData();
+  }, [loadPageData]);
 
-    if (
-      window.confirm(
-        "Are you sure you want to delete this playlist? This action cannot be undone."
-      )
-    ) {
+  const handleDelete = useCallback(async () => {
+    if (!isOwner) return;
+    if (window.confirm("Are you sure you want to delete this playlist?")) {
       try {
         await deletePlaylist(id);
         navigate("/library");
       } catch (err) {
         setError("Failed to delete playlist.");
-        console.error("Failed to delete playlist:", err);
       }
     }
-  };
+  }, [id, isOwner, navigate]);
 
-  const handlePlaylistUpdated = (updatedPlaylistData) => {
-    const updatedRawData = { ...rawData, ...updatedPlaylistData };
-    setRawData(updatedRawData);
-    setNormalizedData(normalizeDataForPage(type, updatedRawData));
-  };
+  const handlePlaylistUpdated = useCallback((updatedData) => {
+    setRawData(prev => ({ ...prev, ...updatedData }));
+    setNormalizedData(normalizeDataForPage(type, { ...rawData, ...updatedData }));
+    setEditModalOpen(false);
+  }, [type, rawData]);
 
-  const handleRemoveSong = async (songIdToRemove) => {
+  const handleRemoveSong = useCallback(async (songIdToRemove) => {
     try {
       await removeSongFromPlaylist(id, songIdToRemove);
-      loadPageData();
+      loadPageData(); // Reload all data to ensure consistency
     } catch (error) {
-      console.error("Failed to remove song:", error);
       setError("Failed to remove song from playlist.");
     }
-  };
+  }, [id, loadPageData]);
 
-  const handleOpenMenuForSong = (song) => {
-    const menuContext = isOwner
-      ? {
-          source: "playlist",
-          playlistId: id,
-          onRemove: () => handleRemoveSong(song._id),
-        }
-      : null;
-    openMenu(song, menuContext);
-  };
+  const handleOpenMenuForSong = useCallback((song) => {
+    const context = isOwner ? { source: "playlist", onRemove: () => handleRemoveSong(song._id) } : null;
+    openMenu(song, context);
+  }, [isOwner, handleRemoveSong, openMenu]);
+
+  const handlePlayMainContent = useCallback(() => {
+    const isMainContentPlaying = playContext?.type === `${type}-main` && playContext?.id === id;
+    if (isMainContentPlaying) {
+      togglePlayPause();
+    } else if (normalizedData?.mainContent?.items?.length > 0) {
+      startPlayback(normalizedData.mainContent.items, { type: `${type}-main`, id });
+    }
+  }, [playContext, id, type, normalizedData, startPlayback, togglePlayPause]);
 
   if (loading) return <LoadingSpinner fullScreen />;
   if (error) return <ErrorMessage message={error} />;
   if (!normalizedData) return null;
 
   const {
-    pageType,
     title,
     description,
     primaryImage,
@@ -136,36 +116,16 @@ const CollectionPage = ({ type }) => {
     mainContent,
     subContent,
     stats,
-    isVerified,
   } = normalizedData;
 
-  const isMainContentPlaying =
-    playContext?.type === `${type}-main` && playContext?.id === id;
-
-  const handlePlayMainContent = () => {
-    if (type === "song") {
-      if (isPlaying && playContext?.id === id) {
-        togglePlayPause();
-      } else {
-        collectionService.fetchSongById(id).then((songData) => playTrack(songData));
-      }
-    } else {
-      if (isMainContentPlaying) {
-        togglePlayPause();
-      } else if (mainContent?.items?.length > 0) {
-        startPlayback(mainContent.items, { type: `${type}-main`, id });
-      }
-    }
-  };
+  const isMainContentPlaying = playContext?.type === `${type}-main` && playContext?.id === id;
 
   return (
     <>
       <div className="collection-page">
         <aside
           className="collection-page__left-column"
-          style={{
-            backgroundImage: `url(${backgroundImage || fallbackImage})`,
-          }}
+          style={{ backgroundImage: `url(${backgroundImage || fallbackImage})` }}
         >
           <div className="collection-page__metadata">
             {type === 'artist' && (
@@ -176,84 +136,51 @@ const CollectionPage = ({ type }) => {
               />
             )}
             <h1 className="collection-page__title">{title}</h1>
-            
-            <div className="description-container">
-              <p className="collection-page__description">
-                {description}
-              </p>
-            </div>
-
+            <p className="collection-page__description">{description}</p>
             {stats && (
               <div className="collection-page__stats">
                 {stats.map((stat, index) => (
                   <React.Fragment key={index}>
                     {`${stat.value} ${stat.label}`}
-                    {index < stats.length - 1 && <span className="stat-separator" style={{margin: '0 8px'}}> • </span>}
+                    {index < stats.length - 1 && <span className="stat-separator"> • </span>}
                   </React.Fragment>
                 ))}
               </div>
             )}
-
             <div className="collection-page__actions">
-              <button
-                className="action-button primary"
-                onClick={handlePlayMainContent}
-              >
-                <FontAwesomeIcon
-                  icon={isMainContentPlaying && isPlaying ? faPause : faPlay}
-                />
-                <span>
-                  {isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}
-                </span>
+              <button className="action-button primary" onClick={handlePlayMainContent}>
+                <FontAwesomeIcon icon={isMainContentPlaying && isPlaying ? faPause : faPlay} />
+                <span>{isMainContentPlaying && isPlaying ? 'Pause' : 'Play'}</span>
               </button>
-
               {isOwner && (
-                <>
-                  <button
-                    className="action-button primary"
-                    onClick={() => setEditModalOpen(true)}
-                  >
-                    <FontAwesomeIcon icon={faEdit} />
-                    <span>
-                      Edit or Delete
-                    </span>
-                  </button>
-                </>
+                <button className="action-button" onClick={() => setEditModalOpen(true)}>
+                  <FontAwesomeIcon icon={faEdit} />
+                  <span>Edit Details</span>
+                </button>
               )}
             </div>
           </div>
         </aside>
 
         <main className="collection-page__right-column">
-
-          {mainContent && mainContent.type === "songs" && (
+          {mainContent?.items && (
             <section className="entity-content-section">
-              <div className="carousel__header">
-                <h2 className="carousel__title">
-                  {mainContent.title}
-                </h2>
-              </div>
-
+              <h2 className="carousel__title">{mainContent.title}</h2>
               <SongList
                 songs={mainContent.items}
                 showHeader={false}
                 displayAll={true}
                 showNumber={true}
-                showImage={false}
+                showImage={type !== 'artist'}
                 onMenuClick={handleOpenMenuForSong}
               />
             </section>
           )}
 
-          {subContent && subContent.type === "albums" && (
+          {subContent?.items && (
             <section className="entity-content-section">
-              <div className="carousel__header">
-                <h2 className="carousel__title">
-                  {subContent.title}
-                </h2>
-              </div>
-
-              <div className="playlists-grid playlist-card-container">
+              <h2 className="carousel__title">{subContent.title}</h2>
+              <div className="playlists-grid">
                 {subContent.items.map((album) => (
                   <Card key={album._id} item={album} type="album" />
                 ))}
@@ -273,11 +200,10 @@ const CollectionPage = ({ type }) => {
         />
       )}
     </>
-  );
-};
+); };
 
 CollectionPage.propTypes = {
   type: PropTypes.oneOf(["artist", "album", "playlist"]).isRequired,
 };
 
-export default CollectionPage;
+export default memo(CollectionPage);

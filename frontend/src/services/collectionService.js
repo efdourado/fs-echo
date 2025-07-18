@@ -1,7 +1,7 @@
 import apiClient from './apiClient';
 
-export const fetchArtists = () => apiClient.get('/artists');
-export const fetchArtistById = (id) => apiClient.get(`/artist/${id}`);
+export const fetchArtists = () => apiClient.get('/artists'); 
+export const fetchArtistById = (id) => apiClient.get(`/artist/${id}`); 
 
 export const fetchSongs = () => apiClient.get('/songs');
 export const fetchSongById = (id) => apiClient.get(`/song/${id}`);

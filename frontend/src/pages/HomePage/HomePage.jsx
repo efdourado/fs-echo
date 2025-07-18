@@ -1,135 +1,76 @@
-import React, { useEffect, useState } from "react";
-import {
-  fetchArtists,
-  fetchSongs,
-  fetchAlbums,
-  fetchPlaylists,
-} from "../../services/collectionService.js";
+import React, { useMemo } from "react";
+
+import { useAuth } from "../../context/AuthContext";
+import { useHomePageData } from "../../hooks/useHomePageData";
+
+import Hero from "../../components/ui/Hero.jsx";
 import Carousel from "./components/Carousel.jsx";
 import Collection from "./components/Collection.jsx";
-import Hero from "../../components/ui/Hero.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
-import { useAuth } from "../../context/AuthContext.jsx";
+import ErrorMessage from "../../components/ui/ErrorMessage.jsx";
 
 const HomePage = () => {
-  const [songs, setSongs] = useState([]);
-  const [artists, setArtists] = useState([]);
-  const [albums, setAlbums] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [featuredAlbumId, setFeaturedAlbumId] = useState(null);
-  const [featuredPlaylistId, setFeaturedPlaylistId] = useState(null);
-  const [heroHighlight, setHeroHighlight] = useState(null);
   const { isAuthenticated } = useAuth();
+  const { songs, artists, albums, playlists, loading, error } = useHomePageData();
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [
-          { data: songsData },
-          { data: artistsData },
-          { data: albumsData },
-          { data: playlistsData },
-        ] = await Promise.all([
-          fetchSongs(),
-          fetchArtists(),
-          fetchAlbums(),
-          fetchPlaylists(),
-        ]);
+  const featuredContent = useMemo(() => {
+    if (loading || error) return { featuredPlaylistId: null, featuredAlbumId: null };
+    
+    const featuredPlaylistId = playlists[0]?._id || null;
+    const featuredAlbumId = albums.length > 3 ? albums[3]._id : albums[0]?._id || null;
 
-        setPlaylists(playlistsData);
-        setAlbums(albumsData);
-        setSongs(songsData);
-        setArtists(artistsData);
+    return { featuredPlaylistId, featuredAlbumId };
+  }, [playlists, albums, loading, error]);
 
-        if (playlistsData.length > 0) {
-          setFeaturedPlaylistId(playlistsData[0]._id);
-        }
+  if (loading) {
+    return <LoadingSpinner fullScreen />;
+  }
 
-        if (albumsData.length > 3) {
-          setFeaturedAlbumId(albumsData[3]._id);
-        } else if (albumsData.length > 0) {
-          setFeaturedAlbumId(albumsData[0]._id);
-        }
-
-        if (songsData.length > 0) {
-          const mainHighlightSong = songsData[0];
-          setHeroHighlight({
-            ...mainHighlightSong,
-            type: "song",
-            artist: mainHighlightSong.artist?.name || "Unknown Artist",
-            isTrending: true,
-            releaseDate: mainHighlightSong.releaseDate,
-            genre: mainHighlightSong.genre,
-          });
-        } else {
-          setHeroHighlight({
-            type: "info",
-            title: "Discover New Music",
-            coverImage: "/fb.jpg",
-            artist: "Various Artists",
-          });
-        }
-      } catch (error) {
-        console.error("Error loading data:", error);
-        setHeroHighlight({
-          type: "info",
-          title: "Error Loading Music",
-          coverImage: "/fb.jpg",
-          artist: "N/A",
-        });
-      } finally {
-        setLoading(false);
-    } };
-
-    loadData();
-  }, [isAuthenticated]);
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
 
   return (
     <div className="home-content">
-      {loading || !heroHighlight ? (
-        <LoadingSpinner />
-      ) : (
-        <>
-          <Hero
-            title={isAuthenticated ? "You're home" : "Join Us"}
-            subtitle="Music, reimagined — Memphis is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists, and align new perspectives through sound."
-            highlight={heroHighlight}
-            talents={artists.slice(0, 4)}
-            bgImage="/hero-bg.jpg"
-            allSongs={songs}
-            allArtists={artists}
-            allAlbums={albums}
-            allPlaylists={playlists}
-          />
+      <Hero
+        title={isAuthenticated ? "You're home" : "Join Us"}
+        subtitle="Music, reimagined — Memphis is a web application designed to provide a seamless, modern music listening experience. Users can build and manage personal playlists, and align new perspectives through sound."
+        talents={artists.slice(0, 4)}
+        bgImage="/hero-bg.jpg"
+        songs={songs}
+        playlists={playlists}
+      />
 
-          <Carousel
-            title="Recommended Playlists"
-            items={playlists}
-            type="playlist"
-          />
+      {playlists.length > 0 && (
+        <Carousel
+          title="Recommended Playlists"
+          items={playlists}
+          type="playlist"
+        />
+      )}
+      
+      {featuredContent.featuredPlaylistId && (
+        <div className="home-featured-collection">
+          <Collection collectionId={featuredContent.featuredPlaylistId} type="playlist" />
+        </div>
+      )}
 
-          <div className="home-featured-collection">
-            {featuredPlaylistId && (
-              <Collection collectionId={featuredPlaylistId} type="playlist" />
-            )}
-          </div>
+      {artists.length > 0 && (
+        <Carousel title="Selected Artists" items={artists} type="artist" />
+      )}
 
-          <Carousel title="Selected Artists" items={artists} type="artist" />
+      {albums.length > 0 && (
+        <Carousel
+          title="Popular Albums & Singles"
+          items={albums}
+          type="album"
+        />
+      )}
 
-          <Carousel
-            title="Popular Albums & Singles"
-            items={albums}
-            type="album"
-          />
-
-          <div className="home-featured-collection">
-            {featuredAlbumId && (
-              <Collection collectionId={featuredAlbumId} type="album" />
-            )}
-          </div>
-        </>
+      {featuredContent.featuredAlbumId && (
+        <div className="home-featured-collection">
+          <Collection collectionId={featuredContent.featuredAlbumId} type="album" />
+        </div>
       )}
     </div>
 ); };

@@ -1,16 +1,25 @@
 import { AlbumService } from '../services/albumService.js';
-import { ArtistService } from '../services/artistService.js';
+import { SongService } from '../services/songService.js';
 
 export class AlbumController {
   constructor() {
     this.albumService = new AlbumService();
-    this.artistService = new ArtistService();
+    this.songService = new SongService();
   }
 
   async getAllAlbums(req, res) {
     try {
       const albums = await this.albumService.getAllAlbums();
-      res.json(albums);
+
+      const albumsWithSongs = await Promise.all(
+        albums.map(async (album) => {
+          const songs = await this.songService.getSongsByAlbumId(album._id);
+          return {
+            ...album.toObject(),
+            songs: songs,
+      }; }) );
+
+      res.json(albumsWithSongs);
     } catch (error) {
       res.status(500).json({ error: error.message });
   } }
@@ -22,7 +31,15 @@ export class AlbumController {
       if (!album) {
         return res.status(404).json({ error: 'Album not found' });
       }
-      res.json(album);
+
+      const songs = await this.songService.getSongsByAlbumId(id);
+
+      const responseData = {
+        ...album.toObject(),
+        songs: songs,
+      };
+
+      res.json(responseData);
     } catch (error) {
       res.status(500).json({ error: error.message });
   } }
@@ -30,9 +47,6 @@ export class AlbumController {
   async createAlbum(req, res) {
     try {
       const album = await this.albumService.createAlbum(req.body);
-      if (album.artist) {
-        await this.artistService.addAlbumToArtist(album.artist, album._id);
-      }
       res.status(201).json(album);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -41,22 +55,10 @@ export class AlbumController {
   async updateAlbum(req, res) {
     const { id } = req.params;
     try {
-      const originalAlbum = await this.albumService.getAlbumById(id);
       const updatedAlbum = await this.albumService.updateAlbum(id, req.body);
       if (!updatedAlbum) {
         return res.status(404).json({ error: 'Album not found' });
       }
-
-      const originalArtistId = originalAlbum.artist.toString();
-      const newArtistId = updatedAlbum.artist.toString();
-
-      if (originalArtistId !== newArtistId) {
-        await this.artistService.updateArtist(originalArtistId, {
-          $pull: { albums: updatedAlbum._id }
-        });
-        await this.artistService.addAlbumToArtist(newArtistId, updatedAlbum._id);
-      }
-
       res.json(updatedAlbum);
     } catch (error) {
       res.status(400).json({ error: error.message });

@@ -20,6 +20,20 @@ export class UserService {
     return this.userModel.findById(id);
   }
 
+  async getAllArtists() {
+    return this.userModel.findAll({ isArtist: true });
+  }
+
+  async getArtistProfileById(id) {
+    const artist = await this.userModel.findById(id);
+    if (!artist || !artist.isArtist) {
+      const err = new Error('Artist not found');
+      err.statusCode = 404;
+      throw err;
+    }
+    return artist;
+  }
+
   async updateUser(id, updateData) {
     if (updateData.password) {
       const err = new Error("Password cannot be updated through this route.");
@@ -58,6 +72,7 @@ export class UserService {
       token: this._generateToken(user._id),
   }; }
 
+
   async loginUser({ email, password }) {
     if (!email || !password) {
       const err = new Error('Please provide email and password');
@@ -79,4 +94,27 @@ export class UserService {
       const err = new Error('Invalid email or password');
       err.statusCode = 401;
       throw err;
-} } }
+  } }
+  
+  
+  async createUser(userData) {
+    if (!userData.username || !userData.email) {
+      const err = new Error('Username and email are required.');
+      err.statusCode = 400;
+      throw err;
+    }
+
+    const userExists = await this.userModel.findByEmail(userData.email);
+    if (userExists) {
+        const err = new Error('User with this email already exists.');
+        err.statusCode = 409;
+        throw err;
+    }
+
+    if (!userData.password) {
+      userData.password = "default000";
+    }
+
+    return this.userModel.create(userData);
+  }
+}

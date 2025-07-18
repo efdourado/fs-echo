@@ -1,8 +1,10 @@
 import { PlaylistService } from '../services/playlistService.js';
+import { SongService } from '../services/songService.js';
 
 export class PlaylistController {
   constructor() {
     this.playlistService = new PlaylistService();
+    this.songService = new SongService();
   }
 
   async _checkOwnership(playlistId, userId) {
@@ -23,7 +25,19 @@ export class PlaylistController {
   async getAllPlaylists(req, res) {
     try {
       const playlists = await this.playlistService.getAllPlaylists();
-      res.json(playlists);
+
+      const playlistsWithSongs = await Promise.all(
+        playlists.map(async (playlist) => {
+          const songDocs = await Promise.all(
+            playlist.songs.map(item => this.songService.getSongById(item.song))
+          );
+
+          return {
+            ...playlist.toObject(),
+            songs: songDocs.filter(Boolean).map(song => ({ song })),
+      }; }) );
+
+      res.json(playlistsWithSongs);
     } catch (error) {
       res.status(error.statusCode || 500).json({ message: error.message });
   } }

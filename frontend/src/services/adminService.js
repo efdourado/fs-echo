@@ -14,3 +14,5 @@ export const deleteAlbum = (id) => apiClient.delete(`/album/${id}`);
 
 export const fetchUsers = () => apiClient.get('/users');
 export const deleteUser = (id) => apiClient.delete(`/user/${id}`);
+
+export const createUser = (formData) => apiClient.post('/users', formData);

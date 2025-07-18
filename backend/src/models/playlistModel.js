@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const playlistSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, default: '' },
+
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   songs: [{ 
     song: { type: mongoose.Schema.Types.ObjectId, ref: 'Song' },
@@ -30,7 +31,7 @@ export class PlaylistModel {
         path: 'songs.song',
         populate: {
           path: 'artist',
-          model: 'Artist'
+          model: 'User'
   } }); }
 
   async findByOwner(ownerId) {

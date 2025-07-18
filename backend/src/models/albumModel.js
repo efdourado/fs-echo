@@ -2,8 +2,7 @@ import mongoose from 'mongoose';
 
 const albumSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  artist: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true },
-  songs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }],
+  artist: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   coverImage: { type: String, default: '' },
   releaseDate: { type: Date, required: true },
   genre: { type: [String], required: true },
@@ -22,18 +21,12 @@ const Album = mongoose.model('Album', albumSchema);
 
 export class AlbumModel {
   async findAll() {
-    return await Album.find().populate('artist').populate('songs');
+    return await Album.find().populate('artist');
   }
   
   async findById(id) {
-    return await Album.findById(id)
-      .populate('artist')
-      .populate({
-        path: 'songs',
-        populate: {
-          path: 'artist',
-          model: 'Artist'
-  } }); }
+    return await Album.findById(id).populate('artist');
+  }
 
   async findByArtist(artistId) {
     return await Album.find({ artist: artistId });
