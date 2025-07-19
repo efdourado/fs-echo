@@ -33,13 +33,13 @@ export const songFormConfig = {
     duration: Number(data.duration)
   }),
   fields: [
-    { name: 'title', label: 'Song Title', type: 'text', required: true, span: 'span-2' },
+    { name: 'coverImage', label: 'Cover Image URL', type: 'url', span: 'span-2' },
+    { name: 'title', label: 'Song Title', type: 'text', required: true },
+    { name: 'isExplicit', label: 'Explicit?', description: '(Content Warning)', component: 'checkbox' },
     { name: 'artist', label: 'Artist', component: 'select', optionsKey: 'artists', required: true },
     { name: 'album', label: 'Album', component: 'select', optionsKey: 'albums' },
     { name: 'duration', label: 'Duration (seconds)', type: 'number', required: true },
     { name: 'releaseDate', label: 'Release Date', type: 'date' },
-    { name: 'isExplicit', label: 'Explicit', component: 'checkbox' },
-    { name: 'audioUrl', label: 'Audio URL', type: 'url', required: true, span: 'span-2' },
-    { name: 'coverImage', label: 'Cover Image URL', type: 'url', span: 'span-2' },
+    { name: 'audioUrl', label: 'Audio (URL)', type: 'url', required: true, span: 'span-2' },
     { name: 'lyrics', label: 'Lyrics', component: 'textarea', rows: '5', span: 'span-2' },
 ], };

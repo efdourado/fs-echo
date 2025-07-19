@@ -44,12 +44,11 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-sm);
   transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none; /* Removes default OS styling */
+  -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-/* Custom styling for the date input's calendar icon */
 .form-group input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.6);
   cursor: pointer;
@@ -79,8 +78,8 @@
 
 .admin-form__multiselect select[multiple] {
   padding: var(--spacing-sm);
-  height: 150px; /* Adjust height as needed */
-  background-image: none; /* Remove dropdown arrow */
+  height: 150px;
+  background-image: none;
   overflow-y: auto;
 }
 

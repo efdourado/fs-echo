@@ -31,21 +31,9 @@ export class UserService {
 
   async getArtistProfileById(id) {
     const artist = await User.findById(id)
-      .populate({
-        path: 'topSongs',
-        populate: {
-          path: 'artist',
-          select: 'username profilePic' 
-        }
-      })
-      .populate({
-        path: 'albums',
-        populate: {
-          path: 'artist',
-          select: 'username'
-        }
-      })
-      .lean(); 
+      .populate('topSongs')
+      .populate('albums')
+      .lean();
 
     if (!artist || !artist.isArtist) {
       const err = new Error('Artist not found');

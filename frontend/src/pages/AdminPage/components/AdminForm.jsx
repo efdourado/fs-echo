@@ -146,6 +146,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
           if (component === 'checkbox') {
             return (
               <div key={name} className={`form-group ${field.span || ''}`}>
+                <label htmlFor={name} className="checkbox-label">{label}</label>
                 <div className="checkbox-container">
                   <input
                     id={name}
@@ -155,7 +156,7 @@ const AdminForm = ({ id, config, onSaved, onCancel }) => {
                     onChange={handleChange}
                     className="form-checkbox"
                   />
-                  <label htmlFor={name} className="checkbox-label">{label}</label>
+                  <label htmlFor={name} className="checkbox-label">{description}</label>
                 </div>
               </div>
           ); }

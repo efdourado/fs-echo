@@ -35,7 +35,10 @@ export class SongModel {
   }
 
   async findById(id) {
-    return await Song.findById(id).populate({ path: 'artist', model: 'User' }).lean();
+    return await Song.findById(id)
+      .populate({ path: 'artist', model: 'User' })
+      .populate('album') // <-- Add this line
+      .lean();
   }
 
   async findByAlbumId(albumId) {

@@ -49,11 +49,11 @@ export const userFormConfig = {
     { name: 'profilePic', label: 'Profile Picture URL', type: 'url', span: 'span-2' },
     { name: 'username', label: 'Username', type: 'text', required: true },
     { name: 'email', label: 'Email', type: 'email', required: true },
-    { name: 'isAdmin', label: 'Administrator', component: 'checkbox' },
-    { name: 'isArtist', label: 'Artist', component: 'checkbox' },
+    { name: 'isAdmin', label: 'Administrator?', description: '(System Privileges)', component: 'checkbox' },
+    { name: 'isArtist', label: 'Artist?', description: '(Artist-Specific Tools)', component: 'checkbox' },
 
-    { name: 'artistProfile.banner', label: 'Artist Banner URL', type: 'url', span: 'span-2', condition: (data) => data.isArtist },
+    { name: 'artistProfile.banner', label: 'Artist Banner URL', type: 'url', condition: (data) => data.isArtist },
+    { name: 'artistProfile.verified', label: 'Verified Artist', description: '(Artist Status)', component: 'checkbox', condition: (data) => data.isArtist },
     { name: 'artistProfile.description', label: 'Artist Description', component: 'textarea', rows: '4', span: 'span-2', condition: (data) => data.isArtist },
     { name: 'artistProfile.genres', label: 'Artist Genres (Comma-Separated)', type: 'text', span: 'span-2', condition: (data) => data.isArtist },
-    { name: 'artistProfile.verified', label: 'Verified Artist', component: 'checkbox', condition: (data) => data.isArtist },
 ], };
