@@ -61,9 +61,9 @@ const tableConfig = {
           }}
         >
           <div className="item-cell">
-            <img src={item.profilePic || fallbackImage} alt={item.username} className="admin-table-image" />
+            <img src={item.profilePic || fallbackImage} alt={item.name} className="admin-table-image" />
             <div>
-              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.username}</div>
+              <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.name}</div>
               <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
                 {item.email}
               </div>
@@ -98,7 +98,7 @@ const tableConfig = {
               <div>
                 <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
                 <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {item.artist?.username || "N/A"}
+                  {item.artist?.name || "N/A"}
                   {item.artist?.artistProfile?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
                 </div>
               </div>
@@ -124,7 +124,7 @@ const tableConfig = {
             <div>
               <div style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.title}</div>
               <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {item.artist?.username || "N/A"}
+                {item.artist?.name || "N/A"}
                 {item.artist?.artistProfile?.verified && <FontAwesomeIcon icon={faCheckDouble} className="verified-icon" />}
               </div>
             </div>

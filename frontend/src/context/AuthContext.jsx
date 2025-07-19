@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import apiClient from '../services/apiClient';
 
 const loginUser = (email, password) => apiClient.post('/auth/login', { email, password });
-const registerUser = (username, email, password) => apiClient.post('/auth/register', { username, email, password });
+const registerUser = (name, email, password) => apiClient.post('/auth/register', { name, email, password });
 const fetchCurrentUser = () => apiClient.get('/auth/me');
 
 const AuthContext = createContext();
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }) => {
       throw error.response?.data || new Error('Login failed');
   } };
 
-  const register = async (username, email, password) => {
+  const register = async (name, email, password) => {
     try {
-      const { data } = await registerUser(username, email, password);
+      const { data } = await registerUser(name, email, password);
       if (data?.token) {
         localStorage.setItem('authToken', data.token);
         setToken(data.token);

@@ -249,7 +249,7 @@ const Header = ({ toggleSidebar }) => {
                       onError={handleImageError}
                     />
                     <div className="user-details">
-                      <span className="user-name">{currentUser.username || "User"}</span>
+                      <span className="user-name">{currentUser.name || "User"}</span>
                       <span className="user-email">{currentUser.email || "No email"}</span>
                     </div>
                   </div>

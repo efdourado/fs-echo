@@ -8,7 +8,7 @@ const Card = ({ item, type }) => {
 
   const isArtistCard = type === 'artist';
 
-  const displayTitle = isArtistCard ? item.username : (item.title || item.name);
+  const displayTitle = isArtistCard ? item.name : (item.title || item.name);
   const imageUrl = isArtistCard ? item.profilePic : (item.coverImage || item.image);
   const detailPath = `/${type}/${item._id}`;
 
@@ -18,15 +18,15 @@ const Card = ({ item, type }) => {
       subtitle = 'Artist';
       break;
     case 'album':
-      const artistName = item.artist?.username || 'Unknown';
+      const artistName = item.artist?.name || 'Unknown';
       const albumType = item.type ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : 'Album';
       subtitle = `${albumType} • ${artistName}`;
       break;
     case 'playlist':
-      subtitle = `Playlist • ${item.owner?.username || 'Unknown'}`;
+      subtitle = `Playlist • ${item.owner?.name || 'Unknown'}`;
       break;
     case 'song':
-       subtitle = `Single • ${item.artist?.username || 'Unknown'}`;
+       subtitle = `Single • ${item.artist?.name || 'Unknown'}`;
       break;
     default:
       subtitle = '';
@@ -60,16 +60,16 @@ Card.propTypes = {
     _id: PropTypes.string.isRequired,
     title: PropTypes.string,
     name: PropTypes.string,
-    username: PropTypes.string,
+    name: PropTypes.string,
     coverImage: PropTypes.string,
     image: PropTypes.string,
     profilePic: PropTypes.string,
     type: PropTypes.string,
     artist: PropTypes.shape({
-      username: PropTypes.string,
+      name: PropTypes.string,
     }),
     owner: PropTypes.shape({
-      username: PropTypes.string,
+      name: PropTypes.string,
     }),
   }).isRequired,
   type: PropTypes.oneOf(['artist', 'album', 'playlist', 'song']).isRequired,

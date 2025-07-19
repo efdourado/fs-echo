@@ -35,7 +35,7 @@ export class PlaylistModel {
   } }); }
 
   async findByOwner(ownerId) {
-    return await Playlist.find({ owner: ownerId });
+    return await Playlist.find({ owner: ownerId }).populate('owner').lean();
   }
 
   async create(playlistData) {

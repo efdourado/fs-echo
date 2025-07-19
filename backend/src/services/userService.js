@@ -58,8 +58,8 @@ export class UserService {
     return this.userModel.deleteById(id);
   }
 
-  async registerUser({ username, email, password }) {
-    if (!username || !email || !password) {
+  async registerUser({ name, email, password }) {
+    if (!name || !email || !password) {
       const err = new Error('Please add all fields');
       err.statusCode = 400;
       throw err;
@@ -72,7 +72,7 @@ export class UserService {
       throw err;
     }
 
-    const user = await this.userModel.create({ username, email, password });
+    const user = await this.userModel.create({ name, email, password });
     
     const userObject = user.toObject();
     delete userObject.password;
@@ -108,8 +108,8 @@ export class UserService {
   
   
   async createUser(userData) {
-    if (!userData.username || !userData.email) {
-      const err = new Error('Username and email are required.');
+    if (!userData.name || !userData.email) {
+      const err = new Error('Name and email are required.');
       err.statusCode = 400;
       throw err;
     }

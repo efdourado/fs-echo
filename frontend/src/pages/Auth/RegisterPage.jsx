@@ -8,7 +8,7 @@ import AuthForm from './components/AuthForm';
 import { useAuth } from '../../context/AuthContext';
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -32,7 +32,7 @@ const RegisterPage = () => {
     setError('');
     setLoading(true);
     try {
-      await register(username, email, password);
+      await register(name, email, password);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Failed to register. Please try again');
@@ -67,8 +67,8 @@ const RegisterPage = () => {
 
           <AuthForm title={title} error={error} onSubmit={handleSubmit}>
             <div className="auth-form__group">
-              <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required autoComplete="username" placeholder=" " spellCheck="false" />
-              <label htmlFor="username">Username</label>
+              <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" placeholder=" " spellCheck="false" />
+              <label htmlFor="name">Name</label>
             </div>
             
             <div className="auth-form__group">

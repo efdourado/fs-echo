@@ -1,4 +1,3 @@
-// backend/src/models/userModel.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -17,7 +16,7 @@ const artistSchema = new mongoose.Schema({
 }, }, { _id: false });
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true, trim: true },
+  name: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, trim: true, lowercase: true },
   password: { type: String, required: true },
 
@@ -89,10 +88,6 @@ export class UserModel {
 
   async findByEmail(email) {
     return await User.findOne({ email });
-  }
-
-  async findByUsername(username) {
-    return await User.findOne({ username }).select('-password');
   }
 
   async create(userData) {

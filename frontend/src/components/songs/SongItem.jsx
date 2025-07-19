@@ -70,7 +70,7 @@ const SongItem = ({ song, index, showImage, showNumber, onMenuClick }) => {
         )}
         <div className="song-item__info">
           <p className="song-item__title">{song.title}</p>
-          <p className="song-item__artist">{song.artist.username}</p>
+          <p className="song-item__artist">{song.artist.name}</p>
         </div>
       </div>
       
@@ -92,7 +92,7 @@ SongItem.propTypes = {
     title: PropTypes.string.isRequired,
     artist: PropTypes.shape({
       _id: PropTypes.string,
-      username: PropTypes.string,
+      name: PropTypes.string,
     }),
     coverImage: PropTypes.string,
     audioUrl: PropTypes.string,

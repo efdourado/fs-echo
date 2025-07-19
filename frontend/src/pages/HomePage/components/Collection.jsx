@@ -103,7 +103,7 @@ const Collection = ({ collectionId, type = "album" }) => {
   if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
   const collectionName = type === "playlist" ? collection.name : collection.title;
-  const ownerName = type === "playlist" ? collection.owner?.username : collection.artist?.username;
+  const ownerName = type === "playlist" ? collection.owner?.name : collection.artist?.name;
   
   const coverImageUrl = collection.coverImage || fallbackImage;
   const detailPath = `/${type}/${collection._id}`;

@@ -3,7 +3,7 @@ import { fetchUserById, updateUser } from '../../../../services/userService';
 
 export const userFormConfig = {
   initialState: {
-    username: '',
+    name: '',
     email: '',
     profilePic: '',
     isAdmin: false,
@@ -47,7 +47,7 @@ export const userFormConfig = {
   
   fields: [
     { name: 'profilePic', label: 'Profile Picture URL', type: 'url', span: 'span-2' },
-    { name: 'username', label: 'Username', type: 'text', required: true },
+    { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'email', label: 'Email', type: 'email', required: true },
     { name: 'isAdmin', label: 'Administrator?', description: '(System Privileges)', component: 'checkbox' },
     { name: 'isArtist', label: 'Artist?', description: '(Artist-Specific Tools)', component: 'checkbox' },
