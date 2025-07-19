@@ -34,17 +34,7 @@ export class UserController {
 
   async getArtistProfileById(req, res) {
     try {
-        const artist = await this.userService.getArtistProfileById(req.params.id);
-        
-        const artistAlbums = await this.albumService.getAlbumsByArtist(req.params.id);
-        const artistSongs = await this.songService.getSongsByArtistId(req.params.id);
-
-        const artistProfile = {
-            ...artist.toObject(),
-            albums: artistAlbums,
-            topSongs: artistSongs, 
-        };
-
+        const artistProfile = await this.userService.getArtistProfileById(req.params.id);
         res.json(artistProfile);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
