@@ -50,8 +50,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         console.error(`Error loading ${type} data:`, error);
       } finally {
         setLoading(false);
-      }
-    };
+    } };
 
     if (collectionId) {
       loadCollectionData();
@@ -70,8 +69,7 @@ const Collection = ({ collectionId, type = "album" }) => {
       togglePlayPause();
     } else if (songs && songs.length > 0) {
       startPlayback(songs, { type, id: collectionId });
-    }
-  };
+  } };
 
   const handleMenuClick = (e, song = null) => {
     e.preventDefault();
@@ -81,8 +79,7 @@ const Collection = ({ collectionId, type = "album" }) => {
       setEditModalOpen(true);
     } else if (song) {
       openMenu(song);
-    }
-  };
+  } };
   
   const handleCloseEditModal = () => setEditModalOpen(false);
 
@@ -100,18 +97,13 @@ const Collection = ({ collectionId, type = "album" }) => {
       } catch (err) {
         console.error('Failed to delete playlist:', err);
         alert('Failed to delete playlist.');
-      }
-    }
-  };
+  } } };
 
   if (loading) return <LoadingSpinner />;
   if (!collection) return <div className="collection-view error">Failed to load collection.</div>;
 
-  // --- LOGIC CORRECTIONS START HERE ---
   const collectionName = type === "playlist" ? collection.name : collection.title;
-  // Use 'username' for both artist and playlist owner, as they are both User documents
   const ownerName = type === "playlist" ? collection.owner?.username : collection.artist?.username;
-  // --- LOGIC CORRECTIONS END HERE ---
   
   const coverImageUrl = collection.coverImage || fallbackImage;
   const detailPath = `/${type}/${collection._id}`;
@@ -186,8 +178,7 @@ const Collection = ({ collectionId, type = "album" }) => {
         />
       )}
     </>
-  );
-};
+); };
 
 Collection.propTypes = {
   collectionId: PropTypes.string.isRequired,

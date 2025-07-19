@@ -50,8 +50,7 @@ export const spotifyCallback = async (req, res) => {
       "https://api.spotify.com/v1/me",
       {
         headers: { Authorization: "Bearer " + access_token },
-      }
-    );
+    } );
 
     const {
       id: spotifyId,

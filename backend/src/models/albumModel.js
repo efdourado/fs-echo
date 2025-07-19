@@ -29,7 +29,8 @@ export class AlbumModel {
   }
 
   async findByArtist(artistId) {
-    return await Album.find({ artist: artistId });
+    // Populating artist to ensure artist's username is available
+    return await Album.find({ artist: artistId }).populate('artist');
   } 
 
   async create(albumData) {

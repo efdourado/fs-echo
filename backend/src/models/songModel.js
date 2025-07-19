@@ -31,36 +31,41 @@ const Song = mongoose.model("Song", songSchema);
 
 export class SongModel {
   async findAll() {
-    return await Song.find().populate({ path: 'artist', model: 'User' }).populate('album');
+    return await Song.find().populate({ path: 'artist', model: 'User' }).populate('album').lean();
   }
 
   async findById(id) {
-    return await Song.findById(id).populate({ path: 'artist', model: 'User' });
+    return await Song.findById(id).populate({ path: 'artist', model: 'User' }).lean();
   }
 
   async findByAlbumId(albumId) {
-    return await Song.find({ album: albumId }).populate({ path: 'artist', model: 'User' });
+    return await Song.find({ album: albumId }).populate({ path: 'artist', model: 'User' }).lean();
   }
 
-  async findById(id) {
-    return await Song.findById(id).populate({ path: 'artist', model: 'User' });
+  async findByArtist(artistId) {
+    return await Song.find({ artist: artistId })
+      .populate({ path: 'artist', model: 'User' })
+      .populate('album')
+      .sort({ plays: -1 })
+      .lean();
   }
 
   async incrementPlayCount(id) {
-    return await Song.findByIdAndUpdate(id, { $inc: { plays: 1 } }, { new: true });
+    return await Song.findByIdAndUpdate(id, { $inc: { plays: 1 } }, { new: true }).lean();
   }
 
   async create(songData) {
     const song = new Song(songData);
-    return await song.save();
+    const savedSong = await song.save();
+    return savedSong.toObject();
   }
 
   async updateById(id, updateData) {
-    return await Song.findByIdAndUpdate(id, updateData, { new: true });
+    return await Song.findByIdAndUpdate(id, updateData, { new: true }).lean();
   }
 
   async deleteById(id) {
-    return await Song.findOneAndDelete({ _id: id });
+    return await Song.findOneAndDelete({ _id: id }).lean();
 } }
 
 export default Song;

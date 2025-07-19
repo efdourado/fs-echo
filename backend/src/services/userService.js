@@ -1,10 +1,14 @@
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../models/userModel.js';
 import Playlist from '../models/playlistModel.js';
+import { AlbumModel } from '../models/albumModel.js';
+import { SongModel } from '../models/songModel.js';
 
 export class UserService {
   constructor() {
     this.userModel = new UserModel();
+    this.albumModel = new AlbumModel();
+    this.songModel = new SongModel();
   }
 
   _generateToken(id) {
@@ -25,12 +29,24 @@ export class UserService {
   }
 
   async getArtistProfileById(id) {
-    const artist = await this.userModel.findById(id);
-    if (!artist || !artist.isArtist) {
+    const artistDoc = await this.userModel.findById(id);
+    if (!artistDoc || !artistDoc.isArtist) {
       const err = new Error('Artist not found');
       err.statusCode = 404;
       throw err;
     }
+
+    const albumDocs = await this.albumModel.findByArtist(id);
+    const songDocs = await this.songModel.findByArtist(id);
+
+    // Convert all Mongoose documents to plain objects to prevent serialization errors
+    const artist = artistDoc.toObject();
+    const albums = albumDocs.map(doc => doc.toObject());
+    const songs = songDocs.map(doc => doc.toObject());
+
+    artist.albums = albums;
+    artist.topSongs = songs.slice(0, 10);
+
     return artist;
   }
 

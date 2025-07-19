@@ -11,11 +11,11 @@ export const normalizeDataForPage = (type, data) => {
     case 'artist':
       return {
         pageType: 'Artist',
-        title: data.name,
-        description: data.description,
+        title: data.username,
+        description: data.artistProfile?.description,
         
-        primaryImage: data.image,
-        backgroundImage: data.banner || data.image,
+        primaryImage: data.profilePic,
+        backgroundImage: data.artistProfile?.banner || data.profilePic,
         
         mainContent: {
           title: 'Popular Songs',
@@ -29,17 +29,16 @@ export const normalizeDataForPage = (type, data) => {
         },
 
         stats: [
-          { label: 'Followers', value: formatNumber(data.followers) },
-          { label: 'Monthly Listeners', value: formatNumber(data.monthlyListeners) },
+          { label: 'Followers', value: formatNumber(data.followers?.length || 0) },
         ],
-        isVerified: data.verified,
+        isVerified: data.artistProfile?.verified,
       };
 
     case 'album':
       return {
         pageType: data.type ? data.type.charAt(0).toUpperCase() + data.type.slice(1) : 'Album',
         title: data.title,
-        description: `Album by ${data.artist?.name || 'Unknown Artist'}`,
+        description: `Album by ${data.artist?.username || 'Unknown Artist'}`,
         primaryImage: data.coverImage,
         backgroundImage: data.coverImage,
         
@@ -55,7 +54,7 @@ export const normalizeDataForPage = (type, data) => {
           { label: 'Released', value: new Date(data.releaseDate).getFullYear() },
           { label: 'Songs', value: data.songs?.length || 0 },
         ],
-        isVerified: data.artist?.verified,
+        isVerified: data.artist?.artistProfile?.verified,
       };
 
     case 'playlist':
