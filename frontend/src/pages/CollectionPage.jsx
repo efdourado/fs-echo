@@ -163,7 +163,7 @@ const CollectionPage = ({ type }) => {
         </aside>
 
         <main className="collection-page__right-column">
-          {mainContent?.items && (
+          {mainContent?.items?.length > 0 ? (
             <section className="entity-content-section">
               <h2 className="carousel__title">{mainContent.title}</h2>
               <SongList
@@ -175,17 +175,21 @@ const CollectionPage = ({ type }) => {
                 onMenuClick={handleOpenMenuForSong}
               />
             </section>
+          ) : (
+            type === 'artist' && <p>This artist has no songs yet.</p>
           )}
 
-          {subContent?.items && (
+          {subContent?.items?.length > 0 ? (
             <section className="entity-content-section">
               <h2 className="carousel__title">{subContent.title}</h2>
-              <div className="playlists-grid">
-                {subContent.items.map((album) => (
-                  <Card key={album._id} item={album} type="album" />
+              <div className="items-grid">
+                {subContent.items.map((item) => (
+                  <Card key={item._id} item={item} type={subContent.type} />
                 ))}
               </div>
             </section>
+          ) : (
+            type === 'artist' && <p>This artist has no albums yet.</p>
           )}
         </main>
       </div>

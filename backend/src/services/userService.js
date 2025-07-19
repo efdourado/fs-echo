@@ -3,6 +3,7 @@ import { UserModel } from '../models/userModel.js';
 import Playlist from '../models/playlistModel.js';
 import { AlbumModel } from '../models/albumModel.js';
 import { SongModel } from '../models/songModel.js';
+import User from '../models/userModel.js';
 
 export class UserService {
   constructor() {
@@ -29,23 +30,28 @@ export class UserService {
   }
 
   async getArtistProfileById(id) {
-    const artistDoc = await this.userModel.findById(id);
-    if (!artistDoc || !artistDoc.isArtist) {
+    const artist = await User.findById(id)
+      .populate({
+        path: 'topSongs',
+        populate: {
+          path: 'artist',
+          select: 'username profilePic' 
+        }
+      })
+      .populate({
+        path: 'albums',
+        populate: {
+          path: 'artist',
+          select: 'username'
+        }
+      })
+      .lean(); 
+
+    if (!artist || !artist.isArtist) {
       const err = new Error('Artist not found');
       err.statusCode = 404;
       throw err;
     }
-
-    const albumDocs = await this.albumModel.findByArtist(id);
-    const songDocs = await this.songModel.findByArtist(id);
-
-    // Convert all Mongoose documents to plain objects to prevent serialization errors
-    const artist = artistDoc.toObject();
-    const albums = albumDocs.map(doc => doc.toObject());
-    const songs = songDocs.map(doc => doc.toObject());
-
-    artist.albums = albums;
-    artist.topSongs = songs.slice(0, 10);
 
     return artist;
   }

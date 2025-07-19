@@ -1,3 +1,4 @@
+// backend/src/models/userModel.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -42,7 +43,24 @@ const userSchema = new mongoose.Schema({
   spotifyId: { type: String, unique: true, sparse: true },
   spotifyAccessToken: { type: String },
   spotifyRefreshToken: { type: String },
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+userSchema.virtual('albums', {
+  ref: 'Album',
+  localField: '_id',
+  foreignField: 'artist'
+});
+
+userSchema.virtual('topSongs', {
+  ref: 'Song',
+  localField: '_id',
+  foreignField: 'artist',
+  options: { sort: { plays: -1 }, limit: 10 }
+});
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password') || this.password.startsWith('spotify:')) {
